@@ -5,12 +5,12 @@ const test = new chift.API({"clientId": "d14024SONEHSCi4", "clientSecret": "rdc1
 
 (async () => {
     const sync = await test.Syncs.getSyncById('f9a67e2e-ff06-4831-8856-3f8a51b212a4');
-    const result = await sync.flow("test last", {
+    /*const result = await sync.flow("test last", {
         "type": "event",
         "data": {}
     }, async (consumer) => {
         console.log("Bonjour");
         const locations = await consumer.pos.getLocations();
-    })
-    console.log(result);
+    })*/
+    console.log(sync);
 })();

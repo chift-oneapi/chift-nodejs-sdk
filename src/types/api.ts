@@ -2,6 +2,7 @@ export interface AuthType {
     clientId: string;
     clientSecret: string;
     accountId: string;
+    baseUrl?: string;
 }
 
 export interface TokenType {

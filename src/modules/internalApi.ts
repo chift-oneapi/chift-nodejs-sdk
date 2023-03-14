@@ -1,18 +1,28 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { AuthType, TokenType, RequestData, RequestFactory, ApiFor } from '../types/api';
 import Settings from '../helpers/settings';
 
 class InternalAPI  {
-    instance = axios.create({
-        baseURL: Settings.BASE_URL,
-    });
+    instance : AxiosInstance;
     auth : AuthType;
     token? : TokenType;
     debug: boolean = false;
+    get;
+    post;
+    patch;
+    delete;
 
     constructor(auth: AuthType) {
         // add interceptor
         this.auth = auth;
+        this.instance = axios.create({
+            baseURL: (this.auth.baseUrl || Settings.BASE_URL),
+        });
+        this.get = this.instance.get;
+        this.post = this.instance.post;
+        this.patch = this.instance.patch;
+        this.delete = this.instance.delete;
+
         this.instance.interceptors.request.use((config) => {
             return new Promise((resolve) => {
                 if (this.token) {
@@ -40,7 +50,7 @@ class InternalAPI  {
 
     getToken = async () => {
         try {
-            const res = await axios.post(`${Settings.BASE_URL}/token`, {
+            const res = await axios.post(`${(this.auth.baseUrl || Settings.BASE_URL)}/token`, {
                 "clientId": this.auth.clientId,
                 "clientSecret": this.auth.clientSecret,
                 "accountId": this.auth.accountId,
@@ -110,13 +120,7 @@ class InternalAPI  {
     }
       
 
-    get = this.instance.get
 
-    post = this.instance.post
-
-    patch = this.instance.patch
-
-    delete = this.instance.delete
 }
 
 /*

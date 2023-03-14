@@ -1,11 +1,5 @@
-import settings from "./settings"
-import axios from "axios";
 import { InternalAPI } from "../modules/internalApi";
 import { RequestFactory, ApiFor } from "../types/api";
-
-export const getSpecs = async () => {
-    const { data } = await axios.get(settings.BASE_URL + '/openapi.json');
-}
 
 export function createApiFor<TFactory extends RequestFactory>(factory: TFactory, internalApi: InternalAPI, consumerName: string, consumerId: string) {
     return new Proxy(factory, {
