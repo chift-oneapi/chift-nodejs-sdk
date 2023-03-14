@@ -2,6 +2,7 @@ export interface AuthType {
     clientId: string;
     clientSecret: string;
     accountId: string;
+    envId?: string;
     baseUrl?: string;
 }
 

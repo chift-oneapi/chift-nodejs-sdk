@@ -50,11 +50,15 @@ class InternalAPI  {
 
     getToken = async () => {
         try {
-            const res = await axios.post(`${(this.auth.baseUrl || Settings.BASE_URL)}/token`, {
+            const tokenData : AuthType = {
                 "clientId": this.auth.clientId,
                 "clientSecret": this.auth.clientSecret,
                 "accountId": this.auth.accountId,
-            })
+            };
+            if (this.auth.envId) {
+                tokenData['envId'] = this.auth.envId;
+            }
+            const res = await axios.post(`${(this.auth.baseUrl || Settings.BASE_URL)}/token`, tokenData)
             this.token = res.data;
         } catch (err : any | AxiosError) {
             if (axios.isAxiosError(err)) {
