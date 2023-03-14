@@ -7,6 +7,7 @@ class InternalAPI  {
     auth : AuthType;
     token? : TokenType;
     debug: boolean = false;
+    flowId?: string;
     get;
     post;
     patch;
@@ -25,6 +26,9 @@ class InternalAPI  {
 
         this.instance.interceptors.request.use((config) => {
             return new Promise((resolve) => {
+                if (this.flowId) {
+                    config.headers['X-Chift-FlowID'] = this.flowId;
+                }
                 if (this.token) {
                     if(this.token?.expires_on < new Date().getTime()) {
                         return this.getToken().then(() => {
@@ -78,6 +82,10 @@ class InternalAPI  {
         }
     }
 
+    public setFlowId(flowId: string) {
+        this.flowId = flowId;
+    }
+
     public async makeRequest<TResponse>(requestData: RequestData<TResponse>) {
         try {
             if (this.debug) {
@@ -86,6 +94,7 @@ class InternalAPI  {
             let continuePagination = true;
             let items : any[] = [];
             let currentPage = 0;
+            const headers : any = {};
             while(continuePagination) {
                 currentPage++;
                 const res = await this.instance({
@@ -94,7 +103,7 @@ class InternalAPI  {
                     params: requestData.params ? {...requestData.params, ...this.getPaginationParams(currentPage)} : this.getPaginationParams(currentPage),
                     data: requestData.body !== undefined 
                     ? JSON.stringify(requestData.body) 
-                    : undefined,
+                    : undefined
                 })
                 const { data} = res;
                 if (data.total) {

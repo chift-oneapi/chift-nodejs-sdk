@@ -1,5 +1,5 @@
 const chift = require("chift");
-const test = new chift.API({"clientId": "d14024SONEHSCi4", "clientSecret": "rdc1f499BnVqQIzGxhNg", "accountId": "00fc1383-b743-4c9c-8cd6-a90a3dc811e0"});
+const test = new chift.API({"baseUrl": "http://localhost:8000", "clientId": "d14024SONEHSCi4", "clientSecret": "rdc1f499BnVqQIzGxhNg", "accountId": "00fc1383-b743-4c9c-8cd6-a90a3dc811e0"});
 
 
 
