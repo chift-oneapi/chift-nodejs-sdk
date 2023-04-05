@@ -2,16 +2,16 @@ import { operations } from "../types/public-api/schema";
 import { InternalAPI } from "./internalApi";
 import { chiftOperations } from "../types/public-api/mappings";
 
-class Integrations {
-    private _internalApi: InternalAPI;
+const Integrations = (internalApi: InternalAPI) => {
+    const _internalApi: InternalAPI = internalApi;
 
-    constructor(internalApi: any) {
-        this._internalApi = internalApi;
+    const getIntegrations = async () => {
+        const { data } = await _internalApi.get<operations[chiftOperations["getIntegrations"]]["responses"][200]["content"]["application/json"]>('/integrations');
+        return data;
     }
 
-    getIntegrations = async () => {
-        const { data } = await this._internalApi.get<operations[chiftOperations["getIntegrations"]]["responses"][200]["content"]["application/json"]>('/integrations');
-        return data;
+    return {
+        getIntegrations
     }
 
 }

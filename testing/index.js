@@ -1,16 +1,7 @@
-const chift = require("chift");
-const test = new chift.API({"baseUrl": "http://localhost:8000", "clientId": "d14024SONEHSCi4", "clientSecret": "rdc1f499BnVqQIzGxhNg", "accountId": "00fc1383-b743-4c9c-8cd6-a90a3dc811e0"});
-
-
+const chift = require("@chift/chift-nodejs-sdk");
+const client = new chift.API({"baseUrl": "http://localhost:8000", "clientId": "d14024SONEHSCi4", "clientSecret": "rdc1f499BnVqQIzGxhNg", "accountId": "00fc1383-b743-4c9c-8cd6-a90a3dc811e0"});
+const _ = require('lodash');
 
 (async () => {
-    const sync = await test.Syncs.getSyncById('f9a67e2e-ff06-4831-8856-3f8a51b212a4');
-    /*const result = await sync.flow("test last", {
-        "type": "event",
-        "data": {}
-    }, async (consumer) => {
-        console.log("Bonjour");
-        const locations = await consumer.pos.getLocations();
-    })*/
-    console.log(sync);
+    const sync = await client.Syncs.getSyncById("7e75ea56-f640-42d6-bc4d-beafb3c11397");
 })();

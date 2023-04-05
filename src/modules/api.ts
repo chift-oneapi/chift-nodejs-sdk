@@ -9,18 +9,18 @@ export class API {
     auth: AuthType;
     token?: string;
     internalApi?: any;
-    Consumers : Consumers;
-    Syncs : Syncs;
-    Integrations: Integrations;
-    Webhooks: Webhooks;
+    Consumers;
+    Syncs;
+    Integrations;
+    Webhooks;
 
     constructor(auth: AuthType) {
         this.auth = auth;
         this._setup();
-        this.Consumers = new Consumers(this.internalApi);
-        this.Syncs = new Syncs(this.internalApi);
-        this.Integrations = new Integrations(this.internalApi);
-        this.Webhooks = new Webhooks(this.internalApi);
+        this.Consumers = Consumers(this.internalApi);
+        this.Syncs = Syncs(this.internalApi);
+        this.Integrations = Integrations(this.internalApi);
+        this.Webhooks = Webhooks(this.internalApi);
     }
 
     private _setup = async () => {

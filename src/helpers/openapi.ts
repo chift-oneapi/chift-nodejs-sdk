@@ -8,6 +8,7 @@ export function createApiFor<TFactory extends RequestFactory>(factory: TFactory,
                 const requestData = target[property](...args)
                 requestData.property = property;
                 requestData.consumerName = consumerName;
+                requestData.consumerId = consumerId;
                 requestData.url = requestData.url.replace("{consumer_id}", consumerId);
                 return internalApi.makeRequest(requestData)
             }

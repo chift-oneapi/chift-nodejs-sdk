@@ -13,7 +13,7 @@ export interface TokenType {
     expires_on: number;
 }
 
-export type RequestData<TResponse> = { method: string; property?: string; consumerName?: string; url: string; params?: unknown, body?: unknown }
+export type RequestData<TResponse> = { method: string; property?: string; consumerName?: string; consumerId?: string; url: string; params?: unknown, body?: unknown }
 
 
 export type RequestFactory = { [key: string]: (...args: any) => RequestData<any> }

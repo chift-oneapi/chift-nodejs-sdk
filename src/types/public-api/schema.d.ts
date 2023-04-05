@@ -2849,6 +2849,16 @@ export interface components {
        */
       variant_images?: (components["schemas"]["ImageItem"])[];
     };
+    /** ReadFlowItem */
+    ReadFlowItem: {
+      /** Name */
+      name: string;
+      /** Id */
+      id: string;
+      /** Code */
+      code: string;
+      trigger: components["schemas"]["TriggerItem"];
+    };
     /** SalesItem */
     SalesItem: {
       /** Total */
@@ -2858,12 +2868,13 @@ export interface components {
       /** Taxes */
       taxes?: (components["schemas"]["TotalTaxItem"])[];
     };
-    /** SimpleFlowItem */
-    SimpleFlowItem: {
-      /** Name */
-      name: string;
-      /** Id */
-      id: string;
+    /** SimpleResponse */
+    SimpleResponse: {
+      /** Status */
+      status: string;
+      /** Message */
+      message: string;
+      data?: any;
     };
     /**
      * States 
@@ -3107,7 +3118,7 @@ export interface components {
       /** Consumers */
       consumers: (string)[];
       /** Flows */
-      flows: (components["schemas"]["SimpleFlowItem"])[];
+      flows: (components["schemas"]["ReadFlowItem"])[];
     };
     /** Token */
     Token: {
@@ -3133,7 +3144,7 @@ export interface components {
     TriggerItem: {
       type: components["schemas"]["TriggerType"];
       /** Data */
-      data: Record<string, never>;
+      data?: Record<string, never>;
     };
     /**
      * TriggerType 
@@ -4176,7 +4187,7 @@ export interface operations {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": Record<string, never>;
+          "application/json": components["schemas"]["ReadFlowItem"];
         };
       };
       /** @description Not Found */
@@ -4240,7 +4251,7 @@ export interface operations {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": Record<string, never>;
+          "application/json": components["schemas"]["SimpleResponse"];
         };
       };
       /** @description Not Found */

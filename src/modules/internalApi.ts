@@ -7,7 +7,7 @@ class InternalAPI  {
     auth : AuthType;
     token? : TokenType;
     debug: boolean = false;
-    flowId?: string;
+    relatedChainExecutionId?: string;
     get;
     post;
     patch;
@@ -26,8 +26,8 @@ class InternalAPI  {
 
         this.instance.interceptors.request.use((config) => {
             return new Promise((resolve) => {
-                if (this.flowId) {
-                    config.headers['X-Chift-FlowID'] = this.flowId;
+                if (this.relatedChainExecutionId) {
+                    config.headers['X-Chift-RelatedChainExecutionId'] = this.relatedChainExecutionId;
                 }
                 if (this.token) {
                     if(this.token?.expires_on < new Date().getTime()) {
@@ -82,14 +82,14 @@ class InternalAPI  {
         }
     }
 
-    public setFlowId(flowId: string) {
-        this.flowId = flowId;
+    public setRelatedChainExecutionId(chainExecutionId: string) {
+        this.relatedChainExecutionId = chainExecutionId;
     }
 
     public async makeRequest<TResponse>(requestData: RequestData<TResponse>) {
         try {
             if (this.debug) {
-                console.log(`[DEBUG]: Executing operation ${requestData?.property} for consumer: ${requestData.consumerName}`)
+                console.log(`[DEBUG]: Executing operation ${requestData?.property} with url ${requestData.url} for consumer: ${requestData.consumerName}`)
             }
             let continuePagination = true;
             let items : any[] = [];
@@ -97,26 +97,37 @@ class InternalAPI  {
             const headers : any = {};
             while(continuePagination) {
                 currentPage++;
+                let params = requestData.params || {};
+                if (requestData.method === 'get') {
+                    params = {
+                        ...params,
+                        ...this.getPaginationParams(currentPage)
+                    }
+                }
                 const res = await this.instance({
                     url: requestData.url,
                     method: requestData.method,
-                    params: requestData.params ? {...requestData.params, ...this.getPaginationParams(currentPage)} : this.getPaginationParams(currentPage),
+                    params: params,
                     data: requestData.body !== undefined 
-                    ? JSON.stringify(requestData.body) 
+                    ? requestData.body
                     : undefined
                 })
-                const { data} = res;
-                if (data.total) {
-                    if ((currentPage*100)>data.total) {
-                        continuePagination = false;
+                const { data } = res;
+                if (data) {
+                    if ("total" in data) {
+                        if ((currentPage*100)>data.total) {
+                            continuePagination = false;
+                        }
+                    } else {
+                        if (this.debug) {
+                            console.log(`[DEBUG]: Data received: ${JSON.stringify(data)}`)
+                        }
+                        return data;
                     }
+                    items = items.concat(data.items);
                 } else {
-                    if (this.debug) {
-                        console.log(`[DEBUG]: Data received: ${JSON.stringify(data)}`)
-                    }
-                    return data;
+                    return null;
                 }
-                items = items.concat(data.items);
             }
             if (this.debug) {
                 console.log(`[DEBUG]: Data received: ${JSON.stringify(items)}`)
@@ -125,7 +136,15 @@ class InternalAPI  {
         } catch (e : any) {
           if (e.response) {
             if (e.response.data) {
-                return { ...e.response.data, status_code: e.response.status } as TResponse;
+                const error = { ...e.response.data, status_code: e.response.status }
+                const fullerror = {
+                    error,
+                    consumerId: requestData.consumerId,
+                    consumerName: requestData.consumerName,
+                    url: requestData.url
+                }
+                //return error as TResponse;
+                throw fullerror;
             }
           }
           throw e

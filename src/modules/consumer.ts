@@ -6,57 +6,62 @@ import { createApiFor } from '../helpers/openapi';
 import { accountingFactory } from "./accounting";
 import { invoicingFactory } from "./invoicing";
 import { ecommerceFactory } from "./ecommerce";
+import { customFactory } from "./custom";
 
 
-class Consumer {
-    private _internalApi: InternalAPI;
-    public consumerid : string;
-    public redirect_url? : string;
-    public name;
-    public email?: string;
-    private data: operations[chiftOperations["getConsumerById"]]["responses"][200]["content"]["application/json"];
-    public pos : any;
-    public invoicing : any;
-    public accounting : any;
-    public ecommerce : any;
+const Consumer = (internalApi: InternalAPI, body: operations[chiftOperations["getConsumerById"]]["responses"][200]["content"]["application/json"]) => {
 
-    constructor(_internalApi: any, body: operations[chiftOperations["getConsumerById"]]["responses"][200]["content"]["application/json"]) {
-        this._internalApi = _internalApi;
-        this.data = body;
-        this.consumerid = this.data.consumerid;
-        this.name = this.data.name;
-        this.redirect_url = this.data.redirect_url;
-        this.email = this.data.email;
-        this.pos = createApiFor(posFactory, this._internalApi, this.data.name, this.consumerid);
-        this.accounting = createApiFor(accountingFactory, this._internalApi, this.data.name, this.consumerid);
-        this.invoicing = createApiFor(invoicingFactory, this._internalApi, this.data.name, this.consumerid);
-        this.ecommerce = createApiFor(ecommerceFactory, this._internalApi, this.data.name, this.consumerid);
+    const _internalApi = internalApi;
+    const data = body;
+    const consumerid = data.consumerid;
+    const name = data.name;
+    const redirect_url = data.redirect_url;
+    const email = data.email;
+    const pos = createApiFor(posFactory, _internalApi, data.name, consumerid);
+    const accounting = createApiFor(accountingFactory, _internalApi, data.name, consumerid);
+    const invoicing = createApiFor(invoicingFactory, _internalApi, data.name, consumerid);
+    const ecommerce = createApiFor(ecommerceFactory, _internalApi, data.name, consumerid);
+    const custom = createApiFor(customFactory, _internalApi, data.name, consumerid);
 
-    }
-
-    public async getConnections() {
-        const { data } = await this._internalApi.get<operations[chiftOperations["getConnectionsByConsumerId"]]["responses"][200]["content"]["application/json"]>(`/consumers/${this.consumerid}/connections`);
+    const getConnections = async() => {
+        const { data } = await _internalApi.get<operations[chiftOperations["getConnectionsByConsumerId"]]["responses"][200]["content"]["application/json"]>(`/consumers/${consumerid}/connections`);
         return data;
     }
 
-    public async createConnection(body?: components["schemas"]["PostConnectionItem"]) {
-        const { data } = await this._internalApi.post<operations[chiftOperations["createConnection"]]["responses"][200]["content"]["application/json"]>(`/consumers/${this.consumerid}/connections`, {...body});
+    const createConnection = async(body?: components["schemas"]["PostConnectionItem"]) => {
+        const { data } = await _internalApi.post<operations[chiftOperations["createConnection"]]["responses"][200]["content"]["application/json"]>(`/consumers/${consumerid}/connections`, {...body});
         return data;
     }
 
-    public async updateConnection(connectionId: string, body?: components["schemas"]["PatchConnectionItem"]) {
-        const { data } = await this._internalApi.patch<operations[chiftOperations["updateConnection"]]["responses"][200]["content"]["application/json"]>(`/consumers/${this.consumerid}/connections/${connectionId}`, {...body});
+    const updateConnection = async(connectionId: string, body?: components["schemas"]["PatchConnectionItem"]) => {
+        const { data } = await _internalApi.patch<operations[chiftOperations["updateConnection"]]["responses"][200]["content"]["application/json"]>(`/consumers/${consumerid}/connections/${connectionId}`, {...body});
         return data;
     }
 
-    public async deleteConnection(connectionId: string) {
-        const { data } = await this._internalApi.delete<operations[chiftOperations["deleteConnectionById"]]["responses"][204]>(`/consumers/${this.consumerid}/connections/${connectionId}`);
+    const deleteConnection = async(connectionId: string) => {
+        const { data } = await _internalApi.delete<operations[chiftOperations["deleteConnectionById"]]["responses"][204]>(`/consumers/${consumerid}/connections/${connectionId}`);
         return data;
     }
 
-    public async getSyncUrl(body: components["schemas"]["CreateConsumerSyncItem"]) {
-        const { data } = await this._internalApi.post<components["schemas"]["LinkSyncItem"]>(`/consumers/${this.consumerid}/syncs`);
+    const getSyncUrl = async (body: components["schemas"]["CreateConsumerSyncItem"]) => {
+        const { data } = await _internalApi.post<components["schemas"]["LinkSyncItem"]>(`/consumers/${consumerid}/syncs`);
         return data;
+    }
+
+    return {
+        getConnections,
+        createConnection,
+        updateConnection,
+        deleteConnection,
+        getSyncUrl,
+        name,
+        redirect_url,
+        email,
+        pos,
+        accounting,
+        invoicing,
+        ecommerce,
+        custom
     }
 
 

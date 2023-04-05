@@ -2,7 +2,7 @@
   "name": "testing",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,5 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@chift/chift-nodejs-sdk": "file:..",
+    "lodash": "^4.17.21",
+    "node-fetch": "^2.6.9"
   }
 }
