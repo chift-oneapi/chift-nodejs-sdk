@@ -16,27 +16,27 @@ const Consumer = (
 ) => {
     const _internalApi = internalApi;
     const data = body;
-    const consumerid = data.consumerid;
+    const consumerId = data.consumerid;
     const name = data.name;
     const redirect_url = data.redirect_url;
     const email = data.email;
-    const pos = createApiFor(posFactory, _internalApi, data.name, consumerid);
-    const accounting = createApiFor(accountingFactory, _internalApi, data.name, consumerid);
-    const invoicing = createApiFor(invoicingFactory, _internalApi, data.name, consumerid);
-    const ecommerce = createApiFor(ecommerceFactory, _internalApi, data.name, consumerid);
-    const custom = createApiFor(customFactory, _internalApi, data.name, consumerid);
+    const pos = createApiFor(posFactory, _internalApi, data.name, consumerId);
+    const accounting = createApiFor(accountingFactory, _internalApi, data.name, consumerId);
+    const invoicing = createApiFor(invoicingFactory, _internalApi, data.name, consumerId);
+    const ecommerce = createApiFor(ecommerceFactory, _internalApi, data.name, consumerId);
+    const custom = createApiFor(customFactory, _internalApi, data.name, consumerId);
 
     const getConnections = async () => {
         const { data } = await _internalApi.get<
             operations[chiftOperations['getConnectionsByConsumerId']]['responses'][200]['content']['application/json']
-        >(`/consumers/${consumerid}/connections`);
+        >(`/consumers/${consumerId}/connections`);
         return data;
     };
 
     const createConnection = async (body?: components['schemas']['PostConnectionItem']) => {
         const { data } = await _internalApi.post<
             operations[chiftOperations['createConnection']]['responses'][200]['content']['application/json']
-        >(`/consumers/${consumerid}/connections`, { ...body });
+        >(`/consumers/${consumerId}/connections`, { ...body });
         return data;
     };
 
@@ -46,20 +46,20 @@ const Consumer = (
     ) => {
         const { data } = await _internalApi.patch<
             operations[chiftOperations['updateConnection']]['responses'][200]['content']['application/json']
-        >(`/consumers/${consumerid}/connections/${connectionId}`, { ...body });
+        >(`/consumers/${consumerId}/connections/${connectionId}`, { ...body });
         return data;
     };
 
     const deleteConnection = async (connectionId: string) => {
         const { data } = await _internalApi.delete<
             operations[chiftOperations['deleteConnectionById']]['responses'][204]
-        >(`/consumers/${consumerid}/connections/${connectionId}`);
+        >(`/consumers/${consumerId}/connections/${connectionId}`);
         return data;
     };
 
     const getSyncUrl = async () => {
         const { data } = await _internalApi.post<components['schemas']['LinkSyncItem']>(
-            `/consumers/${consumerid}/syncs`
+            `/consumers/${consumerId}/syncs`
         );
         return data;
     };
@@ -123,6 +123,7 @@ const Consumer = (
     };
 
     return {
+        consumerId,
         getConnections,
         createConnection,
         updateConnection,
