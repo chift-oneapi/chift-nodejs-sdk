@@ -13,15 +13,23 @@ export interface TokenType {
     expires_on: number;
 }
 
-export type RequestData<TResponse> = { method: string; property?: string; consumerName?: string; consumerId?: string; url: string; params?: unknown, body?: unknown }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type RequestData<TResponse> = {
+    method: string;
+    property?: string;
+    consumerName?: string;
+    consumerId?: string;
+    url: string;
+    params?: unknown;
+    body?: unknown;
+};
 
-
-export type RequestFactory = { [key: string]: (...args: any) => RequestData<any> }
+export type RequestFactory = { [key: string]: (...args: any) => RequestData<any> };
 
 export type ApiFor<TFactory extends RequestFactory> = {
     [key in keyof TFactory]: TFactory[key] extends (
-      ...args: infer TArgs
+        ...args: infer TArgs
     ) => RequestData<infer TResponse>
-      ? (...args: TArgs) => Promise<TResponse>
-      : never
-}
+        ? (...args: TArgs) => Promise<TResponse>
+        : never;
+};

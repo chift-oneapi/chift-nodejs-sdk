@@ -1,83 +1,98 @@
-import { operations, components } from "../types/public-api/schema";
-import { RequestData } from "../types/api";
+import { operations, components } from '../types/public-api/schema';
+import { RequestData } from '../types/api';
 
 const posFactory = {
-    getLocations(): RequestData<(components["schemas"]["POSLocationItem"])[]> {
+    getLocations(): RequestData<components['schemas']['POSLocationItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/pos/locations',
-        }
+        };
     },
-    getOrders(params :  operations["pos_get_orders"]["parameters"]["query"]) : RequestData<(components["schemas"]["OrderItem"])[]> {
+    getOrders(
+        params: operations['pos_get_orders']['parameters']['query']
+    ): RequestData<components['schemas']['OrderItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/pos/locations',
-            params: params
-        }
+            params: params,
+        };
     },
-    getCustomers(params :  operations["pos_get_customers"]["parameters"]["query"]) : RequestData<(components["schemas"]["POSCustomerItem"])[]> {
+    getCustomers(
+        params: operations['pos_get_customers']['parameters']['query']
+    ): RequestData<components['schemas']['POSCustomerItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/pos/locations',
-            params: params
-        }
+            params: params,
+        };
     },
-    getOrder(orderId :  string) : RequestData<(components["schemas"]["OrderItem"])> {
+    getOrder(orderId: string): RequestData<components['schemas']['OrderItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
-        }
+        };
     },
-    getCustomer(customerId: string) : RequestData<(components["schemas"]["POSCustomerItem"])> {
+    getCustomer(customerId: string): RequestData<components['schemas']['POSCustomerItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/customers/${customerId}`,
-        }
+        };
     },
-    createCustomer(customer : components["schemas"]["POSCreateCustomerItem"]) : RequestData<(components["schemas"]["POSCustomerItem"])> {
+    createCustomer(
+        customer: components['schemas']['POSCreateCustomerItem']
+    ): RequestData<components['schemas']['POSCustomerItem']> {
         return {
             method: 'create',
             url: `/consumers/{consumer_id}/pos/customers`,
-            body: customer
-        }
+            body: customer,
+        };
     },
-    getPaymentMethods(params: operations["pos_get_payments_methods"]["parameters"]["query"]) : RequestData<(components["schemas"]["PaymentMethods"])[]> {
+    getPaymentMethods(
+        params: operations['pos_get_payments_methods']['parameters']['query']
+    ): RequestData<components['schemas']['PaymentMethods'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/payment-methods`,
-            params: params
-        }
+            params: params,
+        };
     },
-    getSales(params: operations["pos_get_sales"]["parameters"]["query"]) : RequestData<(components["schemas"]["SalesItem"])> {
+    getSales(
+        params: operations['pos_get_sales']['parameters']['query']
+    ): RequestData<components['schemas']['SalesItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/sales`,
-            params: params
-        }
+            params: params,
+        };
     },
-    getClosure(params: operations["pos_get_closure"]["parameters"]["query"]) : RequestData<(components["schemas"]["ClosureItem"])> {
+    getClosure(
+        params: operations['pos_get_closure']['parameters']['query']
+    ): RequestData<components['schemas']['ClosureItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/payment-methods`,
-            params: params
-        }
+            params: params,
+        };
     },
-    getPayments(params: operations["pos_get_payments"]["parameters"]["query"]) : RequestData<(components["schemas"]["PaymentItem"])[]> {
+    getPayments(
+        params: operations['pos_get_payments']['parameters']['query']
+    ): RequestData<components['schemas']['PaymentItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/payment-methods`,
-            params: params
-        }
+            params: params,
+        };
     },
-    updateOrder(orderId: string, order: components["schemas"]["UpdateOrderItem"]) : RequestData<(components["schemas"]["OrderItem"])> {
+    updateOrder(
+        orderId: string,
+        order: components['schemas']['UpdateOrderItem']
+    ): RequestData<components['schemas']['OrderItem']> {
         return {
             method: 'patch',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
             body: order,
-        }
+        };
     },
-}
+};
 
-export {
-    posFactory,
-}
+export { posFactory };

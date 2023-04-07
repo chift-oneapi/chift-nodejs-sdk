@@ -25,9 +25,8 @@ export class API {
 
     private _setup = async () => {
         if (!this.auth.clientId || !this.auth.clientSecret || !this.auth.accountId) {
-            throw new Error("Missing mandatory auth parameters");
+            throw new Error('Missing mandatory auth parameters');
         }
         this.internalApi = new InternalAPI(this.auth);
-    }
-
+    };
 }

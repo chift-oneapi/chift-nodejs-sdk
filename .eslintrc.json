@@ -4,8 +4,8 @@
         "node": true
     },
     "extends": [
-        "airbnb-base",
-        "prettier/@typescript-eslint",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended"
     ],
     "globals": {
@@ -17,8 +17,9 @@
         "ecmaVersion": 11,
         "sourceType": "module"
     },
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "rules": {}
+    "plugins": ["@typescript-eslint", "prettier"],
+    "rules": {
+        "@typescript-eslint/no-unused-vars": "error",
+        "prettier/prettier": "error"
+    }
 }

@@ -1,3 +1,3 @@
 export default {
-    BASE_URL: "https://api.chift.eu"
-}
+    BASE_URL: 'https://api.chift.eu',
+};
