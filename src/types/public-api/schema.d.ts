@@ -40,6 +40,25 @@ export interface paths {
          */
         post: operations['consumers_create_synctoconsumer'];
     };
+    '/consumers/{consumerid}/syncs/{syncid}': {
+        /**
+         * Get sync information for one consumer
+         * @description Returns sync information (creation date, mapping) related to a specific consumer
+         */
+        get: operations['consumers_get_syncconsumer'];
+    };
+    '/consumers/{consumerid}/datastore/{datastoreid}/data': {
+        /**
+         * Get execution data for a specific consumer and a specific datastore
+         * @description Returns execution data related to a consumer and a datastore
+         */
+        get: operations['consumers_get_datastoredata'];
+        /**
+         * Add data into a datastore for a consumer
+         * @description Endpoint that can be used to add data into a datastore for a specific consumer
+         */
+        post: operations['consumers_create_datastoredata'];
+    };
     '/consumers/{consumerid}/connections': {
         /**
          * Get connections
@@ -127,27 +146,6 @@ export interface paths {
          * @description Returns a sync by id
          */
         get: operations['syncs_get_sync'];
-    };
-    '/syncs/{syncid}/flows': {
-        /**
-         * Add new flow for a specific sync
-         * @description Route that can be used to define a flow for a specific sync
-         */
-        post: operations['syncs_add_flow'];
-    };
-    '/syncs/{syncid}/flows/{flowid}': {
-        /**
-         * Remove flow for a specific sync
-         * @description Route that can be used to remove a flow for a specific sync
-         */
-        delete: operations['syncs_delete_flow'];
-    };
-    '/syncs/{syncid}/flows/{flowid}/event': {
-        /**
-         * Send a custom event for a specific flow
-         * @description Route that can be used to send a specific event for a flow
-         */
-        post: operations['syncs_send_custom_event'];
     };
     '/consumers/{consumer_id}/accounting/folders': {
         /** Get Folders */
@@ -541,6 +539,48 @@ export interface paths {
          */
         get: operations['invoicing_get_invoice'];
     };
+    '/consumers/{consumer_id}/invoicing/vat-codes': {
+        /**
+         * Retrieve vat codes (invoicing)
+         * @description Get vat codes existing in the invoicing system
+         */
+        get: operations['invoicing_get_vat_codes'];
+    };
+    '/consumers/{consumer_id}/invoicing/products': {
+        /**
+         * Retrieve all products
+         * @description Returns a list of all the products
+         */
+        get: operations['invoicing_get_products'];
+    };
+    '/consumers/{consumer_id}/invoicing/products/{product_id}': {
+        /**
+         * Retrieve one specific product
+         * @description Returns a specific product
+         */
+        get: operations['invoicing_get_product'];
+    };
+    '/consumers/{consumer_id}/banking/financial-institutions': {
+        /**
+         * Get list of financial institutions
+         * @description Returns the list of financial institutions the user consent access to
+         */
+        get: operations['banking_get_financial_institutions'];
+    };
+    '/consumers/{consumer_id}/banking/accounts': {
+        /**
+         * Get list of banking accounts
+         * @description Returns the list of banking accounts
+         */
+        get: operations['banking_get_accounts'];
+    };
+    '/consumers/{consumer_id}/banking/{account_id}/transactions': {
+        /**
+         * Get list of financial transactions
+         * @description Returns the list of transactions of an account
+         */
+        get: operations['banking_get_account_transactions'];
+    };
     '/token': {
         /**
          * Get access token
@@ -780,6 +820,7 @@ export interface components {
             | 'Accounting'
             | 'Invoicing'
             | 'Communication'
+            | 'Banking'
             | 'Custom';
         /** AttachmentItem */
         AttachmentItem: {
@@ -797,11 +838,78 @@ export interface components {
              * Format: uuid
              */
             accountId: string;
+        };
+        /** BankingAccountItem */
+        BankingAccountItem: {
+            /** Id */
+            id: string;
+            /** Currency */
+            currency: string;
+            /** Current Balance */
+            current_balance: number;
             /**
-             * Envid
-             * Format: uuid
+             * Current Balance Last Update Date
+             * Format: date-time
              */
-            envId?: string;
+            current_balance_last_update_date: string;
+            /** Available Balance */
+            available_balance: number;
+            /**
+             * Available Balance Last Update Date
+             * Format: date-time
+             */
+            available_balance_last_update_date: string;
+            /** Description */
+            description: string;
+            /** Reference */
+            reference: string;
+            /** Reference Type */
+            reference_type: string;
+            /** Holder Name */
+            holder_name?: string;
+        };
+        /** BankingFinancialInstitutionItem */
+        BankingFinancialInstitutionItem: {
+            /** Id */
+            id: string;
+            /** Bic */
+            bic?: string;
+            /** Country */
+            country?: string;
+            /** Name */
+            name: string;
+        };
+        /** BankingTransactionItem */
+        BankingTransactionItem: {
+            /** Id */
+            id: string;
+            /** Amount */
+            amount: number;
+            /** Currency */
+            currency: string;
+            /** Description */
+            description?: string;
+            /** Additional Information */
+            additional_information?: string;
+            /** Counterpart Name */
+            counterpart_name?: string;
+            /** Counterpart Reference */
+            counterpart_reference?: string;
+            /**
+             * Creation Date
+             * Format: date-time
+             */
+            creation_date: string;
+            /**
+             * Value Date
+             * Format: date-time
+             */
+            value_date: string;
+            /**
+             * Execution Date
+             * Format: date-time
+             */
+            execution_date: string;
         };
         /**
          * BoolParam
@@ -1138,6 +1246,21 @@ export interface components {
             data?: Record<string, never>;
             status: components['schemas']['app__routers__connections__Status'];
         };
+        /** ConsumerDataStoreDataItem */
+        ConsumerDataStoreDataItem: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on: string;
+            /** Data */
+            data: Record<string, never>;
+        };
         /** ConsumerItem */
         ConsumerItem: {
             /**
@@ -1159,6 +1282,11 @@ export interface components {
              * Format: uuid
              */
             syncid: string;
+            /**
+             * Integrationids
+             * @description [OPTIONAL] Can be used to specify maximum one integrationid for each One API that you want to highlight. If specified, only this connector will be displayed to your clients.
+             */
+            integrationids?: string[];
         };
         /** FeesItem */
         FeesItem: {
@@ -1178,14 +1306,6 @@ export interface components {
          * @enum {string}
          */
         FeesType: 'shipping' | 'other';
-        /** FlowItem */
-        FlowItem: {
-            /** Name */
-            name: string;
-            trigger: components['schemas']['TriggerItem'];
-            /** Code */
-            code: string;
-        };
         /** FolderItem */
         FolderItem: {
             /** Id */
@@ -1556,6 +1676,21 @@ export interface components {
              * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the invoicing software.
              */
             tax_code?: string;
+            /**
+             * Product Id
+             * @description Indicates the product ID used for the line. This is the ID of the Product in the invoicing software.
+             */
+            product_id?: string;
+            /**
+             * Product Code
+             * @description Indicates the product reference used for the line. This is the reference of the Product in the invoicing software.
+             */
+            product_code?: string;
+            /**
+             * Product Name
+             * @description Indicates the product name used for the line. This is the name of the Product in the invoicing software.
+             */
+            product_name?: string;
         };
         /** InvoiceLineItemInMonoAnalyticPlan */
         InvoiceLineItemInMonoAnalyticPlan: {
@@ -1917,6 +2052,13 @@ export interface components {
         LinkSyncItem: {
             /** Url */
             url: string;
+        };
+        /** MappingItem */
+        MappingItem: {
+            /** Sourceid */
+            sourceId: string;
+            /** Targetid */
+            targetId: string;
         };
         /** MatchingIn */
         MatchingIn: {
@@ -2379,6 +2521,39 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** Page[BankingAccountItem] */
+        Page_BankingAccountItem_: {
+            /** Items */
+            items: components['schemas']['BankingAccountItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[BankingFinancialInstitutionItem] */
+        Page_BankingFinancialInstitutionItem_: {
+            /** Items */
+            items: components['schemas']['BankingFinancialInstitutionItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[BankingTransactionItem] */
+        Page_BankingTransactionItem_: {
+            /** Items */
+            items: components['schemas']['BankingTransactionItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** Page[ClientItemOut] */
         Page_ClientItemOut_: {
             /** Items */
@@ -2566,32 +2741,10 @@ export interface components {
             /** Size */
             size: number;
         };
-        /** Page[ProductItem] */
-        Page_ProductItem_: {
-            /** Items */
-            items: components['schemas']['ProductItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
         /** Page[SupplierItemOut] */
         Page_SupplierItemOut_: {
             /** Items */
             items: components['schemas']['SupplierItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[VatCode] */
-        Page_VatCode_: {
-            /** Items */
-            items: components['schemas']['VatCode'][];
             /** Total */
             total: number;
             /** Page */
@@ -2673,7 +2826,7 @@ export interface components {
              */
             tip?: number;
             /** @default Unknown */
-            status?: components['schemas']['PaymentStatus'];
+            status?: components['schemas']['app__routers__pos__PaymentStatus'];
             /** Currency */
             currency?: string;
             /**
@@ -2691,12 +2844,6 @@ export interface components {
             /** Extra */
             extra?: string;
         };
-        /**
-         * PaymentStatus
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        PaymentStatus: 'Pending' | 'Completed' | 'Canceled' | 'Failed' | 'Unknown' | 'Authorised';
         /** PostAddressItem */
         PostAddressItem: {
             /** Name */
@@ -2732,6 +2879,11 @@ export interface components {
              */
             credentials?: components['schemas']['app__routers__connections__CredentialItem'][];
         };
+        /** PostConsumerDataStoreItem */
+        PostConsumerDataStoreItem: {
+            /** Data */
+            data: Record<string, never>;
+        };
         /** PostConsumerItem */
         PostConsumerItem: {
             /** Name */
@@ -2740,50 +2892,6 @@ export interface components {
             email?: string;
             /** Redirect Url */
             redirect_url?: string;
-        };
-        /** ProductItem */
-        ProductItem: {
-            /** Id */
-            id: string;
-            /** Name */
-            name: string;
-            /** Description */
-            description?: string;
-            /** Description Html */
-            description_html?: string;
-            /**
-             * Categories
-             * @default []
-             */
-            categories?: components['schemas']['CategoryItem'][];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
-            /**
-             * Variants
-             * @default []
-             */
-            variants?: components['schemas']['ProductVariantItem'][];
-            status?: components['schemas']['ProductStatus'];
-            /**
-             * Common Attributes
-             * @description List of attributes that are shared by all variants of the product.
-             * @default []
-             */
-            common_attributes?: components['schemas']['CommonAttributeItem'][];
-            /**
-             * Variant Attributes Options
-             * @default []
-             */
-            variant_attributes_options?: components['schemas']['VariantAttributeOptionItem'][];
-            /**
-             * Common Images
-             * @description List of images that are shared by all variants of the product.
-             * @default []
-             */
-            common_images?: components['schemas']['ImageItem'][];
         };
         /** ProductPriceItem */
         ProductPriceItem: {
@@ -2878,14 +2986,6 @@ export interface components {
             tax_amount: number;
             /** Taxes */
             taxes?: components['schemas']['TotalTaxItem'][];
-        };
-        /** SimpleResponse */
-        SimpleResponse: {
-            /** Status */
-            status: string;
-            /** Message */
-            message: string;
-            data?: any;
         };
         /**
          * States
@@ -3117,6 +3217,46 @@ export interface components {
              */
             addresses?: components['schemas']['app__routers__common_models__AddressItemOut'][];
         };
+        /** SyncConsumerItem */
+        SyncConsumerItem: {
+            /**
+             * Syncid
+             * Format: uuid
+             */
+            syncid: string;
+            /**
+             * Sync Name
+             * @description Name of the sync
+             */
+            sync_name: string;
+            /**
+             * @description Indicates whether the consumer has setup the sync. If the setup is complete, it will return 'active'. Otherwise 'inactive'.
+             * @default inactive
+             */
+            status?: components['schemas']['SyncConsumerStatus'];
+            /**
+             * Status Details
+             * @description Gives additional information if the status is inactive
+             */
+            status_details?: string;
+            /**
+             * Link Createdon
+             * Format: date-time
+             * @description Date on which the consumer first navigated to the link to setup the sync
+             */
+            link_createdon: string;
+            /**
+             * Link Mappings
+             * @description Values of the mappings requested for the sync for the specific consumer
+             */
+            link_mappings?: components['schemas']['SyncMappingItem'][];
+        };
+        /**
+         * SyncConsumerStatus
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        SyncConsumerStatus: 'active' | 'inactive';
         /** SyncItem */
         SyncItem: {
             /**
@@ -3130,6 +3270,15 @@ export interface components {
             consumers: string[];
             /** Flows */
             flows: components['schemas']['ReadFlowItem'][];
+        };
+        /** SyncMappingItem */
+        SyncMappingItem: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Values */
+            values: components['schemas']['MappingItem'][];
         };
         /** Token */
         Token: {
@@ -3151,6 +3300,12 @@ export interface components {
             /** Total */
             total: number;
         };
+        /**
+         * TransactionFilterDateType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        TransactionFilterDateType: 'value_date' | 'execution_date';
         /** TriggerItem */
         TriggerItem: {
             type: components['schemas']['TriggerType'];
@@ -3276,32 +3431,6 @@ export interface components {
              */
             variant_images?: components['schemas']['ImageItem'][];
         };
-        /** VatCode */
-        VatCode: {
-            /** Id */
-            id: string;
-            /** Code */
-            code?: string;
-            /** Label */
-            label: string;
-            /** @default unknown */
-            scope?: components['schemas']['VatCodeScope'];
-            /** Rate */
-            rate: number;
-            type: components['schemas']['VatCodeType'];
-        };
-        /**
-         * VatCodeScope
-         * @description An enumeration.
-         * @enum {string}
-         */
-        VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
-        /**
-         * VatCodeType
-         * @description An enumeration.
-         * @enum {string}
-         */
-        VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
         /** WebhookInstanceGetItem */
         WebhookInstanceGetItem: {
             /**
@@ -3399,6 +3528,49 @@ export interface components {
             | 'customer_refund'
             | 'supplier_invoice'
             | 'supplier_refund';
+        /** Page[VatCode] */
+        'app__routers__accounting__Page[VatCode]': {
+            /** Items */
+            items: components['schemas']['app__routers__accounting__VatCode'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /**
+         * PaymentStatus
+         * @description An enumeration.
+         * @enum {string}
+         */
+        app__routers__accounting__PaymentStatus: 'all' | 'unpaid' | 'paid';
+        /** VatCode */
+        app__routers__accounting__VatCode: {
+            /** Id */
+            id: string;
+            /** Code */
+            code?: string;
+            /** Label */
+            label: string;
+            /** @default unknown */
+            scope?: components['schemas']['app__routers__accounting__VatCodeScope'];
+            /** Rate */
+            rate: number;
+            type: components['schemas']['app__routers__accounting__VatCodeType'];
+        };
+        /**
+         * VatCodeScope
+         * @description An enumeration.
+         * @enum {string}
+         */
+        app__routers__accounting__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
+        /**
+         * VatCodeType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        app__routers__accounting__VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
         /** AddressItemIn */
         app__routers__commerce__AddressItemIn: {
             /** First Name */
@@ -3460,6 +3632,61 @@ export interface components {
             description: string;
             /** Amount */
             amount: number;
+        };
+        /** Page[ProductItem] */
+        'app__routers__commerce__Page[ProductItem]': {
+            /** Items */
+            items: components['schemas']['app__routers__commerce__ProductItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ProductItem */
+        app__routers__commerce__ProductItem: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string;
+            /** Description Html */
+            description_html?: string;
+            /**
+             * Categories
+             * @default []
+             */
+            categories?: components['schemas']['CategoryItem'][];
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on?: string;
+            /**
+             * Variants
+             * @default []
+             */
+            variants?: components['schemas']['ProductVariantItem'][];
+            status?: components['schemas']['ProductStatus'];
+            /**
+             * Common Attributes
+             * @description List of attributes that are shared by all variants of the product.
+             * @default []
+             */
+            common_attributes?: components['schemas']['CommonAttributeItem'][];
+            /**
+             * Variant Attributes Options
+             * @default []
+             */
+            variant_attributes_options?: components['schemas']['VariantAttributeOptionItem'][];
+            /**
+             * Common Images
+             * @description List of images that are shared by all variants of the product.
+             * @default []
+             */
+            common_images?: components['schemas']['ImageItem'][];
         };
         /** AddressItemIn */
         app__routers__common_models__AddressItemIn: {
@@ -3554,6 +3781,84 @@ export interface components {
             | 'customer_refund'
             | 'supplier_invoice'
             | 'supplier_refund';
+        /** Page[ProductItem] */
+        'app__routers__invoicing__Page[ProductItem]': {
+            /** Items */
+            items: components['schemas']['app__routers__invoicing__ProductItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[VatCode] */
+        'app__routers__invoicing__Page[VatCode]': {
+            /** Items */
+            items: components['schemas']['app__routers__invoicing__VatCode'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ProductItem */
+        app__routers__invoicing__ProductItem: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Code */
+            code: string;
+            /** Unit Price */
+            unit_price: number;
+            /**
+             * Unit
+             * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'g', 'kg', ...). Custom units of measure must have an identical name in the target software.
+             */
+            unit?: string;
+            /**
+             * Category
+             * @description Indicates the category of the product.
+             */
+            category?: string;
+            /**
+             * Currency
+             * @description Indicates the currency of the invoice (e.g. EUR).
+             */
+            currency?: string;
+            /** Description */
+            description?: string;
+            /** Tax Rate */
+            tax_rate?: number;
+        };
+        /** VatCode */
+        app__routers__invoicing__VatCode: {
+            /** Id */
+            id: string;
+            /** Code */
+            code?: string;
+            /** Label */
+            label: string;
+            /** @default unknown */
+            scope?: components['schemas']['app__routers__invoicing__VatCodeScope'];
+            /** Rate */
+            rate: number;
+            type: components['schemas']['app__routers__invoicing__VatCodeType'];
+        };
+        /**
+         * VatCodeScope
+         * @description An enumeration.
+         * @enum {string}
+         */
+        app__routers__invoicing__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
+        /**
+         * VatCodeType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        app__routers__invoicing__VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
         /** DiscountItem */
         app__routers__pos__DiscountItem: {
             /** Name */
@@ -3561,6 +3866,18 @@ export interface components {
             /** Total */
             total: number;
         };
+        /**
+         * PaymentStatus
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        app__routers__pos__PaymentStatus:
+            | 'Pending'
+            | 'Completed'
+            | 'Canceled'
+            | 'Failed'
+            | 'Unknown'
+            | 'Authorised';
         /**
          * Status
          * @description An enumeration.
@@ -3755,6 +4072,125 @@ export interface operations {
             200: {
                 content: {
                     'application/json': components['schemas']['LinkSyncItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get sync information for one consumer
+     * @description Returns sync information (creation date, mapping) related to a specific consumer
+     */
+    consumers_get_syncconsumer: {
+        parameters: {
+            path: {
+                consumerid: string;
+                syncid: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['SyncConsumerItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get execution data for a specific consumer and a specific datastore
+     * @description Returns execution data related to a consumer and a datastore
+     */
+    consumers_get_datastoredata: {
+        parameters: {
+            path: {
+                consumerid: string;
+                datastoreid: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ConsumerDataStoreDataItem'][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Add data into a datastore for a consumer
+     * @description Endpoint that can be used to add data into a datastore for a specific consumer
+     */
+    consumers_create_datastoredata: {
+        parameters: {
+            path: {
+                consumerid: string;
+                datastoreid: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['PostConsumerDataStoreItem'][];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ConsumerDataStoreDataItem'][];
                 };
             };
             /** @description Bad Request */
@@ -4186,106 +4622,6 @@ export interface operations {
             };
         };
     };
-    /**
-     * Add new flow for a specific sync
-     * @description Route that can be used to define a flow for a specific sync
-     */
-    syncs_add_flow: {
-        parameters: {
-            path: {
-                syncid: string;
-            };
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['FlowItem'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                content: {
-                    'application/json': components['schemas']['ReadFlowItem'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    /**
-     * Remove flow for a specific sync
-     * @description Route that can be used to remove a flow for a specific sync
-     */
-    syncs_delete_flow: {
-        parameters: {
-            path: {
-                syncid: string;
-                flowid: string;
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                content: {
-                    'application/json': Record<string, never>;
-                };
-            };
-            /** @description Not Found */
-            404: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    /**
-     * Send a custom event for a specific flow
-     * @description Route that can be used to send a specific event for a flow
-     */
-    syncs_send_custom_event: {
-        parameters: {
-            path: {
-                syncid: string;
-                flowid: string;
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                content: {
-                    'application/json': components['schemas']['SimpleResponse'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
     /** Get Folders */
     accounting_get_folders: {
         parameters: {
@@ -4387,6 +4723,10 @@ export interface operations {
      */
     accounting_create_client: {
         parameters: {
+            query: {
+                /** @description Indicate the ID of the corresponding supplier in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing supplier with the new client/customer (if the parameter is filled in with the ID of an existing supplier). */
+                force_merge?: string;
+            };
             path: {
                 consumer_id: string;
             };
@@ -4539,6 +4879,10 @@ export interface operations {
      */
     accounting_create_supplier: {
         parameters: {
+            query: {
+                /** @description Indicate the ID of the corresponding client/customer in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing client/customer with the new supplier (if the parameter is filled in with the ID of an existing client/customer). */
+                force_merge?: string;
+            };
             path: {
                 consumer_id: string;
             };
@@ -4764,6 +5108,8 @@ export interface operations {
                 journal_ids?: string;
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
+                /** @description Extra filter to retrieve invoices with a specific payment status. */
+                payment_status?: components['schemas']['app__routers__accounting__PaymentStatus'];
                 page?: number;
                 size?: number;
             };
@@ -4893,6 +5239,8 @@ export interface operations {
                 journal_ids?: string;
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
+                /** @description Extra filter to retrieve invoices with a specific payment status. */
+                payment_status?: components['schemas']['app__routers__accounting__PaymentStatus'];
                 page?: number;
                 size?: number;
             };
@@ -5446,7 +5794,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_VatCode_'];
+                    'application/json': components['schemas']['app__routers__accounting__Page[VatCode]'];
                 };
             };
             /** @description Bad Request */
@@ -6372,7 +6720,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_ProductItem_'];
+                    'application/json': components['schemas']['app__routers__commerce__Page[ProductItem]'];
                 };
             };
             /** @description Bad Request */
@@ -6404,7 +6752,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['ProductItem'];
+                    'application/json': components['schemas']['app__routers__commerce__ProductItem'];
                 };
             };
             /** @description Bad Request */
@@ -6718,6 +7066,223 @@ export interface operations {
             };
             /** @description Not Found */
             404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Retrieve vat codes (invoicing)
+     * @description Get vat codes existing in the invoicing system
+     */
+    invoicing_get_vat_codes: {
+        parameters: {
+            query: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['app__routers__invoicing__Page[VatCode]'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Retrieve all products
+     * @description Returns a list of all the products
+     */
+    invoicing_get_products: {
+        parameters: {
+            query: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['app__routers__invoicing__Page[ProductItem]'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Retrieve one specific product
+     * @description Returns a specific product
+     */
+    invoicing_get_product: {
+        parameters: {
+            path: {
+                product_id: string;
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['app__routers__invoicing__ProductItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get list of financial institutions
+     * @description Returns the list of financial institutions the user consent access to
+     */
+    banking_get_financial_institutions: {
+        parameters: {
+            query: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_BankingFinancialInstitutionItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get list of banking accounts
+     * @description Returns the list of banking accounts
+     */
+    banking_get_accounts: {
+        parameters: {
+            query: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_BankingAccountItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get list of financial transactions
+     * @description Returns the list of transactions of an account
+     */
+    banking_get_account_transactions: {
+        parameters: {
+            query: {
+                date_from?: string;
+                date_to?: string;
+                date_type?: components['schemas']['TransactionFilterDateType'];
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+                account_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_BankingTransactionItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };

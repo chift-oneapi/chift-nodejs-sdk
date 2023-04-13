@@ -250,7 +250,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/journals`,
         };
     },
-    getVatCodes(): RequestData<components['schemas']['VatCode'][]> {
+    getVatCodes(): RequestData<components['schemas']['app__routers__accounting__VatCode'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/vat-codes`,

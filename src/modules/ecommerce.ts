@@ -8,7 +8,7 @@ const ecommerceFactory = {
             url: '/consumers/{consumer_id}/commerce/customers',
         };
     },
-    getProducts(): RequestData<components['schemas']['ProductItem'][]> {
+    getProducts(): RequestData<components['schemas']['app__routers__commerce__ProductItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/products',
@@ -20,7 +20,9 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/customers/${customerId}`,
         };
     },
-    getProduct(productId: string): RequestData<components['schemas']['ProductItem']> {
+    getProduct(
+        productId: string
+    ): RequestData<components['schemas']['app__routers__commerce__ProductItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/products/${productId}`,

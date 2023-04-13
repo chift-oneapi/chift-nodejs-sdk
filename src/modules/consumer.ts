@@ -62,6 +62,30 @@ const Consumer = (
         return data;
     };
 
+    const getSyncData = async (syncId: string) => {
+        const { data } = await _internalApi.get<components['schemas']['SyncConsumerItem']>(
+            `/consumers/${consumerid}/syncs/${syncId}`
+        );
+        return data;
+    };
+
+    const getDataByDataStoreId = async (dataStoreId: string, params?: object) => {
+        const { data } = await _internalApi.get<
+            components['schemas']['ConsumerDataStoreDataItem'][]
+        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, { params: params });
+        return data;
+    };
+
+    const addDataByDataStoreId = async (
+        dataStoreId: string,
+        data: components['schemas']['PostConsumerDataStoreItem']
+    ) => {
+        const { data: response } = await _internalApi.post<
+            components['schemas']['ConsumerDataStoreDataItem'][]
+        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, { ...data });
+        return response;
+    };
+
     return {
         getConnections,
         createConnection,
@@ -76,6 +100,9 @@ const Consumer = (
         invoicing,
         ecommerce,
         custom,
+        getDataByDataStoreId,
+        addDataByDataStoreId,
+        getSyncData,
     };
 };
 

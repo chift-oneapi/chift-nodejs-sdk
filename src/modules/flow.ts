@@ -2,6 +2,7 @@ import { components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { Consumers } from './consumers';
 import { Consumer } from './consumer';
+import { SimpleResponseModel } from '../types/sync';
 
 const Flow = (
     internalApi: any,
@@ -48,52 +49,57 @@ const Flow = (
     const executeLocal = async (process: (consumer: typeof Consumer) => any, log = false) => {
         if (log) {
             // create executions on the platform to add the logs to the server
-            const { data: response } = await _internalApi.post<
-                components['schemas']['SimpleResponse']
-            >(`/syncs/${_syncid}/flows/${data.id}/local`, { type: 'START' });
-            const { executionid, chainexecutionid } = response.data;
-            _internalApi.setRelatedChainExecutionId(chainexecutionid);
-            try {
-                await localExecution(process);
-                await _internalApi.post<components['schemas']['SimpleResponse']>(
-                    `/syncs/${_syncid}/flows/${data.id}/local`,
-                    {
-                        type: 'END',
-                        executionid: executionid,
-                        chainexecutionid: chainexecutionid,
+            const { data: response } = await _internalApi.post<SimpleResponseModel>(
+                `/syncs/${_syncid}/flows/${data.id}/local`,
+                { type: 'START' }
+            );
+            if (response.data) {
+                const { executionid, chainexecutionid } = response.data;
+                _internalApi.setRelatedChainExecutionId(chainexecutionid);
+                try {
+                    await localExecution(process);
+                    await _internalApi.post<SimpleResponseModel>(
+                        `/syncs/${_syncid}/flows/${data.id}/local`,
+                        {
+                            type: 'END',
+                            executionid: executionid,
+                            chainexecutionid: chainexecutionid,
+                        }
+                    );
+                } catch (err: any) {
+                    if (err.error) {
+                        // it's an error from the one api
+                        const error_message = `Error when executing request with url ${err.url} for consumer ${err.consumerName} (${err.consumerId})`;
+                        console.log(`[ERROR]: ${error_message}: ${JSON.stringify(err.error)}`);
+                        await _internalApi.post<SimpleResponseModel>(
+                            `/syncs/${_syncid}/flows/${data.id}/local`,
+                            {
+                                type: 'END',
+                                executionid: executionid,
+                                chainexecutionid: chainexecutionid,
+                                error: true,
+                                error_message: error_message,
+                                technical_error_message: JSON.stringify(err.error),
+                            }
+                        );
+                    } else {
+                        console.log('[ERROR]: ' + err.toString());
+                        await _internalApi.post<SimpleResponseModel>(
+                            `/syncs/${_syncid}/flows/${data.id}/local`,
+                            {
+                                type: 'END',
+                                executionid: executionid,
+                                chainexecutionid: chainexecutionid,
+                                error: true,
+                                technical_error_message: err.toString(),
+                            }
+                        );
                     }
-                );
-            } catch (err: any) {
-                if (err.error) {
-                    // it's an error from the one api
-                    const error_message = `Error when executing request with url ${err.url} for consumer ${err.consumerName} (${err.consumerId})`;
-                    console.log(`[ERROR]: ${error_message}: ${JSON.stringify(err.error)}`);
-                    await _internalApi.post<components['schemas']['SimpleResponse']>(
-                        `/syncs/${_syncid}/flows/${data.id}/local`,
-                        {
-                            type: 'END',
-                            executionid: executionid,
-                            chainexecutionid: chainexecutionid,
-                            error: true,
-                            error_message: error_message,
-                            technical_error_message: JSON.stringify(err.error),
-                        }
-                    );
-                } else {
-                    console.log('[ERROR]: ' + err.toString());
-                    await _internalApi.post<components['schemas']['SimpleResponse']>(
-                        `/syncs/${_syncid}/flows/${data.id}/local`,
-                        {
-                            type: 'END',
-                            executionid: executionid,
-                            chainexecutionid: chainexecutionid,
-                            error: true,
-                            technical_error_message: err.toString(),
-                        }
-                    );
                 }
+                _internalApi.setRelatedChainExecutionId('');
+            } else {
+                throw Error('Execution could not be executed');
             }
-            _internalApi.setRelatedChainExecutionId('');
         } else {
             try {
                 await localExecution(process);
