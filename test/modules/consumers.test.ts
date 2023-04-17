@@ -1,7 +1,8 @@
-import { expect, test } from '@jest/globals';
+import { beforeEach, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 
 const client = new chift.API({
@@ -12,16 +13,20 @@ const client = new chift.API({
 });
 
 const consumerName = 'test consumer';
+const email = 'support@chift.eu';
+const redirect_url = 'https://chift.eu';
 
-test('createConsumer', async () => {
-    const email = 'support@chift.eu';
-    const redirect_url = 'https://chift.eu';
+let consumer: any;
 
-    const consumer = await client.Consumers.createConsumer({
+beforeEach(async () => {
+    consumer = await client.Consumers.createConsumer({
         email,
         redirect_url,
         name: consumerName,
     });
+});
+
+test('createConsumer', async () => {
     expect(consumer).toHaveProperty('consumerId');
     expect(consumer).toHaveProperty('getConnections');
     expect(consumer).toHaveProperty('createConnection');
@@ -39,34 +44,22 @@ test('createConsumer', async () => {
 });
 
 test('getConsumers', async () => {
-    await client.Consumers.createConsumer({
-        name: consumerName,
-    });
     const consumers = await client.Consumers.getConsumers();
     expect(consumers).toBeInstanceOf(Array);
 });
 
 test('getConsumersByName', async () => {
-    await client.Consumers.createConsumer({
-        name: consumerName,
-    });
     const consumersWithName = await client.Consumers.getConsumersByName(consumerName);
     expect(consumersWithName).toBeInstanceOf(Array);
     expect(consumersWithName[0]).toHaveProperty('name', consumerName);
 });
 
 test('getConsumerById', async () => {
-    const consumer = await client.Consumers.createConsumer({
-        name: consumerName,
-    });
     const consumerWithId = await client.Consumers.getConsumerById(consumer.consumerId);
     expect(consumerWithId).toHaveProperty('consumerId', consumer.consumerId);
 });
 
 test('updateConsumerById', async () => {
-    const consumer = await client.Consumers.createConsumer({
-        name: consumerName,
-    });
     const updatedName = 'updated test consumer';
     const updatedConsumer = await client.Consumers.updateConsumerById(consumer.consumerId, {
         name: updatedName,
@@ -77,9 +70,6 @@ test('updateConsumerById', async () => {
 test('deleteConsumerById', async () => {
     expect.assertions(1);
     try {
-        const consumer = await client.Consumers.createConsumer({
-            name: consumerName,
-        });
         await client.Consumers.deleteConsumerById(consumer.consumerId);
         await client.Consumers.getConsumerById(consumer.consumerId);
     } catch (e: unknown) {
