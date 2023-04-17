@@ -34,8 +34,7 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
     const createFlow = async (
         name: string,
         trigger: TriggerType,
-        process: (consumer: typeof Consumer) => any,
-        context: any = {}
+        process: (consumer: typeof Consumer) => any
     ) => {
         const fullFunc = process.toString();
         const bodyFunc = fullFunc.slice(fullFunc.indexOf('{') + 1, fullFunc.lastIndexOf('}'));
@@ -49,13 +48,7 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
             },
             code: bodyFunc,
         });
-        const myflow = Flow(_internalApi, createFlowData, data.syncid, data.consumers);
-        if (context) {
-            if (context.local) {
-                const logs = context.logs || false;
-                myflow.executeLocal(process, logs);
-            }
-        }
+        const myflow = Flow(_internalApi, createFlowData, data.syncid, data.consumers, process);
         return myflow;
     };
 

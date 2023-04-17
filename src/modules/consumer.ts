@@ -62,6 +62,42 @@ const Consumer = (
         return data;
     };
 
+    const getSyncData = async (syncId: string) => {
+        const { data } = await _internalApi.get<components['schemas']['SyncConsumerItem']>(
+            `/consumers/${consumerid}/syncs/${syncId}`
+        );
+        return data;
+    };
+
+    const getDataByDataStoreName = async (dataStoreName: string, params?: object) => {
+        const { data } = await _internalApi.get<components['schemas']['DataStoreItem'][]>(
+            `/datastores`
+        );
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].name == dataStoreName) {
+                return await getDataByDataStoreId(data[i].datastoreid, params);
+            }
+        }
+        throw Error('Datastore could not be found');
+    };
+
+    const getDataByDataStoreId = async (dataStoreId: string, params?: object) => {
+        const { data } = await _internalApi.get<
+            components['schemas']['ConsumerDataStoreDataItem'][]
+        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, { params: params });
+        return data;
+    };
+
+    const addDataByDataStoreId = async (
+        dataStoreId: string,
+        data: components['schemas']['PostConsumerDataStoreItem']
+    ) => {
+        const { data: response } = await _internalApi.post<
+            components['schemas']['ConsumerDataStoreDataItem'][]
+        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, { ...data });
+        return response;
+    };
+
     return {
         consumerId,
         getConnections,
@@ -77,6 +113,10 @@ const Consumer = (
         invoicing,
         ecommerce,
         custom,
+        getDataByDataStoreId,
+        addDataByDataStoreId,
+        getSyncData,
+        getDataByDataStoreName,
     };
 };
 
