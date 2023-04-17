@@ -69,6 +69,18 @@ const Consumer = (
         return data;
     };
 
+    const getDataByDataStoreName = async (dataStoreName: string, params?: object) => {
+        const { data } = await _internalApi.get<components['schemas']['DataStoreItem'][]>(
+            `/datastores`
+        );
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].name == dataStoreName) {
+                return await getDataByDataStoreId(data[i].datastoreid, params);
+            }
+        }
+        throw Error('Datastore could not be found');
+    };
+
     const getDataByDataStoreId = async (dataStoreId: string, params?: object) => {
         const { data } = await _internalApi.get<
             components['schemas']['ConsumerDataStoreDataItem'][]
@@ -103,6 +115,7 @@ const Consumer = (
         getDataByDataStoreId,
         addDataByDataStoreId,
         getSyncData,
+        getDataByDataStoreName,
     };
 };
 

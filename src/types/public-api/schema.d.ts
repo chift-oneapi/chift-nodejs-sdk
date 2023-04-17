@@ -147,6 +147,13 @@ export interface paths {
          */
         get: operations['syncs_get_sync'];
     };
+    '/datastores': {
+        /**
+         * Get list of datastores
+         * @description Returns a list of datastores (active and inactive) available for your account
+         */
+        get: operations['datastores_get_datastores'];
+    };
     '/consumers/{consumer_id}/accounting/folders': {
         /** Get Folders */
         get: operations['accounting_get_folders'];
@@ -1287,6 +1294,19 @@ export interface components {
              * @description [OPTIONAL] Can be used to specify maximum one integrationid for each One API that you want to highlight. If specified, only this connector will be displayed to your clients.
              */
             integrationids?: string[];
+        };
+        /** DataStoreItem */
+        DataStoreItem: {
+            /**
+             * Datastoreid
+             * Format: uuid
+             */
+            datastoreid: string;
+            /** Name */
+            name: string;
+            status: components['schemas']['app__routers__datastores__Status'];
+            /** Definition */
+            definition: Record<string, never>;
         };
         /** FeesItem */
         FeesItem: {
@@ -3755,6 +3775,12 @@ export interface components {
          * @enum {unknown}
          */
         app__routers__connections__Status: 'active' | 'inactive';
+        /**
+         * Status
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        app__routers__datastores__Status: 'active' | 'inactive';
         /** CredentialItem */
         app__routers__integrations__CredentialItem: {
             /** Name */
@@ -4612,6 +4638,31 @@ export interface operations {
             404: {
                 content: {
                     'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get list of datastores
+     * @description Returns a list of datastores (active and inactive) available for your account
+     */
+    datastores_get_datastores: {
+        parameters: {
+            query: {
+                status?: components['schemas']['app__routers__datastores__Status'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['DataStoreItem'][];
                 };
             };
             /** @description Validation Error */

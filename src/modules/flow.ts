@@ -8,13 +8,14 @@ const Flow = (
     internalApi: any,
     body: components['schemas']['ReadFlowItem'],
     syncid: string,
-    consumers: string[]
+    consumers: string[],
+    process?: (consumer: any) => any
 ) => {
     const _internalApi: InternalAPI = internalApi;
     const data: components['schemas']['ReadFlowItem'] = body;
     const _syncid = syncid;
     const _consumers = consumers;
-
+    const _process = process;
     const sendEvent = async (payload: any) => {
         const { data: response } = await _internalApi.post<components['schemas']['LinkSyncItem']>(
             `/syncs/${_syncid}/flows/${data.id}/event`,
@@ -23,7 +24,7 @@ const Flow = (
         return response;
     };
 
-    const execute = async (testData: any = {}) => {
+    const execute = async ({ testData = {}, context = {} }: any) => {
         // first create the process in Chift (it will check if it's already created or not and execute it)
         await _internalApi.post<components['schemas']['LinkSyncItem']>(`/syncs/${_syncid}/flows`, {
             name: data.name,
@@ -33,7 +34,15 @@ const Flow = (
             },
             code: data.code,
         });
-        await sendEvent(testData);
+        // execute locally or remotely by sending an event to execute the flow
+        if (context.local) {
+            // when you execute locally you need to have a process defined
+            const logs = context.logs || false;
+            if (_process) executeLocal(_process, logs);
+            else throw Error('Process is not defined it cannot be executed');
+        } else {
+            await sendEvent(testData);
+        }
     };
 
     const localExecution = async (process: (consumer: any) => any) => {
