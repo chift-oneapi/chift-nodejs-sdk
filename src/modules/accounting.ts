@@ -80,8 +80,8 @@ const accountingFactory = {
         };
     },
     createInvoice(
-        params: operations['accounting_create_invoice']['parameters']['query'],
-        invoice: components['schemas']['InvoiceItemInMonoAnalyticPlan']
+        invoice: components['schemas']['InvoiceItemInMonoAnalyticPlan'],
+        params: operations['accounting_create_invoice']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan']> {
         return {
             method: 'post',
@@ -91,8 +91,8 @@ const accountingFactory = {
         };
     },
     createInvoiceWithMultiplePlans(
-        params: operations['accounting_create_invoice_multiple_plans']['parameters']['query'],
-        invoice: components['schemas']['InvoiceItemInMultiAnalyticPlans']
+        invoice: components['schemas']['InvoiceItemInMultiAnalyticPlans'],
+        params: operations['accounting_create_invoice_multiple_plans']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans']> {
         return {
             method: 'post',

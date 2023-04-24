@@ -1,4 +1,4 @@
 node_modules/
 dist/
 .eslintcache
-testing/test.js
+testing/test.mjs

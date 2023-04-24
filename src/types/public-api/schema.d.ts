@@ -33,32 +33,6 @@ export interface paths {
          */
         patch: operations['consumers_update_consumer'];
     };
-    '/consumers/{consumerid}/syncs': {
-        /**
-         * Retrieve the url of a sync for a specific consumer
-         * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
-         */
-        post: operations['consumers_create_synctoconsumer'];
-    };
-    '/consumers/{consumerid}/syncs/{syncid}': {
-        /**
-         * Get sync information for one consumer
-         * @description Returns sync information (creation date, mapping) related to a specific consumer
-         */
-        get: operations['consumers_get_syncconsumer'];
-    };
-    '/consumers/{consumerid}/datastore/{datastoreid}/data': {
-        /**
-         * Get execution data for a specific consumer and a specific datastore
-         * @description Returns execution data related to a consumer and a datastore
-         */
-        get: operations['consumers_get_datastoredata'];
-        /**
-         * Add data into a datastore for a consumer
-         * @description Endpoint that can be used to add data into a datastore for a specific consumer
-         */
-        post: operations['consumers_create_datastoredata'];
-    };
     '/consumers/{consumerid}/connections': {
         /**
          * Get connections
@@ -147,12 +121,38 @@ export interface paths {
          */
         get: operations['syncs_get_sync'];
     };
+    '/consumers/{consumerid}/syncs': {
+        /**
+         * Retrieve the url of a sync for a specific consumer
+         * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
+         */
+        post: operations['syncs_create_synctoconsumer'];
+    };
+    '/consumers/{consumerid}/syncs/{syncid}': {
+        /**
+         * Get sync information for one consumer
+         * @description Returns sync information (creation date, mapping) related to a specific consumer
+         */
+        get: operations['syncs_get_syncconsumer'];
+    };
     '/datastores': {
         /**
          * Get list of datastores
          * @description Returns a list of datastores (active and inactive) available for your account
          */
         get: operations['datastores_get_datastores'];
+    };
+    '/consumers/{consumerid}/datastore/{datastoreid}/data': {
+        /**
+         * Get execution data for a specific consumer and a specific datastore
+         * @description Returns execution data related to a consumer and a datastore
+         */
+        get: operations['datastores_get_consumer,datastoredata'];
+        /**
+         * Add data into a datastore for a consumer
+         * @description Endpoint that can be used to add data into a datastore for a specific consumer
+         */
+        post: operations['datastores_create_consumer_datastoredata'];
     };
     '/consumers/{consumer_id}/accounting/folders': {
         /** Get Folders */
@@ -212,15 +212,15 @@ export interface paths {
     };
     '/consumers/{consumer_id}/accounting/invoices': {
         /**
-         * Create invoice
-         * @description Create a new sale/purchase entry
+         * Create sale/purchase entry
+         * @description Create a new sale/purchase accounting entry
          */
         post: operations['accounting_create_invoice'];
     };
     '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans': {
         /**
-         * Create invoice (Multiple plans)
-         * @description Create a new sale/purchase entry with multiple analytic plans
+         * Create a sale/purchase entry (Multiple plans)
+         * @description Create a new sale/purchase entry with multiple analytic plans in the accounting
          */
         post: operations['accounting_create_invoice_multiple_plans'];
     };
@@ -535,7 +535,7 @@ export interface paths {
     '/consumers/{consumer_id}/invoicing/invoices/type/{invoice_type}': {
         /**
          * Retrieve invoices by type
-         * @description Returns a list of invoices by a specific type. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
+         * @description Returns a list of invoices by a specific type. Optionally dates can be defined to retrieve invoice from a certain date to another date
          */
         get: operations['invoicing_get_invoices_by_type'];
     };
@@ -566,6 +566,34 @@ export interface paths {
          * @description Returns a specific product
          */
         get: operations['invoicing_get_product'];
+    };
+    '/consumers/{consumer_id}/invoicing/opportunities': {
+        /**
+         * Retrieve all opportunities
+         * @description Returns a list of all the opportunities
+         */
+        get: operations['invoicing_get_opportunities'];
+    };
+    '/consumers/{consumer_id}/invoicing/opportunities/{opportunity_id}': {
+        /**
+         * Retrieve one specific opportunity
+         * @description Returns a specific opportunity
+         */
+        get: operations['invoicing_get_opportunity'];
+    };
+    '/consumers/{consumer_id}/invoicing/contacts': {
+        /**
+         * Retrieve all contacts
+         * @description Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.
+         */
+        get: operations['invoicing_get_contacts'];
+    };
+    '/consumers/{consumer_id}/invoicing/contacts/{contact_id}': {
+        /**
+         * Retrieve one specific contact
+         * @description Returns a specific contact
+         */
+        get: operations['invoicing_get_contact'];
     };
     '/consumers/{consumer_id}/banking/financial-institutions': {
         /**
@@ -1282,6 +1310,62 @@ export interface components {
             /** Redirect Url */
             redirect_url?: string;
         };
+        /**
+         * ContactGender
+         * @description An enumeration.
+         * @enum {string}
+         */
+        ContactGender: 'H' | 'F' | 'N/A';
+        /** ContactItemOut */
+        ContactItemOut: {
+            /** Id */
+            id?: string;
+            /** External Reference */
+            external_reference?: string;
+            contact_type: components['schemas']['ContactType'];
+            /** First Name */
+            first_name?: string;
+            /** Last Name */
+            last_name?: string;
+            /** Email */
+            email?: string;
+            /** Phone */
+            phone?: string;
+            /** Mobile */
+            mobile?: string;
+            /** Is Company */
+            is_company?: boolean;
+            /** Company Id */
+            company_id?: string;
+            /**
+             * Currency
+             * @description Indicates the currency of the invoice (e.g. EUR).
+             */
+            currency?: string;
+            gender?: components['schemas']['ContactGender'];
+            /** Language */
+            language?: string;
+            /**
+             * Birthdate
+             * Format: date
+             */
+            birthdate?: string;
+            /** Comment */
+            comment?: string;
+            /** Name */
+            name?: string;
+            /**
+             * Addresses
+             * @default []
+             */
+            addresses?: components['schemas']['app__routers__common_models__AddressItemOut'][];
+        };
+        /**
+         * ContactType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        ContactType: 'prospect' | 'customer' | 'supplier' | 'mixed';
         /** CreateConsumerSyncItem */
         CreateConsumerSyncItem: {
             /**
@@ -2186,6 +2270,58 @@ export interface components {
          * @enum {string}
          */
         MiscellaneousOperationStatusOut: 'cancelled' | 'draft' | 'posted' | 'matched';
+        /** OpportunitiesItem */
+        OpportunitiesItem: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Partner Id */
+            partner_id: string;
+            /** Comment */
+            comment?: string;
+            /**
+             * Currency
+             * @description Indicates the currency of the invoice (e.g. EUR).
+             */
+            currency?: string;
+            /** Description */
+            description?: string;
+            /**
+             * Created Date
+             * Format: date
+             */
+            created_date?: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date?: string;
+            /**
+             * End Date
+             * Format: date
+             */
+            end_date?: string;
+            /** Total */
+            total: number;
+            /** Probability */
+            probability: number;
+            /** Pipe Status */
+            pipe_status?: string;
+            /** Pipe Name */
+            pipe_name?: string;
+            /** Is Win */
+            is_win?: boolean;
+            /** Owner Id */
+            owner_id?: string;
+            status: components['schemas']['OpportunitiesStatus'];
+        };
+        /**
+         * OpportunitiesStatus
+         * @description An enumeration.
+         * @enum {string}
+         */
+        OpportunitiesStatus: 'open' | 'won' | 'lost' | 'cancelled' | 'closed';
         /** OrderCustomerItem */
         OrderCustomerItem: {
             /** Email */
@@ -2607,6 +2743,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** Page[ContactItemOut] */
+        Page_ContactItemOut_: {
+            /** Items */
+            items: components['schemas']['ContactItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** Page[InvoiceItemOutMonoAnalyticPlan] */
         Page_InvoiceItemOutMonoAnalyticPlan_: {
             /** Items */
@@ -2677,6 +2824,17 @@ export interface components {
         Page_MiscellaneousOperationOut_: {
             /** Items */
             items: components['schemas']['MiscellaneousOperationOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[OpportunitiesItem] */
+        Page_OpportunitiesItem_: {
+            /** Items */
+            items: components['schemas']['OpportunitiesItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4079,167 +4237,6 @@ export interface operations {
         };
     };
     /**
-     * Retrieve the url of a sync for a specific consumer
-     * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
-     */
-    consumers_create_synctoconsumer: {
-        parameters: {
-            path: {
-                consumerid: string;
-            };
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['CreateConsumerSyncItem'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                content: {
-                    'application/json': components['schemas']['LinkSyncItem'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    /**
-     * Get sync information for one consumer
-     * @description Returns sync information (creation date, mapping) related to a specific consumer
-     */
-    consumers_get_syncconsumer: {
-        parameters: {
-            path: {
-                consumerid: string;
-                syncid: string;
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                content: {
-                    'application/json': components['schemas']['SyncConsumerItem'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    /**
-     * Get execution data for a specific consumer and a specific datastore
-     * @description Returns execution data related to a consumer and a datastore
-     */
-    consumers_get_datastoredata: {
-        parameters: {
-            path: {
-                consumerid: string;
-                datastoreid: string;
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                content: {
-                    'application/json': components['schemas']['ConsumerDataStoreDataItem'][];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    /**
-     * Add data into a datastore for a consumer
-     * @description Endpoint that can be used to add data into a datastore for a specific consumer
-     */
-    consumers_create_datastoredata: {
-        parameters: {
-            path: {
-                consumerid: string;
-                datastoreid: string;
-            };
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['PostConsumerDataStoreItem'][];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                content: {
-                    'application/json': components['schemas']['ConsumerDataStoreDataItem'][];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    /**
      * Get connections
      * @description Returns a list of the connections (active or inactive) linked to your consumer
      */
@@ -4649,6 +4646,86 @@ export interface operations {
         };
     };
     /**
+     * Retrieve the url of a sync for a specific consumer
+     * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
+     */
+    syncs_create_synctoconsumer: {
+        parameters: {
+            path: {
+                consumerid: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CreateConsumerSyncItem'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['LinkSyncItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get sync information for one consumer
+     * @description Returns sync information (creation date, mapping) related to a specific consumer
+     */
+    syncs_get_syncconsumer: {
+        parameters: {
+            path: {
+                consumerid: string;
+                syncid: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['SyncConsumerItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Get list of datastores
      * @description Returns a list of datastores (active and inactive) available for your account
      */
@@ -4663,6 +4740,87 @@ export interface operations {
             200: {
                 content: {
                     'application/json': components['schemas']['DataStoreItem'][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get execution data for a specific consumer and a specific datastore
+     * @description Returns execution data related to a consumer and a datastore
+     */
+    'datastores_get_consumer,datastoredata': {
+        parameters: {
+            path: {
+                consumerid: string;
+                datastoreid: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ConsumerDataStoreDataItem'][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Add data into a datastore for a consumer
+     * @description Endpoint that can be used to add data into a datastore for a specific consumer
+     */
+    datastores_create_consumer_datastoredata: {
+        parameters: {
+            path: {
+                consumerid: string;
+                datastoreid: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['PostConsumerDataStoreItem'][];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ConsumerDataStoreDataItem'][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
@@ -5046,8 +5204,8 @@ export interface operations {
         };
     };
     /**
-     * Create invoice
-     * @description Create a new sale/purchase entry
+     * Create sale/purchase entry
+     * @description Create a new sale/purchase accounting entry
      */
     accounting_create_invoice: {
         parameters: {
@@ -5095,8 +5253,8 @@ export interface operations {
         };
     };
     /**
-     * Create invoice (Multiple plans)
-     * @description Create a new sale/purchase entry with multiple analytic plans
+     * Create a sale/purchase entry (Multiple plans)
+     * @description Create a new sale/purchase entry with multiple analytic plans in the accounting
      */
     accounting_create_invoice_multiple_plans: {
         parameters: {
@@ -7055,7 +7213,7 @@ export interface operations {
     };
     /**
      * Retrieve invoices by type
-     * @description Returns a list of invoices by a specific type. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
+     * @description Returns a list of invoices by a specific type. Optionally dates can be defined to retrieve invoice from a certain date to another date
      */
     invoicing_get_invoices_by_type: {
         parameters: {
@@ -7215,6 +7373,154 @@ export interface operations {
             200: {
                 content: {
                     'application/json': components['schemas']['app__routers__invoicing__ProductItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Retrieve all opportunities
+     * @description Returns a list of all the opportunities
+     */
+    invoicing_get_opportunities: {
+        parameters: {
+            query: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_OpportunitiesItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Retrieve one specific opportunity
+     * @description Returns a specific opportunity
+     */
+    invoicing_get_opportunity: {
+        parameters: {
+            path: {
+                opportunity_id: string;
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['OpportunitiesItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Retrieve all contacts
+     * @description Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.
+     */
+    invoicing_get_contacts: {
+        parameters: {
+            query: {
+                /** @description Filter based on the type of the contact (e.g. supplier/customer/prospect). */
+                contact_type?: components['schemas']['ContactType'];
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_ContactItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Retrieve one specific contact
+     * @description Returns a specific contact
+     */
+    invoicing_get_contact: {
+        parameters: {
+            path: {
+                contact_id: string;
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ContactItemOut'];
                 };
             };
             /** @description Bad Request */

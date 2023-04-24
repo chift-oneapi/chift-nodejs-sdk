@@ -7,6 +7,8 @@ import { accountingFactory } from './accounting';
 import { invoicingFactory } from './invoicing';
 import { ecommerceFactory } from './ecommerce';
 import { customFactory } from './custom';
+import { SimpleResponseModel } from '../types/sync';
+import { ConsumerLog } from '../types/consumers';
 
 const Consumer = (
     internalApi: InternalAPI,
@@ -90,11 +92,33 @@ const Consumer = (
 
     const addDataByDataStoreId = async (
         dataStoreId: string,
-        data: components['schemas']['PostConsumerDataStoreItem']
+        data: components['schemas']['PostConsumerDataStoreItem'][]
     ) => {
         const { data: response } = await _internalApi.post<
             components['schemas']['ConsumerDataStoreDataItem'][]
-        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, { ...data });
+        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, data);
+        return response;
+    };
+
+    const addDataByDataStoreName = async (
+        dataStoreName: string,
+        data: components['schemas']['PostConsumerDataStoreItem'][]
+    ) => {
+        const { data: datastores } = await _internalApi.get<
+            components['schemas']['DataStoreItem'][]
+        >(`/datastores`);
+        for (let i = 0; i < datastores.length; i++) {
+            if (datastores[i].name == dataStoreName) {
+                return await addDataByDataStoreId(datastores[i].datastoreid, data);
+            }
+        }
+    };
+
+    const logData = async (logs: ConsumerLog[]) => {
+        const { data: response } = await _internalApi.post<SimpleResponseModel>(
+            `/consumers/${consumerid}/logs`,
+            logs
+        );
         return response;
     };
 
@@ -116,6 +140,8 @@ const Consumer = (
         addDataByDataStoreId,
         getSyncData,
         getDataByDataStoreName,
+        addDataByDataStoreName,
+        logData,
     };
 };
 

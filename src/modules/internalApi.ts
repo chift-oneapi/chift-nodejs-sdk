@@ -121,7 +121,7 @@ class InternalAPI {
                 });
                 const { data } = res;
                 if (data) {
-                    if ('total' in data) {
+                    if (requestData.method === 'get' && 'total' in data && 'items' in data) {
                         if (currentPage * 100 > data.total) {
                             continuePagination = false;
                         }
