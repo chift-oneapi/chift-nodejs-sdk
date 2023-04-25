@@ -64,7 +64,7 @@ const Consumer = (
 
     const getSyncData = async (syncId: string) => {
         const { data } = await _internalApi.get<components['schemas']['SyncConsumerItem']>(
-            `/consumers/${consumerid}/syncs/${syncId}`
+            `/consumers/${consumerId}/syncs/${syncId}`
         );
         return data;
     };
@@ -84,7 +84,7 @@ const Consumer = (
     const getDataByDataStoreId = async (dataStoreId: string, params?: object) => {
         const { data } = await _internalApi.get<
             components['schemas']['ConsumerDataStoreDataItem'][]
-        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, { params: params });
+        >(`/consumers/${consumerId}/datastore/${dataStoreId}/data`, { params: params });
         return data;
     };
 
@@ -94,7 +94,7 @@ const Consumer = (
     ) => {
         const { data: response } = await _internalApi.post<
             components['schemas']['ConsumerDataStoreDataItem'][]
-        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, { ...data });
+        >(`/consumers/${consumerId}/datastore/${dataStoreId}/data`, { ...data });
         return response;
     };
 
