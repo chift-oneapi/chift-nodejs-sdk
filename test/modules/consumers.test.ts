@@ -1,4 +1,4 @@
-import { beforeEach, expect, test } from '@jest/globals';
+import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
@@ -18,7 +18,7 @@ const redirect_url = 'https://chift.eu';
 
 let consumer: any;
 
-beforeEach(async () => {
+beforeAll(async () => {
     consumer = await client.Consumers.createConsumer({
         email,
         redirect_url,
