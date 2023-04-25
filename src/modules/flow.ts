@@ -129,6 +129,8 @@ const Flow = (
     return {
         execute,
         executeLocal,
+        flowId: data.id,
+        name: data.name,
     };
 };
 
