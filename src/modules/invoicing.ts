@@ -12,10 +12,14 @@ const invoicingFactory = {
             params: params,
         };
     },
-    getInvoiceById(invoiceId: string): RequestData<components['schemas']['InvoiceItem']> {
+    getInvoiceById(
+        invoiceId: string,
+        params: operations['invoicing_get_invoice']['parameters']['query']
+    ): RequestData<components['schemas']['InvoiceItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices/${invoiceId}`,
+            params: params,
         };
     },
     getProducts(): RequestData<components['schemas']['app__routers__invoicing__ProductItem'][]> {
@@ -54,14 +58,14 @@ const invoicingFactory = {
     },
     getContacts(
         params?: operations['invoicing_get_contacts']['parameters']['query']
-    ): RequestData<components['schemas']['ContactItemOut'][]> {
+    ): RequestData<components['schemas']['ContactItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts`,
             params: params,
         };
     },
-    getContactById(contactId: string): RequestData<components['schemas']['ContactItemOut']> {
+    getContactById(contactId: string): RequestData<components['schemas']['ContactItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts/${contactId}`,

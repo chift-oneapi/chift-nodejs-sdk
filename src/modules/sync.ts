@@ -1,6 +1,6 @@
 import { components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
-import { TriggerType } from '../types/sync';
+import { ContextType, TriggerType } from '../types/sync';
 import { Consumer } from './consumer';
 import { Flow } from './flow';
 
@@ -34,6 +34,7 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
     const createFlow = async (
         name: string,
         trigger: TriggerType,
+        context: ContextType = {},
         process: (consumer: typeof Consumer) => any
     ) => {
         const fullFunc = process.toString();
@@ -47,6 +48,7 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
                 data: trigger.data,
             },
             code: bodyFunc,
+            context: context,
         });
         const myflow = Flow(_internalApi, createFlowData, data.syncid, data.consumers, process);
         return myflow;

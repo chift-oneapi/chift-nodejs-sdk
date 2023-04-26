@@ -2,20 +2,22 @@ import { components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { Consumers } from './consumers';
 import { Consumer } from './consumer';
-import { SimpleResponseModel } from '../types/sync';
+import { ContextType, SimpleResponseModel } from '../types/sync';
 
 const Flow = (
     internalApi: any,
     body: components['schemas']['ReadFlowItem'],
     syncid: string,
     consumers: string[],
-    process?: (consumer: any) => any
+    process?: (consumer: any) => any,
+    context: ContextType = {}
 ) => {
     const _internalApi: InternalAPI = internalApi;
     const data: components['schemas']['ReadFlowItem'] = body;
     const _syncid = syncid;
     const _consumers = consumers;
     const _process = process;
+    const _context = context;
     const sendEvent = async (payload: any) => {
         const { data: response } = await _internalApi.post<components['schemas']['LinkSyncItem']>(
             `/syncs/${_syncid}/flows/${data.id}/event`,
@@ -33,6 +35,7 @@ const Flow = (
                 data: data.trigger.data,
             },
             code: data.code,
+            context: _context,
         });
         // execute locally or remotely by sending an event to execute the flow
         if (context.local) {
