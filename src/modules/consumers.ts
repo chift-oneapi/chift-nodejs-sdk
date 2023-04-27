@@ -4,7 +4,7 @@ import { Consumer } from './consumer';
 import { chiftOperations } from '../types/public-api/mappings';
 
 const Consumers = (internalApi: InternalAPI) => {
-    const _internalApi = internalApi;
+    const _internalApi: InternalAPI = internalApi;
 
     const getConsumers = async () => {
         const { data } = await _internalApi.get<
