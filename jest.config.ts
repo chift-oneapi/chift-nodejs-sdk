@@ -190,4 +190,6 @@ export default {
 
     // Whether to use watchman for file crawling
     // watchman: true,
+
+    testTimeout: 20000,
 };
