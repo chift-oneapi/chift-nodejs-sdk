@@ -13,7 +13,7 @@ const posFactory = {
     ): RequestData<components['schemas']['OrderItem'][]> {
         return {
             method: 'get',
-            url: '/consumers/{consumer_id}/pos/locations',
+            url: '/consumers/{consumer_id}/pos/orders',
             params: params,
         };
     },
@@ -22,7 +22,7 @@ const posFactory = {
     ): RequestData<components['schemas']['POSCustomerItem'][]> {
         return {
             method: 'get',
-            url: '/consumers/{consumer_id}/pos/locations',
+            url: '/consumers/{consumer_id}/pos/customers',
             params: params,
         };
     },

@@ -22,12 +22,20 @@ beforeAll(async () => {
             type: 'event',
             data: {},
         },
+        {
+            config: {},
+            description: 'test',
+        },
         async () => {
             return;
         }
     );
 });
 
-test('execute', async () => {
+test('executeLocal', async () => {
     flow.execute({ context: { logs: true, local: true } });
+});
+
+test('execute', async () => {
+    flow.execute({ context: { logs: true, local: false } });
 });
