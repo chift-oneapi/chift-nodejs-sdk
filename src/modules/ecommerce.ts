@@ -74,6 +74,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/orders/${orderId}`,
         };
     },
+    // TODO: Check if normal to have invoicing routes in ecommerce
     getInvoicesByType(
         invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'],
         params: operations['invoicing_get_invoices_by_type']['parameters']['query']

@@ -70,7 +70,7 @@ const posFactory = {
     ): RequestData<components['schemas']['ClosureItem']> {
         return {
             method: 'get',
-            url: `/consumers/{consumer_id}/pos/payment-methods`,
+            url: `/consumers/{consumer_id}/pos/closures`,
             params: params,
         };
     },
@@ -79,7 +79,7 @@ const posFactory = {
     ): RequestData<components['schemas']['PaymentItem'][]> {
         return {
             method: 'get',
-            url: `/consumers/{consumer_id}/pos/payment-methods`,
+            url: `/consumers/{consumer_id}/pos/payments`,
             params: params,
         };
     },

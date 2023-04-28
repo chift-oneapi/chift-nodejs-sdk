@@ -28,3 +28,53 @@ test('getConnections', async () => {
     const connections = await consumer.getConnections();
     expect(connections).toBeInstanceOf(Array);
 });
+
+test('createConnection', async () => {
+    const connection = await consumer.createConnection(body);
+    expect(connection).toBeTruthy();
+});
+
+test('updateConnection', async () => {
+    const result = await consumer.updateConnection(connectionId, body);
+    expect(result).toBeTruthy();
+});
+
+test('deleteConnection', async () => {
+    const result = await consumer.deleteConnection(connectionId);
+    expect(result).toBeTruthy();
+});
+
+test('getSyncUrl', async () => {
+    const syncUrl = await consumer.getSyncUrl();
+    expect(syncUrl).toBeTruthy();
+});
+
+test('getSyncData', async () => {
+    const syncData = await consumer.getSyncData(syncId);
+    expect(syncData).toBeTruthy();
+});
+
+test('getDataByDataStoreName', async () => {
+    const connections = await consumer.getDataByDataStoreName(dataStoreName, params);
+    expect(connections).toBeInstanceOf(Array);
+});
+
+test('getDataByDataStoreId', async () => {
+    const data = await consumer.getDataByDataStoreId(dataStoreId, params);
+    expect(data).toBeTruthy();
+});
+
+test('addDataByDataStoreId', async () => {
+    const response = await consumer.addDataByDataStoreId(dataStoreId, data);
+    expect(response).toBeTruthy();
+});
+
+test('addDataByDataStoreName', async () => {
+    const response = await consumer.addDataByDataStoreName(dataStoreName, data);
+    expect(response).toBeTruthy();
+});
+
+test('logData', async () => {
+    const response = await consumer.logData(logs);
+    expect(response).toBeTruthy();
+});
