@@ -35,7 +35,7 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
         name: string,
         trigger: TriggerType,
         context: ContextType = {},
-        process: (consumer: typeof Consumer) => any
+        process: (consumer: typeof Consumer, context: any) => any
     ) => {
         const fullFunc = process.toString();
         const bodyFunc = fullFunc.slice(fullFunc.indexOf('{') + 1, fullFunc.lastIndexOf('}'));
