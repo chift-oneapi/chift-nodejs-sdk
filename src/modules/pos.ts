@@ -66,11 +66,12 @@ const posFactory = {
         };
     },
     getClosure(
+        date: string,
         params: operations['pos_get_closure']['parameters']['query']
     ): RequestData<components['schemas']['ClosureItem']> {
         return {
             method: 'get',
-            url: `/consumers/{consumer_id}/pos/closures`,
+            url: `/consumers/{consumer_id}/pos/closures/${date}`,
             params: params,
         };
     },

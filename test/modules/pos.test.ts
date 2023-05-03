@@ -109,11 +109,10 @@ test('getSales', async () => {
     expect(sales).toHaveProperty('taxes', expect.any(Array));
 });
 
-// TODO: params do not match API specs
-test.skip('getClosure', async () => {
-    const closure = await consumer.pos.getClosure();
-    expect(closure).toBeTruthy();
-    expect(closure).toHaveProperty('id', expect.any(String));
+test('getClosure', async () => {
+    const closure = await consumer.pos.getClosure('2019-08-24');
+    expect(closure).toHaveProperty('date', expect.any(String));
+    expect(closure).toHaveProperty('status', 'open' || 'closed');
 });
 
 test('getPayments', async () => {
