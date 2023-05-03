@@ -238,10 +238,10 @@ const accountingFactory = {
             params: params,
         };
     },
-    getPaymentsByInvoiceId(): RequestData<components['schemas']['Payment'][]> {
+    getPaymentsByInvoiceId(invoice_id: string): RequestData<components['schemas']['Payment'][]> {
         return {
             method: 'get',
-            url: `/consumers/{consumer_id}/accounting/invoices/id/{invoice_id}/payments`,
+            url: `/consumers/{consumer_id}/accounting/invoices/id/${invoice_id}/payments`,
         };
     },
     getJournals(): RequestData<components['schemas']['Journal'][]> {

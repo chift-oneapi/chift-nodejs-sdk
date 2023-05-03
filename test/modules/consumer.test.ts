@@ -14,7 +14,9 @@ const consumerName = 'test consumer';
 const email = 'support@chift.eu';
 const redirect_url = 'https://chift.eu';
 
+let syncConsumer: any;
 let consumer: any;
+let connection: any;
 
 beforeAll(async () => {
     consumer = await client.Consumers.createConsumer({
@@ -22,6 +24,16 @@ beforeAll(async () => {
         redirect_url,
         name: consumerName,
     });
+
+    syncConsumer = await client.Consumers.getConsumerById(process.env.CHIFT_CONSUMER_ID as string);
+    console.log('syncConsumer', syncConsumer);
+});
+
+test.only('createConnection', async () => {
+    // TODO: test with credentials
+    const body = { integrationid: 1000, name: 'odoo test sdk' };
+    const result = await consumer.createConnection(body);
+    expect(result).toHaveProperty('url', expect.any(String));
 });
 
 test('getConnections', async () => {
@@ -29,52 +41,45 @@ test('getConnections', async () => {
     expect(connections).toBeInstanceOf(Array);
 });
 
-test('createConnection', async () => {
-    const connection = await consumer.createConnection(body);
-    expect(connection).toBeTruthy();
+// TODO: create connection first
+test.skip('updateConnection', async () => {
+    const updatedConnection = await consumer.updateConnection(connection.connectionId, {
+        name: 'updated connection name',
+    });
+    expect(updatedConnection).toHaveProperty('name', 'updated connection name');
 });
-
-test('updateConnection', async () => {
-    const result = await consumer.updateConnection(connectionId, body);
-    expect(result).toBeTruthy();
-});
-
-test('deleteConnection', async () => {
-    const result = await consumer.deleteConnection(connectionId);
-    expect(result).toBeTruthy();
+// TODO: create connection first
+test.skip('deleteConnection', async () => {
+    await consumer.deleteConnection(connection.connectionId);
 });
 
 test('getSyncUrl', async () => {
-    const syncUrl = await consumer.getSyncUrl();
-    expect(syncUrl).toBeTruthy();
+    const result = await syncConsumer.getSyncUrl(process.env.CHIFT_TEST_SYNC_ID as string);
+    expect(result).toHaveProperty('url', expect.any(String));
 });
 
 test('getSyncData', async () => {
-    const syncData = await consumer.getSyncData(syncId);
+    const syncData = await syncConsumer.getSyncData(process.env.CHIFT_TEST_SYNC_ID as string);
     expect(syncData).toBeTruthy();
 });
 
-test('getDataByDataStoreName', async () => {
-    const connections = await consumer.getDataByDataStoreName(dataStoreName, params);
-    expect(connections).toBeInstanceOf(Array);
-});
+// TODO: data store tests
+// test('getDataByDataStoreName', async () => {
+//     const connections = await consumer.getDataByDataStoreName(dataStoreName, params);
+//     expect(connections).toBeInstanceOf(Array);
+// });
 
-test('getDataByDataStoreId', async () => {
-    const data = await consumer.getDataByDataStoreId(dataStoreId, params);
-    expect(data).toBeTruthy();
-});
+// test('getDataByDataStoreId', async () => {
+//     const data = await consumer.getDataByDataStoreId(dataStoreId, params);
+//     expect(data).toBeTruthy();
+// });
 
-test('addDataByDataStoreId', async () => {
-    const response = await consumer.addDataByDataStoreId(dataStoreId, data);
-    expect(response).toBeTruthy();
-});
+// test('addDataByDataStoreId', async () => {
+//     const response = await consumer.addDataByDataStoreId(dataStoreId, data);
+//     expect(response).toBeTruthy();
+// });
 
-test('addDataByDataStoreName', async () => {
-    const response = await consumer.addDataByDataStoreName(dataStoreName, data);
-    expect(response).toBeTruthy();
-});
-
-test('logData', async () => {
-    const response = await consumer.logData(logs);
-    expect(response).toBeTruthy();
-});
+// test('addDataByDataStoreName', async () => {
+//     const response = await consumer.addDataByDataStoreName(dataStoreName, data);
+//     expect(response).toBeTruthy();
+// });

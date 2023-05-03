@@ -57,9 +57,10 @@ const Consumer = (
         return data;
     };
 
-    const getSyncUrl = async () => {
+    const getSyncUrl = async (syncId: string) => {
         const { data } = await _internalApi.post<components['schemas']['LinkSyncItem']>(
-            `/consumers/${consumerId}/syncs`
+            `/consumers/${consumerId}/syncs`,
+            { syncid: syncId }
         );
         return data;
     };

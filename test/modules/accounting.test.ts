@@ -1,6 +1,7 @@
 import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
+import { components } from '../../src/types/public-api/schema';
 dotenv.config();
 
 const client = new chift.API({
@@ -17,15 +18,9 @@ beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
-// TODO: params does not seem to work
-const params = {
-    page: 1,
-    size: 10,
-};
-
-let analyticPlans: any[];
+let analyticPlans: components['schemas']['AnalyticPlanItem'][];
 test('getAnalyticPlans', async () => {
-    analyticPlans = await consumer.accounting.getAnalyticPlans(params);
+    analyticPlans = await consumer.accounting.getAnalyticPlans();
     expect(analyticPlans).toBeInstanceOf(Array);
     expect(analyticPlans.length).toBeGreaterThan(0);
     expect(analyticPlans[0]).toHaveProperty('id', expect.any(String));
@@ -33,17 +28,43 @@ test('getAnalyticPlans', async () => {
     expect(analyticPlans[0]).toHaveProperty('active', expect.any(Boolean));
 });
 
-let clients: any[];
+let journals: components['schemas']['Journal'][];
+test('getJournals', async () => {
+    journals = await consumer.accounting.getJournals();
+    expect(journals).toBeInstanceOf(Array);
+    expect(journals.length).toBeGreaterThan(0);
+    expect(journals[0]).toHaveProperty('id', expect.any(String));
+    expect(journals[0]).toHaveProperty('name', expect.any(String));
+    expect(journals[0]).toHaveProperty('journal_type', expect.any(String));
+});
+
+test('createClient', async () => {
+    const body: components['schemas']['ClientItemIn'] = {
+        external_reference: 'sdk test',
+        name: 'John Doe',
+        currency: 'EUR',
+        active: false,
+        addresses: [
+            {
+                address_type: 'main',
+                street: 'Main Street',
+                city: 'Brussels',
+                postal_code: '1000',
+                country: 'BE',
+            },
+        ],
+    };
+    const client = await consumer.accounting.createClient(body);
+    expect(client).toBeTruthy();
+    expect(client).toHaveProperty('name', 'John Doe');
+});
+
+let clients: components['schemas']['ClientItemOut'][];
 test('getClients', async () => {
-    clients = await consumer.accounting.getClients(params);
+    clients = await consumer.accounting.getClients();
     expect(clients).toBeInstanceOf(Array);
     expect(clients.length).toBeGreaterThan(0);
     expect(clients[0]).toHaveProperty('id', expect.any(String));
-});
-// TODO:
-test.skip('createClient', async () => {
-    const client = await consumer.accounting.createClient(params);
-    expect(client).toBeTruthy();
 });
 
 test('getClient', async () => {
@@ -69,22 +90,42 @@ test('getClient', async () => {
     expect(client).toHaveProperty('active', expect.any(Boolean));
     expect(client).toHaveProperty('addresses', expect.any(Array));
 });
-// TODO:
-test.skip('updateClient', async () => {
-    const updatedClient = await consumer.accounting.updateClient(params);
+
+test('updateClient', async () => {
+    const client = clients.find((client) => client.external_reference === 'sdk test');
+    const updatedClient = await consumer.accounting.updateClient(client?.id, {
+        name: 'John Updated Doe',
+    });
     expect(updatedClient).toBeTruthy();
+    expect(updatedClient).toHaveProperty('name', 'John Updated Doe');
 });
 
-let suppliers: any[];
+test('createSupplier', async () => {
+    const body: components['schemas']['SupplierItemIn'] = {
+        external_reference: 'sdk test',
+        name: 'Jane Doe',
+        currency: 'EUR',
+        active: false,
+        addresses: [
+            {
+                address_type: 'main',
+                street: 'Main Street',
+                city: 'Brussels',
+                postal_code: '1000',
+                country: 'BE',
+            },
+        ],
+    };
+    const supplier = await consumer.accounting.createSupplier(body);
+    expect(supplier).toBeTruthy();
+    expect(supplier).toHaveProperty('name', 'Jane Doe');
+});
+
+let suppliers: components['schemas']['SupplierItemOut'][];
 test('getSuppliers', async () => {
-    suppliers = await consumer.accounting.getSuppliers(params);
+    suppliers = await consumer.accounting.getSuppliers();
     expect(suppliers).toBeInstanceOf(Array);
     expect(suppliers.length).toBeGreaterThan(0);
-});
-// TODO:
-test.skip('createSupplier', async () => {
-    const supplier = await consumer.accounting.createSupplier(params);
-    expect(supplier).toBeTruthy();
 });
 
 test('getSupplier', async () => {
@@ -110,26 +151,54 @@ test('getSupplier', async () => {
     expect(supplier).toHaveProperty('active', expect.any(Boolean));
     expect(supplier).toHaveProperty('addresses', expect.any(Array));
 });
-// TODO:
-test.skip('updateSupplier', async () => {
-    const supplier = await consumer.accounting.updateSupplier(params);
-    expect(supplier).toBeTruthy();
+
+test('updateSupplier', async () => {
+    const supplier = suppliers.find((supplier) => supplier.external_reference === 'sdk test');
+    const updatedSupplier = await consumer.accounting.updateSupplier(supplier?.id, {
+        name: 'Jane Updated Doe',
+    });
+    expect(updatedSupplier).toBeTruthy();
+    expect(updatedSupplier).toHaveProperty('name', 'Jane Updated Doe');
 });
-// TODO:
-test.skip('createInvoice', async () => {
-    const invoice = await consumer.accounting.createInvoice(params);
+
+test('createInvoice', async () => {
+    const body: components['schemas']['InvoiceItemInMonoAnalyticPlan'] = {
+        invoice_type: 'customer_invoice',
+        invoice_date: '2022-12-01',
+        due_date: '2022-12-31',
+        currency: 'EUR',
+        untaxed_amount: 100,
+        tax_amount: 21,
+        total: 121,
+        partner_id: clients[0]?.id as string,
+        journal_id: journals[0].id,
+        lines: [
+            {
+                description: 'Test',
+                unit_price: 100,
+                quantity: 1,
+                untaxed_amount: 100,
+                tax_rate: 21,
+                tax_amount: 21,
+                total: 121,
+                account_number: '700000',
+                tax_code: '1',
+            },
+        ],
+    };
+    const invoice = await consumer.accounting.createInvoice(body);
     expect(invoice).toBeTruthy();
+    expect(invoice).toHaveProperty('total', 121);
 });
 // TODO:
 test.skip('createInvoiceWithMultiplePlans', async () => {
-    const invoice = await consumer.accounting.createInvoiceWithMultiplePlans(params);
+    const invoice = await consumer.accounting.createInvoiceWithMultiplePlans();
     expect(invoice).toBeTruthy();
 });
 
-let invoices: any[];
+let invoices: components['schemas']['InvoiceItemOutMonoAnalyticPlan'][];
 test('getInvoicesByType', async () => {
     invoices = await consumer.accounting.getInvoicesByType('customer_invoice', {
-        ...params,
         date_from: '2022-12-01',
         date_to: '2022-12-31',
     });
@@ -142,7 +211,6 @@ test('getInvoicesByTypeWithMultiplePlans', async () => {
     const invoicesWithMultiplePlans = await consumer.accounting.getInvoicesByTypeWithMultiplePlans(
         'customer_invoice',
         {
-            ...params,
             date_from: '2022-12-01',
             date_to: '2022-12-31',
         }
@@ -183,15 +251,22 @@ test('getInvoiceWithMultiplePlans', async () => {
     });
     expect(invoice).toBeTruthy();
 });
-// TODO:
-test.skip('createAnalyticAccount', async () => {
-    const analyticAccount = await consumer.accounting.createAnalyticAccount(params);
+
+test('createAnalyticAccount', async () => {
+    const body: components['schemas']['AnalyticAccountItemIn'] = {
+        active: false,
+        code: '4000',
+        name: 'sdk test',
+        currency: 'EUR',
+    };
+    const analyticAccount = await consumer.accounting.createAnalyticAccount(body);
     expect(analyticAccount).toBeTruthy();
+    expect(analyticAccount).toHaveProperty('name', 'sdk test');
 });
 
-let analyticAccounts: any[];
+let analyticAccounts: components['schemas']['AnalyticAccountItemOut'][];
 test('getAnalyticAccounts', async () => {
-    analyticAccounts = await consumer.accounting.getAnalyticAccounts(params);
+    analyticAccounts = await consumer.accounting.getAnalyticAccounts();
     expect(analyticAccounts).toBeInstanceOf(Array);
     expect(analyticAccounts.length).toBeGreaterThan(0);
     expect(analyticAccounts[0]).toHaveProperty('active', expect.any(Boolean));
@@ -205,9 +280,7 @@ test('getAnalyticAccounts', async () => {
 });
 // TODO:
 test.skip('createAnalyticAccountWithMultiplePlans', async () => {
-    const analyticAccount = await consumer.accounting.createAnalyticAccountWithMultiplePlans(
-        params
-    );
+    const analyticAccount = await consumer.accounting.createAnalyticAccountWithMultiplePlans();
     expect(analyticAccount).toBeTruthy();
 });
 
@@ -215,12 +288,16 @@ test('getAnalyticAccount', async () => {
     const analyticAccount = await consumer.accounting.getAnalyticAccount(analyticAccounts[0].id);
     expect(analyticAccount).toBeTruthy();
 });
-// TODO:
-test.skip('updateAnalyticAccount', async () => {
-    const analyticAccount = await consumer.accounting.updateAnalyticAccount(params);
-    expect(analyticAccount).toBeTruthy();
-});
 
+test('updateAnalyticAccount', async () => {
+    const testAnalyticAccount = analyticAccounts.find((account) => account.name === 'sdk test');
+    const analyticAccount = await consumer.accounting.updateAnalyticAccount(
+        testAnalyticAccount?.id,
+        { name: 'test sdk update' }
+    );
+    expect(analyticAccount).toBeTruthy();
+    expect(analyticAccount).toHaveProperty('name', 'test sdk update');
+});
 // TODO: Fix error
 test.skip('getAnalyticAccountWithMultiplePlans', async () => {
     const analyticAccount = await consumer.accounting.getAnalyticAccountWithMultiplePlans(
@@ -229,14 +306,20 @@ test.skip('getAnalyticAccountWithMultiplePlans', async () => {
     );
     expect(analyticAccount).toBeTruthy();
 });
-// TODO:
+// TODO: It works but throw error
 test.skip('updateAnalyticAccountWithMultiplePlans', async () => {
+    const testAnalyticAccount = analyticAccounts.find(
+        (account) => account.name === 'test sdk update'
+    );
+
     const analyticAccount = await consumer.accounting.updateAnalyticAccountWithMultiplePlans(
-        params
+        testAnalyticAccount?.id,
+        '1',
+        { name: 'test sdk update 2' }
     );
     expect(analyticAccount).toBeTruthy();
+    expect(analyticAccount).toHaveProperty('name', 'test sdk update 2');
 });
-
 // TODO: Fix error
 test.skip('getAnalyticAccountsWithMultiplePlans', async () => {
     const analyticAccountsWithMultiplePlans =
@@ -256,19 +339,8 @@ test('getAnalyticLinesOfAccount', async () => {
     expect(analyticLinesOfAccount[0]).toHaveProperty('id', expect.any(String));
 });
 
-let journals: any;
-test('getJournals', async () => {
-    journals = await consumer.accounting.getJournals(params);
-    expect(journals).toBeInstanceOf(Array);
-    expect(journals.length).toBeGreaterThan(0);
-    expect(journals[0]).toHaveProperty('id', expect.any(String));
-    expect(journals[0]).toHaveProperty('name', expect.any(String));
-    expect(journals[0]).toHaveProperty('journal_type', expect.any(String));
-});
-
 test('getJournalEntries', async () => {
     const journalEntries = await consumer.accounting.getJournalEntries({
-        ...params,
         unposted_allowed: true,
         date_from: '2022-01-01',
         date_to: '2022-01-31',
@@ -279,7 +351,6 @@ test('getJournalEntries', async () => {
 
 test('getJournalEntriesWithMultiplePlans', async () => {
     const journalEntries = await consumer.accounting.getJournalEntriesWithMultiplePlans({
-        ...params,
         unposted_allowed: true,
         date_from: '2022-01-01',
         date_to: '2022-01-31',
@@ -287,14 +358,14 @@ test('getJournalEntriesWithMultiplePlans', async () => {
     });
     expect(journalEntries).toBeInstanceOf(Array);
 });
-// TODO: Fix route
-test.skip('getPaymentsByInvoiceId', async () => {
-    const payments = await consumer.accounting.getPaymentsByInvoiceId();
+
+test('getPaymentsByInvoiceId', async () => {
+    const payments = await consumer.accounting.getPaymentsByInvoiceId(invoices[0].id);
     expect(payments).toBeInstanceOf(Array);
 });
 
 test('getVatCodes', async () => {
-    const vatCodes = await consumer.accounting.getVatCodes(params);
+    const vatCodes = await consumer.accounting.getVatCodes();
     expect(vatCodes).toBeInstanceOf(Array);
     expect(vatCodes.length).toBeGreaterThan(0);
     expect(vatCodes[0]).toHaveProperty('id', expect.any(String));
@@ -305,16 +376,36 @@ test('getVatCodes', async () => {
     expect(vatCodes[0]).toHaveProperty('type', expect.any(String));
 });
 
-let miscOperations: any[];
+let miscOperations: components['schemas']['MiscellaneousOperationOut'][];
 test('getMiscOperations', async () => {
-    miscOperations = await consumer.accounting.getMiscOperations(params);
+    miscOperations = await consumer.accounting.getMiscOperations();
     expect(miscOperations).toBeInstanceOf(Array);
     expect(miscOperations.length).toBeGreaterThan(0);
     expect(miscOperations[0]).toHaveProperty('id', expect.any(String));
 });
-// TODO:
-test.skip('createMiscOperation', async () => {
-    const miscOperation = await consumer.accounting.createMiscOperation(params);
+
+test('createMiscOperation', async () => {
+    const data = {
+        operation_date: '2023-04-29',
+        currency: 'EUR',
+        lines: [
+            {
+                line_number: 1,
+                description: 'test line',
+                amount: 0,
+                type: 'general_account',
+                account_number: '400000',
+            },
+        ],
+        journal_id: journals?.find(
+            (journal: components['schemas']['Journal']) =>
+                journal.journal_type === 'miscellaneous_operation'
+        )?.id,
+        status: 'draft',
+    };
+
+    const miscOperation = await consumer.accounting.createMiscOperation(data);
+    expect(miscOperation).toBeTruthy();
     expect(miscOperation).toBeTruthy();
 });
 
@@ -331,25 +422,24 @@ test('getMiscOperation', async () => {
 });
 // TODO:
 test.skip('attachPDF', async () => {
-    const pdfOp = await consumer.accounting.attachPDF(params);
+    const pdfOp = await consumer.accounting.attachPDF();
     expect(pdfOp).toBeTruthy();
 });
-
-// TODO: fix error
+// TODO: Fix error
 test.skip('getChartOfAccounts', async () => {
     const chartOfAccounts = await consumer.accounting.getChartOfAccounts({
-        ...params,
         classes: '6,7',
     });
     expect(chartOfAccounts).toBeTruthy();
 });
-// TODO: fix error
-test.only('getBalanceOfAccounts', async () => {
-    const balanceOfAccounts = await consumer.accounting.getBalanceOfAccounts(params, {
-        accouts: ['7'],
+
+test('getBalanceOfAccounts', async () => {
+    const balanceOfAccounts = await consumer.accounting.getBalanceOfAccounts(null, {
+        accounts: ['7'],
         start: '2022-01-01',
         end: '2022-12-31',
     });
+    console.log('balanceOfAccounts', balanceOfAccounts);
     expect(balanceOfAccounts).toBeTruthy();
     expect(balanceOfAccounts).toHaveProperty('items');
     expect(balanceOfAccounts.items).toBeInstanceOf(Array);
