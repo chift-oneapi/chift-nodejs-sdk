@@ -9,7 +9,7 @@ const Flow = (
     body: components['schemas']['ReadFlowItem'],
     syncid: string,
     consumers: string[],
-    process?: (consumer: any) => any,
+    process?: (consumer: any, context: any) => any,
     context: ContextType = {}
 ) => {
     const _internalApi: InternalAPI = internalApi;
@@ -48,17 +48,35 @@ const Flow = (
         }
     };
 
-    const localExecution = async (process: (consumer: any) => any) => {
+    const localExecution = async (process: (consumer: any, context: any) => any) => {
         _internalApi.debug = true;
         for (let i = 0; i < _consumers.length; i++) {
             // we do not care about the customer
             const consumer = await Consumers(_internalApi).getConsumerById(_consumers[i]);
-            await process(consumer);
+            const syncData = await consumer.getSyncData(_syncid);
+            const flow = syncData.enabled_flows?.find((flow) => flow.flow_id === data.id);
+            if (flow && syncData.status === 'active') {
+                const context = {
+                    ...syncData,
+                    flow_id: flow.flow_id,
+                    flow_name: flow.name,
+                    flow_values: flow.values,
+                };
+                delete context['enabled_flows'];
+                await process(consumer, context);
+            } else {
+                console.log(
+                    `Cannot run for consumer ${_consumers[i]} as the flow is not activated or not correctly configured`
+                );
+            }
         }
         _internalApi.debug = false;
     };
 
-    const executeLocal = async (process: (consumer: typeof Consumer) => any, log = false) => {
+    const executeLocal = async (
+        process: (consumer: typeof Consumer, context: any) => any,
+        log = false
+    ) => {
         if (log) {
             // create executions on the platform to add the logs to the server
             const { data: response } = await _internalApi.post<SimpleResponseModel>(
