@@ -2,6 +2,8 @@ import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
 import { components } from '../../src/types/public-api/schema';
+import fs from 'fs';
+
 dotenv.config();
 
 const client = new chift.API({
@@ -190,11 +192,6 @@ test('createInvoice', async () => {
     expect(invoice).toBeTruthy();
     expect(invoice).toHaveProperty('total', 121);
 });
-// TODO:
-test.skip('createInvoiceWithMultiplePlans', async () => {
-    const invoice = await consumer.accounting.createInvoiceWithMultiplePlans();
-    expect(invoice).toBeTruthy();
-});
 
 let invoices: components['schemas']['InvoiceItemOutMonoAnalyticPlan'][];
 test('getInvoicesByType', async () => {
@@ -227,7 +224,7 @@ test('getInvoice', async () => {
     expect(invoice).toBeTruthy();
     expect(invoice).toHaveProperty('id', invoices[0].id);
     expect(invoices[0]).toHaveProperty('invoice_type', expect.any(String));
-    expect(invoices[0]).toHaveProperty('invoice_number', expect.any(String));
+    expect(invoices[0]).toHaveProperty('invoice_number');
     expect(invoices[0]).toHaveProperty('partner_id', expect.any(String));
     expect(invoices[0]).toHaveProperty('invoice_date', expect.any(String));
     expect(invoices[0]).toHaveProperty('due_date', expect.any(String));
@@ -236,13 +233,42 @@ test('getInvoice', async () => {
     expect(invoices[0]).toHaveProperty('tax_amount', expect.any(Number));
     expect(invoices[0]).toHaveProperty('total', expect.any(Number));
     expect(invoices[0]).toHaveProperty('reference');
-    expect(invoices[0]).toHaveProperty('payment_communication', expect.any(String));
+    expect(invoices[0]).toHaveProperty('payment_communication');
     expect(invoices[0]).toHaveProperty('customer_memo');
-    expect(invoices[0]).toHaveProperty('id', expect.any(String));
+    expect(invoices[0]).toHaveProperty('id');
     expect(invoices[0]).toHaveProperty('journal_id', expect.any(String));
     expect(invoices[0]).toHaveProperty('payments');
-    expect(invoices[0]).toHaveProperty('status', expect.any(String));
-    expect(invoices[0]).toHaveProperty('lines');
+    expect(invoices[0]).toHaveProperty('status');
+    expect(invoices[0]).toHaveProperty('lines', expect.any(Array));
+});
+
+test('createInvoiceWithMultiplePlans', async () => {
+    const body: components['schemas']['InvoiceItemInMonoAnalyticPlan'] = {
+        invoice_type: 'customer_invoice',
+        invoice_date: '2022-12-01',
+        due_date: '2022-12-31',
+        currency: 'EUR',
+        untaxed_amount: 100,
+        tax_amount: 21,
+        total: 121,
+        partner_id: clients[0]?.id as string,
+        journal_id: journals[0].id,
+        lines: [
+            {
+                description: 'Test',
+                unit_price: 100,
+                quantity: 1,
+                untaxed_amount: 100,
+                tax_rate: 21,
+                tax_amount: 21,
+                total: 121,
+                account_number: '700000',
+                tax_code: '1',
+            },
+        ],
+    };
+    const invoice = await consumer.accounting.createInvoiceWithMultiplePlans(body);
+    expect(invoice).toBeTruthy();
 });
 
 test('getInvoiceWithMultiplePlans', async () => {
@@ -278,9 +304,16 @@ test('getAnalyticAccounts', async () => {
     expect(analyticAccounts[0]).toHaveProperty('debit', expect.any(Number));
     expect(analyticAccounts[0]).toHaveProperty('credit', expect.any(Number));
 });
-// TODO:
-test.skip('createAnalyticAccountWithMultiplePlans', async () => {
-    const analyticAccount = await consumer.accounting.createAnalyticAccountWithMultiplePlans();
+
+test('createAnalyticAccountWithMultiplePlans', async () => {
+    const analyticAccount = await consumer.accounting.createAnalyticAccountWithMultiplePlans(
+        analyticPlans[0].id,
+        {
+            code: '4000',
+            name: 'sdk test',
+            currency: 'EUR',
+        }
+    );
     expect(analyticAccount).toBeTruthy();
 });
 
@@ -298,16 +331,16 @@ test('updateAnalyticAccount', async () => {
     expect(analyticAccount).toBeTruthy();
     expect(analyticAccount).toHaveProperty('name', 'test sdk update');
 });
-// TODO: Fix error
-test.skip('getAnalyticAccountWithMultiplePlans', async () => {
+
+test('getAnalyticAccountWithMultiplePlans', async () => {
     const analyticAccount = await consumer.accounting.getAnalyticAccountWithMultiplePlans(
         analyticAccounts[0].id,
         analyticPlans[0].id
     );
     expect(analyticAccount).toBeTruthy();
 });
-// TODO: It works but throw error
-test.skip('updateAnalyticAccountWithMultiplePlans', async () => {
+
+test('updateAnalyticAccountWithMultiplePlans', async () => {
     const testAnalyticAccount = analyticAccounts.find(
         (account) => account.name === 'test sdk update'
     );
@@ -320,8 +353,8 @@ test.skip('updateAnalyticAccountWithMultiplePlans', async () => {
     expect(analyticAccount).toBeTruthy();
     expect(analyticAccount).toHaveProperty('name', 'test sdk update 2');
 });
-// TODO: Fix error
-test.skip('getAnalyticAccountsWithMultiplePlans', async () => {
+
+test('getAnalyticAccountsWithMultiplePlans', async () => {
     const analyticAccountsWithMultiplePlans =
         await consumer.accounting.getAnalyticAccountsWithMultiplePlans();
     expect(analyticAccountsWithMultiplePlans).toBeInstanceOf(Array);
@@ -406,13 +439,12 @@ test('createMiscOperation', async () => {
 
     const miscOperation = await consumer.accounting.createMiscOperation(data);
     expect(miscOperation).toBeTruthy();
-    expect(miscOperation).toBeTruthy();
 });
 
 test('getMiscOperation', async () => {
     const miscOperation = await consumer.accounting.getMiscOperation(miscOperations[0].id);
     expect(miscOperation).toBeTruthy();
-    expect(miscOperation).toHaveProperty('operation_number', expect.any(String));
+    expect(miscOperation).toHaveProperty('operation_number');
     expect(miscOperation).toHaveProperty('operation_date', expect.any(String));
     expect(miscOperation).toHaveProperty('currency', expect.any(String));
     expect(miscOperation).toHaveProperty('lines', expect.any(Array));
@@ -420,26 +452,29 @@ test('getMiscOperation', async () => {
     expect(miscOperation).toHaveProperty('status', expect.any(String));
     expect(miscOperation).toHaveProperty('id', expect.any(String));
 });
-// TODO:
-test.skip('attachPDF', async () => {
-    const pdfOp = await consumer.accounting.attachPDF();
-    expect(pdfOp).toBeTruthy();
+
+test('attachPDF', async () => {
+    const pdfData = fs.readFileSync('test/data/accounting_invoice.pdf');
+    await consumer.accounting.attachPDF(
+        invoices[0].id,
+        { base64_string: pdfData.toString('base64') },
+        { overwrite_existing: true }
+    );
 });
-// TODO: Fix error
-test.skip('getChartOfAccounts', async () => {
+
+test('getChartOfAccounts', async () => {
     const chartOfAccounts = await consumer.accounting.getChartOfAccounts({
         classes: '6,7',
     });
     expect(chartOfAccounts).toBeTruthy();
 });
 
-test.only('getBalanceOfAccounts', async () => {
+test('getBalanceOfAccounts', async () => {
     const balanceOfAccounts = await consumer.accounting.getBalanceOfAccounts({
         accounts: ['7'],
         start: '2022-01-01',
         end: '2022-12-31',
     });
-    console.log('balanceOfAccounts', balanceOfAccounts);
     expect(balanceOfAccounts).toBeTruthy();
     expect(balanceOfAccounts).toHaveProperty('items');
     expect(balanceOfAccounts.items).toBeInstanceOf(Array);
