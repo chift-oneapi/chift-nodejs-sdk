@@ -433,8 +433,8 @@ test.skip('getChartOfAccounts', async () => {
     expect(chartOfAccounts).toBeTruthy();
 });
 
-test('getBalanceOfAccounts', async () => {
-    const balanceOfAccounts = await consumer.accounting.getBalanceOfAccounts(null, {
+test.only('getBalanceOfAccounts', async () => {
+    const balanceOfAccounts = await consumer.accounting.getBalanceOfAccounts({
         accounts: ['7'],
         start: '2022-01-01',
         end: '2022-12-31',
