@@ -10,7 +10,7 @@ const client = new chift.API({
     accountId: process.env.CHIFT_ACCOUNT_ID as string,
 });
 
-const consumerId = process.env.CHIFT_CONSUMER_ID as string;
+const consumerId = process.env.CHIFT_AXONAUT_CONSUMER_ID as string;
 
 let consumer: any;
 beforeAll(async () => {

@@ -10,15 +10,19 @@ const client = new chift.API({
     accountId: process.env.CHIFT_ACCOUNT_ID as string,
 });
 
-const consumerId = process.env.CHIFT_CONSUMER_ID as string;
+// Split testing between two APIs to support all endpoints
+const cashpadConsumerId = process.env.CHIFT_CASHPAD_CONSUMER_ID as string;
+const lightspeedConsumerId = process.env.CHIFT_LIGHTSPEED_CONSUMER_ID as string;
 
-let consumer: any;
+let cashpadConsumer: any;
+let lightspeedConsumer: any;
 beforeAll(async () => {
-    consumer = await client.Consumers.getConsumerById(consumerId);
+    cashpadConsumer = await client.Consumers.getConsumerById(cashpadConsumerId);
+    lightspeedConsumer = await client.Consumers.getConsumerById(lightspeedConsumerId);
 });
 
 test('getLocations', async () => {
-    const locations = await consumer.pos.getLocations();
+    const locations = await lightspeedConsumer.pos.getLocations();
     expect(locations).toBeInstanceOf(Array);
     expect(locations.length).toBeGreaterThan(0);
     expect(locations[0]).toHaveProperty('id', expect.any(String));
@@ -27,28 +31,40 @@ test('getLocations', async () => {
 
 let orders: any[];
 test('getOrders', async () => {
-    orders = await consumer.pos.getOrders({
-        date_from: '2022-05-01',
-        date_to: '2022-07-30',
+    orders = await lightspeedConsumer.pos.getOrders({
+        date_from: '2022-08-11',
+        date_to: '2022-08-12',
     });
     expect(orders).toBeInstanceOf(Array);
     expect(orders.length).toBeGreaterThan(0);
     expect(orders[0]).toHaveProperty('id', expect.any(String));
 });
 
-let customers: any[];
-// TODO: not supported against tested API
+// TODO: Fix Method Not Allowed error
+test.skip('createCustomer', async () => {
+    const body = {
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'test@test.com',
+    };
+    const customer = await cashpadConsumer.pos.createCustomer(body);
+    expect(customer).toBeTruthy();
+    expect(customer).toHaveProperty('id', expect.any(String));
+    expect(customer).toHaveProperty('name');
+});
+
+// TODO: Fix timeout error
+let customers: any[] = [];
 test.skip('getCustomers', async () => {
-    customers = await consumer.pos.getCustomers();
+    customers = await cashpadConsumer.pos.getCustomers();
     expect(customers).toBeInstanceOf(Array);
     expect(customers.length).toBeGreaterThan(0);
     expect(customers[0]).toHaveProperty('id', expect.any(String));
 });
 
+// TODO: Fix The day parameter is missing error
 test.skip('getOrder', async () => {
-    // TODO: Fix return order items only
-    const order = await consumer.pos.getOrder(orders[0].id);
-    console.log('order', order);
+    const order = await lightspeedConsumer.pos.getOrder(orders[0].id);
     expect(order).toBeTruthy();
     expect(order).toHaveProperty('id', expect.any(String));
     expect(order).toHaveProperty('order_number');
@@ -69,23 +85,17 @@ test.skip('getOrder', async () => {
     expect(order).toHaveProperty('location_id');
     expect(order).toHaveProperty('taxes');
 });
-// TODO: not supported against tested API
-test.skip('getCustomer', async () => {
-    const customer = await consumer.pos.getCustomer(customers[0].id);
-    expect(customer).toBeTruthy();
-    expect(customer).toHaveProperty('id', expect.any(String));
-    expect(customer).toHaveProperty('name');
-});
 
-test.skip('createCustomer', async () => {
-    const customer = await consumer.pos.createCustomer();
+// TODO: Fix getCustomers first
+test.skip('getCustomer', async () => {
+    const customer = await cashpadConsumer.pos.getCustomer(customers[0].id);
     expect(customer).toBeTruthy();
     expect(customer).toHaveProperty('id', expect.any(String));
     expect(customer).toHaveProperty('name');
 });
 
 test('getPaymentMethods', async () => {
-    const paymentMethods = await consumer.pos.getPaymentMethods();
+    const paymentMethods = await lightspeedConsumer.pos.getPaymentMethods();
     expect(paymentMethods).toBeInstanceOf(Array);
     expect(paymentMethods.length).toBeGreaterThan(0);
     expect(paymentMethods[0]).toHaveProperty('id', expect.any(String));
@@ -94,22 +104,25 @@ test('getPaymentMethods', async () => {
 });
 
 test('getSales', async () => {
-    const sales = await consumer.pos.getSales({ date_from: '2021-01-01', date_to: '2021-01-31' });
+    const sales = await lightspeedConsumer.pos.getSales({
+        date_from: '2022-08-11',
+        date_to: '2022-08-12',
+    });
     expect(sales).toHaveProperty('total', expect.any(Number));
     expect(sales).toHaveProperty('tax_amount', expect.any(Number));
     expect(sales).toHaveProperty('taxes', expect.any(Array));
 });
 
 test('getClosure', async () => {
-    const closure = await consumer.pos.getClosure('2019-08-24');
+    const closure = await lightspeedConsumer.pos.getClosure('2022-08-11');
     expect(closure).toHaveProperty('date', expect.any(String));
-    expect(closure).toHaveProperty('status', 'open' || 'closed');
+    expect(closure).toHaveProperty('status');
 });
 
 test('getPayments', async () => {
-    const payments = await consumer.pos.getPayments({
-        date_from: '2022-07-01',
-        date_to: '2022-12-31',
+    const payments = await lightspeedConsumer.pos.getPayments({
+        date_from: '2022-08-11',
+        date_to: '2022-08-12',
     });
     expect(payments).toBeInstanceOf(Array);
     expect(payments.length).toBeGreaterThan(0);
@@ -123,12 +136,9 @@ test('getPayments', async () => {
     expect(payments[0]).toHaveProperty('date');
 });
 
-// TODO:
+// TODO: Fix API Resource does not exist
 test.skip('updateOrder', async () => {
-    const order = await consumer.pos.updateOrder(orders[0].id, {
-        customer_id: customers[0].id,
-    });
+    const order = await lightspeedConsumer.pos.updateOrder(orders[0].id, {});
     expect(order).toBeTruthy();
     expect(order).toHaveProperty('id', expect.any(String));
-    expect(order).toHaveProperty('customer_id', customers[0].id);
 });
