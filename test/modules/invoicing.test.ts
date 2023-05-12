@@ -17,18 +17,11 @@ beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
-// TODO: params does not seem to work
-const params = {
-    page: 1,
-    size: 2,
-};
-
 let invoices: any[];
 test.only('getInvoicesByType', async () => {
     invoices = await consumer.invoicing.getInvoicesByType('customer_invoice', {
         date_from: '2021-01-01',
         date_to: '2021-12-31',
-        ...params,
     });
     expect(invoices).toBeInstanceOf(Array);
     expect(invoices.length).toBeGreaterThan(0);
@@ -78,7 +71,7 @@ test('getOpportunitiesById', async () => {
 
 let contacts: any[];
 test('getContacts', async () => {
-    contacts = await consumer.invoicing.getContacts(params);
+    contacts = await consumer.invoicing.getContacts();
     expect(contacts).toBeInstanceOf(Array);
     expect(contacts.length).toBeGreaterThan(0);
     expect(contacts[0]).toHaveProperty('id', expect.any(String));

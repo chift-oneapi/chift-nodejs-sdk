@@ -17,15 +17,9 @@ beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
-// TODO: params does not seem to work
-const params = {
-    page: 1,
-    size: 2,
-};
-
 let customers: any[];
 test('getCustomers', async () => {
-    customers = await consumer.ecommerce.getCustomers(params);
+    customers = await consumer.ecommerce.getCustomers();
     expect(customers).toBeInstanceOf(Array);
     expect(customers.length).toBeGreaterThan(0);
     expect(customers[0]).toHaveProperty('id', expect.any(String));
@@ -129,7 +123,6 @@ test.skip('createOrder', async () => {
 let orders: any[];
 test('getOrders', async () => {
     orders = await consumer.ecommerce.getOrders({
-        ...params,
         date_from: '2021-10-01',
         date_to: '2021-12-31',
     });

@@ -17,12 +17,6 @@ beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
-// TODO: params does not seem to work
-const params = {
-    page: 1,
-    size: 2,
-};
-
 test('getLocations', async () => {
     const locations = await consumer.pos.getLocations();
     expect(locations).toBeInstanceOf(Array);
@@ -34,7 +28,6 @@ test('getLocations', async () => {
 let orders: any[];
 test('getOrders', async () => {
     orders = await consumer.pos.getOrders({
-        ...params,
         date_from: '2022-05-01',
         date_to: '2022-07-30',
     });
@@ -46,9 +39,7 @@ test('getOrders', async () => {
 let customers: any[];
 // TODO: not supported against tested API
 test.skip('getCustomers', async () => {
-    customers = await consumer.pos.getCustomers({
-        ...params,
-    });
+    customers = await consumer.pos.getCustomers();
     expect(customers).toBeInstanceOf(Array);
     expect(customers.length).toBeGreaterThan(0);
     expect(customers[0]).toHaveProperty('id', expect.any(String));
@@ -94,7 +85,7 @@ test.skip('createCustomer', async () => {
 });
 
 test('getPaymentMethods', async () => {
-    const paymentMethods = await consumer.pos.getPaymentMethods(params);
+    const paymentMethods = await consumer.pos.getPaymentMethods();
     expect(paymentMethods).toBeInstanceOf(Array);
     expect(paymentMethods.length).toBeGreaterThan(0);
     expect(paymentMethods[0]).toHaveProperty('id', expect.any(String));
@@ -117,7 +108,6 @@ test('getClosure', async () => {
 
 test('getPayments', async () => {
     const payments = await consumer.pos.getPayments({
-        ...params,
         date_from: '2022-07-01',
         date_to: '2022-12-31',
     });

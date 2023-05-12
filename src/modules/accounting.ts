@@ -1,23 +1,47 @@
 import { operations, components } from '../types/public-api/schema';
 import { RequestData } from '../types/api';
 
+type getChartOfAccountsParams = Omit<
+    operations['accounting_get_chart_of_accounts']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getMiscOperationsParams = Omit<
+    operations['accounting_get_miscellaneous_operations']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getJournalEntriesWithMultiplePlansParams = Omit<
+    operations['accounting_get_journal_entries_mutli_plan']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getJournalEntriesParams = Omit<
+    operations['accounting_get_journal_entries']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getInvoicesByTypeWithMultiplePlansParams = Omit<
+    operations['accounting_get_invoices_by_type_multi_analytic_plans']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getInvoicesByTypeParams = Omit<
+    operations['accounting_get_invoices_by_type']['parameters']['query'],
+    'page' | 'size'
+>;
+
 const accountingFactory = {
-    getAnalyticPlans(
-        params: operations['accounting_get_analytic_plans']['parameters']['query']
-    ): RequestData<components['schemas']['AnalyticPlanItem'][]> {
+    getAnalyticPlans(): RequestData<components['schemas']['AnalyticPlanItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-plans',
-            params: params,
         };
     },
-    getClients(
-        params: operations['accounting_get_clients']['parameters']['query']
-    ): RequestData<components['schemas']['ClientItemOut'][]> {
+    getClients(): RequestData<components['schemas']['ClientItemOut'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/clients',
-            params: params,
         };
     },
     createClient(
@@ -45,13 +69,10 @@ const accountingFactory = {
             body: client,
         };
     },
-    getSuppliers(
-        params: operations['accounting_get_suppliers']['parameters']['query']
-    ): RequestData<components['schemas']['SupplierItemOut'][]> {
+    getSuppliers(): RequestData<components['schemas']['SupplierItemOut'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/suppliers',
-            params: params,
         };
     },
     createSupplier(
@@ -84,10 +105,10 @@ const accountingFactory = {
         params: operations['accounting_create_invoice']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan']> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/invoices',
             body: invoice,
-            params: params,
         };
     },
     createInvoiceWithMultiplePlans(
@@ -95,20 +116,20 @@ const accountingFactory = {
         params: operations['accounting_create_invoice_multiple_plans']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans']> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans',
             body: invoice,
-            params: params,
         };
     },
     getInvoicesByType(
         invoice_type: components['schemas']['app__routers__accounting__InvoiceType'],
-        params: operations['accounting_get_invoices_by_type']['parameters']['query']
+        params: getInvoicesByTypeParams
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan'][]> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/type/${invoice_type}`,
-            params: params,
         };
     },
     getInvoice(
@@ -116,9 +137,9 @@ const accountingFactory = {
         params: operations['accounting_get_invoice']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan']> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/${invoiceId}`,
-            params: params,
         };
     },
     getInvoiceWithMultiplePlans(
@@ -126,19 +147,19 @@ const accountingFactory = {
         params: operations['accounting_get_invoice_multi_analytic_plans']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans']> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/${invoiceId}`,
-            params: params,
         };
     },
     getInvoicesByTypeWithMultiplePlans(
         invoice_type: components['schemas']['app__routers__accounting__InvoiceType'],
-        params: operations['accounting_get_invoices_by_type_multi_analytic_plans']['parameters']['query']
+        params: getInvoicesByTypeWithMultiplePlansParams
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans'][]> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/${invoice_type}`,
-            params: params,
         };
     },
     createAnalyticAccount(
@@ -221,21 +242,21 @@ const accountingFactory = {
         };
     },
     getJournalEntries(
-        params: operations['accounting_get_journal_entries']['parameters']['query']
+        params: getJournalEntriesParams
     ): RequestData<components['schemas']['JournalEntryMonoAnalyticPlan'][]> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries`,
-            params: params,
         };
     },
     getJournalEntriesWithMultiplePlans(
-        params: operations['accounting_get_journal_entries_mutli_plan']['parameters']['query']
+        params: getJournalEntriesWithMultiplePlansParams
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan'][]> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries/multi-analytic-plans`,
-            params: params,
         };
     },
     getPaymentsByInvoiceId(invoice_id: string): RequestData<components['schemas']['Payment'][]> {
@@ -257,12 +278,12 @@ const accountingFactory = {
         };
     },
     getMiscOperations(
-        params: operations['accounting_get_miscellaneous_operations']['parameters']['query']
+        params: getMiscOperationsParams
     ): RequestData<components['schemas']['MiscellaneousOperationOut'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/miscellaneous-operation',
-            params: params,
         };
     },
     createMiscOperation(
@@ -288,29 +309,27 @@ const accountingFactory = {
         params: operations['accounting_add_attachment']['parameters']['query']
     ): RequestData<operations['accounting_add_attachment']['responses'][201]> {
         return {
+            params,
             method: 'post',
             url: `/consumers/{consumer_id}/accounting/invoices/pdf/${invoice_id}`,
             body: attachment,
-            params: params,
         };
     },
     getChartOfAccounts(
-        params: operations['accounting_get_chart_of_accounts']['parameters']['query']
+        params: getChartOfAccountsParams
     ): RequestData<components['schemas']['AccountItem'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/chart-of-accounts',
-            params: params,
         };
     },
     getBalanceOfAccounts(
-        params: operations['accounting_get_chart_of_accounts']['parameters']['query'],
         filter: components['schemas']['AccountBalanceFilter']
     ): RequestData<components['schemas']['AccountBalance'][]> {
         return {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/chart-of-accounts/balance',
-            params: params,
             body: filter,
         };
     },
