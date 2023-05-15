@@ -29,7 +29,7 @@ beforeAll(async () => {
     console.log('syncConsumer', syncConsumer);
 });
 
-test.only('createConnection', async () => {
+test('createConnection', async () => {
     // TODO: test with credentials
     const body = { integrationid: 1000, name: 'odoo test sdk' };
     const result = await consumer.createConnection(body);
