@@ -25,7 +25,9 @@ beforeAll(async () => {
         name: consumerName,
     });
 
-    syncConsumer = await client.Consumers.getConsumerById(process.env.CHIFT_CONSUMER_ID as string);
+    syncConsumer = await client.Consumers.getConsumerById(
+        process.env.CHIFT_SYNC_CONSUMER_ID as string
+    );
     console.log('syncConsumer', syncConsumer);
 });
 
