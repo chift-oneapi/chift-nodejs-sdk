@@ -1,6 +1,7 @@
 import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
+import { components } from '../../src/types/public-api/schema';
 dotenv.config();
 
 const client = new chift.API({
@@ -17,7 +18,7 @@ beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
-let invoices: any[];
+let invoices: components['schemas']['InvoiceItem'][];
 test.only('getInvoicesByType', async () => {
     invoices = await consumer.invoicing.getInvoicesByType('customer_invoice', {
         date_from: '2021-01-01',
@@ -35,7 +36,7 @@ test('getInvoiceById', async () => {
     expect(invoice).toHaveProperty('id', expect.any(String));
 });
 
-let products: any[];
+let products: components['schemas']['app__routers__invoicing__ProductItem'][];
 test('getProducts', async () => {
     products = await consumer.invoicing.getProducts();
     expect(products).toBeInstanceOf(Array);
@@ -56,7 +57,7 @@ test('getVatCodes', async () => {
     expect(vatCodes[0]).toHaveProperty('id', expect.any(String));
 });
 
-let opportunities: any[];
+let opportunities: components['schemas']['OpportunitiesItem'][];
 test('getOpportunities', async () => {
     opportunities = await consumer.invoicing.getOpportunities();
     expect(opportunities).toBeInstanceOf(Array);
@@ -69,7 +70,7 @@ test('getOpportunitiesById', async () => {
     expect(opportunity).toHaveProperty('id', expect.any(String));
 });
 
-let contacts: any[];
+let contacts: components['schemas']['ContactItem'][];
 test('getContacts', async () => {
     contacts = await consumer.invoicing.getContacts();
     expect(contacts).toBeInstanceOf(Array);

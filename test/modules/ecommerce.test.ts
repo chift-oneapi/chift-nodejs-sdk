@@ -1,6 +1,7 @@
 import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
+import { components } from '../../src/types/public-api/schema';
 dotenv.config();
 
 const client = new chift.API({
@@ -17,7 +18,7 @@ beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
-let customers: any[];
+let customers: components['schemas']['CommerceCustomerItem'][];
 test('getCustomers', async () => {
     customers = await consumer.ecommerce.getCustomers();
     expect(customers).toBeInstanceOf(Array);
@@ -25,7 +26,7 @@ test('getCustomers', async () => {
     expect(customers[0]).toHaveProperty('id', expect.any(String));
 });
 
-let products: any[];
+let products: components['schemas']['app__routers__commerce__ProductItem'][];
 // TODO: Fix ERROR_INVALID_RESPONSE
 test.skip('getProducts', async () => {
     products = await consumer.ecommerce.getProducts();
@@ -65,12 +66,20 @@ test('getProduct', async () => {
 });
 
 test('getProductVariantById', async () => {
+    if (!products?.length) {
+        throw new Error('No product to test');
+    }
+
+    if (!products[0].variants) {
+        throw new Error('No product variant to test');
+    }
+
     const variant = await consumer.ecommerce.getProductVariantById(products[0].variants[0].id);
     expect(variant).toBeTruthy();
     expect(variant).toHaveProperty('id', expect.any(String));
 });
 
-let locations: Record<string, unknown>[];
+let locations: components['schemas']['CommerceLocationItem'][];
 test('getLocations', async () => {
     const locations = await consumer.ecommerce.getLocations();
     expect(locations).toBeInstanceOf(Array);
@@ -80,6 +89,14 @@ test('getLocations', async () => {
 });
 
 test('updateAvailableQuantity', async () => {
+    if (!products?.length) {
+        throw new Error('No product to test');
+    }
+
+    if (!products[0].variants) {
+        throw new Error('No product variant to test');
+    }
+
     const product = await consumer.ecommerce.updateAvailableQuantity(products[0].variants[0].id, {
         location_id: locations[0].id,
         available_quantity: 1,
@@ -124,7 +141,7 @@ test('createOrder', async () => {
     expect(order).toHaveProperty('id', expect.any(String));
 });
 
-let orders: any[];
+let orders: components['schemas']['OrderItemOut'][];
 test('getOrders', async () => {
     orders = await consumer.ecommerce.getOrders({
         date_from: '2021-10-01',

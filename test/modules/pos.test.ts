@@ -1,6 +1,7 @@
 import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
+import { components } from '../../src/types/public-api/schema';
 dotenv.config();
 
 const client = new chift.API({
@@ -29,7 +30,7 @@ test('getLocations', async () => {
     expect(locations[0]).toHaveProperty('name', expect.any(String));
 });
 
-let orders: any[];
+let orders: components['schemas']['OrderItem'][];
 test('getOrders', async () => {
     orders = await lightspeedConsumer.pos.getOrders({
         date_from: '2022-08-11',
