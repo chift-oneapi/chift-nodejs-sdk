@@ -19,10 +19,10 @@ beforeAll(async () => {
 });
 
 let invoices: components['schemas']['InvoiceItem'][];
-test.only('getInvoicesByType', async () => {
+test('getInvoicesByType', async () => {
     invoices = await consumer.invoicing.getInvoicesByType('customer_invoice', {
         date_from: '2021-01-01',
-        date_to: '2021-12-31',
+        date_to: '2021-01-31',
     });
     expect(invoices).toBeInstanceOf(Array);
     expect(invoices.length).toBeGreaterThan(0);
