@@ -28,7 +28,6 @@ beforeAll(async () => {
     syncConsumer = await client.Consumers.getConsumerById(
         process.env.CHIFT_SYNC_CONSUMER_ID as string
     );
-    console.log('syncConsumer', syncConsumer);
 });
 
 test('createConnection', async () => {
