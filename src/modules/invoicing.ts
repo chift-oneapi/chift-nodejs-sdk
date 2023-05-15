@@ -1,10 +1,20 @@
 import { components, operations } from '../types/public-api/schema';
 import { RequestData } from '../types/api';
 
+type getInvoicesByTypeParams = Omit<
+    operations['invoicing_get_invoices_by_type']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getContactsParams = Omit<
+    operations['invoicing_get_contacts']['parameters']['query'],
+    'page' | 'size'
+>;
+
 const invoicingFactory = {
     getInvoicesByType(
         invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'],
-        params: operations['invoicing_get_invoices_by_type']['parameters']['query']
+        params: getInvoicesByTypeParams
     ): RequestData<components['schemas']['InvoiceItem'][]> {
         return {
             method: 'get',
@@ -56,9 +66,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/opportunities/${opportunityId}`,
         };
     },
-    getContacts(
-        params?: operations['invoicing_get_contacts']['parameters']['query']
-    ): RequestData<components['schemas']['ContactItem'][]> {
+    getContacts(params?: getContactsParams): RequestData<components['schemas']['ContactItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts`,

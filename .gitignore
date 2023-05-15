@@ -1,4 +1,6 @@
 node_modules/
 dist/
 .eslintcache
-testing/test.mjs
+testing/
+coverage/
+.env

@@ -643,10 +643,10 @@ export interface components {
         /** AccountBalanceFilter */
         AccountBalanceFilter: {
             /**
-             * Accouts
+             * Accounts
              * @description Array/list containing the account numbers/classes to include in the response. E.g. ["601", "7"] to retrieve all account in the class 7 and accounts with an account number beginning with 601
              */
-            accouts: string[];
+            accounts: string[];
             /**
              * Start
              * @description Start month (included, e.g. 022023 for february 2023)
