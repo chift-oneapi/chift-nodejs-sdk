@@ -11,6 +11,7 @@
     "license": "ISC",
     "dependencies": {
         "@chift/chift-nodejs-sdk": "file:..",
+        "file-type": "^18.3.0",
         "lodash": "^4.17.21",
         "moment": "^2.29.4",
         "node-fetch": "^2.6.9"

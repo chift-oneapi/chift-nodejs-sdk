@@ -50,7 +50,14 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
             code: bodyFunc,
             context: context,
         });
-        const myflow = Flow(_internalApi, createFlowData, data.syncid, data.consumers, process);
+        const myflow = Flow(
+            _internalApi,
+            createFlowData,
+            data.syncid,
+            data.consumers,
+            process,
+            context
+        );
         return myflow;
     };
 
