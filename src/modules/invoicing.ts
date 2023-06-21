@@ -41,7 +41,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/vat-codes`,
         };
     },
-    getOpportunities(): RequestData<components['schemas']['OpportunitiesItem'][]> {
+    getOpportunities(): RequestData<components['schemas']['OpportunityItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/opportunities`,
@@ -49,7 +49,7 @@ const invoicingFactory = {
     },
     getOpportunitiesById(
         opportunityId: string
-    ): RequestData<components['schemas']['OpportunitiesItem']> {
+    ): RequestData<components['schemas']['OpportunityItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/opportunities/${opportunityId}`,
