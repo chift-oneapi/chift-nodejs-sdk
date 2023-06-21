@@ -2,13 +2,12 @@ import { components, operations } from '../types/public-api/schema';
 import { RequestData } from '../types/api';
 
 const invoicingFactory = {
-    getInvoicesByType(
-        invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'],
-        params: operations['invoicing_get_invoices_by_type']['parameters']['query']
+    getInvoices(
+        params: operations['invoicing_get_invoices']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItem'][]> {
         return {
             method: 'get',
-            url: `/consumers/{consumer_id}/invoicing/invoices/type/${invoice_type}`,
+            url: `/consumers/{consumer_id}/invoicing/invoices`,
             params: params,
         };
     },

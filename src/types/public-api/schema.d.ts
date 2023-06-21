@@ -219,36 +219,36 @@ export interface paths {
     };
     '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans': {
         /**
-         * Create a sale/purchase entry (Multiple plans)
+         * Create sale/purchase entry (Multiple plans)
          * @description Create a new sale/purchase entry with multiple analytic plans in the accounting
          */
         post: operations['accounting_create_invoice_multiple_plans'];
     };
     '/consumers/{consumer_id}/accounting/invoices/type/{invoice_type}': {
         /**
-         * Get invoices by type
-         * @description Returns a list of invoices by a specific type. Each line of the invoice will include the analytic account linked to default analytic plan. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
+         * Get invoices by type (sale/purchase entries)
+         * @description Returns a list of invoices by a specific type (=sale/purchase entries). Each line of the invoice will include the analytic account linked to default analytic plan. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
          */
         get: operations['accounting_get_invoices_by_type'];
     };
     '/consumers/{consumer_id}/accounting/invoices/{invoice_id}': {
         /**
-         * Get one invoice
-         * @description Returns a specific invoice. Each line will include the analytic account linked to default analytic plan
+         * Get one invoice (sale/purchase entry)
+         * @description Returns a specific invoice (sale/purchase entry). Each line will include the analytic account linked to default analytic plan
          */
         get: operations['accounting_get_invoice'];
     };
     '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/{invoice_id}': {
         /**
-         * Get one invoice (Multiple Analytic Plans)
-         * @description Returns a specific invoice with invoice lines including multiple analytic plans
+         * Get one invoice (sale/purchase entry - Multiple Analytic Plans)
+         * @description Returns a specific invoice (=sale/purchase entry) with invoice lines including multiple analytic plans
          */
         get: operations['accounting_get_invoice_multi_analytic_plans'];
     };
     '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/{invoice_type}': {
         /**
-         * Get invoices by type (Multiple Analytic Plans)
-         * @description Returns a list of invoices by a specific type with invoice lines including multiple analytic plans. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
+         * Get invoices by type (sale/purchase entries - Multiple Analytic Plans)
+         * @description Returns a list of invoices by a specific type (=sale/purchase entries) with invoice lines including multiple analytic plans. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
          */
         get: operations['accounting_get_invoices_by_type_multi_analytic_plans'];
     };
@@ -315,6 +315,11 @@ export interface paths {
          * @description Returns a list of journal entries. Each item will include the analytic account linked to default analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
          */
         get: operations['accounting_get_journal_entries'];
+        /**
+         * Create Journal Entry
+         * @description Create a new Journal Entry in the accounting system
+         */
+        post: operations['accounting_create_journal_entry'];
     };
     '/consumers/{consumer_id}/accounting/journal/entries/multi-analytic-plans': {
         /**
@@ -532,12 +537,12 @@ export interface paths {
          */
         get: operations['ecommerce_get_order'];
     };
-    '/consumers/{consumer_id}/invoicing/invoices/type/{invoice_type}': {
+    '/consumers/{consumer_id}/invoicing/invoices': {
         /**
-         * Retrieve invoices by type
-         * @description Returns a list of invoices by a specific type. Optionally dates can be defined to retrieve invoice from a certain date to another date
+         * Retrieve all invoices
+         * @description Returns a list of invoices. Optionally invoice type and dates can be defined to retrieve invoices of a certain type from a certain date to another date
          */
-        get: operations['invoicing_get_invoices_by_type'];
+        get: operations['invoicing_get_invoices'];
     };
     '/consumers/{consumer_id}/invoicing/invoices/{invoice_id}': {
         /**
@@ -546,12 +551,19 @@ export interface paths {
          */
         get: operations['invoicing_get_invoice'];
     };
-    '/consumers/{consumer_id}/invoicing/vat-codes': {
+    '/consumers/{consumer_id}/invoicing/taxes': {
         /**
-         * Retrieve vat codes (invoicing)
-         * @description Get vat codes existing in the invoicing system
+         * Retrieve all taxes
+         * @description Returns a list of all the taxes
          */
-        get: operations['invoicing_get_vat_codes'];
+        get: operations['invoicing_get_taxes'];
+    };
+    '/consumers/{consumer_id}/invoicing/taxes/{tax_id}': {
+        /**
+         * Retrieve one specific tax
+         * @description Returns a specific tax
+         */
+        get: operations['invoicing_get_tax'];
     };
     '/consumers/{consumer_id}/invoicing/products': {
         /**
@@ -643,10 +655,10 @@ export interface components {
         /** AccountBalanceFilter */
         AccountBalanceFilter: {
             /**
-             * Accouts
+             * Accounts
              * @description Array/list containing the account numbers/classes to include in the response. E.g. ["601", "7"] to retrieve all account in the class 7 and accounts with an account number beginning with 601
              */
-            accouts: string[];
+            accounts: string[];
             /**
              * Start
              * @description Start month (included, e.g. 022023 for february 2023)
@@ -687,6 +699,33 @@ export interface components {
             /** Postal Code */
             postal_code?: string;
             /** Country */
+            country?: string;
+        };
+        /** AddressItemOutInvoicing */
+        AddressItemOutInvoicing: {
+            address_type: components['schemas']['AddressType'];
+            /** Name */
+            name?: string;
+            /** Number */
+            number?: string;
+            /** Box */
+            box?: string;
+            /** Phone */
+            phone?: string;
+            /** Mobile */
+            mobile?: string;
+            /** Email */
+            email?: string;
+            /** Street */
+            street?: string;
+            /** City */
+            city?: string;
+            /** Postal Code */
+            postal_code?: string;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
             country?: string;
         };
         /**
@@ -1318,63 +1357,120 @@ export interface components {
         ContactGender: 'H' | 'F' | 'N/A';
         /** ContactItem */
         ContactItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Technical id of the contact in Chift
+             */
             id: string;
             /**
+             * External Ref
+             * @description Technical id of the contact in the target software
+             */
+            external_ref: components['schemas']['Ref'];
+            /**
              * Is Prospect
-             * @default false
+             * @description Is a prospect?
              */
             is_prospect?: boolean;
             /**
              * Is Customer
-             * @default false
+             * @description Is a customer?
              */
             is_customer?: boolean;
             /**
              * Is Supplier
-             * @default false
+             * @description Is a supplier?
              */
             is_supplier?: boolean;
-            /** Company Name */
-            company_name?: string;
-            /** First Name */
-            first_name?: string;
-            /** Last Name */
-            last_name?: string;
-            /** Email */
-            email?: string;
-            /** Phone */
-            phone?: string;
-            /** Mobile */
-            mobile?: string;
-            /** Is Company */
+            /**
+             * Is Company
+             * @description Is a company?
+             */
             is_company?: boolean;
-            /** Company Id */
+            /**
+             * Company Name
+             * @description Name of the company
+             */
+            company_name?: string;
+            /**
+             * First Name
+             * @description Firstname
+             */
+            first_name?: string;
+            /**
+             * Last Name
+             * @description Lastname
+             */
+            last_name?: string;
+            /**
+             * Email
+             * @description Email
+             */
+            email?: string;
+            /**
+             * Phone
+             * @description Phone
+             */
+            phone?: string;
+            /**
+             * Mobile
+             * @description Mobile
+             */
+            mobile?: string;
+            /**
+             * Company Id
+             * @description Technical id of the contact' company in Chift
+             */
             company_id?: string;
             /**
+             * Vat
+             * @description VAT number
+             */
+            vat?: string;
+            /**
+             * Company Number
+             * @description Company number (identification number different than the VAT (e.g. siret))
+             */
+            company_number?: string;
+            /**
              * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * @description Currency matching target sofware name
              */
             currency?: string;
-            gender?: components['schemas']['ContactGender'];
-            /** Language */
+            /**
+             * Language
+             * @description Language matching target sofware name
+             */
             language?: string;
+            /**
+             * Comment
+             * @description Comment
+             */
+            comment?: string;
+            /**
+             * Customer Account Number
+             * @description Number of the accounting account used for sales (e.g. 701000)
+             */
+            customer_account_number?: string;
+            /**
+             * Supplier Account Number
+             * @description Number of the accounting account used for purchases (e.g. 601000)
+             */
+            supplier_account_number?: string;
             /**
              * Birthdate
              * Format: date
+             * @description Birthdate
              */
             birthdate?: string;
-            /** Comment */
-            comment?: string;
-            /** Customer Accounting Code */
-            customer_accounting_code?: string;
-            /** Supplier Accounting Code */
-            supplier_accounting_code?: string;
+            /** @description Gender */
+            gender?: components['schemas']['ContactGender'];
             /**
              * Addresses
+             * @description Addresses
              * @default []
              */
-            addresses?: components['schemas']['app__routers__common_models__AddressItemOut'][];
+            addresses?: components['schemas']['AddressItemOutInvoicing'][];
         };
         /**
          * ContactType
@@ -1432,6 +1528,8 @@ export interface components {
             definitionFields?: Record<string, never>[];
             /** Doorkeyfields */
             doorkeyFields?: Record<string, never>[];
+            /** Datastores */
+            datastores?: Record<string, never>[];
         };
         /** FolderItem */
         FolderItem: {
@@ -1505,48 +1603,88 @@ export interface components {
         };
         /** InvoiceItem */
         InvoiceItem: {
-            /** Id */
-            id: string;
-            invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'];
             /**
-             * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the invoicing system at creation.
+             * Id
+             * @description Technical id of the invoice in Chift
              */
-            invoice_number?: string;
-            /** Partner Id */
-            partner_id: string;
+            id: string;
+            /**
+             * External Ref
+             * @description Technical id of the invoice in the target software
+             */
+            external_ref: components['schemas']['Ref'];
+            /**
+             * Currency
+             * @description Currency matching target sofware name
+             */
+            currency: string;
+            /** @description Invoice type */
+            invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'];
+            /** @description Status */
+            status: components['schemas']['InvoiceStatus'];
             /**
              * Invoice Date
              * Format: date
+             * @description Invoicing date
              */
             invoice_date: string;
             /**
+             * Tax Amount
+             * @description Taxes amount
+             */
+            tax_amount: number;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount
+             */
+            untaxed_amount: number;
+            /**
+             * Total
+             * @description Total amount incl. taxes
+             */
+            total: number;
+            /**
+             * Lines
+             * @description Invoice lines
+             * @default []
+             */
+            lines?: components['schemas']['InvoiceLineItem'][];
+            /**
+             * Partner Id
+             * @description Technical id of the vendor/customer in Chift
+             */
+            partner_id?: string;
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             */
+            invoice_number?: string;
+            /**
              * Due Date
              * Format: date
+             * @description Due date
              */
-            due_date: string;
+            due_date?: string;
             /**
-             * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * Reference
+             * @description Reference
              */
-            currency: string;
-            /** Untaxed Amount */
-            untaxed_amount: number;
-            /** Tax Amount */
-            tax_amount: number;
-            /** Total */
-            total: number;
-            /** Lines */
-            lines: components['schemas']['InvoiceLineItem'][];
-            /** Reference */
             reference?: string;
-            /** Payment Communication */
+            /**
+             * Payment Communication
+             * @description Payment communication
+             */
             payment_communication?: string;
-            /** Customer Memo */
+            /**
+             * Customer Memo
+             * @description Customer note/memo
+             */
             customer_memo?: string;
-            /** Journal Id */
-            journal_id?: string;
-            status: components['schemas']['InvoiceStatus'];
+            /**
+             * Journal Ref
+             * @description Journal
+             */
+            journal_ref?: components['schemas']['Ref'];
         };
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
@@ -1556,8 +1694,6 @@ export interface components {
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
              */
             invoice_number?: string;
-            /** Partner Id */
-            partner_id: string;
             /**
              * Invoice Date
              * Format: date
@@ -1585,6 +1721,8 @@ export interface components {
             payment_communication?: string;
             /** Customer Memo */
             customer_memo?: string;
+            /** Partner Id */
+            partner_id: string;
             /**
              * Journal Id
              * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
@@ -1597,6 +1735,12 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
              */
             pdf?: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounti
+             * @default 1
+             */
+            currency_exchange_rate?: number;
             /**
              * Invoice Correction
              * @description Information used to add a correction line when roundings have an impact on the total amount of the invoice.
@@ -1613,8 +1757,6 @@ export interface components {
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
              */
             invoice_number?: string;
-            /** Partner Id */
-            partner_id: string;
             /**
              * Invoice Date
              * Format: date
@@ -1642,6 +1784,8 @@ export interface components {
             payment_communication?: string;
             /** Customer Memo */
             customer_memo?: string;
+            /** Partner Id */
+            partner_id: string;
             /**
              * Journal Id
              * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
@@ -1654,6 +1798,12 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
              */
             pdf?: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounti
+             * @default 1
+             */
+            currency_exchange_rate?: number;
             /**
              * Invoice Correction
              * @description Information used to add a correction line when roundings have an impact on the total amount of the invoice.
@@ -1670,8 +1820,6 @@ export interface components {
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
              */
             invoice_number?: string;
-            /** Partner Id */
-            partner_id: string;
             /**
              * Invoice Date
              * Format: date
@@ -1701,6 +1849,8 @@ export interface components {
             customer_memo?: string;
             /** Id */
             id?: string;
+            /** Partner Id */
+            partner_id: string;
             /**
              * Journal Id
              * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
@@ -1721,8 +1871,6 @@ export interface components {
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
              */
             invoice_number?: string;
-            /** Partner Id */
-            partner_id: string;
             /**
              * Invoice Date
              * Format: date
@@ -1752,6 +1900,8 @@ export interface components {
             customer_memo?: string;
             /** Id */
             id?: string;
+            /** Partner Id */
+            partner_id: string;
             /**
              * Journal Id
              * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
@@ -1764,105 +1914,164 @@ export interface components {
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMultiAnalyticPlans'][];
         };
-        /** InvoiceItemWithPDF */
-        InvoiceItemWithPDF: {
-            /** Id */
-            id: string;
-            invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'];
+        /**
+         * InvoiceItemSingle
+         * @description Invoice item returned in get 1 invoice
+         */
+        InvoiceItemSingle: {
             /**
-             * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the invoicing system at creation.
+             * Id
+             * @description Technical id of the invoice in Chift
              */
-            invoice_number?: string;
-            /** Partner Id */
-            partner_id: string;
+            id: string;
+            /**
+             * External Ref
+             * @description Technical id of the invoice in the target software
+             */
+            external_ref: components['schemas']['Ref'];
+            /**
+             * Currency
+             * @description Currency matching target sofware name
+             */
+            currency: string;
+            /** @description Invoice type */
+            invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'];
+            /** @description Status */
+            status: components['schemas']['InvoiceStatus'];
             /**
              * Invoice Date
              * Format: date
+             * @description Invoicing date
              */
             invoice_date: string;
             /**
+             * Tax Amount
+             * @description Taxes amount
+             */
+            tax_amount: number;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount
+             */
+            untaxed_amount: number;
+            /**
+             * Total
+             * @description Total amount incl. taxes
+             */
+            total: number;
+            /**
+             * Lines
+             * @description Invoice lines
+             * @default []
+             */
+            lines?: components['schemas']['InvoiceLineItem'][];
+            /**
+             * Partner Id
+             * @description Technical id of the vendor/customer in Chift
+             */
+            partner_id?: string;
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             */
+            invoice_number?: string;
+            /**
              * Due Date
              * Format: date
+             * @description Due date
              */
-            due_date: string;
+            due_date?: string;
             /**
-             * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * Reference
+             * @description Reference
              */
-            currency: string;
-            /** Untaxed Amount */
-            untaxed_amount: number;
-            /** Tax Amount */
-            tax_amount: number;
-            /** Total */
-            total: number;
-            /** Lines */
-            lines: components['schemas']['InvoiceLineItem'][];
-            /** Reference */
             reference?: string;
-            /** Payment Communication */
+            /**
+             * Payment Communication
+             * @description Payment communication
+             */
             payment_communication?: string;
-            /** Customer Memo */
+            /**
+             * Customer Memo
+             * @description Customer note/memo
+             */
             customer_memo?: string;
-            /** Journal Id */
-            journal_id?: string;
-            status: components['schemas']['InvoiceStatus'];
-            /** Pdf */
+            /**
+             * Journal Ref
+             * @description Journal
+             */
+            journal_ref?: components['schemas']['Ref'];
+            /**
+             * Pdf
+             * @description PDF document in base64
+             */
             pdf?: string;
         };
         /** InvoiceLineItem */
         InvoiceLineItem: {
             /**
-             * Line Number
-             * @default 1
+             * Description
+             * @description Line description
              */
-            line_number?: number;
-            /** Description */
             description: string;
-            /** Unit Price */
+            /**
+             * Unit Price
+             * @description Unit price
+             */
             unit_price: number;
             /**
-             * Unit Of Measure
-             * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
+             * Quantity
+             * @description Quantity
              */
-            unit_of_measure?: string;
-            /** Quantity */
             quantity: number;
-            /** Untaxed Amount */
+            /**
+             * Tax Amount
+             * @description Line total taxes amount
+             */
+            tax_amount: number;
+            /**
+             * Total
+             * @description Line total amount incl. taxes
+             */
+            total: number;
+            /**
+             * Untaxed Amount
+             * @description Line total untaxed amount
+             */
             untaxed_amount: number;
             /**
              * Tax Rate
-             * @description Indicates the tax rate used for the line (e.g. 21.0).
+             * @description Tax rate (e.g. 21.0)
              */
-            tax_rate: number;
-            /** Tax Amount */
-            tax_amount: number;
-            /** Total */
-            total: number;
+            tax_rate?: number;
             /**
              * Account Number
-             * @description Indicates the number of the account used for the line (e.g. 701000).
+             * @description Number of the accounting account used (e.g. 701000)
              */
             account_number?: string;
             /**
-             * Tax Code
-             * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the invoicing software.
+             * Tax Id
+             * @description Technical id of the tax in Chift
              */
-            tax_code?: string;
+            tax_id?: string;
+            /**
+             * Unit Of Measure
+             * @description Unit of measure matching target sofware name
+             */
+            unit_of_measure?: string;
             /**
              * Product Id
-             * @description Indicates the product ID used for the line. This is the ID of the Product in the invoicing software.
+             * @description Technical id of the product in Chift
              */
             product_id?: string;
             /**
              * Product Code
-             * @description Indicates the product reference used for the line. This is the reference of the Product in the invoicing software.
+             * @description Product reference
              */
             product_code?: string;
             /**
              * Product Name
-             * @description Indicates the product name used for the line. This is the name of the Product in the invoicing software.
+             * @description Product name
              */
             product_name?: string;
         };
@@ -2058,6 +2267,17 @@ export interface components {
          * @enum {string}
          */
         InvoiceStatusOut: 'cancelled' | 'draft' | 'posted' | 'paid';
+        /**
+         * InvoiceTypeRequest
+         * @description An enumeration.
+         * @enum {string}
+         */
+        InvoiceTypeRequest:
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund'
+            | 'all';
         /** Item */
         Item: {
             /** Id */
@@ -2088,16 +2308,40 @@ export interface components {
             name: string;
             journal_type: components['schemas']['JournalType'];
         };
-        /** JournalEntryMonoAnalyticPlan */
-        JournalEntryMonoAnalyticPlan: {
-            /** Id */
-            id: string;
-            /** Name */
-            name?: string;
+        /** JournalEntryIn */
+        JournalEntryIn: {
             /** Reference */
             reference?: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date?: string;
             /** Journal Id */
             journal_id: string;
+            /** Name */
+            name: string;
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Items */
+            items: components['schemas']['JournalItemIn'][];
+        };
+        /** JournalEntryMonoAnalyticPlan */
+        JournalEntryMonoAnalyticPlan: {
+            /** Reference */
+            reference?: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date?: string;
+            /** Journal Id */
+            journal_id: string;
+            /** Name */
+            name?: string;
             /** Journal Name */
             journal_name: string;
             /**
@@ -2110,6 +2354,8 @@ export interface components {
              * @default false
              */
             posted?: boolean;
+            /** Id */
+            id: string;
             /**
              * Items
              * @default []
@@ -2118,14 +2364,17 @@ export interface components {
         };
         /** JournalEntryMultiAnalyticPlan */
         JournalEntryMultiAnalyticPlan: {
-            /** Id */
-            id: string;
-            /** Name */
-            name?: string;
             /** Reference */
             reference?: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date?: string;
             /** Journal Id */
             journal_id: string;
+            /** Name */
+            name?: string;
             /** Journal Name */
             journal_name: string;
             /**
@@ -2138,24 +2387,20 @@ export interface components {
              * @default false
              */
             posted?: boolean;
+            /** Id */
+            id: string;
             /**
              * Items
              * @default []
              */
             items?: components['schemas']['JournalItemMultiAnalyticPlan'][];
         };
-        /** JournalItemMonoAnalyticPlan */
-        JournalItemMonoAnalyticPlan: {
-            /** Id */
-            id: string;
-            /** Partner Id */
-            partner_id?: string;
-            /** Partner Name */
-            partner_name?: string;
+        /** JournalItemIn */
+        JournalItemIn: {
             /** Account Number */
             account_number: string;
-            /** Account Name */
-            account_name: string;
+            /** Partner Id */
+            partner_id?: string;
             /** Description */
             description?: string;
             /** Debit */
@@ -2164,6 +2409,47 @@ export interface components {
             credit: number;
             /** Currency */
             currency: string;
+            /**
+             * Currency Exchange Rate
+             * @default 1
+             */
+            currency_exchange_rate?: number;
+            /**
+             * Analytic Distribution
+             * @default []
+             */
+            analytic_distribution?: components['schemas']['AnalyticDistribution'][];
+            /**
+             * Pdf
+             * @description Base 64 string representing the PDF attached to the item.
+             */
+            pdf?: string;
+        };
+        /** JournalItemMonoAnalyticPlan */
+        JournalItemMonoAnalyticPlan: {
+            /** Account Number */
+            account_number: string;
+            /** Partner Id */
+            partner_id?: string;
+            /** Description */
+            description?: string;
+            /** Debit */
+            debit: number;
+            /** Credit */
+            credit: number;
+            /** Currency */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @default 1
+             */
+            currency_exchange_rate?: number;
+            /** Id */
+            id: string;
+            /** Partner Name */
+            partner_name?: string;
+            /** Account Name */
+            account_name: string;
             /**
              * Matching Numbers
              * @default []
@@ -2176,16 +2462,10 @@ export interface components {
         };
         /** JournalItemMultiAnalyticPlan */
         JournalItemMultiAnalyticPlan: {
-            /** Id */
-            id: string;
-            /** Partner Id */
-            partner_id?: string;
-            /** Partner Name */
-            partner_name?: string;
             /** Account Number */
             account_number: string;
-            /** Account Name */
-            account_name: string;
+            /** Partner Id */
+            partner_id?: string;
             /** Description */
             description?: string;
             /** Debit */
@@ -2194,6 +2474,17 @@ export interface components {
             credit: number;
             /** Currency */
             currency: string;
+            /**
+             * Currency Exchange Rate
+             * @default 1
+             */
+            currency_exchange_rate?: number;
+            /** Id */
+            id: string;
+            /** Partner Name */
+            partner_name?: string;
+            /** Account Name */
+            account_name: string;
             /**
              * Matching Numbers
              * @default []
@@ -2340,58 +2631,100 @@ export interface components {
          * @enum {string}
          */
         MiscellaneousOperationStatusOut: 'cancelled' | 'draft' | 'posted' | 'matched';
-        /** OpportunitiesItem */
-        OpportunitiesItem: {
-            /** Id */
+        /** OpportunityItem */
+        OpportunityItem: {
+            /**
+             * Id
+             * @description Technical id of the opportunity in Chift
+             */
             id: string;
-            /** Name */
+            /**
+             * External Ref
+             * @description Technical id of the opportunity in the target software
+             */
+            external_ref: components['schemas']['Ref'];
+            /**
+             * Name
+             * @description Name
+             */
             name: string;
-            /** Partner Id */
-            partner_id: string;
-            /** Comment */
+            /**
+             * Total
+             * @description Total
+             */
+            total: number;
+            /**
+             * Probability
+             * @description Probability of success
+             */
+            probability: number;
+            /** @description Status */
+            status: components['schemas']['OpportunityStatus'];
+            /**
+             * Partner Id
+             * @description Technical id of the customer in Chift
+             */
+            partner_id?: string;
+            /**
+             * Comment
+             * @description Comment
+             */
             comment?: string;
             /**
              * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * @description Currency matching target sofware name
              */
             currency?: string;
-            /** Description */
+            /**
+             * Description
+             * @description Description
+             */
             description?: string;
+            /**
+             * Pipe Status
+             * @description Current stage in pipeline
+             */
+            pipe_status?: string;
+            /**
+             * Pipe Name
+             * @description Pipeline name
+             */
+            pipe_name?: string;
             /**
              * Created Date
              * Format: date
+             * @description Date creation
              */
             created_date?: string;
             /**
              * Due Date
              * Format: date
+             * @description Due Date
              */
             due_date?: string;
             /**
              * End Date
              * Format: date
+             * @description End Date
              */
             end_date?: string;
-            /** Total */
-            total: number;
-            /** Probability */
-            probability: number;
-            /** Pipe Status */
-            pipe_status?: string;
-            /** Pipe Name */
-            pipe_name?: string;
-            /** Is Won */
+            /**
+             * Is Won
+             * @description Is won?
+             */
             is_won?: boolean;
-            /** Owner Id */
-            owner_id?: string;
-            status: components['schemas']['OpportunitiesStatus'];
+            /**
+             * Owner Ref
+             * @description Employee/User
+             */
+            owner_ref?: components['schemas']['Ref'];
         };
         /**
-         * OpportunitiesStatus
+         * OpportunityStatus
          * @description An enumeration.
          * @enum {string}
          */
-        OpportunitiesStatus: 'open' | 'won' | 'lost' | 'cancelled' | 'closed';
+        OpportunityStatus: 'open' | 'won' | 'lost' | 'cancelled' | 'closed';
         /** OrderCustomerItem */
         OrderCustomerItem: {
             /** Email */
@@ -2583,7 +2916,7 @@ export interface components {
              * Variant
              * @description Product variant
              */
-            variant: components['schemas']['OrderLineProductItem'];
+            variant?: components['schemas']['OrderLineProductItem'];
             /** Quantity */
             quantity: number;
             /**
@@ -2625,6 +2958,8 @@ export interface components {
             id: string;
             /** Name */
             name: string;
+            /** Sku */
+            sku?: string;
         };
         /**
          * OrderStatus
@@ -2901,10 +3236,10 @@ export interface components {
             /** Size */
             size: number;
         };
-        /** Page[OpportunitiesItem] */
-        Page_OpportunitiesItem_: {
+        /** Page[OpportunityItem] */
+        Page_OpportunityItem_: {
             /** Items */
-            items: components['schemas']['OpportunitiesItem'][];
+            items: components['schemas']['OpportunityItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -3228,6 +3563,19 @@ export interface components {
             /** Description */
             description?: string;
             config?: components['schemas']['FlowConfig'];
+        };
+        /** Ref */
+        Ref: {
+            /**
+             * Id
+             * @description Technical id of the field in the target software
+             */
+            id?: string;
+            /**
+             * Name
+             * @description Name of the field in the target software
+             */
+            name?: string;
         };
         /** SalesItem */
         SalesItem: {
@@ -4079,47 +4427,91 @@ export interface components {
         };
         /** ProductItem */
         app__routers__invoicing__ProductItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Technical id of the product in Chift
+             */
             id: string;
-            /** Name */
+            /**
+             * External Ref
+             * @description Technical id of the product in the target software
+             */
+            external_ref: components['schemas']['Ref'];
+            /**
+             * Name
+             * @description Name
+             */
             name: string;
-            /** Code */
-            code: string;
-            /** Unit Price */
-            unit_price: number;
+            /**
+             * Unit Price
+             * @description Unit price
+             */
+            unit_price?: number;
+            /**
+             * Tax Id
+             * @description Technical id of the tax in Chift
+             */
+            tax_id?: string;
+            /**
+             * Code
+             * @description Reference/code
+             */
+            code?: string;
             /**
              * Unit
-             * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'g', 'kg', ...). Custom units of measure must have an identical name in the target software.
+             * @description Unit of measure matching target sofware name
              */
             unit?: string;
             /**
              * Category
-             * @description Indicates the category of the product.
+             * @description Category matching target sofware name
              */
             category?: string;
             /**
              * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * @description Currency matching target sofware name
              */
             currency?: string;
-            /** Description */
+            /**
+             * Description
+             * @description Description
+             */
             description?: string;
-            /** Tax Rate */
-            tax_rate?: number;
         };
         /** VatCode */
         app__routers__invoicing__VatCode: {
-            /** Id */
+            /**
+             * Id
+             * @description Technical id of the tax in Chift
+             */
             id: string;
-            /** Code */
-            code?: string;
-            /** Label */
+            /**
+             * External Ref
+             * @description Technical id of the tax in the target software
+             */
+            external_ref: components['schemas']['Ref'];
+            /**
+             * Label
+             * @description Label
+             */
             label: string;
-            /** @default unknown */
-            scope?: components['schemas']['app__routers__invoicing__VatCodeScope'];
-            /** Rate */
+            /**
+             * Rate
+             * @description Tax rate (e.g. 21.0)
+             */
             rate: number;
+            /** @description Type */
             type: components['schemas']['app__routers__invoicing__VatCodeType'];
+            /**
+             * Code
+             * @description Code
+             */
+            code?: string;
+            /**
+             * @description Scope
+             * @default unknown
+             */
+            scope?: components['schemas']['app__routers__invoicing__VatCodeScope'];
         };
         /**
          * VatCodeScope
@@ -4470,7 +4862,7 @@ export interface operations {
      */
     integrations_get_integrations: {
         parameters: {
-            query: {
+            query?: {
                 status?: components['schemas']['app__routers__integrations__Status'];
             };
         };
@@ -4509,7 +4901,7 @@ export interface operations {
      */
     webhooks_get_webhooks: {
         parameters: {
-            query: {
+            query?: {
                 status?: components['schemas']['app__routers__webhooks__Status'];
             };
         };
@@ -4821,7 +5213,7 @@ export interface operations {
      */
     datastores_get_datastores: {
         parameters: {
-            query: {
+            query?: {
                 status?: components['schemas']['app__routers__datastores__Status'];
             };
         };
@@ -4952,7 +5344,7 @@ export interface operations {
     /** Get Analytic Plans */
     accounting_get_analytic_plans: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -4987,7 +5379,7 @@ export interface operations {
      */
     accounting_get_clients: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -5022,7 +5414,7 @@ export interface operations {
      */
     accounting_create_client: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Indicate the ID of the corresponding supplier in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing supplier with the new client/customer (if the parameter is filled in with the ID of an existing supplier). */
                 force_merge?: string;
             };
@@ -5143,7 +5535,7 @@ export interface operations {
      */
     accounting_get_suppliers: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -5178,7 +5570,7 @@ export interface operations {
      */
     accounting_create_supplier: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Indicate the ID of the corresponding client/customer in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing client/customer with the new supplier (if the parameter is filled in with the ID of an existing client/customer). */
                 force_merge?: string;
             };
@@ -5299,12 +5691,14 @@ export interface operations {
      */
     accounting_create_invoice: {
         parameters: {
-            query: {
+            query?: {
                 /**
                  * @description Financial period in which the invoice must be created. The format is the following: mmYYYY.
                  * @example 022022
                  */
                 force_financial_period?: string;
+                /** @description Regroup lines by account number, tax code and analytic account in the accounting system. */
+                regroup_lines?: components['schemas']['BoolParam'];
             };
             path: {
                 consumer_id: string;
@@ -5343,17 +5737,19 @@ export interface operations {
         };
     };
     /**
-     * Create a sale/purchase entry (Multiple plans)
+     * Create sale/purchase entry (Multiple plans)
      * @description Create a new sale/purchase entry with multiple analytic plans in the accounting
      */
     accounting_create_invoice_multiple_plans: {
         parameters: {
-            query: {
+            query?: {
                 /**
                  * @description Financial period in which the invoice must be created. The format is the following: mmYYYY.
                  * @example 022022
                  */
                 force_financial_period?: string;
+                /** @description Regroup lines by account number, tax code and analytic distribution in the accounting system. */
+                regroup_lines?: components['schemas']['BoolParam'];
             };
             path: {
                 consumer_id: string;
@@ -5392,12 +5788,12 @@ export interface operations {
         };
     };
     /**
-     * Get invoices by type
-     * @description Returns a list of invoices by a specific type. Each line of the invoice will include the analytic account linked to default analytic plan. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
+     * Get invoices by type (sale/purchase entries)
+     * @description Returns a list of invoices by a specific type (=sale/purchase entries). Each line of the invoice will include the analytic account linked to default analytic plan. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
      */
     accounting_get_invoices_by_type: {
         parameters: {
-            query: {
+            query?: {
                 date_from?: string;
                 date_to?: string;
                 /**
@@ -5439,12 +5835,12 @@ export interface operations {
         };
     };
     /**
-     * Get one invoice
-     * @description Returns a specific invoice. Each line will include the analytic account linked to default analytic plan
+     * Get one invoice (sale/purchase entry)
+     * @description Returns a specific invoice (sale/purchase entry). Each line will include the analytic account linked to default analytic plan
      */
     accounting_get_invoice: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
             };
@@ -5481,12 +5877,12 @@ export interface operations {
         };
     };
     /**
-     * Get one invoice (Multiple Analytic Plans)
-     * @description Returns a specific invoice with invoice lines including multiple analytic plans
+     * Get one invoice (sale/purchase entry - Multiple Analytic Plans)
+     * @description Returns a specific invoice (=sale/purchase entry) with invoice lines including multiple analytic plans
      */
     accounting_get_invoice_multi_analytic_plans: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
             };
@@ -5523,12 +5919,12 @@ export interface operations {
         };
     };
     /**
-     * Get invoices by type (Multiple Analytic Plans)
-     * @description Returns a list of invoices by a specific type with invoice lines including multiple analytic plans. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
+     * Get invoices by type (sale/purchase entries - Multiple Analytic Plans)
+     * @description Returns a list of invoices by a specific type (=sale/purchase entries) with invoice lines including multiple analytic plans. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
      */
     accounting_get_invoices_by_type_multi_analytic_plans: {
         parameters: {
-            query: {
+            query?: {
                 date_from?: string;
                 date_to?: string;
                 /**
@@ -5575,7 +5971,7 @@ export interface operations {
      */
     accounting_get_analytic_accounts: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -5847,7 +6243,7 @@ export interface operations {
      */
     accounting_get_analytic_accounts_multi_plans: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -5882,7 +6278,7 @@ export interface operations {
      */
     accounting_get_analytic_account_lines: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -5959,6 +6355,48 @@ export interface operations {
         };
     };
     /**
+     * Create Journal Entry
+     * @description Create a new Journal Entry in the accounting system
+     */
+    accounting_create_journal_entry: {
+        parameters: {
+            path: {
+                consumer_id: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['JournalEntryIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['JournalEntryMultiAnalyticPlan'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    /**
      * Get journal entries (Multiple Analytic Plans)
      * @description Returns a list of journal entries with invoice items including multiple analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
      */
@@ -6004,7 +6442,7 @@ export interface operations {
      */
     accounting_get_payments_by_invoice: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -6046,7 +6484,7 @@ export interface operations {
      */
     accounting_get_journals: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -6081,7 +6519,7 @@ export interface operations {
      */
     accounting_get_vat_codes: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -6116,7 +6554,7 @@ export interface operations {
      */
     accounting_get_miscellaneous_operations: {
         parameters: {
-            query: {
+            query?: {
                 date_from?: string;
                 date_to?: string;
                 /**
@@ -6274,7 +6712,7 @@ export interface operations {
      */
     accounting_add_attachment: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Indicate what to do if a document is already attched to the invoice. */
                 overwrite_existing?: components['schemas']['BoolParam'];
             };
@@ -6292,7 +6730,7 @@ export interface operations {
             /** @description Successful Response */
             201: {
                 content: {
-                    'application/json': Record<string, never>;
+                    'application/json': unknown;
                 };
             };
             /** @description Bad Request */
@@ -6321,7 +6759,7 @@ export interface operations {
      */
     accounting_get_chart_of_accounts: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Filter based on the class of the account (e.g. 6,7 to retrieve 6 and 7 account classes). The classes are separed by ','. */
                 classes?: string;
                 page?: number;
@@ -6358,7 +6796,7 @@ export interface operations {
      */
     accounting_get_accounts_balances: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -6548,7 +6986,7 @@ export interface operations {
      */
     pos_get_locations: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -6692,7 +7130,7 @@ export interface operations {
      */
     pos_get_payments_methods: {
         parameters: {
-            query: {
+            query?: {
                 location_id?: string;
                 page?: number;
                 size?: number;
@@ -6740,7 +7178,7 @@ export interface operations {
      */
     pos_get_customers: {
         parameters: {
-            query: {
+            query?: {
                 search?: string;
                 email?: string;
                 page?: number;
@@ -6887,7 +7325,7 @@ export interface operations {
      */
     pos_get_closure: {
         parameters: {
-            query: {
+            query?: {
                 location_id?: string;
             };
             path: {
@@ -6934,7 +7372,7 @@ export interface operations {
      */
     ecommerce_get_customers: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -7007,7 +7445,7 @@ export interface operations {
      */
     ecommerce_get_products: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -7161,7 +7599,7 @@ export interface operations {
      */
     ecommerce_get_locations: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -7196,7 +7634,7 @@ export interface operations {
      */
     ecommerce_get_orders: {
         parameters: {
-            query: {
+            query?: {
                 date_from?: string;
                 date_to?: string;
                 page?: number;
@@ -7302,19 +7740,20 @@ export interface operations {
         };
     };
     /**
-     * Retrieve invoices by type
-     * @description Returns a list of invoices by a specific type. Optionally dates can be defined to retrieve invoice from a certain date to another date
+     * Retrieve all invoices
+     * @description Returns a list of invoices. Optionally invoice type and dates can be defined to retrieve invoices of a certain type from a certain date to another date
      */
-    invoicing_get_invoices_by_type: {
+    invoicing_get_invoices: {
         parameters: {
-            query: {
+            query?: {
+                /** @description Filter based on the type of the invoice. */
+                invoice_type?: components['schemas']['InvoiceTypeRequest'];
                 date_from?: string;
                 date_to?: string;
                 page?: number;
                 size?: number;
             };
             path: {
-                invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'];
                 consumer_id: string;
             };
         };
@@ -7345,7 +7784,7 @@ export interface operations {
      */
     invoicing_get_invoice: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Include PDF as base64 string in the response. */
                 include_pdf?: components['schemas']['BoolParam'];
             };
@@ -7358,7 +7797,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['InvoiceItemWithPDF'];
+                    'application/json': components['schemas']['InvoiceItemSingle'];
                 };
             };
             /** @description Bad Request */
@@ -7382,12 +7821,12 @@ export interface operations {
         };
     };
     /**
-     * Retrieve vat codes (invoicing)
-     * @description Get vat codes existing in the invoicing system
+     * Retrieve all taxes
+     * @description Returns a list of all the taxes
      */
-    invoicing_get_vat_codes: {
+    invoicing_get_taxes: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -7417,12 +7856,50 @@ export interface operations {
         };
     };
     /**
+     * Retrieve one specific tax
+     * @description Returns a specific tax
+     */
+    invoicing_get_tax: {
+        parameters: {
+            path: {
+                tax_id: string;
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['app__routers__invoicing__VatCode'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Retrieve all products
      * @description Returns a list of all the products
      */
     invoicing_get_products: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -7495,7 +7972,7 @@ export interface operations {
      */
     invoicing_get_opportunities: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -7507,7 +7984,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_OpportunitiesItem_'];
+                    'application/json': components['schemas']['Page_OpportunityItem_'];
                 };
             };
             /** @description Bad Request */
@@ -7539,7 +8016,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['OpportunitiesItem'];
+                    'application/json': components['schemas']['OpportunityItem'];
                 };
             };
             /** @description Bad Request */
@@ -7568,7 +8045,7 @@ export interface operations {
      */
     invoicing_get_contacts: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Filter based on the type of the contact (e.g. supplier/customer/prospect). */
                 contact_type?: components['schemas']['ContactType'];
                 page?: number;
@@ -7643,7 +8120,7 @@ export interface operations {
      */
     banking_get_financial_institutions: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -7678,7 +8155,7 @@ export interface operations {
      */
     banking_get_accounts: {
         parameters: {
-            query: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -7713,7 +8190,7 @@ export interface operations {
      */
     banking_get_account_transactions: {
         parameters: {
-            query: {
+            query?: {
                 date_from?: string;
                 date_to?: string;
                 date_type?: components['schemas']['TransactionFilterDateType'];
