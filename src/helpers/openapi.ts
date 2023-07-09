@@ -10,7 +10,6 @@ export function createApiFor<TFactory extends RequestFactory>(
     return new Proxy(factory, {
         get(target: any, property) {
             return (...args: any[]) => {
-                console.log('hey');
                 const requestData = target[property](...args);
                 requestData.property = property;
                 requestData.consumerName = consumerName;
