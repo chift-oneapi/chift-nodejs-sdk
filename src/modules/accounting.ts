@@ -21,12 +21,14 @@ const accountingFactory = {
         };
     },
     createClient(
-        client: components['schemas']['ClientItemIn']
+        client: components['schemas']['ClientItemIn'],
+        params: operations['accounting_create_client']['parameters']['query']
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/clients',
             body: client,
+            params: params,
         };
     },
     getClient(clientId: string): RequestData<components['schemas']['ClientItemOut']> {
@@ -55,12 +57,14 @@ const accountingFactory = {
         };
     },
     createSupplier(
-        supplier: components['schemas']['SupplierItemIn']
+        supplier: components['schemas']['SupplierItemIn'],
+        params: operations['accounting_create_supplier']['parameters']['query']
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/suppliers',
             body: supplier,
+            params: params,
         };
     },
     getSupplier(supplierId: string): RequestData<components['schemas']['SupplierItemOut']> {
