@@ -2,4 +2,5 @@ node_modules/
 dist/
 .eslintcache
 testing/test.mjs
+testing/test2.mjs
 testing/chift_modules.mjs

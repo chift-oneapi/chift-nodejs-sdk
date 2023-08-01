@@ -77,39 +77,41 @@ const Consumer = (
         );
         for (let i = 0; i < data.length; i++) {
             if (data[i].name == dataStoreName) {
-                return await getDataByDataStoreId(data[i].datastoreid, params);
+                return await getDataByDataStoreId(data[i].id, params);
             }
         }
         throw Error('Datastore could not be found');
     };
 
     const getDataByDataStoreId = async (dataStoreId: string, params?: object) => {
-        const { data } = await _internalApi.get<
-            components['schemas']['ConsumerDataStoreDataItem'][]
-        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, { params: params });
+        const { data } = await _internalApi.get<components['schemas']['DataItemOut'][]>(
+            `/consumers/${consumerid}/datastore/${dataStoreId}/data`,
+            { params: params }
+        );
         return data;
     };
 
     const addDataByDataStoreId = async (
         dataStoreId: string,
-        data: components['schemas']['PostConsumerDataStoreItem'][]
+        data: components['schemas']['DataItem'][]
     ) => {
-        const { data: response } = await _internalApi.post<
-            components['schemas']['ConsumerDataStoreDataItem'][]
-        >(`/consumers/${consumerid}/datastore/${dataStoreId}/data`, data);
+        const { data: response } = await _internalApi.post<components['schemas']['DataItemOut'][]>(
+            `/consumers/${consumerid}/datastore/${dataStoreId}/data`,
+            data
+        );
         return response;
     };
 
     const addDataByDataStoreName = async (
         dataStoreName: string,
-        data: components['schemas']['PostConsumerDataStoreItem'][]
+        data: components['schemas']['DataItem'][]
     ) => {
         const { data: datastores } = await _internalApi.get<
             components['schemas']['DataStoreItem'][]
         >(`/datastores`);
         for (let i = 0; i < datastores.length; i++) {
             if (datastores[i].name == dataStoreName) {
-                return await addDataByDataStoreId(datastores[i].datastoreid, data);
+                return await addDataByDataStoreId(datastores[i].id, data);
             }
         }
     };

@@ -1,6 +1,6 @@
 import { components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
-import { ContextType, TriggerType } from '../types/sync';
+import { ContextType } from '../types/sync';
 import { Consumer } from './consumer';
 import { Flow } from './flow';
 
@@ -32,32 +32,29 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
     };
 
     const createFlow = async (
-        name: string,
-        trigger: TriggerType,
-        context: ContextType = {},
-        process: (consumer: typeof Consumer, context: any) => any
+        context: ContextType,
+        process?: (consumer: typeof Consumer, context: any) => any
     ) => {
-        const fullFunc = process.toString();
-        const bodyFunc = fullFunc.slice(fullFunc.indexOf('{') + 1, fullFunc.lastIndexOf('}'));
+        const executionData = context.execution.data || {};
+        if (context.execution.type === 'code') {
+            const fullFunc = process?.toString();
+            const bodyFunc = fullFunc?.slice(fullFunc.indexOf('{') + 1, fullFunc.lastIndexOf('}'));
+            executionData['code'] = bodyFunc;
+        }
+
         const { data: createFlowData } = await _internalApi.post<
             components['schemas']['ReadFlowItem']
         >(`/syncs/${data.syncid}/flows`, {
-            name: name,
-            trigger: {
-                type: trigger.type,
-                data: trigger.data,
+            name: context.name,
+            description: context.description,
+            execution: {
+                type: context.execution.type,
+                data: executionData,
             },
-            code: bodyFunc,
-            context: context,
+            trigger: context.trigger,
+            config: context.config,
         });
-        const myflow = Flow(
-            _internalApi,
-            createFlowData,
-            data.syncid,
-            data.consumers,
-            process,
-            context
-        );
+        const myflow = Flow(_internalApi, createFlowData, data.syncid, data.consumers, process);
         return myflow;
     };
 

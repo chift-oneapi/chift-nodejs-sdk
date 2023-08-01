@@ -3,8 +3,16 @@ export interface TriggerType {
     data?: any;
 }
 
+export interface ExecutionType {
+    type: 'code' | 'module';
+    data?: any;
+}
+
 export interface ContextType {
+    name: string;
     description?: string;
+    trigger: TriggerType;
+    execution: ExecutionType;
     config?: any;
 }
 
