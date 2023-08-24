@@ -121,6 +121,20 @@ export interface paths {
          */
         get: operations['syncs_get_sync'];
     };
+    '/syncs/{syncid}/flows/{flowid}/event': {
+        /**
+         * Send a custom event for a specific flow
+         * @description Route that can be used to send a specific event for a flow
+         */
+        post: operations['syncs_send_custom_event'];
+    };
+    '/syncs/{syncid}/flows/{flowid}/executions/{executionid}': {
+        /**
+         * Get execution start/end timestamp
+         * @description Get execution start/end timestamp
+         */
+        get: operations['syncs_get_execution'];
+    };
     '/consumers/{consumerid}/syncs': {
         /**
          * Retrieve the url of a sync for a specific consumer
@@ -145,14 +159,21 @@ export interface paths {
     '/consumers/{consumerid}/datastore/{datastoreid}/data': {
         /**
          * Get execution data for a specific consumer and a specific datastore
-         * @description Returns execution data related to a consumer and a datastore
+         * @description Returns execution data related to a consumer and a datastore. Queryparams can be used to filter the restuls by datastore column or by executionid
          */
-        get: operations['datastores_get_consumer,datastoredata'];
+        get: operations['datastores_get_consumer_and_datastoredata'];
         /**
          * Add data into a datastore for a consumer
          * @description Endpoint that can be used to add data into a datastore for a specific consumer
          */
         post: operations['datastores_create_consumer_datastoredata'];
+    };
+    '/consumers/{consumerid}/datastore/{datastoreid}/data/{datastoredataid}': {
+        /**
+         * Update execution data for a specific consumer and a specific datastore
+         * @description Update and returns execution data related to a consumer and a datastore
+         */
+        patch: operations['datastores_update_consumer_datastoredata'];
     };
     '/consumers/{consumer_id}/accounting/folders': {
         /** Get Folders */
@@ -696,7 +717,21 @@ export interface components {
              * @default true
              */
             active?: boolean;
+            type?: components['schemas']['AccountItemType'];
         };
+        /**
+         * AccountItemType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        AccountItemType:
+            | 'bank'
+            | 'cash'
+            | 'other_financial'
+            | 'receivable'
+            | 'payable'
+            | 'vat'
+            | 'other';
         /** AddressItem */
         AddressItem: {
             /** Address Type */
@@ -1042,6 +1077,23 @@ export interface components {
             id: string;
             /** Name */
             name: string;
+        };
+        /** ChainExecutionItem */
+        ChainExecutionItem: {
+            /** Id */
+            id: string;
+            /**
+             * Start
+             * Format: date-time
+             */
+            start: string;
+            /**
+             * End
+             * Format: date-time
+             */
+            end?: string;
+            /** Status */
+            status: string;
         };
         /** ChiftError */
         ChiftError: {
@@ -1668,6 +1720,8 @@ export interface components {
         DataItemOut: {
             /** Data */
             data: Record<string, never>;
+            /** Id */
+            id: string;
             /**
              * Created On
              * Format: date-time
@@ -1795,15 +1849,17 @@ export interface components {
         /** FlowTrigger */
         FlowTrigger: {
             type: components['schemas']['TriggerType'];
-            data?: components['schemas']['FlowTriggerTimer'];
+            /** Data */
+            data?:
+                | components['schemas']['FlowTriggerTimer']
+                | components['schemas']['FlowTriggerEvent'];
         };
+        /** FlowTriggerEvent */
+        FlowTriggerEvent: Record<string, never>;
         /** FlowTriggerTimer */
         FlowTriggerTimer: {
-            /**
-             * Cronschedule
-             * @default *\/5 * * * *
-             */
-            cronschedule?: string;
+            /** Cronschedule */
+            cronschedule: string;
         };
         /** FolderItem */
         FolderItem: {
@@ -2007,7 +2063,7 @@ export interface components {
             pdf?: string;
             /**
              * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounti
+             * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.
              * @default 1
              */
             currency_exchange_rate?: number;
@@ -2070,7 +2126,7 @@ export interface components {
             pdf?: string;
             /**
              * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounti
+             * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.
              * @default 1
              */
             currency_exchange_rate?: number;
@@ -2910,6 +2966,12 @@ export interface components {
              * @description Indicates the currency of the operation (e.g. EUR).
              */
             currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @default 1
+             */
+            currency_exchange_rate?: number;
             /** Lines */
             lines: components['schemas']['MiscellaneousOperationLine'][];
             /**
@@ -2965,6 +3027,12 @@ export interface components {
              * @description Indicates the currency of the operation (e.g. EUR).
              */
             currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @default 1
+             */
+            currency_exchange_rate?: number;
             /** Lines */
             lines: components['schemas']['MiscellaneousOperationLine'][];
             /**
@@ -3920,6 +3988,16 @@ export interface components {
             /** Redirect Url */
             redirect_url?: string;
         };
+        /** PostSyncFlowEvent */
+        PostSyncFlowEvent: {
+            /**
+             * Consumers
+             * @default []
+             */
+            consumers?: string[];
+            /** Data */
+            data?: Record<string, never>;
+        };
         /** ProductItemOut */
         ProductItemOut: {
             /**
@@ -4469,6 +4547,15 @@ export interface components {
          * @enum {string}
          */
         TransactionFilterDateType: 'value_date' | 'execution_date';
+        /** TriggerResponse */
+        TriggerResponse: {
+            /** Status */
+            status: string;
+            /** Message */
+            message: string;
+            /** Data */
+            data?: Record<string, never>;
+        };
         /**
          * TriggerType
          * @description An enumeration.
@@ -5086,6 +5173,8 @@ export interface components {
     pathItems: never;
 }
 
+export type $defs = Record<string, never>;
+
 export type external = Record<string, never>;
 
 export interface operations {
@@ -5126,10 +5215,10 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -5177,7 +5266,9 @@ export interface operations {
         };
         responses: {
             /** @description Successful Response */
-            204: never;
+            204: {
+                content: never;
+            };
             /** @description Not Found */
             404: {
                 content: {
@@ -5220,10 +5311,10 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -5314,7 +5405,9 @@ export interface operations {
         };
         responses: {
             /** @description Successful Response */
-            204: never;
+            204: {
+                content: never;
+            };
             /** @description Bad Request */
             400: {
                 content: {
@@ -5516,7 +5609,9 @@ export interface operations {
         };
         responses: {
             /** @description Successful Response */
-            204: never;
+            204: {
+                content: never;
+            };
             /** @description Not Found */
             404: {
                 content: {
@@ -5650,6 +5745,76 @@ export interface operations {
         };
     };
     /**
+     * Send a custom event for a specific flow
+     * @description Route that can be used to send a specific event for a flow
+     */
+    syncs_send_custom_event: {
+        parameters: {
+            path: {
+                syncid: string;
+                flowid: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['PostSyncFlowEvent'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['TriggerResponse'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get execution start/end timestamp
+     * @description Get execution start/end timestamp
+     */
+    syncs_get_execution: {
+        parameters: {
+            path: {
+                syncid: string;
+                flowid: string;
+                executionid: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ChainExecutionItem'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Retrieve the url of a sync for a specific consumer
      * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
      */
@@ -5750,10 +5915,13 @@ export interface operations {
     };
     /**
      * Get execution data for a specific consumer and a specific datastore
-     * @description Returns execution data related to a consumer and a datastore
+     * @description Returns execution data related to a consumer and a datastore. Queryparams can be used to filter the restuls by datastore column or by executionid
      */
-    'datastores_get_consumer,datastoredata': {
+    datastores_get_consumer_and_datastoredata: {
         parameters: {
+            query?: {
+                executionid?: string;
+            };
             path: {
                 consumerid: string;
                 datastoreid: string;
@@ -5801,6 +5969,44 @@ export interface operations {
             200: {
                 content: {
                     'application/json': components['schemas']['DataItemOut'][];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    /**
+     * Update execution data for a specific consumer and a specific datastore
+     * @description Update and returns execution data related to a consumer and a datastore
+     */
+    datastores_update_consumer_datastoredata: {
+        parameters: {
+            path: {
+                consumerid: string;
+                datastoreid: string;
+                datastoredataid: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['DataItem'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['DataItemOut'];
                 };
             };
             /** @description Not Found */

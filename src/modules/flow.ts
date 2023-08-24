@@ -48,22 +48,31 @@ const Flow = (
         _internalApi.debug = true;
         for (let i = 0; i < _consumers.length; i++) {
             // we do not care about the customer
-            const consumer = await Consumers(_internalApi).getConsumerById(_consumers[i]);
-            const syncData = await consumer.getSyncData(_syncid);
-            const flow = syncData.enabled_flows?.find((flow) => flow.id === data.id);
-            if (flow && syncData.status === 'active') {
-                const context = {
-                    ...syncData,
-                    flow_id: flow.id,
-                    flow_name: flow.name,
-                    flow_values: flow.values,
-                };
-                delete context['enabled_flows'];
-                await process(consumer, context);
-            } else {
+            let consumer;
+            try {
+                consumer = await Consumers(_internalApi).getConsumerById(_consumers[i]);
+            } catch (err) {
                 console.log(
-                    `Cannot run for consumer ${_consumers[i]} as the flow is not activated or not correctly configured`
+                    `Cannot run for consumer ${_consumers[i]} as it cannot be found; probably part of an external account ? Use the platform to debug.`
                 );
+            }
+            if (consumer) {
+                const syncData = await consumer.getSyncData(_syncid);
+                const flow = syncData.enabled_flows?.find((flow) => flow.id === data.id);
+                if (flow && syncData.status === 'active') {
+                    const context = {
+                        ...syncData,
+                        flow_id: flow.id,
+                        flow_name: flow.name,
+                        flow_values: flow.values,
+                    };
+                    delete context['enabled_flows'];
+                    await process(consumer, context);
+                } else {
+                    console.log(
+                        `Cannot run for consumer ${_consumers[i]} as the flow is not activated or not correctly configured`
+                    );
+                }
             }
         }
         _internalApi.debug = false;
