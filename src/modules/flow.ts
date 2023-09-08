@@ -2,22 +2,20 @@ import { components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { Consumers } from './consumers';
 import { Consumer } from './consumer';
-import { ContextType, SimpleResponseModel } from '../types/sync';
+import { SimpleResponseModel } from '../types/sync';
 
 const Flow = (
     internalApi: any,
     body: components['schemas']['ReadFlowItem'],
     syncid: string,
     consumers: string[],
-    process?: (consumer: any, context: any) => any,
-    context: ContextType = {}
+    process?: (consumer: any, context: any) => any
 ) => {
     const _internalApi: InternalAPI = internalApi;
     const data: components['schemas']['ReadFlowItem'] = body;
     const _syncid = syncid;
     const _consumers = consumers;
     const _process = process;
-    const _context = context;
     const sendEvent = async (payload: any) => {
         const { data: response } = await _internalApi.post<components['schemas']['LinkSyncItem']>(
             `/syncs/${_syncid}/flows/${data.id}/event`,
@@ -28,14 +26,12 @@ const Flow = (
 
     const execute = async ({ testData = {}, context = {} }: any) => {
         // first create the process in Chift (it will check if it's already created or not and execute it)
-        await _internalApi.post<components['schemas']['LinkSyncItem']>(`/syncs/${_syncid}/flows`, {
+        await _internalApi.post<components['schemas']['ReadFlowItem']>(`/syncs/${_syncid}/flows`, {
             name: data.name,
-            trigger: {
-                type: data.trigger.type,
-                data: data.trigger.data,
-            },
-            code: data.code,
-            context: _context,
+            description: data.description,
+            execution: data.execution,
+            trigger: data.trigger,
+            config: data.config,
         });
         // execute locally or remotely by sending an event to execute the flow
         if (context.local) {
@@ -52,22 +48,32 @@ const Flow = (
         _internalApi.debug = true;
         for (let i = 0; i < _consumers.length; i++) {
             // we do not care about the customer
-            const consumer = await Consumers(_internalApi).getConsumerById(_consumers[i]);
-            const syncData = await consumer.getSyncData(_syncid);
-            const flow = syncData.enabled_flows?.find((flow) => flow.flow_id === data.id);
-            if (flow && syncData.status === 'active') {
-                const context = {
-                    ...syncData,
-                    flow_id: flow.flow_id,
-                    flow_name: flow.name,
-                    flow_values: flow.values,
-                };
-                delete context['enabled_flows'];
-                await process(consumer, context);
-            } else {
+            let consumer;
+            try {
+                consumer = await Consumers(_internalApi).getConsumerById(_consumers[i]);
+            } catch (err) {
                 console.log(
-                    `Cannot run for consumer ${_consumers[i]} as the flow is not activated or not correctly configured`
+                    `Cannot run for consumer ${_consumers[i]} as it cannot be found; probably part of an external account ? Use the platform to debug.`
                 );
+            }
+            if (consumer) {
+                const syncData = await consumer.getSyncData(_syncid);
+                const flow = syncData.enabled_flows?.find((flow) => flow.id === data.id);
+                if (flow && syncData.status === 'active') {
+                    const context = {
+                        ...syncData,
+                        flow_id: flow.id,
+                        flow_name: flow.name,
+                        flow_values: flow.values,
+                        flow_config: flow.config,
+                    };
+                    delete context['enabled_flows'];
+                    await process(consumer, context);
+                } else {
+                    console.log(
+                        `Cannot run for consumer ${_consumers[i]} as the flow is not activated or not correctly configured`
+                    );
+                }
             }
         }
         _internalApi.debug = false;

@@ -1,24 +1,13 @@
 import { components, operations } from '../types/public-api/schema';
 import { RequestData } from '../types/api';
 
-type getInvoicesByTypeParams = Omit<
-    operations['invoicing_get_invoices_by_type']['parameters']['query'],
-    'page' | 'size'
->;
-
-type getContactsParams = Omit<
-    operations['invoicing_get_contacts']['parameters']['query'],
-    'page' | 'size'
->;
-
 const invoicingFactory = {
-    getInvoicesByType(
-        invoice_type: components['schemas']['app__routers__invoicing__InvoiceType'],
-        params: getInvoicesByTypeParams
+    getInvoices(
+        params: operations['invoicing_get_invoices']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItem'][]> {
         return {
             method: 'get',
-            url: `/consumers/{consumer_id}/invoicing/invoices/type/${invoice_type}`,
+            url: `/consumers/{consumer_id}/invoicing/invoices`,
             params: params,
         };
     },
@@ -32,7 +21,7 @@ const invoicingFactory = {
             params: params,
         };
     },
-    getProducts(): RequestData<components['schemas']['app__routers__invoicing__ProductItem'][]> {
+    getProducts(): RequestData<components['schemas']['models__invoicing__ProductItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products`,
@@ -40,19 +29,19 @@ const invoicingFactory = {
     },
     getProductById(
         productId: string
-    ): RequestData<components['schemas']['app__routers__invoicing__ProductItem']> {
+    ): RequestData<components['schemas']['models__invoicing__ProductItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products/${productId}`,
         };
     },
-    getVatCodes(): RequestData<components['schemas']['app__routers__invoicing__VatCode'][]> {
+    getVatCodes(): RequestData<components['schemas']['models__invoicing__VatCode'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/vat-codes`,
         };
     },
-    getOpportunities(): RequestData<components['schemas']['OpportunitiesItem'][]> {
+    getOpportunities(): RequestData<components['schemas']['OpportunityItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/opportunities`,
@@ -60,20 +49,22 @@ const invoicingFactory = {
     },
     getOpportunitiesById(
         opportunityId: string
-    ): RequestData<components['schemas']['OpportunitiesItem']> {
+    ): RequestData<components['schemas']['OpportunityItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/opportunities/${opportunityId}`,
         };
     },
-    getContacts(params?: getContactsParams): RequestData<components['schemas']['ContactItem'][]> {
+    getContacts(
+        params?: operations['invoicing_get_contacts']['parameters']['query']
+    ): RequestData<components['schemas']['ContactItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts`,
             params: params,
         };
     },
-    getContactById(contactId: string): RequestData<components['schemas']['ContactItem']> {
+    getContactById(contactId: string): RequestData<components['schemas']['ContactItemOut']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts/${contactId}`,
