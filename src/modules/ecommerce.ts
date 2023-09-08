@@ -1,6 +1,11 @@
 import { operations, components } from '../types/public-api/schema';
 import { RequestData } from '../types/api';
 
+type getOrdersParams = Omit<
+    operations['ecommerce_get_orders']['parameters']['query'],
+    'page' | 'size'
+>;
+
 const ecommerceFactory = {
     getCustomers(): RequestData<components['schemas']['CommerceCustomerItem'][]> {
         return {
@@ -50,9 +55,7 @@ const ecommerceFactory = {
             url: '/consumers/{consumer_id}/commerce/locations',
         };
     },
-    getOrders(
-        params: operations['ecommerce_get_orders']['parameters']['query']
-    ): RequestData<components['schemas']['OrderItemOut'][]> {
+    getOrders(params: getOrdersParams): RequestData<components['schemas']['OrderItemOut'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/orders',
