@@ -65,6 +65,7 @@ const Flow = (
                         flow_id: flow.id,
                         flow_name: flow.name,
                         flow_values: flow.values,
+                        flow_config: flow.config,
                     };
                     delete context['enabled_flows'];
                     await process(consumer, context);
