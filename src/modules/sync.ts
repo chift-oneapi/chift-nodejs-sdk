@@ -31,6 +31,12 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
         return undefined;
     };
 
+    /**
+     * Internal use: Used to create flow based on code and triggers.
+     * @param context
+     * @param process
+     * @returns flow
+     */
     const createFlow = async (
         context: ContextType,
         process?: (consumer: typeof Consumer, context: any) => any
@@ -42,18 +48,17 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
             executionData['code'] = bodyFunc;
         }
 
-        const { data: createFlowData } = await _internalApi.post<
-            components['schemas']['ReadFlowItem']
-        >(`/syncs/${data.syncid}/flows`, {
-            name: context.name,
-            description: context.description,
-            execution: {
-                type: context.execution.type,
-                data: executionData,
-            },
-            trigger: context.trigger,
-            config: context.config,
-        });
+        const { data: createFlowData }: { data: components['schemas']['ReadFlowItem'] } =
+            await _internalApi.post(`/syncs/${data.syncid}/flows`, {
+                name: context.name,
+                description: context.description,
+                execution: {
+                    type: context.execution.type,
+                    data: executionData,
+                },
+                trigger: context.trigger,
+                config: context.config,
+            });
         const myflow = Flow(_internalApi, createFlowData, data.syncid, data.consumers, process);
         return myflow;
     };

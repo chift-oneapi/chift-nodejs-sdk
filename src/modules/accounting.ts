@@ -337,6 +337,21 @@ const accountingFactory = {
             body: filter,
         };
     },
+    getEmployees(): RequestData<components['schemas']['EmployeeItem'][]> {
+        return {
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/employees',
+        };
+    },
+    createFinancialEntry(
+        financial_entry: components['schemas']['FinancialEntryItemIn']
+    ): RequestData<components['schemas']['FinancialEntryItemOut']> {
+        return {
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/financial-entry',
+            body: financial_entry,
+        };
+    },
 };
 
 export { accountingFactory };

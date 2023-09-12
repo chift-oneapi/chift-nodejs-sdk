@@ -21,6 +21,15 @@ const invoicingFactory = {
             params: params,
         };
     },
+    createInvoice(
+        invoice: components['schemas']['InvoiceItem']
+    ): RequestData<components['schemas']['InvoiceItemOut']> {
+        return {
+            method: 'create',
+            url: `/consumers/{consumer_id}/invoicing/invoices`,
+            body: invoice,
+        };
+    },
     getProducts(): RequestData<components['schemas']['models__invoicing__ProductItem'][]> {
         return {
             method: 'get',
@@ -33,6 +42,15 @@ const invoicingFactory = {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products/${productId}`,
+        };
+    },
+    createProduct(
+        product: components['schemas']['models__invoicing__ProductItem']
+    ): RequestData<components['schemas']['ProductItemOut']> {
+        return {
+            method: 'create',
+            url: `/consumers/{consumer_id}/invoicing/products`,
+            body: product,
         };
     },
     getVatCodes(): RequestData<components['schemas']['models__invoicing__VatCode'][]> {
@@ -68,6 +86,15 @@ const invoicingFactory = {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts/${contactId}`,
+        };
+    },
+    createContact(
+        contact: components['schemas']['ContactItemIn']
+    ): RequestData<components['schemas']['ContactItemOut']> {
+        return {
+            method: 'create',
+            url: `/consumers/{consumer_id}/invoicing/contacts`,
+            body: contact,
         };
     },
 };

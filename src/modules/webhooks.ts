@@ -6,32 +6,40 @@ const Webhooks = (internalApi: InternalAPI) => {
     const _internalApi: InternalAPI = internalApi;
 
     const getWebhookTypes = async () => {
-        const { data } = await _internalApi.get<
-            operations[chiftOperations['getWebhookTypes']]['responses'][200]['content']['application/json']
-        >('/webhooks/list');
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getWebhookTypes']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get('/webhooks/list');
         return data;
     };
 
     const getWebhooks = async () => {
-        const { data } = await _internalApi.get<
-            operations[chiftOperations['getWebhooks']]['responses'][200]['content']['application/json']
-        >('/webhooks');
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getWebhooks']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get('/webhooks');
         return data;
     };
 
     const registerWebhook = async (
         body: operations[chiftOperations['registerWebhook']]['requestBody']['content']['application/json']
     ) => {
-        const { data } = await _internalApi.post<
-            operations[chiftOperations['createConsumer']]['responses'][200]['content']['application/json']
-        >('/webhooks', body);
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['createConsumer']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.post('/webhooks', body);
         return data;
     };
 
     const getWebhookById = async (webhookId: string) => {
-        const { data } = await _internalApi.get<
-            operations[chiftOperations['getWebhookById']]['responses'][200]['content']['application/json']
-        >(`/webhooks/${webhookId}`);
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getWebhookById']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get(`/webhooks/${webhookId}`);
         return data;
     };
 
@@ -39,23 +47,28 @@ const Webhooks = (internalApi: InternalAPI) => {
         webhookId: string,
         body: operations[chiftOperations['updateWebhookById']]['requestBody']['content']['application/json']
     ) => {
-        const { data } = await _internalApi.patch<
-            operations[chiftOperations['updateConsumer']]['responses'][200]['content']['application/json']
-        >(`/webhooks/${webhookId}`, body);
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['updateConsumer']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.patch(`/webhooks/${webhookId}`, body);
         return data;
     };
 
     const unRegisterWebhook = async (webhookId: string) => {
-        const { data } = await _internalApi.delete<
-            operations[chiftOperations['unRegisterWebhook']]['responses'][204]
-        >(`/webhooks/${webhookId}`);
+        const {
+            data,
+        }: { data: operations[chiftOperations['unRegisterWebhook']]['responses'][204] } =
+            await _internalApi.delete(`/webhooks/${webhookId}`);
         return data;
     };
 
     const getWebhookLogsByWebhookId = async (webhookId: string) => {
-        const { data } = await _internalApi.get<
-            operations[chiftOperations['getWebhookLogsByWebhookId']]['responses'][200]['content']['application/json']
-        >(`/webhooks/${webhookId}/logs`);
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getWebhookLogsByWebhookId']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get(`/webhooks/${webhookId}/logs`);
         return data;
     };
 
