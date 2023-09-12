@@ -4,6 +4,7 @@ import { Consumers } from './consumers';
 import { Syncs } from './syncs';
 import { Integrations } from './integrations';
 import { Webhooks } from './webhooks';
+import { DataStores } from './datastores';
 
 export class API {
     auth: AuthType;
@@ -13,6 +14,7 @@ export class API {
     Syncs;
     Integrations;
     Webhooks;
+    DataStores;
 
     constructor(auth: AuthType) {
         this.auth = auth;
@@ -21,6 +23,7 @@ export class API {
         this.Syncs = Syncs(this.internalApi);
         this.Integrations = Integrations(this.internalApi);
         this.Webhooks = Webhooks(this.internalApi);
+        this.DataStores = DataStores(this.internalApi);
     }
 
     private _setup = async () => {

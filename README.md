@@ -13,7 +13,19 @@ applications written in the NodeJS language (Javascript/Typescript).
 
 See the [API docs](https://docs.chift.eu/docs/chift-api/intro).
 
+## Requirements
+
+Node 12 or higher.
+
 ## Installation
+
+Install the package with:
+
+```sh
+npm install chift
+# or
+yarn add chift
+```
 
 ## Example
 
@@ -25,6 +37,8 @@ const client = new chift.API({
     accountId: process.env.CHIFT_ACCOUNT_ID,
 });
 const consumers = await client.Consumers.getConsumers();
+// my first consumer has a POS connection
+const locations = await consumers[0].pos.getLocations();
 ```
 
 ## Development

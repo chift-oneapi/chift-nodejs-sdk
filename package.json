@@ -1,5 +1,5 @@
 {
-    "name": "@chift/chift-nodejs-",
+    "name": "@chift/chift-nodejs",
     "version": "0.0.1",
     "description": "The Chift NodeJS library provides convenient access to the Chift API from applications written in the NodeJS language (Javascript/Typescript).",
     "main": "dist/index.js",

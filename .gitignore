@@ -3,6 +3,7 @@ dist/
 .eslintcache
 coverage/
 .env
+testing/
 testing/test.mjs
 testing/test2.mjs
 testing/chift_modules.mjs
