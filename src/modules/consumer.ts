@@ -27,16 +27,20 @@ const Consumer = (
     const custom = createApiFor(customFactory, _internalApi, data.name, consumerId);
 
     const getConnections = async () => {
-        const { data } = await _internalApi.get<
-            operations[chiftOperations['getConnectionsByConsumerId']]['responses'][200]['content']['application/json']
-        >(`/consumers/${consumerId}/connections`);
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getConnectionsByConsumerId']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get(`/consumers/${consumerId}/connections`);
         return data;
     };
 
     const createConnection = async (body?: components['schemas']['PostConnectionItem']) => {
-        const { data } = await _internalApi.post<
-            operations[chiftOperations['createConnection']]['responses'][200]['content']['application/json']
-        >(`/consumers/${consumerId}/connections`, { ...body });
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['createConnection']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.post(`/consumers/${consumerId}/connections`, { ...body });
         return data;
     };
 
@@ -44,36 +48,40 @@ const Consumer = (
         connectionId: string,
         body?: components['schemas']['PatchConnectionItem']
     ) => {
-        const { data } = await _internalApi.patch<
-            operations[chiftOperations['updateConnection']]['responses'][200]['content']['application/json']
-        >(`/consumers/${consumerId}/connections/${connectionId}`, { ...body });
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['updateConnection']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.patch(`/consumers/${consumerId}/connections/${connectionId}`, {
+            ...body,
+        });
         return data;
     };
 
     const deleteConnection = async (connectionId: string) => {
-        const { data } = await _internalApi.delete<
-            operations[chiftOperations['deleteConnectionById']]['responses'][204]
-        >(`/consumers/${consumerId}/connections/${connectionId}`);
+        const {
+            data,
+        }: { data: operations[chiftOperations['deleteConnectionById']]['responses'][204] } =
+            await _internalApi.delete(`/consumers/${consumerId}/connections/${connectionId}`);
         return data;
     };
 
-    const getSyncUrl = async (syncId: string) => {
-        const { data } = await _internalApi.post<components['schemas']['LinkSyncItem']>(
+    const getSyncUrl = async (body: components['schemas']['CreateConsumerSyncItem']) => {
+        const { data }: { data: components['schemas']['LinkSyncItem'] } = await _internalApi.post(
             `/consumers/${consumerId}/syncs`,
-            { syncid: syncId }
+            body
         );
         return data;
     };
 
     const getSyncData = async (syncId: string) => {
-        const { data } = await _internalApi.get<components['schemas']['SyncConsumerItem']>(
-            `/consumers/${consumerId}/syncs/${syncId}`
-        );
+        const { data }: { data: components['schemas']['SyncConsumerItem'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}`);
         return data;
     };
 
     const getDataByDataStoreName = async (dataStoreName: string, params?: object) => {
-        const { data } = await _internalApi.get<components['schemas']['DataStoreItem'][]>(
+        const { data }: { data: components['schemas']['DataStoreItem'][] } = await _internalApi.get(
             `/datastores`
         );
         for (let i = 0; i < data.length; i++) {
@@ -85,7 +93,7 @@ const Consumer = (
     };
 
     const getDataByDataStoreId = async (dataStoreId: string, params?: object) => {
-        const { data } = await _internalApi.get<components['schemas']['DataItemOut'][]>(
+        const { data }: { data: components['schemas']['DataItemOut'][] } = await _internalApi.get(
             `/consumers/${consumerId}/datastore/${dataStoreId}/data`,
             { params: params }
         );
@@ -96,10 +104,8 @@ const Consumer = (
         dataStoreId: string,
         data: components['schemas']['DataItem'][]
     ) => {
-        const { data: response } = await _internalApi.post<components['schemas']['DataItemOut'][]>(
-            `/consumers/${consumerId}/datastore/${dataStoreId}/data`,
-            data
-        );
+        const { data: response }: { data: components['schemas']['DataItemOut'][] } =
+            await _internalApi.post(`/consumers/${consumerId}/datastore/${dataStoreId}/data`, data);
         return response;
     };
 
@@ -107,9 +113,8 @@ const Consumer = (
         dataStoreName: string,
         data: components['schemas']['DataItem'][]
     ) => {
-        const { data: datastores } = await _internalApi.get<
-            components['schemas']['DataStoreItem'][]
-        >(`/datastores`);
+        const { data: datastores }: { data: components['schemas']['DataStoreItem'][] } =
+            await _internalApi.get(`/datastores`);
         for (let i = 0; i < datastores.length; i++) {
             if (datastores[i].name == dataStoreName) {
                 return await addDataByDataStoreId(datastores[i].id, data);
@@ -117,8 +122,27 @@ const Consumer = (
         }
     };
 
+    const updateDataStoreData = async (
+        dataStoreId: string,
+        dataStoreDataId: string,
+        data: components['schemas']['DataItem']
+    ) => {
+        const { data: response }: { data: components['schemas']['DataItemOut'][] } =
+            await _internalApi.patch(
+                `/consumers/${consumerId}/datastore/${dataStoreId}/data/${dataStoreDataId}`,
+                data
+            );
+        return response;
+    };
+
+    /**
+     * This function is used to add logs related to a chainexecution (passed in the header)
+     * INTERNAL USE only
+     * @param logs
+     * @returns
+     */
     const logData = async (logs: ConsumerLog[]) => {
-        const { data: response } = await _internalApi.post<SimpleResponseModel>(
+        const { data: response }: { data: SimpleResponseModel } = await _internalApi.post(
             `/consumers/${consumerId}/logs`,
             logs
         );
@@ -145,6 +169,7 @@ const Consumer = (
         getSyncData,
         getDataByDataStoreName,
         addDataByDataStoreName,
+        updateDataStoreData,
         logData,
     };
 };

@@ -16,17 +16,25 @@ const Flow = (
     const _syncid = syncid;
     const _consumers = consumers;
     const _process = process;
-    const sendEvent = async (payload: any) => {
-        const { data: response } = await _internalApi.post<components['schemas']['LinkSyncItem']>(
-            `/syncs/${_syncid}/flows/${data.id}/event`,
-            payload
-        );
+
+    const sendEvent = async (payload: components['schemas']['PostSyncFlowEvent']) => {
+        const { data: response }: { data: components['schemas']['TriggerResponse'] } =
+            await _internalApi.post(`/syncs/${_syncid}/flows/${data.id}/event`, payload);
         return response;
     };
 
+    const getExecution = async (executionId: string) => {
+        const { data: response }: { data: components['schemas']['ChainExecutionItem'] } =
+            await _internalApi.get(`/syncs/${_syncid}/flows/${data.id}/executions/${executionId}`);
+        return response;
+    };
+
+    /**
+     * Internal use: Function used to execute a flow while testing locally or by calling the sendEvent function
+     */
     const execute = async ({ testData = {}, context = {} }: any) => {
         // first create the process in Chift (it will check if it's already created or not and execute it)
-        await _internalApi.post<components['schemas']['ReadFlowItem']>(`/syncs/${_syncid}/flows`, {
+        await _internalApi.post(`/syncs/${_syncid}/flows`, {
             name: data.name,
             description: data.description,
             execution: data.execution,
@@ -44,6 +52,9 @@ const Flow = (
         }
     };
 
+    /**
+     * Internal use: Function used to execute a flow locally based on the configured consumers.
+     */
     const localExecution = async (process: (consumer: any, context: any) => any) => {
         _internalApi.debug = true;
         for (let i = 0; i < _consumers.length; i++) {
@@ -79,13 +90,17 @@ const Flow = (
         _internalApi.debug = false;
     };
 
+    /**
+     * Internal use: Function used to execute a flow locally for debugging purposes. It will create the executions server-side on Chift to be able to follow-up the execution through Chift's UI.
+     * It will call localExecution to execute the flow for the configured consumers
+     */
     const executeLocal = async (
         process: (consumer: typeof Consumer, context: any) => any,
         log = false
     ) => {
         if (log) {
             // create executions on the platform to add the logs to the server
-            const { data: response } = await _internalApi.post<SimpleResponseModel>(
+            const { data: response }: { data: SimpleResponseModel } = await _internalApi.post(
                 `/syncs/${_syncid}/flows/${data.id}/local`,
                 { type: 'START' }
             );
@@ -94,42 +109,33 @@ const Flow = (
                 _internalApi.setRelatedChainExecutionId(chainexecutionid);
                 try {
                     await localExecution(process);
-                    await _internalApi.post<SimpleResponseModel>(
-                        `/syncs/${_syncid}/flows/${data.id}/local`,
-                        {
-                            type: 'END',
-                            executionid: executionid,
-                            chainexecutionid: chainexecutionid,
-                        }
-                    );
+                    await _internalApi.post(`/syncs/${_syncid}/flows/${data.id}/local`, {
+                        type: 'END',
+                        executionid: executionid,
+                        chainexecutionid: chainexecutionid,
+                    });
                 } catch (err: any) {
                     if (err.error) {
                         // it's an error from the one api
                         const error_message = `Error when executing request with url ${err.url} for consumer ${err.consumerName} (${err.consumerId})`;
                         console.log(`[ERROR]: ${error_message}: ${JSON.stringify(err.error)}`);
-                        await _internalApi.post<SimpleResponseModel>(
-                            `/syncs/${_syncid}/flows/${data.id}/local`,
-                            {
-                                type: 'END',
-                                executionid: executionid,
-                                chainexecutionid: chainexecutionid,
-                                error: true,
-                                error_message: error_message,
-                                technical_error_message: JSON.stringify(err.error),
-                            }
-                        );
+                        await _internalApi.post(`/syncs/${_syncid}/flows/${data.id}/local`, {
+                            type: 'END',
+                            executionid: executionid,
+                            chainexecutionid: chainexecutionid,
+                            error: true,
+                            error_message: error_message,
+                            technical_error_message: JSON.stringify(err.error),
+                        });
                     } else {
                         console.log('[ERROR]: ' + err.toString());
-                        await _internalApi.post<SimpleResponseModel>(
-                            `/syncs/${_syncid}/flows/${data.id}/local`,
-                            {
-                                type: 'END',
-                                executionid: executionid,
-                                chainexecutionid: chainexecutionid,
-                                error: true,
-                                technical_error_message: err.toString(),
-                            }
-                        );
+                        await _internalApi.post(`/syncs/${_syncid}/flows/${data.id}/local`, {
+                            type: 'END',
+                            executionid: executionid,
+                            chainexecutionid: chainexecutionid,
+                            error: true,
+                            technical_error_message: err.toString(),
+                        });
                     }
                 }
                 _internalApi.setRelatedChainExecutionId('');
@@ -152,6 +158,7 @@ const Flow = (
 
     return {
         execute,
+        getExecution,
         executeLocal,
         flowId: data.id,
         name: data.name,

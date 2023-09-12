@@ -6,9 +6,11 @@ const Integrations = (internalApi: InternalAPI) => {
     const _internalApi: InternalAPI = internalApi;
 
     const getIntegrations = async () => {
-        const { data } = await _internalApi.get<
-            operations[chiftOperations['getIntegrations']]['responses'][200]['content']['application/json']
-        >('/integrations');
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getIntegrations']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get('/integrations');
         return data;
     };
 

@@ -417,6 +417,20 @@ export interface paths {
          */
         post: operations['accounting_get_accounts_balances'];
     };
+    '/consumers/{consumer_id}/accounting/employees': {
+        /**
+         * Get employees
+         * @description Returns a list of the employees linked to the company
+         */
+        get: operations['accounting_get_employees'];
+    };
+    '/consumers/{consumer_id}/accounting/financial-entry': {
+        /**
+         * Create a financial entry
+         * @description Create a new financial entry (Bank or Cash operation)
+         */
+        post: operations['accounting_create_financial_entry'];
+    };
     '/consumers/{consumer_id}/pos/orders': {
         /**
          * Get orders
@@ -664,6 +678,13 @@ export interface paths {
          */
         get: operations['banking_get_account_transactions'];
     };
+    '/consumers/{consumer_id}/payment/transactions': {
+        /**
+         * Retrieve all Transactions
+         * @description Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date
+         */
+        get: operations['payment_get_transaction'];
+    };
     '/token': {
         /**
          * Get access token
@@ -730,6 +751,8 @@ export interface components {
             | 'other_financial'
             | 'receivable'
             | 'payable'
+            | 'income'
+            | 'expense'
             | 'vat'
             | 'other';
         /** AddressItem */
@@ -972,7 +995,8 @@ export interface components {
             | 'Invoicing'
             | 'Communication'
             | 'Banking'
-            | 'Custom';
+            | 'Custom'
+            | 'Payment';
         /** AttachmentItem */
         AttachmentItem: {
             /** Base64 String */
@@ -1762,6 +1786,34 @@ export interface components {
              */
             search_column?: string;
         };
+        /** EmployeeItem */
+        EmployeeItem: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** First Name */
+            first_name?: string;
+            /** Last Name */
+            last_name?: string;
+            /** Function */
+            function?: string;
+            /** Phone */
+            phone?: string;
+            /** Mobile */
+            mobile?: string;
+            /** Email */
+            email?: string;
+            /**
+             * Active
+             * @default true
+             */
+            active?: boolean;
+            /** Reference */
+            reference?: string;
+            /** Account Number */
+            account_number?: string;
+        };
         /**
          * ExecutionType
          * @description An enumeration.
@@ -1804,6 +1856,121 @@ export interface components {
              */
             name?: string;
         };
+        /** FinancialEntryItemIn */
+        FinancialEntryItemIn: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /**
+             * Journal Id
+             * @description Indicates the journal used in for the operation.
+             */
+            journal_id: string;
+            /**
+             * Currency
+             * @description Indicates the currency of the operation (e.g. EUR).
+             */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @default 1
+             */
+            currency_exchange_rate?: number;
+            /** Reference */
+            reference?: string;
+            /** Items */
+            items: components['schemas']['FinancialEntryLineItem'][];
+            /** Number */
+            number?: string;
+            /**
+             * Pdf
+             * @description Base 64 string representing the PDF attached to the sale/purchase entry.
+             */
+            pdf?: string;
+        };
+        /** FinancialEntryItemOut */
+        FinancialEntryItemOut: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /**
+             * Journal Id
+             * @description Indicates the journal used in for the operation.
+             */
+            journal_id: string;
+            /**
+             * Currency
+             * @description Indicates the currency of the operation (e.g. EUR).
+             */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @default 1
+             */
+            currency_exchange_rate?: number;
+            /** Reference */
+            reference?: string;
+            /** Items */
+            items: components['schemas']['FinancialEntryLineItemOut'][];
+            /** Id */
+            id: string;
+            /** Number */
+            number: string;
+        };
+        /** FinancialEntryLineItem */
+        FinancialEntryLineItem: {
+            type: components['schemas']['FinancialEntryLineType'];
+            /** Account Number */
+            account_number: string;
+            /**
+             * Partner Id
+             * @description Must be filled in it is a 'customer_account' or 'supplier_account' line type.
+             */
+            partner_id?: string;
+            /**
+             * Amount
+             * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
+             */
+            amount: number;
+            /** Description */
+            description?: string;
+        };
+        /** FinancialEntryLineItemOut */
+        FinancialEntryLineItemOut: {
+            type: components['schemas']['FinancialEntryLineType'];
+            /** Account Number */
+            account_number: string;
+            /**
+             * Partner Id
+             * @description Must be filled in it is a 'customer_account' or 'supplier_account' line type.
+             */
+            partner_id?: string;
+            /**
+             * Amount
+             * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
+             */
+            amount: number;
+            /** Description */
+            description?: string;
+            /** Counterpart Account */
+            counterpart_account: string;
+        };
+        /**
+         * FinancialEntryLineType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        FinancialEntryLineType:
+            | 'customer_account'
+            | 'supplier_account'
+            | 'employee_account'
+            | 'general_account';
         /** FlowConfig */
         FlowConfig: {
             /** Definitionfields */
@@ -3654,6 +3821,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** Page[EmployeeItem] */
+        Page_EmployeeItem_: {
+            /** Items */
+            items: components['schemas']['EmployeeItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** Page[InvoiceItemOutMonoAnalyticPlan] */
         Page_InvoiceItemOutMonoAnalyticPlan_: {
             /** Items */
@@ -3845,6 +4023,17 @@ export interface components {
         Page_SupplierItemOut_: {
             /** Items */
             items: components['schemas']['SupplierItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[TransactionItemOut] */
+        Page_TransactionItemOut_: {
+            /** Items */
+            items: components['schemas']['TransactionItemOut'][];
             /** Total */
             total: number;
             /** Page */
@@ -4145,7 +4334,7 @@ export interface components {
             description?: string;
             /** Id */
             id: string;
-            config: components['schemas']['FlowConfig'];
+            config?: components['schemas']['FlowConfig'];
             /** Values */
             values: Record<string, never>;
         };
@@ -4542,11 +4731,63 @@ export interface components {
             total: number;
         };
         /**
+         * TransactionAccountingCategory
+         * @description An enumeration.
+         * @enum {string}
+         */
+        TransactionAccountingCategory: 'all' | 'unknown' | 'test';
+        /**
          * TransactionFilterDateType
          * @description An enumeration.
          * @enum {string}
          */
         TransactionFilterDateType: 'value_date' | 'execution_date';
+        /** TransactionItemOut */
+        TransactionItemOut: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Total
+             * @description Total amount incl. fee
+             */
+            total: number;
+            /**
+             * Fee
+             * @description Total fee
+             */
+            fee: number;
+            /**
+             * Currency
+             * @description Currency
+             */
+            currency: string;
+            /**
+             * Exchange Rate
+             * @description Exchange rate
+             */
+            exchange_rate: number;
+            /**
+             * Create Date
+             * Format: date-time
+             * @description Create Date
+             */
+            create_date: string;
+            /**
+             * Application Type
+             * @description Type of the transaction as recorded in the target software
+             */
+            application_type: string;
+            /** @description Accounting category */
+            accounting_category: components['schemas']['TransactionAccountingCategory'];
+        };
         /** TriggerResponse */
         TriggerResponse: {
             /** Status */
@@ -7541,6 +7782,83 @@ export interface operations {
         };
     };
     /**
+     * Get employees
+     * @description Returns a list of the employees linked to the company
+     */
+    accounting_get_employees: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_EmployeeItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Create a financial entry
+     * @description Create a new financial entry (Bank or Cash operation)
+     */
+    accounting_create_financial_entry: {
+        parameters: {
+            path: {
+                consumer_id: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['FinancialEntryItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['FinancialEntryItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Get orders
      * @description Returns a list of the orders
      */
@@ -9033,6 +9351,47 @@ export interface operations {
             200: {
                 content: {
                     'application/json': components['schemas']['Page_BankingTransactionItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Retrieve all Transactions
+     * @description Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date
+     */
+    payment_get_transaction: {
+        parameters: {
+            query?: {
+                /** @description Filter based on the type of the transaction. */
+                accounting_category?: components['schemas']['TransactionAccountingCategory'];
+                /** @description Get all transactions more recent than this one excluded */
+                starting_from?: string;
+                date_from?: string;
+                date_to?: string;
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_TransactionItemOut_'];
                 };
             };
             /** @description Bad Request */
