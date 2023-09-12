@@ -1,13 +1,13 @@
 # Chift Node.js Library
 
-[![npm version](https://img.shields.io/npm/v/@chift/chift-nodejs-sdk)](https://www.npmjs.com/package/@chift/chift-nodejs-sdk)
-[![npm downloads](https://img.shields.io/npm/dw/@chift/chift-nodejs-sdk)](https://www.npmjs.com/package/@chift/chift-nodejs-sdk)
+[![npm version](https://img.shields.io/npm/v/@chift/chift-nodejs)](https://www.npmjs.com/package/@chift/chift-nodejs)
+[![npm downloads](https://img.shields.io/npm/dw/@chift/chift-nodejs)](https://www.npmjs.com/package/@chift/chift-nodejs)
 [![Build](https://github.com/chift-oneapi/chift-nodejs-sdk/actions/workflows/tests.yml/badge.svg)](https://github.com/chift-oneapi/chift-nodejs-sdk/actions/workflows/tests.yml)
 [![Coverage Status](https://coveralls.io/repos/github/chift-oneapi/chift-nodejs-sdk/badge.svg?branch=main)](https://coveralls.io/github/chift-oneapi/chift-nodejs-sdk?branch=main)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 The Chift NodeJS library provides convenient access to the Chift API from
-applications written in the NodeJS language (Javascript).
+applications written in the NodeJS language (Javascript/Typescript).
 
 ## Documentation
 
@@ -18,7 +18,7 @@ See the [API docs](https://docs.chift.eu/docs/chift-api/intro).
 ## Example
 
 ```typescript
-const chift = require('@chift/chift-nodejs-sdk');
+const chift = require('@chift/chift-nodejs');
 const client = new chift.API({
     clientId: process.env.CHIFT_CLIENT_ID,
     clientSecret: process.env.CHIFT_CLIENT_SECRET,
