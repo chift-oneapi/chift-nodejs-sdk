@@ -80,7 +80,7 @@ test('getProductVariantById', async () => {
 
 let locations: components['schemas']['CommerceLocationItem'][];
 test('getLocations', async () => {
-    const locations = await consumer.ecommerce.getLocations();
+    locations = await consumer.ecommerce.getLocations();
     expect(locations).toBeInstanceOf(Array);
     expect(locations.length).toBeGreaterThan(0);
     expect(locations[0]).toHaveProperty('id', expect.any(String));

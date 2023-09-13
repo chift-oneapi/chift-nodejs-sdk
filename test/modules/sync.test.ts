@@ -23,13 +23,20 @@ beforeAll(async () => {
 
 test('createFlow', async () => {
     flow = await sync.createFlow(
-        flowName,
         {
-            type: 'event',
-            data: {},
+            name: 'Je suis un flux de test',
+            description: 'Flux de test',
+            execution: {
+                type: 'code',
+            },
+            trigger: {
+                type: 'event',
+            },
+            config: {},
         },
-        async () => {
-            console.log('createFlow test');
+        async (consumer, flowContext) => {
+            console.log(`Mon flow_id : ${flowContext.flow_id}`);
+            console.log(`Bonjour, ceci est un test, on exécute le flux pour consumer: ${consumer}`);
         }
     );
 

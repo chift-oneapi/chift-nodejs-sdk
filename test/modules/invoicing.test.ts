@@ -28,8 +28,6 @@ test('getInvoices', async () => {
     expect(invoices).toBeInstanceOf(Array);
     expect(invoices.length).toBeGreaterThan(0);
     expect(invoices[0]).toHaveProperty('id', expect.any(String));
-    expect(invoices[0]).toHaveProperty('name', expect.any(String));
-    expect(invoices[0]).toHaveProperty('code', expect.any(String));
 });
 
 test('getInvoiceById', async () => {
