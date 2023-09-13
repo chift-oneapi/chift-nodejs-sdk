@@ -34,7 +34,7 @@ test('createFlow', async () => {
             },
             config: {},
         },
-        async (consumer, flowContext) => {
+        async (consumer: any, flowContext: any) => {
             console.log(`Mon flow_id : ${flowContext.flow_id}`);
             console.log(`Bonjour, ceci est un test, on exécute le flux pour consumer: ${consumer}`);
         }

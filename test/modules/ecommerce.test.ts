@@ -101,7 +101,7 @@ test('updateAvailableQuantity', async () => {
         available_quantity: 1,
     });
     expect(product).toBeTruthy();
-    expect(product).toHaveProperty('id', expect.any(String));
+    expect(product).toHaveProperty('available_quantity', expect.any(Number));
 });
 
 /*

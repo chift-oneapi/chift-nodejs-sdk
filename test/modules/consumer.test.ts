@@ -10,7 +10,7 @@ const client = new chift.API({
     accountId: process.env.CHIFT_ACCOUNT_ID as string,
 });
 
-const consumerName = 'test consumer';
+const consumerName = 'test consumer 2';
 const email = 'support@chift.eu';
 const redirect_url = 'https://chift.eu';
 
@@ -24,10 +24,12 @@ beforeAll(async () => {
         redirect_url,
         name: consumerName,
     });
+    console.log(consumer);
     syncConsumer = await client.Consumers.getConsumerById(
         process.env.CHIFT_SYNC_CONSUMER_ID as string
     );
-}, 30000);
+    console.log(syncConsumer);
+});
 
 test('createConnection', async () => {
     // TODO: test with credentials
