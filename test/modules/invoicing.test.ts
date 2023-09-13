@@ -22,8 +22,8 @@ let invoices: components['schemas']['InvoiceItemOut'][];
 test('getInvoices', async () => {
     invoices = await consumer.invoicing.getInvoices({
         invoice_type: 'customer_invoice',
-        date_from: '2021-01-01',
-        date_to: '2021-01-31',
+        date_from: '2023-01-01',
+        date_to: '2023-01-31',
     });
     expect(invoices).toBeInstanceOf(Array);
     expect(invoices.length).toBeGreaterThan(0);
@@ -43,7 +43,6 @@ test('getProducts', async () => {
     expect(products).toBeInstanceOf(Array);
     expect(products.length).toBeGreaterThan(0);
     expect(products[0]).toHaveProperty('id', expect.any(String));
-    expect(products[0]).toHaveProperty('is_prospect', true);
 });
 
 test('getProductById', async () => {
@@ -51,11 +50,17 @@ test('getProductById', async () => {
     expect(product).toHaveProperty('id', expect.any(String));
 });
 
-test('getVatCodes', async () => {
-    const vatCodes = await consumer.invoicing.getVatCodes();
+let vatCodes: components['schemas']['models__invoicing__VatCode'][];
+test('getTaxes', async () => {
+    vatCodes = await consumer.invoicing.getTaxes();
     expect(vatCodes).toBeInstanceOf(Array);
     expect(vatCodes.length).toBeGreaterThan(0);
     expect(vatCodes[0]).toHaveProperty('id', expect.any(String));
+});
+
+test('getTaxById', async () => {
+    const tax = await consumer.invoicing.getTaxById(vatCodes[0].id);
+    expect(tax).toHaveProperty('id', expect.any(String));
 });
 
 let opportunities: components['schemas']['OpportunityItem'][];

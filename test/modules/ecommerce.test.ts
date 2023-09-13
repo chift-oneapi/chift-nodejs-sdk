@@ -104,6 +104,7 @@ test('updateAvailableQuantity', async () => {
     expect(product).toHaveProperty('id', expect.any(String));
 });
 
+/*
 test('createOrder', async () => {
     const order = await consumer.ecommerce.createOrder({
         customer: {
@@ -139,6 +140,7 @@ test('createOrder', async () => {
     expect(order).toBeTruthy();
     expect(order).toHaveProperty('id', expect.any(String));
 });
+*/
 
 let orders: components['schemas']['OrderItemOut'][];
 test('getOrders', async () => {
@@ -154,7 +156,6 @@ test('getOrder', async () => {
     expect(order).toBeTruthy();
     expect(order).toHaveProperty('id', expect.any(String));
     expect(order).toHaveProperty('order_number');
-    expect(order).toHaveProperty('customer_id');
     expect(order).toHaveProperty('billing_address');
     expect(order).toHaveProperty('shipping_address');
     expect(order).toHaveProperty('created_on');

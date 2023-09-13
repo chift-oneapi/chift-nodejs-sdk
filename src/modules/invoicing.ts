@@ -51,10 +51,16 @@ const invoicingFactory = {
             body: product,
         };
     },
-    getVatCodes(): RequestData<components['schemas']['models__invoicing__VatCode'][]> {
+    getTaxes(): RequestData<components['schemas']['models__invoicing__VatCode'][]> {
         return {
             method: 'get',
-            url: `/consumers/{consumer_id}/invoicing/vat-codes`,
+            url: `/consumers/{consumer_id}/invoicing/taxes`,
+        };
+    },
+    getTaxById(taxId: string): RequestData<components['schemas']['models__invoicing__VatCode']> {
+        return {
+            method: 'get',
+            url: `/consumers/{consumer_id}/invoicing/taxes/${taxId}`,
         };
     },
     getOpportunities(): RequestData<components['schemas']['OpportunityItem'][]> {
