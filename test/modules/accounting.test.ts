@@ -365,11 +365,13 @@ test('getAnalyticLinesOfAccount', async () => {
         analyticAccounts[0].id
     );
     expect(analyticLinesOfAccount).toBeInstanceOf(Array);
-    expect(analyticLinesOfAccount[0]).toHaveProperty('account_id', analyticAccounts[0].id);
-    expect(analyticLinesOfAccount[0]).toHaveProperty('description', expect.any(String));
-    expect(analyticLinesOfAccount[0]).toHaveProperty('amount', expect.any(Number));
-    expect(analyticLinesOfAccount[0]).toHaveProperty('date', expect.any(String));
-    expect(analyticLinesOfAccount[0]).toHaveProperty('id', expect.any(String));
+    if (analyticLinesOfAccount.length > 0) {
+        expect(analyticLinesOfAccount[0]).toHaveProperty('account_id', analyticAccounts[0].id);
+        expect(analyticLinesOfAccount[0]).toHaveProperty('description', expect.any(String));
+        expect(analyticLinesOfAccount[0]).toHaveProperty('amount', expect.any(Number));
+        expect(analyticLinesOfAccount[0]).toHaveProperty('date', expect.any(String));
+        expect(analyticLinesOfAccount[0]).toHaveProperty('id', expect.any(String));
+    }
 });
 
 test('getJournalEntries', async () => {

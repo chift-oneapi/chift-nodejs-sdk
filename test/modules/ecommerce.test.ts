@@ -27,8 +27,7 @@ test('getCustomers', async () => {
 });
 
 let products: components['schemas']['app__routers__commerce__ProductItem'][];
-// TODO: Fix ERROR_INVALID_RESPONSE
-test.skip('getProducts', async () => {
+test('getProducts', async () => {
     products = await consumer.ecommerce.getProducts();
     expect(products).toBeInstanceOf(Array);
     expect(products.length).toBeGreaterThan(0);

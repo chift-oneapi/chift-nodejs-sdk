@@ -19,8 +19,9 @@ beforeAll(async () => {
 });
 
 let invoices: components['schemas']['InvoiceItemOut'][];
-test('getInvoicesByType', async () => {
-    invoices = await consumer.invoicing.getInvoicesByType('customer_invoice', {
+test('getInvoices', async () => {
+    invoices = await consumer.invoicing.getInvoices({
+        invoice_type: 'customer_invoice',
         date_from: '2021-01-01',
         date_to: '2021-01-31',
     });
