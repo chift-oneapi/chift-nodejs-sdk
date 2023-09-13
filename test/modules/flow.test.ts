@@ -17,17 +17,22 @@ beforeAll(async () => {
     const syncId = process.env.CHIFT_TEST_SYNC_ID as string;
     const sync = await client.Syncs.getSyncById(syncId);
     flow = await sync.createFlow(
-        'test flow',
         {
-            type: 'event',
-            data: {},
-        },
-        {
+            name: 'Je suis un flux de test',
+            description: 'Flux de test',
+            execution: {
+                type: 'code',
+            },
+            trigger: {
+                type: 'event',
+            },
             config: {},
-            description: 'test',
         },
-        async () => {
-            return;
+        async (consumer, flowContext) => {
+            console.log(`Mon flow_id : ${flowContext.flow_id}`);
+            console.log(
+                `Bonjour, ceci est un test, on exécute le flux pour consumer: ${consumer.consumerId}`
+            );
         }
     );
 });
