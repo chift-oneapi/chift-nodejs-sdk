@@ -17,7 +17,9 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem'])
 
     const getFlowByName = (name: string) => {
         const flow = data.flows.find((flow) => flow.name.toLowerCase() === name.toLowerCase());
+        console.log('undefined ?');
         if (flow) {
+            console.log('on a le flux');
             return Flow(_internalApi, flow, data.syncid, data.consumers);
         }
         return undefined;

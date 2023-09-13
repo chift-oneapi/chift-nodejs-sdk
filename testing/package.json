@@ -2,7 +2,7 @@
     "name": "testing",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "test.mjs",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -10,7 +10,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@chift/chift-nodejs": "file:..",
         "file-type": "^18.3.0",
         "lodash": "^4.17.21",
         "moment": "^2.29.4",
