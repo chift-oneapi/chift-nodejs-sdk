@@ -24,11 +24,9 @@ beforeAll(async () => {
         redirect_url,
         name: consumerName,
     });
-    console.log(consumer);
     syncConsumer = await client.Consumers.getConsumerById(
         process.env.CHIFT_SYNC_CONSUMER_ID as string
     );
-    console.log(syncConsumer);
 });
 
 test('createConnection', async () => {
@@ -64,24 +62,3 @@ test('getSyncData', async () => {
     const syncData = await syncConsumer.getSyncData(process.env.CHIFT_TEST_SYNC_ID as string);
     expect(syncData).toBeTruthy();
 });
-
-// TODO: data store tests
-// test('getDataByDataStoreName', async () => {
-//     const connections = await consumer.getDataByDataStoreName(dataStoreName, params);
-//     expect(connections).toBeInstanceOf(Array);
-// });
-
-// test('getDataByDataStoreId', async () => {
-//     const data = await consumer.getDataByDataStoreId(dataStoreId, params);
-//     expect(data).toBeTruthy();
-// });
-
-// test('addDataByDataStoreId', async () => {
-//     const response = await consumer.addDataByDataStoreId(dataStoreId, data);
-//     expect(response).toBeTruthy();
-// });
-
-// test('addDataByDataStoreName', async () => {
-//     const response = await consumer.addDataByDataStoreName(dataStoreName, data);
-//     expect(response).toBeTruthy();
-// });

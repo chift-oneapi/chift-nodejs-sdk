@@ -42,6 +42,7 @@ jobs:
                 CHIFT_CASHPAD_CONSUMER_ID: ${{ secrets.CHIFT_CASHPAD_CONSUMER_ID }}
                 CHIFT_LIGHTSPEED_CONSUMER_ID: ${{ secrets.CHIFT_LIGHTSPEED_CONSUMER_ID }}
                 CHIFT_TEST_SYNC_ID: ${{ secrets.CHIFT_TEST_SYNC_ID }}
+                CHIFT_SYNC_CONSUMER_ID: ${{ secrets.CHIFT_SYNC_CONSUMER_ID }}
 
           - name: Report Coveralls
             uses: coverallsapp/github-action@v2
