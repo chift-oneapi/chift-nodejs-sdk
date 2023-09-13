@@ -19,13 +19,11 @@ let consumer: any;
 let connection: any;
 
 beforeAll(async () => {
-    console.log('before creation');
     consumer = await client.Consumers.createConsumer({
         email,
         redirect_url,
         name: consumerName,
     });
-    console.log(consumer);
     syncConsumer = await client.Consumers.getConsumerById(
         process.env.CHIFT_SYNC_CONSUMER_ID as string
     );
