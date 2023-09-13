@@ -1,6 +1,7 @@
 import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
+import { components } from '../../src/types/public-api/schema';
 dotenv.config();
 
 const client = new chift.API({
@@ -30,31 +31,34 @@ beforeAll(async () => {
 });
 
 test('createConnection', async () => {
-    // TODO: test with credentials
     const body = { integrationid: 1000, name: 'odoo test sdk' };
     const result = await consumer.createConnection(body);
     expect(result).toHaveProperty('url', expect.any(String));
 });
 
+let connections: components['schemas']['ConnectionItem'][];
+
 test('getConnections', async () => {
-    const connections = await consumer.getConnections();
+    connections = await syncConsumer.getConnections();
     expect(connections).toBeInstanceOf(Array);
 });
 
-// TODO: create connection first
 test.skip('updateConnection', async () => {
-    const updatedConnection = await consumer.updateConnection(connection.connectionId, {
+    const updatedConnection = await syncConsumer.updateConnection(connections[0]?.connectionid, {
         name: 'updated connection name',
     });
     expect(updatedConnection).toHaveProperty('name', 'updated connection name');
 });
-// TODO: create connection first
+
 test.skip('deleteConnection', async () => {
     await consumer.deleteConnection(connection.connectionId);
 });
 
 test('getSyncUrl', async () => {
-    const result = await syncConsumer.getSyncUrl(process.env.CHIFT_TEST_SYNC_ID as string);
+    const result = await syncConsumer.getSyncUrl({
+        syncid: process.env.CHIFT_TEST_SYNC_ID as string,
+        integrationids: [],
+    });
     expect(result).toHaveProperty('url', expect.any(String));
 });
 

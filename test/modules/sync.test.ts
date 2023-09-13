@@ -11,7 +11,7 @@ const client = new chift.API({
     accountId: process.env.CHIFT_ACCOUNT_ID as string,
 });
 
-const flowName = 'test flow';
+const flowName = 'Je suis un flux de test';
 
 let sync: any;
 let flow: any;
@@ -24,7 +24,7 @@ beforeAll(async () => {
 test('createFlow', async () => {
     flow = await sync.createFlow(
         {
-            name: 'Je suis un flux de test',
+            name: flowName,
             description: 'Flux de test',
             execution: {
                 type: 'code',
