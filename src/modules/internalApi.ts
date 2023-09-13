@@ -31,6 +31,7 @@ class InternalAPI {
                         config.headers['X-Chift-RelatedChainExecutionId'] =
                             this.relatedChainExecutionId;
                     }
+                    console.log('getting token');
                     if (this.token) {
                         if (this.token?.expires_on < new Date().getTime()) {
                             return this.getToken().then(() => {
@@ -67,10 +68,14 @@ class InternalAPI {
             if (this.auth.envId) {
                 tokenData['envId'] = this.auth.envId;
             }
+            console.log('avant');
+            console.log(`${this.auth.baseUrl || Settings.BASE_URL}/token`);
+            console.log(tokenData);
             const res = await axios.post(
                 `${this.auth.baseUrl || Settings.BASE_URL}/token`,
                 tokenData
             );
+            console.log(res.data);
             this.token = res.data;
         } catch (err: any) {
             if (axios.isAxiosError(err)) {

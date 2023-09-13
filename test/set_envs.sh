@@ -1,0 +1,12 @@
+#!/bin/bash
+export CHIFT_ACCOUNT_ID="c16e37b6-b816-4265-8924-f2aeefcbe7fe"
+export CHIFT_AXONAUT_CONSUMER_ID="05a68dfd-4fcd-45d5-93c5-c987587ebad5"
+export CHIFT_BASE_URL="https://api.chift.site"
+export CHIFT_CASHPAD_CONSUMER_ID="a6572100-fbb6-4d9d-a507-773dbe6b1042"
+export CHIFT_CLIENT_ID="IzagGvQFLKnFRsW"
+export CHIFT_CLIENT_SECRET="NvroyDxDjjA6ylxmotjz"
+export CHIFT_LIGHTSPEED_CONSUMER_ID="d0b5d8c6-b7b0-4714-af0d-eec857e91feb"
+export CHIFT_ODOO_CONSUMER_ID="84a6cb97-a641-43ab-ac63-d9bd7ecb85e0"
+export CHIFT_TEST_SYNC_ID="c141e578-bd23-4f1d-9562-de8c47b15344"
+export CHIFT_WOOCOMMERCE_CONSUMER_ID="dd168ff5-3a40-4b65-bd83-4dde1efb316b"
+export CHIFT_SYNC_CONSUMER_ID="05a68dfd-4fcd-45d5-93c5-c987587ebad5"

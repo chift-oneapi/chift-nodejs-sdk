@@ -30,9 +30,7 @@ beforeAll(async () => {
         },
         async (consumer, flowContext) => {
             console.log(`Mon flow_id : ${flowContext.flow_id}`);
-            console.log(
-                `Bonjour, ceci est un test, on exécute le flux pour consumer: ${consumer.consumerId}`
-            );
+            console.log(`Bonjour, ceci est un test, on exécute le flux pour consumer: ${consumer}`);
         }
     );
 });

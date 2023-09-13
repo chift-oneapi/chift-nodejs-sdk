@@ -4,7 +4,7 @@ import { RequestData } from '../types/api';
 const invoicingFactory = {
     getInvoices(
         params: operations['invoicing_get_invoices']['parameters']['query']
-    ): RequestData<components['schemas']['InvoiceItem'][]> {
+    ): RequestData<components['schemas']['InvoiceItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices`,
@@ -14,7 +14,7 @@ const invoicingFactory = {
     getInvoiceById(
         invoiceId: string,
         params: operations['invoicing_get_invoice']['parameters']['query']
-    ): RequestData<components['schemas']['InvoiceItem']> {
+    ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices/${invoiceId}`,
@@ -30,15 +30,13 @@ const invoicingFactory = {
             body: invoice,
         };
     },
-    getProducts(): RequestData<components['schemas']['models__invoicing__ProductItem'][]> {
+    getProducts(): RequestData<components['schemas']['ProductItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products`,
         };
     },
-    getProductById(
-        productId: string
-    ): RequestData<components['schemas']['models__invoicing__ProductItem']> {
+    getProductById(productId: string): RequestData<components['schemas']['ProductItemOut']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products/${productId}`,

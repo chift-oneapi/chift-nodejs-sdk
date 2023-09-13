@@ -18,7 +18,7 @@ beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
-let invoices: components['schemas']['InvoiceItem'][];
+let invoices: components['schemas']['InvoiceItemOut'][];
 test('getInvoicesByType', async () => {
     invoices = await consumer.invoicing.getInvoicesByType('customer_invoice', {
         date_from: '2021-01-01',
@@ -36,7 +36,7 @@ test('getInvoiceById', async () => {
     expect(invoice).toHaveProperty('id', expect.any(String));
 });
 
-let products: components['schemas']['app__routers__invoicing__ProductItem'][];
+let products: components['schemas']['ProductItemOut'][];
 test('getProducts', async () => {
     products = await consumer.invoicing.getProducts();
     expect(products).toBeInstanceOf(Array);
@@ -57,7 +57,7 @@ test('getVatCodes', async () => {
     expect(vatCodes[0]).toHaveProperty('id', expect.any(String));
 });
 
-let opportunities: components['schemas']['OpportunitiesItem'][];
+let opportunities: components['schemas']['OpportunityItem'][];
 test('getOpportunities', async () => {
     opportunities = await consumer.invoicing.getOpportunities();
     expect(opportunities).toBeInstanceOf(Array);
@@ -70,7 +70,7 @@ test('getOpportunitiesById', async () => {
     expect(opportunity).toHaveProperty('id', expect.any(String));
 });
 
-let contacts: components['schemas']['ContactItem'][];
+let contacts: components['schemas']['ContactItemOut'][];
 test('getContacts', async () => {
     contacts = await consumer.invoicing.getContacts();
     expect(contacts).toBeInstanceOf(Array);
