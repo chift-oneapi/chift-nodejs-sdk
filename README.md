@@ -22,9 +22,9 @@ Node 12 or higher.
 Install the package with:
 
 ```sh
-npm install chift
+npm install @chift/chift-nodejs
 # or
-yarn add chift
+yarn add @chift/chift-nodejs
 ```
 
 ## Example
