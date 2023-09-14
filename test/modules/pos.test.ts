@@ -122,8 +122,8 @@ test('getClosure', async () => {
 
 test('getPayments', async () => {
     const payments = await lightspeedConsumer.pos.getPayments({
-        date_from: '2022-08-11',
-        date_to: '2022-08-12',
+        date_from: '2023-01-11',
+        date_to: '2023-02-28',
     });
     expect(payments).toBeInstanceOf(Array);
     expect(payments.length).toBeGreaterThan(0);
