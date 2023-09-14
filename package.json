@@ -1,6 +1,6 @@
 {
     "name": "@chift/chift-nodejs",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "The Chift NodeJS library provides convenient access to the Chift API from applications written in the NodeJS language (Javascript/Typescript).",
     "main": "dist/src/index.js",
     "types": "dist/src/index.d.ts",
@@ -18,6 +18,7 @@
         "@types/node": "^18.15.11",
         "@typescript-eslint/eslint-plugin": "^5.53.0",
         "chokidar-cli": "^3.0.0",
+        "coveralls": "^3.1.1",
         "eslint": "^8.34.0",
         "eslint-config-prettier": "^8.6.0",
         "eslint-config-standard-with-typescript": "^34.0.0",
