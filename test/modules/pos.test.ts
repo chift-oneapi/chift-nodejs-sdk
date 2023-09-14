@@ -33,8 +33,8 @@ test('getLocations', async () => {
 let orders: components['schemas']['OrderItem'][];
 test('getOrders', async () => {
     orders = await lightspeedConsumer.pos.getOrders({
-        date_from: '2022-08-11',
-        date_to: '2022-08-12',
+        date_from: '2023-01-11',
+        date_to: '2023-02-28',
     });
     expect(orders).toBeInstanceOf(Array);
     expect(orders.length).toBeGreaterThan(0);
