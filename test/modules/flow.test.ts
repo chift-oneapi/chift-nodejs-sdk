@@ -36,9 +36,9 @@ beforeAll(async () => {
 });
 
 test('executeLocal', async () => {
-    flow.execute({ context: { logs: true, local: true } });
+    await flow.execute({ context: { logs: true, local: true } });
 });
 
 test('execute', async () => {
-    flow.execute({ context: { logs: true, local: false } });
+    await flow.execute({ context: { logs: true, local: false } });
 });
