@@ -30,7 +30,7 @@ jobs:
             run: npm install
 
           - name: Test
-            run: npm test --coverage && coveralls < coverage/lcov.info
+            run: npm test --coverage && ./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info
             env:
                 CHIFT_BASE_URL: ${{ secrets.CHIFT_BASE_URL }}
                 CHIFT_CLIENT_ID: ${{ secrets.CHIFT_CLIENT_ID }}
@@ -43,6 +43,7 @@ jobs:
                 CHIFT_LIGHTSPEED_CONSUMER_ID: ${{ secrets.CHIFT_LIGHTSPEED_CONSUMER_ID }}
                 CHIFT_TEST_SYNC_ID: ${{ secrets.CHIFT_TEST_SYNC_ID }}
                 CHIFT_SYNC_CONSUMER_ID: ${{ secrets.CHIFT_SYNC_CONSUMER_ID }}
+                COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
           - name: Report Coveralls
             uses: coverallsapp/github-action@v2
