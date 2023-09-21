@@ -481,3 +481,17 @@ test('getBalanceOfAccounts', async () => {
     expect(balanceOfAccounts).toHaveProperty('items');
     expect(balanceOfAccounts.items).toBeInstanceOf(Array);
 });
+
+test('getEmployees', async () => {
+    const employees = await consumer.accounting.getEmployees();
+    expect(employees).toBeTruthy();
+    expect(employees.items).toBeInstanceOf(Array);
+});
+
+test('getOutstandings', async () => {
+    const outstandings = await consumer.accounting.getOutstandings({
+        type: 'client',
+    });
+    expect(outstandings).toBeTruthy();
+    expect(outstandings.items).toBeInstanceOf(Array);
+});
