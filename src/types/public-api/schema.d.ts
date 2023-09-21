@@ -128,6 +128,13 @@ export interface paths {
          */
         post: operations['syncs_send_custom_event'];
     };
+    '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/executions': {
+        /**
+         * Get executions information for one consumer/flow/sync
+         * @description Returns executions information for one consumer/flow/sync
+         */
+        get: operations['syncs_get_consumer_executions'];
+    };
     '/syncs/{syncid}/flows/{flowid}/executions/{executionid}': {
         /**
          * Get execution start/end timestamp
@@ -430,6 +437,13 @@ export interface paths {
          * @description Create a new financial entry (Bank or Cash operation)
          */
         post: operations['accounting_create_financial_entry'];
+    };
+    '/consumers/{consumer_id}/accounting/outstandings': {
+        /**
+         * Get clients/suppliers outstandings
+         * @description Returns a list of all clients/suppliers outstanding's informations
+         */
+        get: operations['accounting_get_outstandings'];
     };
     '/consumers/{consumer_id}/pos/orders': {
         /**
@@ -1284,6 +1298,8 @@ export interface components {
             addresses?: components['schemas']['models__common__AddressItemOut'][];
             /** Account Number */
             account_number?: string;
+            /** Company Number */
+            company_number?: string;
             /** Id */
             id?: string;
         };
@@ -3087,7 +3103,8 @@ export interface components {
             | 'supplier_invoice'
             | 'supplier_refund'
             | 'financial_operation'
-            | 'miscellaneous_operation';
+            | 'miscellaneous_operation'
+            | 'unknown';
         /** LinkItem */
         LinkItem: {
             /** Url */
@@ -3629,6 +3646,48 @@ export interface components {
          * @enum {string}
          */
         OrderStatus: 'cancelled' | 'draft' | 'confirmed';
+        /** OutstandingItem */
+        OutstandingItem: {
+            /** Id */
+            id: string;
+            /** Number */
+            number?: string;
+            /** Journal Id */
+            journal_id: string;
+            journal_type: components['schemas']['JournalType'];
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date?: string;
+            /** Currency */
+            currency: string;
+            /** Currency Exchange Rate */
+            currency_exchange_rate: number;
+            /** Amount */
+            amount: number;
+            /** Open Amount */
+            open_amount: number;
+            /** Partner Id */
+            partner_id: string;
+            /** Account Number */
+            account_number: string;
+            /** Reference */
+            reference?: string;
+            /** Posted */
+            posted: boolean;
+        };
+        /**
+         * OutstandingType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        OutstandingType: 'client' | 'supplier';
         /** POSCreateCustomerItem */
         POSCreateCustomerItem: {
             /** First Name */
@@ -3935,6 +3994,17 @@ export interface components {
         Page_OrderItem_: {
             /** Items */
             items: components['schemas']['OrderItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[OutstandingItem] */
+        Page_OutstandingItem_: {
+            /** Items */
+            items: components['schemas']['OutstandingItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4564,6 +4634,8 @@ export interface components {
             addresses?: components['schemas']['models__common__AddressItemOut'][];
             /** Account Number */
             account_number?: string;
+            /** Company Number */
+            company_number?: string;
             /** Id */
             id?: string;
         };
@@ -4735,7 +4807,15 @@ export interface components {
          * @description An enumeration.
          * @enum {string}
          */
-        TransactionAccountingCategory: 'all' | 'unknown' | 'test';
+        TransactionAccountingCategory:
+            | 'all'
+            | 'unknown'
+            | 'payout'
+            | 'payout_cancel'
+            | 'payment'
+            | 'payment_cancel'
+            | 'fee'
+            | 'fee_cancel';
         /**
          * TransactionFilterDateType
          * @description An enumeration.
@@ -6023,11 +6103,51 @@ export interface operations {
         };
     };
     /**
+     * Get executions information for one consumer/flow/sync
+     * @description Returns executions information for one consumer/flow/sync
+     */
+    syncs_get_consumer_executions: {
+        parameters: {
+            query?: {
+                date_to?: string;
+                date_from?: string;
+            };
+            path: {
+                consumerid: string;
+                syncid: string;
+                flowid: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ChainExecutionItem'][];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Get execution start/end timestamp
      * @description Get execution start/end timestamp
      */
     syncs_get_execution: {
         parameters: {
+            query?: {
+                consumerid?: string;
+            };
             path: {
                 syncid: string;
                 flowid: string;
@@ -6161,6 +6281,8 @@ export interface operations {
     datastores_get_consumer_and_datastoredata: {
         parameters: {
             query?: {
+                date_to?: string;
+                date_from?: string;
                 executionid?: string;
             };
             path: {
@@ -7859,6 +7981,43 @@ export interface operations {
         };
     };
     /**
+     * Get clients/suppliers outstandings
+     * @description Returns a list of all clients/suppliers outstanding's informations
+     */
+    accounting_get_outstandings: {
+        parameters: {
+            query: {
+                type: components['schemas']['OutstandingType'];
+                unposted_allowed: components['schemas']['BoolParam'];
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_OutstandingItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Get orders
      * @description Returns a list of the orders
      */
@@ -8669,7 +8828,7 @@ export interface operations {
                 date_from?: string;
                 /** @description Filter orders created at or before this date (e.g. 2023-01-31) */
                 date_to?: string;
-                /** @description Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC) */
+                /** @description Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string;
                 /** @description Include detailed information concerning refunds */
                 include_detailed_refunds?: components['schemas']['BoolParam'];

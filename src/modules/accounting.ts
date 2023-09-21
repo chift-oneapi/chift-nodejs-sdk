@@ -31,6 +31,11 @@ type getInvoicesByTypeParams = Omit<
     'page' | 'size'
 >;
 
+type getOutstandingsParams = Omit<
+    operations['accounting_get_outstandings']['parameters']['query'],
+    'page' | 'size'
+>;
+
 const accountingFactory = {
     getAnalyticPlans(): RequestData<components['schemas']['AnalyticPlanItem'][]> {
         return {
@@ -341,6 +346,15 @@ const accountingFactory = {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/employees',
+        };
+    },
+    getOutstandings(
+        params: getOutstandingsParams
+    ): RequestData<components['schemas']['OutstandingItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/outstandings',
         };
     },
     createFinancialEntry(
