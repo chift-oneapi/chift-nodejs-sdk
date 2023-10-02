@@ -369,11 +369,9 @@ const accountingFactory = {
         };
     },
     createJournalEntry(
-        journal_entry: components['schemas']['JournalEntryIn'],
-        params: operations['accounting_create_journal_entry']['parameters']['path']
+        journal_entry: components['schemas']['JournalEntryIn']
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
         return {
-            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/journal/entries',
             body: journal_entry,
