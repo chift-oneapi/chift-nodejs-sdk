@@ -13,3 +13,4 @@
 ## 1.0.2 - 2023-10-02
 
 -   add createFinancialEntry params
+-   add createJournalEntry route

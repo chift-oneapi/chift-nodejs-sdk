@@ -368,6 +368,17 @@ const accountingFactory = {
             body: financial_entry,
         };
     },
+    createJournalEntry(
+        journal_entry: components['schemas']['JournalEntryIn'],
+        params: operations['accounting_create_journal_entry']['parameters']['path']
+    ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/journal/entries',
+            body: journal_entry,
+        };
+    },
 };
 
 export { accountingFactory };
