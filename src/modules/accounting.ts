@@ -358,9 +358,11 @@ const accountingFactory = {
         };
     },
     createFinancialEntry(
-        financial_entry: components['schemas']['FinancialEntryItemIn']
+        financial_entry: components['schemas']['FinancialEntryItemIn'],
+        params: operations['accounting_create_financial_entry']['parameters']['query']
     ): RequestData<components['schemas']['FinancialEntryItemOut']> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/financial-entry',
             body: financial_entry,
