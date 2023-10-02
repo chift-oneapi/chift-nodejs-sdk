@@ -374,10 +374,10 @@ test('getAnalyticLinesOfAccount', async () => {
     }
 });
 
+const newJournalId = new Date().getTime().toString();
 test('createJournalEntry', async () => {
-    const journal_id = 'test_journal';
     const journalEntry = await consumer.acounting.createJournalEntry({
-        journal_id,
+        journal_id: newJournalId,
         name: 'Journal test Chift SDK',
         date: '2022-01-01',
         items: [
@@ -390,7 +390,7 @@ test('createJournalEntry', async () => {
         ],
     });
     expect(journalEntry).toBeTruthy();
-    expect(journalEntry).toHaveProperty('journal_id', journal_id);
+    expect(journalEntry).toHaveProperty('journal_id', newJournalId);
 });
 
 test('getJournalEntries', async () => {
@@ -513,4 +513,21 @@ test('getOutstandings', async () => {
     });
     expect(outstandings).toBeTruthy();
     expect(outstandings.items).toBeInstanceOf(Array);
+});
+
+test('createFinancialEntry', async () => {
+    const financialEntry = await consumer.accounting.createFinancialEntry({
+        date: '2022-01-01',
+        journal_id: newJournalId,
+        currency: 'EUR',
+        items: [
+            {
+                type: 'general_account',
+                account_number: '400000',
+                amount: 10,
+            },
+        ],
+    });
+    expect(financialEntry).toBeTruthy();
+    expect(financialEntry).toHaveProperty('journal_id', newJournalId);
 });
