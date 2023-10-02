@@ -376,7 +376,7 @@ test('getAnalyticLinesOfAccount', async () => {
 
 const newJournalId = new Date().getTime().toString();
 test('createJournalEntry', async () => {
-    const journalEntry = await consumer.acounting.createJournalEntry({
+    const journalEntry = await consumer.accounting.createJournalEntry({
         journal_id: newJournalId,
         name: 'Journal test Chift SDK',
         date: '2022-01-01',
