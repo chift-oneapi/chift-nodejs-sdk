@@ -374,6 +374,25 @@ test('getAnalyticLinesOfAccount', async () => {
     }
 });
 
+test('createJournalEntry', async () => {
+    const journal_id = 'test_journal';
+    const journalEntry = await consumer.acounting.createJournalEntry({
+        journal_id,
+        name: 'Journal test Chift SDK',
+        date: '2022-01-01',
+        items: [
+            {
+                account_number: '400000',
+                debit: 10,
+                credit: 10,
+                currency: 'EUR',
+            },
+        ],
+    });
+    expect(journalEntry).toBeTruthy();
+    expect(journalEntry).toHaveProperty('journal_id', journal_id);
+});
+
 test('getJournalEntries', async () => {
     const journalEntries = await consumer.accounting.getJournalEntries({
         unposted_allowed: true,
