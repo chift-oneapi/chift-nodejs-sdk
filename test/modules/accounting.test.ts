@@ -40,6 +40,19 @@ test('getJournals', async () => {
     expect(journals[0]).toHaveProperty('journal_type', expect.any(String));
 });
 
+let vatCodes: components['schemas']['app__routers__accounting__VatCode'][];
+test('getVatCodes', async () => {
+    vatCodes = await consumer.accounting.getVatCodes();
+    expect(vatCodes).toBeInstanceOf(Array);
+    expect(vatCodes.length).toBeGreaterThan(0);
+    expect(vatCodes[0]).toHaveProperty('id', expect.any(String));
+    expect(vatCodes[0]).toHaveProperty('code');
+    expect(vatCodes[0]).toHaveProperty('label', expect.any(String));
+    expect(vatCodes[0]).toHaveProperty('scope', expect.any(String));
+    expect(vatCodes[0]).toHaveProperty('rate', expect.any(Number));
+    expect(vatCodes[0]).toHaveProperty('type', expect.any(String));
+});
+
 test('createClient', async () => {
     const body: components['schemas']['ClientItemIn'] = {
         external_reference: 'sdk test',
@@ -164,6 +177,16 @@ test('updateSupplier', async () => {
 });
 
 test('createInvoice', async () => {
+    const journal = journals.find((journal) => journal.journal_type === 'customer_invoice');
+    if (!journal) {
+        throw new Error('No journal with type "customer_invoice" found to create invoice');
+    }
+
+    const vatCode = vatCodes.find((vatCode) => vatCode.type === 'sale' && vatCode.rate === 21);
+    if (!vatCode?.code) {
+        throw new Error('No vat code with type "sale" and rate 21 found to create invoice');
+    }
+
     const body: components['schemas']['InvoiceItemInMonoAnalyticPlan'] = {
         invoice_type: 'customer_invoice',
         invoice_date: '2022-12-01',
@@ -173,7 +196,7 @@ test('createInvoice', async () => {
         tax_amount: 21,
         total: 121,
         partner_id: clients[0]?.id as string,
-        journal_id: journals[0].id,
+        journal_id: journal.id,
         lines: [
             {
                 description: 'Test',
@@ -184,7 +207,7 @@ test('createInvoice', async () => {
                 tax_amount: 21,
                 total: 121,
                 account_number: '700000',
-                tax_code: '1',
+                tax_code: vatCode.code,
             },
         ],
     };
@@ -243,6 +266,12 @@ test('getInvoice', async () => {
 });
 
 test('createInvoiceWithMultiplePlans', async () => {
+    const journal = journals.find((journal) => journal.journal_type === 'customer_invoice');
+    if (!journal) {
+        throw new Error(
+            'No journal with type customer_invoice found to create Invoice With Multiple Plans'
+        );
+    }
     const body: components['schemas']['InvoiceItemInMonoAnalyticPlan'] = {
         invoice_type: 'customer_invoice',
         invoice_date: '2022-12-01',
@@ -252,7 +281,7 @@ test('createInvoiceWithMultiplePlans', async () => {
         tax_amount: 21,
         total: 121,
         partner_id: clients[0]?.id as string,
-        journal_id: journals[0].id,
+        journal_id: journal.id,
         lines: [
             {
                 description: 'Test',
@@ -374,23 +403,31 @@ test('getAnalyticLinesOfAccount', async () => {
     }
 });
 
-const newJournalId = new Date().getTime().toString();
 test('createJournalEntry', async () => {
+    const journal = journals.find((journal) => journal.journal_type === 'customer_invoice');
+    if (!journal) {
+        throw new Error('No journal with type "customer_invoice" found to create journal entry');
+    }
     const journalEntry = await consumer.accounting.createJournalEntry({
-        journal_id: newJournalId,
+        journal_id: journal.id,
         name: 'Journal test Chift SDK',
         date: '2022-01-01',
         items: [
             {
-                account_number: '400000',
+                account_number: clients[0].account_number,
+                credit: 0,
                 debit: 10,
+                partner_id: clients[0].id,
+            },
+            {
+                account_number: '700000',
                 credit: 10,
-                currency: 'EUR',
+                debit: 0,
             },
         ],
     });
     expect(journalEntry).toBeTruthy();
-    expect(journalEntry).toHaveProperty('journal_id', newJournalId);
+    expect(journalEntry).toHaveProperty('journal_id', journal.id);
 });
 
 test('getJournalEntries', async () => {
@@ -416,18 +453,6 @@ test('getJournalEntriesWithMultiplePlans', async () => {
 test('getPaymentsByInvoiceId', async () => {
     const payments = await consumer.accounting.getPaymentsByInvoiceId(invoices[0].id);
     expect(payments).toBeInstanceOf(Array);
-});
-
-test('getVatCodes', async () => {
-    const vatCodes = await consumer.accounting.getVatCodes();
-    expect(vatCodes).toBeInstanceOf(Array);
-    expect(vatCodes.length).toBeGreaterThan(0);
-    expect(vatCodes[0]).toHaveProperty('id', expect.any(String));
-    expect(vatCodes[0]).toHaveProperty('code');
-    expect(vatCodes[0]).toHaveProperty('label', expect.any(String));
-    expect(vatCodes[0]).toHaveProperty('scope', expect.any(String));
-    expect(vatCodes[0]).toHaveProperty('rate', expect.any(Number));
-    expect(vatCodes[0]).toHaveProperty('type', expect.any(String));
 });
 
 let miscOperations: components['schemas']['MiscellaneousOperationOut'][];
@@ -510,24 +535,33 @@ test('getEmployees', async () => {
 test('getOutstandings', async () => {
     const outstandings = await consumer.accounting.getOutstandings({
         type: 'client',
+        unposted_allowed: true,
     });
     expect(outstandings).toBeTruthy();
     expect(outstandings.items).toBeInstanceOf(Array);
 });
 
 test('createFinancialEntry', async () => {
+    const journal = journals.find((journal) => journal.journal_type === 'financial_operation');
+    if (!journal) {
+        throw new Error(
+            'No journal with type "financial_operation" found to create financial entry'
+        );
+    }
+
     const financialEntry = await consumer.accounting.createFinancialEntry({
         date: '2022-01-01',
-        journal_id: newJournalId,
+        journal_id: journal.id,
         currency: 'EUR',
         items: [
             {
-                type: 'general_account',
-                account_number: '400000',
+                type: 'customer_account',
+                account_number: clients[0].account_number,
+                partner_id: clients[0].id,
                 amount: 10,
             },
         ],
     });
     expect(financialEntry).toBeTruthy();
-    expect(financialEntry).toHaveProperty('journal_id', newJournalId);
+    expect(financialEntry).toHaveProperty('journal_id', journal.id);
 });
