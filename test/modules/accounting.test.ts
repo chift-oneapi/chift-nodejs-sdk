@@ -274,7 +274,7 @@ test('createInvoiceWithMultiplePlans', async () => {
     }
 
     const vatCode = vatCodes.find((vatCode) => vatCode.type === 'sale' && vatCode.rate === 21);
-    if (!vatCode?.code) {
+    if (!vatCode?.id) {
         throw new Error('No vat code with type "sale" and rate 21 found to create invoice');
     }
 
