@@ -272,6 +272,12 @@ test('createInvoiceWithMultiplePlans', async () => {
             'No journal with type customer_invoice found to create Invoice With Multiple Plans'
         );
     }
+
+    const vatCode = vatCodes.find((vatCode) => vatCode.type === 'sale' && vatCode.rate === 21);
+    if (!vatCode?.code) {
+        throw new Error('No vat code with type "sale" and rate 21 found to create invoice');
+    }
+
     const body: components['schemas']['InvoiceItemInMonoAnalyticPlan'] = {
         invoice_type: 'customer_invoice',
         invoice_date: '2022-12-01',
@@ -292,7 +298,7 @@ test('createInvoiceWithMultiplePlans', async () => {
                 tax_amount: 21,
                 total: 121,
                 account_number: '700000',
-                tax_code: '1',
+                tax_code: vatCode.id,
             },
         ],
     };
