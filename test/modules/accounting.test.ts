@@ -550,7 +550,7 @@ test('getOutstandings', async () => {
         expect(outstandings.items).toBeInstanceOf(Array);
     } catch (e: any) {
         if (e?.error?.error_code) {
-            expect().toMatch('ERROR_API_RESOURCE_NOT_FOUND');
+            expect(e.error.error_code).toMatch('ERROR_API_RESOURCE_NOT_FOUND');
             return;
         }
 
