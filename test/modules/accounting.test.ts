@@ -416,7 +416,7 @@ test('createJournalEntry', async () => {
     }
     const journalEntry = await consumer.accounting.createJournalEntry({
         journal_id: journal.id,
-        name: 'Journal test Chift SDK',
+        name: Date.now().toString(),
         date: '2022-01-01',
         items: [
             {
