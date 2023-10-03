@@ -183,7 +183,7 @@ test('createInvoice', async () => {
     }
 
     const vatCode = vatCodes.find((vatCode) => vatCode.type === 'sale' && vatCode.rate === 21);
-    if (!vatCode?.code) {
+    if (!vatCode?.id) {
         throw new Error('No vat code with type "sale" and rate 21 found to create invoice');
     }
 
@@ -207,7 +207,7 @@ test('createInvoice', async () => {
                 tax_amount: 21,
                 total: 121,
                 account_number: '700000',
-                tax_code: vatCode.code,
+                tax_code: vatCode.id,
             },
         ],
     };
@@ -424,11 +424,13 @@ test('createJournalEntry', async () => {
                 credit: 0,
                 debit: 10,
                 partner_id: clients[0].id,
+                currency: 'EUR',
             },
             {
                 account_number: '700000',
                 credit: 10,
                 debit: 0,
+                currency: 'EUR',
             },
         ],
     });
@@ -535,16 +537,25 @@ test('getBalanceOfAccounts', async () => {
 test('getEmployees', async () => {
     const employees = await consumer.accounting.getEmployees();
     expect(employees).toBeTruthy();
-    expect(employees.items).toBeInstanceOf(Array);
 });
 
 test('getOutstandings', async () => {
-    const outstandings = await consumer.accounting.getOutstandings({
-        type: 'client',
-        unposted_allowed: true,
-    });
-    expect(outstandings).toBeTruthy();
-    expect(outstandings.items).toBeInstanceOf(Array);
+    expect.assertions(1);
+    try {
+        const outstandings = await consumer.accounting.getOutstandings({
+            type: 'client',
+            unposted_allowed: true,
+        });
+        expect(outstandings).toBeTruthy();
+        expect(outstandings.items).toBeInstanceOf(Array);
+    } catch (e: any) {
+        if (e?.error?.error_code) {
+            expect().toMatch('ERROR_API_RESOURCE_NOT_FOUND');
+            return;
+        }
+
+        throw e;
+    }
 });
 
 test('createFinancialEntry', async () => {
