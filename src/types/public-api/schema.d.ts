@@ -64,6 +64,10 @@ export interface paths {
          */
         get: operations['integrations_get_integrations'];
     };
+    '/integrations/{integrationid}/{image_type}.json': {
+        /** Returns a logo/icon of an integration (as base64) */
+        get: operations['integrations_get_integration_logo_json'];
+    };
     '/webhooks/list': {
         /**
          * Get list of possible webhooks
@@ -1946,7 +1950,7 @@ export interface components {
             account_number: string;
             /**
              * Partner Id
-             * @description Must be filled in it is a 'customer_account' or 'supplier_account' line type.
+             * @description Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type.
              */
             partner_id?: string;
             /**
@@ -1964,7 +1968,7 @@ export interface components {
             account_number: string;
             /**
              * Partner Id
-             * @description Must be filled in it is a 'customer_account' or 'supplier_account' line type.
+             * @description Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type.
              */
             partner_id?: string;
             /**
@@ -2078,6 +2082,12 @@ export interface components {
             /** Url */
             url: string;
         };
+        /**
+         * ImageType
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        ImageType: 'icon' | 'logo';
         /** IntegrationItem */
         IntegrationItem: {
             /** Integrationid */
@@ -2086,6 +2096,10 @@ export interface components {
             name: string;
             status: components['schemas']['app__routers__integrations__Status'];
             api: components['schemas']['Api'];
+            /** Logo Url */
+            logo_url: string;
+            /** Icon Url */
+            icon_url: string;
             /**
              * Credentials
              * @description List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.
@@ -3114,6 +3128,13 @@ export interface components {
         LinkSyncItem: {
             /** Url */
             url: string;
+        };
+        /** LogoImage */
+        LogoImage: {
+            /** Integrationid */
+            integrationid: string;
+            /** Data */
+            data: string;
         };
         /** MappingItem */
         MappingItem: {
@@ -5817,6 +5838,35 @@ export interface operations {
             };
         };
     };
+    /** Returns a logo/icon of an integration (as base64) */
+    integrations_get_integration_logo_json: {
+        parameters: {
+            path: {
+                integrationid: number;
+                image_type: components['schemas']['ImageType'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['LogoImage'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     /**
      * Get list of possible webhooks
      * @description Returns a list of webhook that are available for your account
@@ -7944,6 +7994,10 @@ export interface operations {
      */
     accounting_create_financial_entry: {
         parameters: {
+            query?: {
+                /** @description Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty. */
+                financial_counterpart_account?: string;
+            };
             path: {
                 consumer_id: string;
             };

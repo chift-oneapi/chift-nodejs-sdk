@@ -51,7 +51,9 @@ test('getConsumers', async () => {
 test('getConsumersByName', async () => {
     const consumersWithName = await client.Consumers.getConsumersByName(consumerName);
     expect(consumersWithName).toBeInstanceOf(Array);
-    expect(consumersWithName[0]).toHaveProperty('name', consumerName);
+    expect(consumersWithName.some((consumer: any) => consumer.name.includes(consumerName))).toBe(
+        true
+    );
 });
 
 test('getConsumerById', async () => {

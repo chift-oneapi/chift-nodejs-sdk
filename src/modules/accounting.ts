@@ -358,12 +358,23 @@ const accountingFactory = {
         };
     },
     createFinancialEntry(
-        financial_entry: components['schemas']['FinancialEntryItemIn']
+        financial_entry: components['schemas']['FinancialEntryItemIn'],
+        params: operations['accounting_create_financial_entry']['parameters']['query']
     ): RequestData<components['schemas']['FinancialEntryItemOut']> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/financial-entry',
             body: financial_entry,
+        };
+    },
+    createJournalEntry(
+        journal_entry: components['schemas']['JournalEntryIn']
+    ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
+        return {
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/journal/entries',
+            body: journal_entry,
         };
     },
 };
