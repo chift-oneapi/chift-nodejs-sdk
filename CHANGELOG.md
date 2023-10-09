@@ -14,3 +14,7 @@
 
 -   add createFinancialEntry params
 -   add createJournalEntry route
+
+## 1.0.3 - 2023-10-09
+
+-   fix missing accounting model definitions
