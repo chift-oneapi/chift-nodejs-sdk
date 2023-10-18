@@ -572,6 +572,33 @@ test('createFinancialEntry', async () => {
         currency: 'EUR',
         items: [
             {
+                account_type: 'customer_account',
+                account: clients[0].id,
+                amount: 10,
+            },
+        ],
+    });
+    expect(financialEntry).toBeTruthy();
+    expect(financialEntry).toHaveProperty('journal_id', journal.id);
+});
+
+/**
+ * @deprecated replaced by createFinancialEntry
+ */
+test('createFinancialEntryOld', async () => {
+    const journal = journals.find((journal) => journal.journal_type === 'financial_operation');
+    if (!journal) {
+        throw new Error(
+            'No journal with type "financial_operation" found to create financial entry'
+        );
+    }
+
+    const financialEntry = await consumer.accounting.createFinancialEntryOld({
+        date: '2022-01-01',
+        journal_id: journal.id,
+        currency: 'EUR',
+        items: [
+            {
                 type: 'customer_account',
                 account_number: clients[0].account_number,
                 partner_id: clients[0].id,
