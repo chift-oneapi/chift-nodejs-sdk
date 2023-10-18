@@ -18,3 +18,8 @@
 ## 1.0.3 - 2023-10-09
 
 -   fix missing accounting model definitions
+
+## 1.0.4 - 2023-10-18
+
+-   Update createFinancialEntry endpoint
+-   Deprecate previous createFinancialEntry endpoint (changed to createFinancialEntryOld)
