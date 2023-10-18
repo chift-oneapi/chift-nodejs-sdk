@@ -437,10 +437,17 @@ export interface paths {
     };
     '/consumers/{consumer_id}/accounting/financial-entry': {
         /**
-         * Create a financial entry
+         * Create a financial entry [Deprecated]
          * @description Create a new financial entry (Bank or Cash operation)
          */
         post: operations['accounting_create_financial_entry'];
+    };
+    '/consumers/{consumer_id}/accounting/financial-entries': {
+        /**
+         * Create a financial entry
+         * @description Create a new financial entry (Bank or Cash operation)
+         */
+        post: operations['accounting_create_financial_entries'];
     };
     '/consumers/{consumer_id}/accounting/outstandings': {
         /**
@@ -448,6 +455,13 @@ export interface paths {
          * @description Returns a list of all clients/suppliers outstanding's informations
          */
         get: operations['accounting_get_outstandings'];
+    };
+    '/consumers/{consumer_id}/accounting/attachments': {
+        /**
+         * Get attachments
+         * @description Returns a list of all attachments linked to an accounting entry
+         */
+        get: operations['accounting_get_attachments'];
     };
     '/consumers/{consumer_id}/pos/orders': {
         /**
@@ -695,6 +709,13 @@ export interface paths {
          * @description Returns the list of transactions of an account
          */
         get: operations['banking_get_account_transactions'];
+    };
+    '/consumers/{consumer_id}/payment/balances': {
+        /**
+         * Retrieve all Balances
+         * @description Returns a list of balances.
+         */
+        get: operations['payment_get_balances'];
     };
     '/consumers/{consumer_id}/payment/transactions': {
         /**
@@ -1020,6 +1041,13 @@ export interface components {
             /** Base64 String */
             base64_string: string;
         };
+        /** AttachmentItemOut */
+        AttachmentItemOut: {
+            /** Id */
+            id: string;
+            /** Base64 String */
+            base64_string: string;
+        };
         /** AuthItem */
         AuthItem: {
             /** Clientid */
@@ -1031,6 +1059,35 @@ export interface components {
              * Format: uuid
              */
             accountId: string;
+        };
+        /** BalanceItemOut */
+        BalanceItemOut: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Availale Amount
+             * @description Total amount available
+             */
+            availale_amount: number;
+            /**
+             * Currency
+             * @description Currency
+             */
+            currency: string;
+            /**
+             * Create Date
+             * Format: date-time
+             * @description Create Date
+             */
+            create_date: string;
         };
         /** BankingAccountItem */
         BankingAccountItem: {
@@ -1044,14 +1101,14 @@ export interface components {
              * Current Balance Last Update Date
              * Format: date-time
              */
-            current_balance_last_update_date: string;
+            current_balance_last_update_date?: string;
             /** Available Balance */
             available_balance: number;
             /**
              * Available Balance Last Update Date
              * Format: date-time
              */
-            available_balance_last_update_date: string;
+            available_balance_last_update_date?: string;
             /** Description */
             description: string;
             /** Reference */
@@ -1088,6 +1145,8 @@ export interface components {
             counterpart_name?: string;
             /** Counterpart Reference */
             counterpart_reference?: string;
+            /** Remittance Information */
+            remittance_information?: string;
             /**
              * Creation Date
              * Format: date-time
@@ -1794,7 +1853,7 @@ export interface components {
              * Optional
              * @default false
              */
-            Optional?: boolean;
+            optional?: boolean;
         };
         /** DatastoreDef */
         DatastoreDef: {
@@ -1806,6 +1865,12 @@ export interface components {
              */
             search_column?: string;
         };
+        /**
+         * DocumentType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        DocumentType: 'invoice' | 'entry';
         /** EmployeeItem */
         EmployeeItem: {
             /** Id */
@@ -1834,6 +1899,16 @@ export interface components {
             /** Account Number */
             account_number?: string;
         };
+        /**
+         * EntryLineType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        EntryLineType:
+            | 'customer_account'
+            | 'supplier_account'
+            | 'employee_account'
+            | 'general_account';
         /**
          * ExecutionType
          * @description An enumeration.
@@ -1901,10 +1976,45 @@ export interface components {
             currency_exchange_rate?: number;
             /** Reference */
             reference?: string;
-            /** Items */
-            items: components['schemas']['FinancialEntryLineItem'][];
             /** Number */
             number?: string;
+            /** Items */
+            items: components['schemas']['FinancialEntryLineItem'][];
+            /**
+             * Pdf
+             * @description Base 64 string representing the PDF attached to the sale/purchase entry.
+             */
+            pdf?: string;
+        };
+        /** FinancialEntryItemInOld */
+        FinancialEntryItemInOld: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /**
+             * Journal Id
+             * @description Indicates the journal used in for the operation.
+             */
+            journal_id: string;
+            /**
+             * Currency
+             * @description Indicates the currency of the operation (e.g. EUR).
+             */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @default 1
+             */
+            currency_exchange_rate?: number;
+            /** Reference */
+            reference?: string;
+            /** Number */
+            number?: string;
+            /** Items */
+            items: components['schemas']['FinancialEntryLineItemOld'][];
             /**
              * Pdf
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
@@ -1936,16 +2046,61 @@ export interface components {
             currency_exchange_rate?: number;
             /** Reference */
             reference?: string;
-            /** Items */
-            items: components['schemas']['FinancialEntryLineItemOut'][];
             /** Id */
             id: string;
             /** Number */
             number: string;
+            /** Items */
+            items: components['schemas']['FinancialEntryLineItemOut'][];
+        };
+        /** FinancialEntryItemOutOld */
+        FinancialEntryItemOutOld: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /**
+             * Journal Id
+             * @description Indicates the journal used in for the operation.
+             */
+            journal_id: string;
+            /**
+             * Currency
+             * @description Indicates the currency of the operation (e.g. EUR).
+             */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @default 1
+             */
+            currency_exchange_rate?: number;
+            /** Reference */
+            reference?: string;
+            /** Id */
+            id: string;
+            /** Number */
+            number: string;
+            /** Items */
+            items: components['schemas']['FinancialEntryLineItemOutOld'][];
         };
         /** FinancialEntryLineItem */
         FinancialEntryLineItem: {
-            type: components['schemas']['FinancialEntryLineType'];
+            account_type: components['schemas']['EntryLineType'];
+            /** Account */
+            account: string;
+            /**
+             * Amount
+             * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
+             */
+            amount: number;
+            /** Description */
+            description?: string;
+        };
+        /** FinancialEntryLineItemOld */
+        FinancialEntryLineItemOld: {
+            type: components['schemas']['EntryLineType'];
             /** Account Number */
             account_number: string;
             /**
@@ -1963,7 +2118,22 @@ export interface components {
         };
         /** FinancialEntryLineItemOut */
         FinancialEntryLineItemOut: {
-            type: components['schemas']['FinancialEntryLineType'];
+            account_type: components['schemas']['EntryLineType'];
+            /** Account */
+            account: string;
+            /**
+             * Amount
+             * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
+             */
+            amount: number;
+            /** Description */
+            description?: string;
+            /** Counterpart Account */
+            counterpart_account: string;
+        };
+        /** FinancialEntryLineItemOutOld */
+        FinancialEntryLineItemOutOld: {
+            type: components['schemas']['EntryLineType'];
             /** Account Number */
             account_number: string;
             /**
@@ -1981,16 +2151,6 @@ export interface components {
             /** Counterpart Account */
             counterpart_account: string;
         };
-        /**
-         * FinancialEntryLineType
-         * @description An enumeration.
-         * @enum {string}
-         */
-        FinancialEntryLineType:
-            | 'customer_account'
-            | 'supplier_account'
-            | 'employee_account'
-            | 'general_account';
         /** FlowConfig */
         FlowConfig: {
             /** Definitionfields */
@@ -2621,10 +2781,10 @@ export interface components {
              * Description
              * @description Line description
              */
-            description: string;
+            description?: string;
             /**
              * Unit Price
-             * @description Unit price
+             * @description Unit price excl. taxes
              */
             unit_price: number;
             /**
@@ -2633,20 +2793,26 @@ export interface components {
              */
             quantity: number;
             /**
+             * Discount Amount
+             * @description Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount
+             * @default 0
+             */
+            discount_amount?: number;
+            /**
              * Tax Amount
              * @description Line total taxes amount
              */
             tax_amount: number;
             /**
-             * Total
-             * @description Line total amount incl. taxes
-             */
-            total: number;
-            /**
              * Untaxed Amount
              * @description Line total untaxed amount
              */
             untaxed_amount: number;
+            /**
+             * Total
+             * @description Line total amount incl. taxes, total = tax_amount + untaxed_amount
+             */
+            total: number;
             /**
              * Tax Rate
              * @description Tax rate (e.g. 21.0)
@@ -3666,7 +3832,7 @@ export interface components {
          * @description An enumeration.
          * @enum {string}
          */
-        OrderStatus: 'cancelled' | 'draft' | 'confirmed';
+        OrderStatus: 'cancelled' | 'draft' | 'confirmed' | 'shipped' | 'refunded';
         /** OutstandingItem */
         OutstandingItem: {
             /** Id */
@@ -3817,6 +3983,28 @@ export interface components {
         Page_AnalyticPlanItem_: {
             /** Items */
             items: components['schemas']['AnalyticPlanItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[AttachmentItemOut] */
+        Page_AttachmentItemOut_: {
+            /** Items */
+            items: components['schemas']['AttachmentItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[BalanceItemOut] */
+        Page_BalanceItemOut_: {
+            /** Items */
+            items: components['schemas']['BalanceItemOut'][];
             /** Total */
             total: number;
             /** Page */
@@ -5136,12 +5324,6 @@ export interface components {
             /** Size */
             size: number;
         };
-        /**
-         * PaymentStatus
-         * @description An enumeration.
-         * @enum {string}
-         */
-        app__routers__accounting__PaymentStatus: 'all' | 'unpaid' | 'paid';
         /** VatCode */
         app__routers__accounting__VatCode: {
             /** Id */
@@ -5407,6 +5589,12 @@ export interface components {
              */
             country?: string;
         };
+        /**
+         * PaymentStatus
+         * @description An enumeration.
+         * @enum {string}
+         */
+        models__common__PaymentStatus: 'all' | 'unpaid' | 'paid';
         /**
          * InvoiceType
          * @description An enumeration.
@@ -6927,7 +7115,7 @@ export interface operations {
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?: components['schemas']['app__routers__accounting__PaymentStatus'];
+                payment_status?: components['schemas']['models__common__PaymentStatus'];
                 page?: number;
                 size?: number;
             };
@@ -7058,7 +7246,7 @@ export interface operations {
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?: components['schemas']['app__routers__accounting__PaymentStatus'];
+                payment_status?: components['schemas']['models__common__PaymentStatus'];
                 page?: number;
                 size?: number;
             };
@@ -7989,10 +8177,56 @@ export interface operations {
         };
     };
     /**
-     * Create a financial entry
+     * Create a financial entry [Deprecated]
      * @description Create a new financial entry (Bank or Cash operation)
      */
     accounting_create_financial_entry: {
+        parameters: {
+            query?: {
+                /** @description Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty. */
+                financial_counterpart_account?: string;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['FinancialEntryItemInOld'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['FinancialEntryItemOutOld'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Create a financial entry
+     * @description Create a new financial entry (Bank or Cash operation)
+     */
+    accounting_create_financial_entries: {
         parameters: {
             query?: {
                 /** @description Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty. */
@@ -8055,6 +8289,43 @@ export interface operations {
             200: {
                 content: {
                     'application/json': components['schemas']['Page_OutstandingItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get attachments
+     * @description Returns a list of all attachments linked to an accounting entry
+     */
+    accounting_get_attachments: {
+        parameters: {
+            query: {
+                type: components['schemas']['DocumentType'];
+                document_id: string;
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_AttachmentItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -8997,6 +9268,8 @@ export interface operations {
             query?: {
                 /** @description Filter based on the type of the invoice. */
                 invoice_type?: components['schemas']['InvoiceTypeRequest'];
+                /** @description Filter paid/unpaid invoices */
+                payment_status?: components['schemas']['models__common__PaymentStatus'];
                 date_from?: string;
                 date_to?: string;
                 page?: number;
@@ -9581,6 +9854,41 @@ export interface operations {
         };
     };
     /**
+     * Retrieve all Balances
+     * @description Returns a list of balances.
+     */
+    payment_get_balances: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_BalanceItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Retrieve all Transactions
      * @description Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date
      */
@@ -9591,6 +9899,8 @@ export interface operations {
                 accounting_category?: components['schemas']['TransactionAccountingCategory'];
                 /** @description Get all transactions more recent than this one excluded */
                 starting_from?: string;
+                /** @description Get all transactions for a specific balance */
+                balance_id?: string;
                 date_from?: string;
                 date_to?: string;
                 page?: number;

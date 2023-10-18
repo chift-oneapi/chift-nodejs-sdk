@@ -357,14 +357,28 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/outstandings',
         };
     },
-    createFinancialEntry(
-        financial_entry: components['schemas']['FinancialEntryItemIn'],
+    /**
+     * @deprecated replaced by createFinancialEntry
+     */
+    createFinancialEntryOld(
+        financial_entry: components['schemas']['FinancialEntryItemInOld'],
         params: operations['accounting_create_financial_entry']['parameters']['query']
-    ): RequestData<components['schemas']['FinancialEntryItemOut']> {
+    ): RequestData<components['schemas']['FinancialEntryItemOutOld']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/financial-entry',
+            body: financial_entry,
+        };
+    },
+    createFinancialEntry(
+        financial_entry: components['schemas']['FinancialEntryItemIn'],
+        params: operations['accounting_create_financial_entries']['parameters']['query']
+    ): RequestData<components['schemas']['FinancialEntryItemOut'][]> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/financial-entries',
             body: financial_entry,
         };
     },
