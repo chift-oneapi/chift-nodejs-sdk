@@ -23,3 +23,7 @@
 
 -   Update createFinancialEntry endpoint
 -   Deprecate previous createFinancialEntry endpoint (changed to createFinancialEntryOld)
+
+## 1.0.5 - 2023-10-26
+
+-   Return correct error on authentication (promise)

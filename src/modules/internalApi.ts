@@ -26,27 +26,36 @@ class InternalAPI {
 
         this.instance.interceptors.request.use(
             (config) => {
-                return new Promise((resolve) => {
+                return new Promise((resolve, reject) => {
                     if (this.relatedChainExecutionId) {
                         config.headers['X-Chift-RelatedChainExecutionId'] =
                             this.relatedChainExecutionId;
                     }
                     if (this.token) {
                         if (this.token?.expires_on < new Date().getTime()) {
-                            return this.getToken().then(() => {
-                                config.headers['Authorization'] =
-                                    'Bearer ' + this.token?.access_token;
-                                return resolve(config);
-                            });
+                            return this.getToken()
+                                .then(() => {
+                                    config.headers['Authorization'] =
+                                        'Bearer ' + this.token?.access_token;
+                                    return resolve(config);
+                                })
+                                .catch((err) => {
+                                    return reject(err);
+                                });
                         } else {
                             config.headers['Authorization'] = 'Bearer ' + this.token?.access_token;
                             return resolve(config);
                         }
                     } else {
-                        return this.getToken().then(() => {
-                            config.headers['Authorization'] = 'Bearer ' + this.token?.access_token;
-                            return resolve(config);
-                        });
+                        return this.getToken()
+                            .then(() => {
+                                config.headers['Authorization'] =
+                                    'Bearer ' + this.token?.access_token;
+                                return resolve(config);
+                            })
+                            .catch((err) => {
+                                return reject(err);
+                            });
                     }
                 });
             },
