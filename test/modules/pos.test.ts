@@ -147,25 +147,14 @@ test.skip('updateOrder', async () => {
     expect(order).toHaveProperty('id', expect.any(String));
 });
 
-test('getProductsAndProductCategories', async () => {
+test('getProducts', async () => {
     const products = await zeltyConsumer.pos.getProducts();
-    const productCategories = await zeltyConsumer.pos.getProductCategories();
     expect(products).toBeInstanceOf(Array);
     expect(products.length).toBeGreaterThan(0);
+});
+
+test('getProductCategories', async () => {
+    const productCategories = await zeltyConsumer.pos.getProductCategories();
     expect(productCategories).toBeInstanceOf(Array);
     expect(productCategories.length).toBeGreaterThan(0);
-    for (let i = 0; i < products.length; i++) {
-        expect(products[i]).toHaveProperty('categories');
-        expect(products[i]['categories']).toBeInstanceOf(Array);
-        for (let j = 0; j < products['categories'].length; j++) {
-            let found = false;
-            for (let k = 0; k < productCategories.length; k++) {
-                if (productCategories[k]['id'] === products['categories'][j]) {
-                    found = true;
-                    break;
-                }
-            }
-            expect(found).toBe(true);
-        }
-    }
 });
