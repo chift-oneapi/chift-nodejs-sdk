@@ -4,7 +4,7 @@ import { ContextType } from '../types/sync';
 import { Consumer } from './consumer';
 import { Flow } from './flow';
 
-const Sync = (internalApi: InternalAPI, body: components['schemas']['SyncItem']) => {
+const Sync = (internalApi: InternalAPI, body: components['schemas']['ReadSyncItem']) => {
     const _internalApi: InternalAPI = internalApi;
     const data = body;
     const name = data.name;

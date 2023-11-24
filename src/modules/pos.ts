@@ -11,6 +11,16 @@ type getPaymentMethodsParams = Omit<
     'page' | 'size'
 >;
 
+type getProductCategoriesParams = Omit<
+    operations['pos_get_product_categories']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getProductsParams = Omit<
+    operations['pos_get_products']['parameters']['query'],
+    'page' | 'size'
+>;
+
 type getCustomersParams = Omit<
     operations['pos_get_customers']['parameters']['query'],
     'page' | 'size'
@@ -69,6 +79,22 @@ const posFactory = {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/payment-methods`,
+        };
+    },
+    getProductCategories(
+        params: getProductCategoriesParams
+    ): RequestData<components['schemas']['ProductCategoryItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/pos/product-categories`,
+        };
+    },
+    getProducts(params: getProductsParams): RequestData<components['schemas']['POSProductItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/pos/products`,
         };
     },
     getSales(

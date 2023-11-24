@@ -117,6 +117,11 @@ export interface paths {
          * @description Returns the syncs
          */
         get: operations['syncs_get_syncs'];
+        /**
+         * Create sync
+         * @description Returns the created sync
+         */
+        post: operations['syncs_post_sync'];
     };
     '/syncs/{syncid}': {
         /**
@@ -529,6 +534,20 @@ export interface paths {
          */
         get: operations['pos_get_customer'];
     };
+    '/consumers/{consumer_id}/pos/product-categories': {
+        /**
+         * Get product categories
+         * @description Returns a list of product categories
+         */
+        get: operations['pos_get_product_categories'];
+    };
+    '/consumers/{consumer_id}/pos/products': {
+        /**
+         * Get products
+         * @description Returns a list of products
+         */
+        get: operations['pos_get_products'];
+    };
     '/consumers/{consumer_id}/pos/closures/{date}': {
         /**
          * Get closure info for a specific day
@@ -815,7 +834,7 @@ export interface components {
         };
         /** AddressItemInInvoicing */
         AddressItemInInvoicing: {
-            address_type: components['schemas']['AddressType'];
+            address_type: components['schemas']['AddressTypeInvoicing'];
             /** Name */
             name?: string;
             /** Number */
@@ -842,7 +861,7 @@ export interface components {
         };
         /** AddressItemOutInvoicing */
         AddressItemOutInvoicing: {
-            address_type: components['schemas']['AddressType'];
+            address_type: components['schemas']['AddressTypeInvoicing'];
             /** Name */
             name?: string;
             /** Number */
@@ -873,6 +892,12 @@ export interface components {
          * @enum {string}
          */
         AddressType: 'main' | 'delivery' | 'invoice';
+        /**
+         * AddressTypeInvoicing
+         * @description An enumeration.
+         * @enum {string}
+         */
+        AddressTypeInvoicing: 'main' | 'delivery' | 'invoice' | 'other';
         /** AnalyticAccountItemIn */
         AnalyticAccountItemIn: {
             /**
@@ -892,22 +917,19 @@ export interface components {
         };
         /** AnalyticAccountItemOut */
         AnalyticAccountItemOut: {
-            /**
-             * Active
-             * @default true
-             */
-            active?: boolean;
+            /** Id */
+            id: string;
+            /** Active */
+            active: boolean;
             /** Code */
             code?: string;
             /** Name */
-            name?: string;
+            name: string;
             /**
              * Currency
              * @description Indicates the currency of the analytic account (e.g. EUR).
              */
             currency?: string;
-            /** Id */
-            id?: string;
             /**
              * Balance
              * @default 0
@@ -926,22 +948,19 @@ export interface components {
         };
         /** AnalyticAccountItemOutMultiAnalyticPlans */
         AnalyticAccountItemOutMultiAnalyticPlans: {
-            /**
-             * Active
-             * @default true
-             */
-            active?: boolean;
+            /** Id */
+            id: string;
+            /** Active */
+            active: boolean;
             /** Code */
             code?: string;
             /** Name */
-            name?: string;
+            name: string;
             /**
              * Currency
              * @description Indicates the currency of the analytic account (e.g. EUR).
              */
             currency?: string;
-            /** Id */
-            id?: string;
             /**
              * Balance
              * @default 0
@@ -1531,25 +1550,6 @@ export interface components {
             /** Values */
             values: string[];
         };
-        /** ConnectionItem */
-        ConnectionItem: {
-            /**
-             * Connectionid
-             * Format: uuid
-             */
-            connectionid: string;
-            /** Name */
-            name: string;
-            /** Integration */
-            integration: string;
-            /** Integrationid */
-            integrationid: number;
-            /** Api */
-            api: string;
-            /** Data */
-            data?: Record<string, never>;
-            status: components['schemas']['app__routers__connections__Status'];
-        };
         /** ConsumerItem */
         ConsumerItem: {
             /**
@@ -1813,6 +1813,62 @@ export interface components {
              * @default []
              */
             integrationids?: string[];
+            /** Link Metadata */
+            link_metadata?: Record<string, never>;
+        };
+        /** CreateFlowItem */
+        CreateFlowItem: {
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string;
+            execution: components['schemas']['FlowExecution'];
+            /**
+             * Config
+             * @default {
+             *   "datastores": []
+             * }
+             */
+            config?: components['schemas']['FlowConfig'];
+            trigger: components['schemas']['FlowTrigger'];
+        };
+        /** CreateSyncItem */
+        CreateSyncItem: {
+            /** Name */
+            name: string;
+            /** Connections */
+            connections: components['schemas']['app__routers__syncs__ConnectionItem'][];
+            /**
+             * Mappings
+             * @default []
+             */
+            mappings?: components['schemas']['CreateSyncMappingItem'][];
+            /**
+             * Flows
+             * @default []
+             */
+            flows?: components['schemas']['CreateFlowItem'][];
+        };
+        /** CreateSyncMappingItem */
+        CreateSyncMappingItem: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Logic */
+            logic?: Record<string, never>;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order?: number;
+            source_field: components['schemas']['FieldItem'];
+            target_field: components['schemas']['FieldItem'];
+            /**
+             * Display Delete
+             * @default false
+             */
+            display_delete?: boolean;
         };
         /** DataItem */
         DataItem: {
@@ -1933,6 +1989,36 @@ export interface components {
          * @enum {string}
          */
         FeesType: 'shipping' | 'other';
+        /** FieldItem */
+        FieldItem: {
+            /** Name */
+            name: string;
+            type: components['schemas']['FieldItemType'];
+            /** Display Condition */
+            display_condition?: Record<string, never>;
+            /**
+             * Values
+             * @default []
+             */
+            values?: components['schemas']['FieldItemValue'][];
+            /** Api Route */
+            api_route?: string;
+            /** Connection Type */
+            connection_type?: number;
+        };
+        /**
+         * FieldItemType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        FieldItemType: 'fixed' | 'api';
+        /** FieldItemValue */
+        FieldItemValue: {
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+        };
         /** FieldRef */
         FieldRef: {
             /**
@@ -3073,6 +3159,11 @@ export interface components {
              * @default []
              */
             discounts?: components['schemas']['app__routers__pos__DiscountItem'][];
+            /**
+             * Product Id
+             * @description Reference to the product related to this item
+             */
+            product_id?: string;
         };
         /** Journal */
         Journal: {
@@ -3301,13 +3392,6 @@ export interface components {
             integrationid: string;
             /** Data */
             data: string;
-        };
-        /** MappingItem */
-        MappingItem: {
-            /** Source Id */
-            source_id: string;
-            /** Target Id */
-            target_id: string;
         };
         /** MatchingIn */
         MatchingIn: {
@@ -3924,6 +4008,19 @@ export interface components {
             timezone?: string;
             address?: components['schemas']['AddressItem'];
         };
+        /** POSProductItem */
+        POSProductItem: {
+            /** Id */
+            id: string;
+            /** Categories */
+            categories?: string[];
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string;
+            /** Prices */
+            prices: components['schemas']['app__routers__pos__ProductPriceItem'][];
+        };
         /** Page[AccountBalance] */
         Page_AccountBalance_: {
             /** Items */
@@ -4243,6 +4340,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** Page[POSProductItem] */
+        Page_POSProductItem_: {
+            /** Items */
+            items: components['schemas']['POSProductItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** Page[PaymentItem] */
         Page_PaymentItem_: {
             /** Items */
@@ -4269,6 +4377,17 @@ export interface components {
         Page_Payment_: {
             /** Items */
             items: components['schemas']['Payment'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[ProductCategoryItem] */
+        Page_ProductCategoryItem_: {
+            /** Items */
+            items: components['schemas']['ProductCategoryItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4466,6 +4585,20 @@ export interface components {
             /** Data */
             data?: Record<string, never>;
         };
+        /** ProductCategoryItem */
+        ProductCategoryItem: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string;
+            /**
+             * Id Parent
+             * @description Indicates if the category belongs to a parent category
+             */
+            id_parent?: string;
+        };
         /** ProductItemOut */
         ProductItemOut: {
             /**
@@ -4518,16 +4651,18 @@ export interface components {
              * @description Description
              */
             description?: string;
-        };
-        /** ProductPriceItem */
-        ProductPriceItem: {
-            /** Currency */
-            currency: string;
             /**
-             * Price
+             * Available Quantity
+             * @description Available quanity of the product in stock. Will only be used for products that have an inventory (services will always be 0)
              * @default 0
              */
-            price?: number;
+            available_quantity?: number;
+            /**
+             * Cost
+             * @description Cost of the product
+             * @default 0
+             */
+            cost?: number;
         };
         /**
          * ProductStatus
@@ -4581,7 +4716,7 @@ export interface components {
              * Prices
              * @default []
              */
-            prices?: components['schemas']['ProductPriceItem'][];
+            prices?: components['schemas']['app__routers__commerce__ProductPriceItem'][];
             /** Unit Of Measure */
             unit_of_measure?: string;
             /**
@@ -4616,6 +4751,12 @@ export interface components {
             config?: components['schemas']['FlowConfig'];
             /** Values */
             values: Record<string, never>;
+            /**
+             * Enabled On
+             * Format: date-time
+             * @description Date on which the flow was enabled for this consumer
+             */
+            enabled_on: string;
         };
         /** ReadFlowItem */
         ReadFlowItem: {
@@ -4634,6 +4775,45 @@ export interface components {
              */
             config?: components['schemas']['FlowConfig'];
             trigger?: components['schemas']['FlowTrigger'];
+        };
+        /** ReadMappingItem */
+        ReadMappingItem: {
+            /** Source Id */
+            source_id: string;
+            /** Target Id */
+            target_id: string;
+        };
+        /** ReadSyncItem */
+        ReadSyncItem: {
+            /** Name */
+            name: string;
+            /** Connections */
+            connections: components['schemas']['app__routers__syncs__ConnectionItem'][];
+            /**
+             * Mappings
+             * @default []
+             */
+            mappings?: components['schemas']['CreateSyncMappingItem'][];
+            /**
+             * Syncid
+             * Format: uuid
+             */
+            syncid: string;
+            /** Consumers */
+            consumers: string[];
+            /** Flows */
+            flows: components['schemas']['ReadFlowItem'][];
+        };
+        /** ReadSyncMappingItem */
+        ReadSyncMappingItem: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Logic */
+            logic?: Record<string, never>;
+            /** Values */
+            values: components['schemas']['ReadMappingItem'][];
         };
         /** Ref */
         Ref: {
@@ -4955,7 +5135,12 @@ export interface components {
              * Link Mappings
              * @description Values of the mappings requested for the sync for the specific consumer
              */
-            link_mappings?: components['schemas']['SyncMappingItem'][];
+            link_mappings?: components['schemas']['ReadSyncMappingItem'][];
+            /**
+             * Link Metadata
+             * @description Metadata passed during creation
+             */
+            link_metadata?: Record<string, never>;
             /**
              * Enabled Flows
              * @description List of flows that the consumer has enabled
@@ -4968,29 +5153,6 @@ export interface components {
          * @enum {unknown}
          */
         SyncConsumerStatus: 'active' | 'inactive';
-        /** SyncItem */
-        SyncItem: {
-            /**
-             * Syncid
-             * Format: uuid
-             */
-            syncid: string;
-            /** Name */
-            name: string;
-            /** Consumers */
-            consumers: string[];
-            /** Flows */
-            flows: components['schemas']['ReadFlowItem'][];
-        };
-        /** SyncMappingItem */
-        SyncMappingItem: {
-            /** Name */
-            name: string;
-            /** Description */
-            description: string;
-            /** Values */
-            values: components['schemas']['MappingItem'][];
-        };
         /** Token */
         Token: {
             /** Access Token */
@@ -5175,7 +5337,7 @@ export interface components {
              * Prices
              * @default []
              */
-            prices?: components['schemas']['ProductPriceItem'][];
+            prices?: components['schemas']['app__routers__commerce__ProductPriceItem'][];
             /** Unit Of Measure */
             unit_of_measure?: string;
             /**
@@ -5464,6 +5626,35 @@ export interface components {
              */
             common_images?: components['schemas']['ImageItem'][];
         };
+        /** ProductPriceItem */
+        app__routers__commerce__ProductPriceItem: {
+            /** Currency */
+            currency: string;
+            /**
+             * Price
+             * @default 0
+             */
+            price?: number;
+        };
+        /** ConnectionItem */
+        app__routers__connections__ConnectionItem: {
+            /**
+             * Connectionid
+             * Format: uuid
+             */
+            connectionid: string;
+            /** Name */
+            name: string;
+            /** Integration */
+            integration: string;
+            /** Integrationid */
+            integrationid: number;
+            /** Api */
+            api: string;
+            /** Data */
+            data?: Record<string, never>;
+            status: components['schemas']['app__routers__connections__Status'];
+        };
         /** CredentialItem */
         app__routers__connections__CredentialItem: {
             /** Key */
@@ -5529,6 +5720,30 @@ export interface components {
             | 'Failed'
             | 'Unknown'
             | 'Authorised';
+        /** ProductPriceItem */
+        app__routers__pos__ProductPriceItem: {
+            /** Unit Price */
+            unit_price: number;
+            /** Tax Rate */
+            tax_rate: number;
+        };
+        /** ConnectionItem */
+        app__routers__syncs__ConnectionItem: {
+            /** One Api */
+            one_api?: number;
+            /** Connection Type */
+            connection_type?: number;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order?: number;
+            /**
+             * Display Hidden
+             * @default false
+             */
+            display_hidden?: boolean;
+        };
         /**
          * Status
          * @description An enumeration.
@@ -5713,11 +5928,22 @@ export interface operations {
      * @description Returns the list of consumers linked to your account.
      */
     consumers_get_consumers: {
+        parameters: {
+            query?: {
+                search?: string;
+            };
+        };
         responses: {
             /** @description Successful Response */
             200: {
                 content: {
                     'application/json': components['schemas']['ConsumerItem'][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -5863,7 +6089,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['ConnectionItem'][];
+                    'application/json': components['schemas']['app__routers__connections__ConnectionItem'][];
                 };
             };
             /** @description Not Found */
@@ -6267,7 +6493,32 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['SyncItem'][];
+                    'application/json': components['schemas']['ReadSyncItem'][];
+                };
+            };
+        };
+    };
+    /**
+     * Create sync
+     * @description Returns the created sync
+     */
+    syncs_post_sync: {
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CreateSyncItem'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ReadSyncItem'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -6286,7 +6537,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['SyncItem'];
+                    'application/json': components['schemas']['ReadSyncItem'];
                 };
             };
             /** @description Not Found */
@@ -8809,6 +9060,101 @@ export interface operations {
             };
             /** @description Not Found */
             404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get product categories
+     * @description Returns a list of product categories
+     */
+    pos_get_product_categories: {
+        parameters: {
+            query?: {
+                only_parents?: components['schemas']['BoolParam'];
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_ProductCategoryItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get products
+     * @description Returns a list of products
+     */
+    pos_get_products: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_POSProductItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
