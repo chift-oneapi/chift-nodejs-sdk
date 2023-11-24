@@ -14,12 +14,15 @@ const client = new chift.API({
 // Split testing between two APIs to support all endpoints
 const cashpadConsumerId = process.env.CHIFT_CASHPAD_CONSUMER_ID as string;
 const lightspeedConsumerId = process.env.CHIFT_LIGHTSPEED_CONSUMER_ID as string;
+const zeltyConsumerId = process.env.CHIFT_ZELTY_CONSUMER_ID as string;
 
 let cashpadConsumer: any;
 let lightspeedConsumer: any;
+let zeltyConsumer: any;
 beforeAll(async () => {
     cashpadConsumer = await client.Consumers.getConsumerById(cashpadConsumerId);
     lightspeedConsumer = await client.Consumers.getConsumerById(lightspeedConsumerId);
+    zeltyConsumer = await client.Consumers.getConsumerById(zeltyConsumerId);
 });
 
 test('getLocations', async () => {
@@ -142,4 +145,27 @@ test.skip('updateOrder', async () => {
     const order = await lightspeedConsumer.pos.updateOrder(orders[0].id, {});
     expect(order).toBeTruthy();
     expect(order).toHaveProperty('id', expect.any(String));
+});
+
+test('getProductsAndProductCategories', async () => {
+    const products = await zeltyConsumer.pos.getProducts();
+    const productCategories = await zeltyConsumer.pos.getProductCategories();
+    expect(products).toBeInstanceOf(Array);
+    expect(products.length).toBeGreaterThan(0);
+    expect(productCategories).toBeInstanceOf(Array);
+    expect(productCategories.length).toBeGreaterThan(0);
+    for (let i = 0; i < products.length; i++) {
+        expect(products[i]).toHaveProperty('categories');
+        expect(products[i]['categories']).toBeInstanceOf(Array);
+        for (let j = 0; j < products['categories'].length; j++) {
+            let found = false;
+            for (let k = 0; k < productCategories.length; k++) {
+                if (productCategories[k]['id'] === products['categories'][j]) {
+                    found = true;
+                    break;
+                }
+            }
+            expect(found).toBe(true);
+        }
+    }
 });
