@@ -14,15 +14,15 @@ const client = new chift.API({
 // Split testing between two APIs to support all endpoints
 const cashpadConsumerId = process.env.CHIFT_CASHPAD_CONSUMER_ID as string;
 const lightspeedConsumerId = process.env.CHIFT_LIGHTSPEED_CONSUMER_ID as string;
-const zeltyConsumerId = process.env.CHIFT_ZELTY_CONSUMER_ID as string;
+const popinaConsumerId = process.env.CHIFT_POPINA_CONSUMER_ID as string;
 
 let cashpadConsumer: any;
 let lightspeedConsumer: any;
-let zeltyConsumer: any;
+let popinaConsumer: any;
 beforeAll(async () => {
     cashpadConsumer = await client.Consumers.getConsumerById(cashpadConsumerId);
     lightspeedConsumer = await client.Consumers.getConsumerById(lightspeedConsumerId);
-    zeltyConsumer = await client.Consumers.getConsumerById(zeltyConsumerId);
+    popinaConsumer = await client.Consumers.getConsumerById(popinaConsumerId);
 });
 
 test('getLocations', async () => {
@@ -148,13 +148,13 @@ test.skip('updateOrder', async () => {
 });
 
 test('getProducts', async () => {
-    const products = await zeltyConsumer.pos.getProducts();
+    const products = await popinaConsumer.pos.getProducts();
     expect(products).toBeInstanceOf(Array);
     expect(products.length).toBeGreaterThan(0);
 });
 
 test('getProductCategories', async () => {
-    const productCategories = await zeltyConsumer.pos.getProductCategories();
+    const productCategories = await popinaConsumer.pos.getProductCategories();
     expect(productCategories).toBeInstanceOf(Array);
     expect(productCategories.length).toBeGreaterThan(0);
 });
