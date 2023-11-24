@@ -6,14 +6,14 @@ const Syncs = (internalApi: InternalAPI) => {
     const _internalApi: InternalAPI = internalApi;
 
     const getSyncs = async () => {
-        const { data }: { data: components['schemas']['SyncItem'][] } = await _internalApi.get(
+        const { data }: { data: components['schemas']['ReadSyncItem'][] } = await _internalApi.get(
             '/syncs'
         );
         return data.map((sync) => Sync(_internalApi, sync));
     };
 
     const getSyncById = async (syncid: string) => {
-        const { data }: { data: components['schemas']['SyncItem'] } = await _internalApi.get(
+        const { data }: { data: components['schemas']['ReadSyncItem'] } = await _internalApi.get(
             `/syncs/${syncid}`
         );
         return Sync(_internalApi, data);
