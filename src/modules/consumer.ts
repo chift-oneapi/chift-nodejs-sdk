@@ -80,6 +80,18 @@ const Consumer = (
         return data;
     };
 
+    const enableFlow = async (
+        syncId: string,
+        flowId: string,
+        body: components['schemas']['EnableFlowConsumer']
+    ) => {
+        const { data }: { data: SimpleResponseModel } = await _internalApi.post(
+            `/consumers/${consumerId}/syncs/${syncId}/flows/${flowId}/enable`,
+            body
+        );
+        return data;
+    };
+
     const getDataByDataStoreName = async (dataStoreName: string, params?: object) => {
         const { data }: { data: components['schemas']['DataStoreItem'][] } = await _internalApi.get(
             `/datastores`
@@ -155,6 +167,7 @@ const Consumer = (
         createConnection,
         updateConnection,
         deleteConnection,
+        enableFlow,
         getSyncUrl,
         name,
         redirect_url,
