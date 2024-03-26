@@ -122,6 +122,11 @@ export interface paths {
          * @description Returns the created sync
          */
         post: operations['syncs_post_sync'];
+        /**
+         * Update existing sync
+         * @description Update existing sync & related flows and mappings
+         */
+        patch: operations['syncs_update_sync'];
     };
     '/syncs/{syncid}': {
         /**
@@ -165,6 +170,13 @@ export interface paths {
          */
         get: operations['syncs_get_syncconsumer'];
     };
+    '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/enable': {
+        /**
+         * Enable a flow for a specific consumer
+         * @description Route that can be used to enable a flow for a specific consumer
+         */
+        post: operations['syncs_enable_syncconsumer'];
+    };
     '/datastores': {
         /**
          * Get list of datastores
@@ -185,6 +197,11 @@ export interface paths {
         post: operations['datastores_create_consumer_datastoredata'];
     };
     '/consumers/{consumerid}/datastore/{datastoreid}/data/{datastoredataid}': {
+        /**
+         * Delete execution data for a specific consumer and a specific datastore
+         * @description Delete execution data related to a consumer and a datastore
+         */
+        delete: operations['datastores_delete_consumer_datastoredata'];
         /**
          * Update execution data for a specific consumer and a specific datastore
          * @description Update and returns execution data related to a consumer and a datastore
@@ -339,13 +356,6 @@ export interface paths {
          */
         get: operations['accounting_get_analytic_accounts_multi_plans'];
     };
-    '/consumers/{consumer_id}/accounting/analytic-account-lines/account/{analytic_account_id}': {
-        /**
-         * Get analytic account lines of account
-         * @description Get a list of analytic account lines of a specific account
-         */
-        get: operations['accounting_get_analytic_account_lines'];
-    };
     '/consumers/{consumer_id}/accounting/journal/entries': {
         /**
          * Get journal entries
@@ -353,7 +363,7 @@ export interface paths {
          */
         get: operations['accounting_get_journal_entries'];
         /**
-         * Create Journal Entry
+         * Create Journal Entry [Deprecated]
          * @description Create a new Journal Entry in the accounting system
          */
         post: operations['accounting_create_journal_entry'];
@@ -364,6 +374,13 @@ export interface paths {
          * @description Returns a list of journal entries with invoice items including multiple analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
          */
         get: operations['accounting_get_journal_entries_mutli_plan'];
+    };
+    '/consumers/{consumer_id}/accounting/journal-entries': {
+        /**
+         * Create Journal Entry
+         * @description Create a new Journal Entry in the accounting system
+         */
+        post: operations['accounting_create_generic_journal_entry'];
     };
     '/consumers/{consumer_id}/accounting/invoices/id/{invoice_id}/payments': {
         /**
@@ -456,8 +473,8 @@ export interface paths {
     };
     '/consumers/{consumer_id}/accounting/outstandings': {
         /**
-         * Get clients/suppliers outstandings
-         * @description Returns a list of all clients/suppliers outstanding's informations
+         * Get clients/suppliers outstanding items
+         * @description Returns a list of all clients/suppliers outstanding items
          */
         get: operations['accounting_get_outstandings'];
     };
@@ -548,6 +565,13 @@ export interface paths {
          */
         get: operations['pos_get_products'];
     };
+    '/consumers/{consumer_id}/pos/accounting-categories': {
+        /**
+         * Get accounting categories
+         * @description Returns a list of accounting categories. When not available for a specific POS, it will return the same values as the product categories.
+         */
+        get: operations['pos_get_accounting_categories'];
+    };
     '/consumers/{consumer_id}/pos/closures/{date}': {
         /**
          * Get closure info for a specific day
@@ -622,6 +646,34 @@ export interface paths {
          * @description Returns a specific order
          */
         get: operations['ecommerce_get_order'];
+    };
+    '/consumers/{consumer_id}/commerce/payment-methods': {
+        /**
+         * Get all payment methods
+         * @description Returns the list of the payment methods
+         */
+        get: operations['ecommerce_get_payments_methods'];
+    };
+    '/consumers/{consumer_id}/commerce/product-categories': {
+        /**
+         * Get all product categories
+         * @description Returns the list of the product categories
+         */
+        get: operations['ecommerce_get_product_categories'];
+    };
+    '/consumers/{consumer_id}/commerce/taxes': {
+        /**
+         * Get all tax rates
+         * @description Returns the list of all tax rates
+         */
+        get: operations['ecommerce_get_taxes'];
+    };
+    '/consumers/{consumer_id}/commerce/countries': {
+        /**
+         * Get all countries
+         * @description Returns the list of all activated countries
+         */
+        get: operations['ecommerce_get_countries'];
     };
     '/consumers/{consumer_id}/invoicing/invoices': {
         /**
@@ -729,6 +781,13 @@ export interface paths {
          */
         get: operations['banking_get_account_transactions'];
     };
+    '/consumers/{consumer_id}/banking/counterparts': {
+        /**
+         * Get aggregated list of account counterparts found in transactions
+         * @description Returns the aggregated list of account counterpats found in transactions. Useful for categorisation.
+         */
+        get: operations['banking_get_account_counterparts'];
+    };
     '/consumers/{consumer_id}/payment/balances': {
         /**
          * Retrieve all Balances
@@ -813,6 +872,33 @@ export interface components {
             | 'expense'
             | 'vat'
             | 'other';
+        /** AccountingCategoryItem */
+        AccountingCategoryItem: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Id Parent
+             * @description Indicates if the category belongs to a parent category
+             */
+            id_parent?: string;
+            /**
+             * Code
+             * @description Code assigned to the category
+             */
+            code?: string;
+            /**
+             * Ledger Account Code
+             * @description Ledger account code assigned to the category
+             */
+            ledger_account_code?: string;
+            /**
+             * Posting Account Code
+             * @description Posting account code assigned to the category
+             */
+            posting_account_code?: string;
+        };
         /** AddressItem */
         AddressItem: {
             /** Address Type */
@@ -996,22 +1082,6 @@ export interface components {
              */
             currency?: string;
         };
-        /** AnalyticAccountLineItemOut */
-        AnalyticAccountLineItemOut: {
-            /** Account Id */
-            account_id: string;
-            /** Description */
-            description: string;
-            /** Amount */
-            amount: number;
-            /**
-             * Date
-             * Format: date
-             */
-            date: string;
-            /** Id */
-            id?: string;
-        };
         /** AnalyticDistribution */
         AnalyticDistribution: {
             /** Analytic Plan */
@@ -1078,6 +1148,11 @@ export interface components {
              * Format: uuid
              */
             accountId: string;
+            /**
+             * Marketplaceid
+             * Format: uuid
+             */
+            marketplaceId?: string;
         };
         /** BalanceItemOut */
         BalanceItemOut: {
@@ -1137,6 +1212,15 @@ export interface components {
             /** Holder Name */
             holder_name?: string;
         };
+        /** BankingCounterPartItem */
+        BankingCounterPartItem: {
+            /** Name */
+            name?: string;
+            /** Reference */
+            reference?: string;
+            /** Details */
+            details?: string;
+        };
         /** BankingFinancialInstitutionItem */
         BankingFinancialInstitutionItem: {
             /** Id */
@@ -1192,11 +1276,21 @@ export interface components {
         CategoryItem: {
             /**
              * Id
-             * @description Technical id of the category in the target software
+             * @description Technical id in Chift
              */
             id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
             /** Name */
             name: string;
+            /**
+             * Parent Id
+             * @description Technical id of the parent category in the target software
+             */
+            parent_id?: string;
         };
         /** ChainExecutionItem */
         ChainExecutionItem: {
@@ -1229,6 +1323,435 @@ export interface components {
              * @default
              */
             detail?: string;
+        };
+        /** ChiftPage[AccountBalance] */
+        ChiftPage_AccountBalance_: {
+            /** Items */
+            items: components['schemas']['AccountBalance'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[AccountItem] */
+        ChiftPage_AccountItem_: {
+            /** Items */
+            items: components['schemas']['AccountItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[AccountingCategoryItem] */
+        ChiftPage_AccountingCategoryItem_: {
+            /** Items */
+            items: components['schemas']['AccountingCategoryItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[AnalyticAccountItemOutMultiAnalyticPlans] */
+        ChiftPage_AnalyticAccountItemOutMultiAnalyticPlans_: {
+            /** Items */
+            items: components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[AnalyticAccountItemOut] */
+        ChiftPage_AnalyticAccountItemOut_: {
+            /** Items */
+            items: components['schemas']['AnalyticAccountItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[AnalyticPlanItem] */
+        ChiftPage_AnalyticPlanItem_: {
+            /** Items */
+            items: components['schemas']['AnalyticPlanItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[AttachmentItemOut] */
+        ChiftPage_AttachmentItemOut_: {
+            /** Items */
+            items: components['schemas']['AttachmentItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[BalanceItemOut] */
+        ChiftPage_BalanceItemOut_: {
+            /** Items */
+            items: components['schemas']['BalanceItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[CategoryItem] */
+        ChiftPage_CategoryItem_: {
+            /** Items */
+            items: components['schemas']['CategoryItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[ClientItemOut] */
+        ChiftPage_ClientItemOut_: {
+            /** Items */
+            items: components['schemas']['ClientItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[CommerceCustomerItem] */
+        ChiftPage_CommerceCustomerItem_: {
+            /** Items */
+            items: components['schemas']['CommerceCustomerItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[CommerceLocationItemOut] */
+        ChiftPage_CommerceLocationItemOut_: {
+            /** Items */
+            items: components['schemas']['CommerceLocationItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[ContactItemOut] */
+        ChiftPage_ContactItemOut_: {
+            /** Items */
+            items: components['schemas']['ContactItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[CountryItem] */
+        ChiftPage_CountryItem_: {
+            /** Items */
+            items: components['schemas']['CountryItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[EmployeeItem] */
+        ChiftPage_EmployeeItem_: {
+            /** Items */
+            items: components['schemas']['EmployeeItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[InvoiceItemOutMonoAnalyticPlan] */
+        ChiftPage_InvoiceItemOutMonoAnalyticPlan_: {
+            /** Items */
+            items: components['schemas']['InvoiceItemOutMonoAnalyticPlan'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[InvoiceItemOutMultiAnalyticPlans] */
+        ChiftPage_InvoiceItemOutMultiAnalyticPlans_: {
+            /** Items */
+            items: components['schemas']['InvoiceItemOutMultiAnalyticPlans'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[InvoiceItemOut] */
+        ChiftPage_InvoiceItemOut_: {
+            /** Items */
+            items: components['schemas']['InvoiceItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[JournalEntryMonoAnalyticPlan] */
+        ChiftPage_JournalEntryMonoAnalyticPlan_: {
+            /** Items */
+            items: components['schemas']['JournalEntryMonoAnalyticPlan'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[JournalEntryMultiAnalyticPlan] */
+        ChiftPage_JournalEntryMultiAnalyticPlan_: {
+            /** Items */
+            items: components['schemas']['JournalEntryMultiAnalyticPlan'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[Journal] */
+        ChiftPage_Journal_: {
+            /** Items */
+            items: components['schemas']['Journal'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[MiscellaneousOperationOut] */
+        ChiftPage_MiscellaneousOperationOut_: {
+            /** Items */
+            items: components['schemas']['MiscellaneousOperationOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[OpportunityItem] */
+        ChiftPage_OpportunityItem_: {
+            /** Items */
+            items: components['schemas']['OpportunityItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[OrderItemOut] */
+        ChiftPage_OrderItemOut_: {
+            /** Items */
+            items: components['schemas']['OrderItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[OrderItem] */
+        ChiftPage_OrderItem_: {
+            /** Items */
+            items: components['schemas']['OrderItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[OutstandingItem] */
+        ChiftPage_OutstandingItem_: {
+            /** Items */
+            items: components['schemas']['OutstandingItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[POSCustomerItem] */
+        ChiftPage_POSCustomerItem_: {
+            /** Items */
+            items: components['schemas']['POSCustomerItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[POSLocationItem] */
+        ChiftPage_POSLocationItem_: {
+            /** Items */
+            items: components['schemas']['POSLocationItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[POSProductItem] */
+        ChiftPage_POSProductItem_: {
+            /** Items */
+            items: components['schemas']['POSProductItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PaymentItem] */
+        ChiftPage_PaymentItem_: {
+            /** Items */
+            items: components['schemas']['PaymentItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PaymentMethodItem] */
+        ChiftPage_PaymentMethodItem_: {
+            /** Items */
+            items: components['schemas']['PaymentMethodItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PaymentMethods] */
+        ChiftPage_PaymentMethods_: {
+            /** Items */
+            items: components['schemas']['PaymentMethods'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[Payment] */
+        ChiftPage_Payment_: {
+            /** Items */
+            items: components['schemas']['Payment'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[ProductCategoryItem] */
+        ChiftPage_ProductCategoryItem_: {
+            /** Items */
+            items: components['schemas']['app__routers__pos__ProductCategoryItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[ProductItemOut] */
+        ChiftPage_ProductItemOut_: {
+            /** Items */
+            items: components['schemas']['ProductItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[ProductItem] */
+        ChiftPage_ProductItem_: {
+            /** Items */
+            items: components['schemas']['app__routers__commerce__ProductItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[SupplierItemOut] */
+        ChiftPage_SupplierItemOut_: {
+            /** Items */
+            items: components['schemas']['SupplierItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[TaxRateItem] */
+        ChiftPage_TaxRateItem_: {
+            /** Items */
+            items: components['schemas']['TaxRateItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[TransactionItemOut] */
+        ChiftPage_TransactionItemOut_: {
+            /** Items */
+            items: components['schemas']['TransactionItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
         };
         /** ClientItemIn */
         ClientItemIn: {
@@ -1800,6 +2323,16 @@ export interface components {
          * @enum {string}
          */
         ContactType: 'prospect' | 'customer' | 'supplier' | 'all';
+        /** CountryItem */
+        CountryItem: {
+            /**
+             * Code
+             * @description Country ISO Code
+             */
+            code: string;
+            /** Name */
+            name: string;
+        };
         /** CreateConsumerSyncItem */
         CreateConsumerSyncItem: {
             /**
@@ -1830,7 +2363,8 @@ export interface components {
              * }
              */
             config?: components['schemas']['FlowConfig'];
-            trigger: components['schemas']['FlowTrigger'];
+            /** Triggers */
+            triggers: components['schemas']['FlowTrigger'][];
         };
         /** CreateSyncItem */
         CreateSyncItem: {
@@ -1854,14 +2388,33 @@ export interface components {
             /** Name */
             name: string;
             /** Description */
-            description: string;
-            /** Logic */
-            logic?: Record<string, never>;
+            description?: string;
             /**
              * Display Order
              * @default 0
              */
             display_order?: number;
+            /** Challenge Question */
+            challenge_question?: string;
+            /**
+             * Sub Mappings
+             * @default []
+             */
+            sub_mappings?: components['schemas']['CreateSyncMappingToFieldItem'][];
+        };
+        /** CreateSyncMappingToFieldItem */
+        CreateSyncMappingToFieldItem: {
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order?: number;
+            /** Challenge Question */
+            challenge_question?: string;
             source_field: components['schemas']['FieldItem'];
             target_field: components['schemas']['FieldItem'];
             /**
@@ -1869,6 +2422,8 @@ export interface components {
              * @default false
              */
             display_delete?: boolean;
+            /** Logic */
+            logic?: Record<string, never>;
         };
         /** DataItem */
         DataItem: {
@@ -1955,6 +2510,22 @@ export interface components {
             /** Account Number */
             account_number?: string;
         };
+        /** EnableFlowConsumer */
+        EnableFlowConsumer: {
+            /**
+             * Integrationids
+             * @description List of integrationids of the connections that will be used to enable the flow
+             * @default []
+             */
+            integrationids?: string[];
+            /**
+             * Triggerid
+             * @default trigger-1
+             */
+            triggerid?: string;
+            /** Cronschedule */
+            cronschedule?: string;
+        };
         /**
          * EntryLineType
          * @description An enumeration.
@@ -1973,9 +2544,24 @@ export interface components {
         ExecutionType: 'code' | 'module';
         /** FeesItem */
         FeesItem: {
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on?: string;
             type: components['schemas']['FeesType'];
             /** Tax Rate */
             tax_rate: number;
+            /**
+             * Tax Id
+             * @description Technical id of the tax rate in Chift
+             */
+            tax_id?: string;
+            /**
+             * Discounts
+             * @default []
+             */
+            discounts?: components['schemas']['app__routers__commerce__DiscountItem'][];
             /** Untaxed Amount */
             untaxed_amount: number;
             /** Tax Amount */
@@ -2281,18 +2867,18 @@ export interface components {
         };
         /** FlowTrigger */
         FlowTrigger: {
+            /** Id */
+            id: string;
             type: components['schemas']['TriggerType'];
-            /** Data */
-            data?:
-                | components['schemas']['FlowTriggerTimer']
-                | components['schemas']['FlowTriggerEvent'];
-        };
-        /** FlowTriggerEvent */
-        FlowTriggerEvent: Record<string, never>;
-        /** FlowTriggerTimer */
-        FlowTriggerTimer: {
-            /** Cronschedule */
-            cronschedule: string;
+            /** Cronschedules */
+            cronschedules?: string[];
+            /**
+             * Visible
+             * @default true
+             */
+            visible?: boolean;
+            /** Definitionfields */
+            definitionFields?: Record<string, never>[];
         };
         /** FolderItem */
         FolderItem: {
@@ -2300,6 +2886,82 @@ export interface components {
             id: string;
             /** Name */
             name: string;
+            /**
+             * Selected
+             * @default true
+             */
+            selected?: boolean;
+        };
+        /** GenericJournalEntry */
+        GenericJournalEntry: {
+            /** Reference */
+            reference?: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date?: string;
+            /** Journal Id */
+            journal_id: string;
+            /** Number */
+            number: string;
+            /** Currency */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @default 1
+             */
+            currency_exchange_rate?: number;
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Items */
+            items: components['schemas']['GenericJournalItem'][];
+            /**
+             * Pdf
+             * @description Base 64 string representing the PDF attached to the item.
+             */
+            pdf?: string;
+            /**
+             * Posted
+             * @default true
+             */
+            posted?: boolean;
+        };
+        /** GenericJournalItem */
+        GenericJournalItem: {
+            account_type: components['schemas']['EntryLineType'];
+            /** Account */
+            account: string;
+            /**
+             * Force General Account
+             * @description For ustomer/supplier/employee accounts we determine the general account based on the configurations in the accounting system. The general account can also be forced by specifying the value in this field.
+             */
+            force_general_account?: string;
+            /**
+             * Prioritise Thirdparty Account
+             * @description Indicate if we need to prioritise the information from thirdparty accounts when forcing the general account in a software where only 1 account is accepted.
+             * @default false
+             */
+            prioritise_thirdparty_account?: boolean;
+            /** Description */
+            description?: string;
+            /** Debit */
+            debit: number;
+            /** Credit */
+            credit: number;
+            /**
+             * Analytic Distribution
+             * @default []
+             */
+            analytic_distribution?: components['schemas']['AnalyticDistribution'][];
+            /**
+             * Tax Code
+             * @description Indicates the tax code used for the entry item. This is the ID of the Tax Code in the accounting software.
+             */
+            tax_code?: string;
         };
         /** Validation Error */
         HTTPValidationError: {
@@ -2454,6 +3116,11 @@ export interface components {
              * @description Journal
              */
             journal_ref?: components['schemas']['FieldRef'];
+            /**
+             * Outstanding Amount
+             * @description Amount left to be paid
+             */
+            outstanding_amount?: number;
         };
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
@@ -2463,16 +3130,6 @@ export interface components {
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
              */
             invoice_number?: string;
-            /**
-             * Invoice Date
-             * Format: date
-             */
-            invoice_date: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date: string;
             /**
              * Currency
              * @description Indicates the currency of the invoice (e.g. EUR).
@@ -2490,6 +3147,16 @@ export interface components {
             payment_communication?: string;
             /** Customer Memo */
             customer_memo?: string;
+            /**
+             * Invoice Date
+             * Format: date
+             */
+            invoice_date: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date: string;
             /** Partner Id */
             partner_id: string;
             /**
@@ -2515,6 +3182,7 @@ export interface components {
              * @description Information used to add a correction line when roundings have an impact on the total amount of the invoice.
              */
             invoice_correction?: components['schemas']['InvoiceCorrection'];
+            nl_payment_terms_split?: components['schemas']['NlPaymentTermsSplit'];
             /** Lines */
             lines: components['schemas']['InvoiceLineItemInMonoAnalyticPlan'][];
         };
@@ -2527,16 +3195,6 @@ export interface components {
              */
             invoice_number?: string;
             /**
-             * Invoice Date
-             * Format: date
-             */
-            invoice_date: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date: string;
-            /**
              * Currency
              * @description Indicates the currency of the invoice (e.g. EUR).
              */
@@ -2553,6 +3211,16 @@ export interface components {
             payment_communication?: string;
             /** Customer Memo */
             customer_memo?: string;
+            /**
+             * Invoice Date
+             * Format: date
+             */
+            invoice_date: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date: string;
             /** Partner Id */
             partner_id: string;
             /**
@@ -2578,6 +3246,7 @@ export interface components {
              * @description Information used to add a correction line when roundings have an impact on the total amount of the invoice.
              */
             invoice_correction?: components['schemas']['InvoiceCorrection'];
+            nl_payment_terms_split?: components['schemas']['NlPaymentTermsSplit'];
             /** Lines */
             lines: components['schemas']['InvoiceLineItemInMultiAnalyticPlans'][];
         };
@@ -2665,6 +3334,16 @@ export interface components {
              * @description Journal
              */
             journal_ref?: components['schemas']['FieldRef'];
+            /**
+             * Outstanding Amount
+             * @description Amount left to be paid
+             */
+            outstanding_amount?: number;
+            /**
+             * Last Updated On
+             * Format: date-time
+             */
+            last_updated_on?: string;
         };
         /** InvoiceItemOutMonoAnalyticPlan */
         InvoiceItemOutMonoAnalyticPlan: {
@@ -2674,16 +3353,6 @@ export interface components {
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
              */
             invoice_number?: string;
-            /**
-             * Invoice Date
-             * Format: date
-             */
-            invoice_date: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date: string;
             /**
              * Currency
              * @description Indicates the currency of the invoice (e.g. EUR).
@@ -2703,6 +3372,18 @@ export interface components {
             customer_memo?: string;
             /** Id */
             id?: string;
+            /**
+             * Invoice Date
+             * Format: date
+             * @description Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
+             */
+            invoice_date: string;
+            /**
+             * Due Date
+             * Format: date
+             * @description Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.
+             */
+            due_date: string;
             /** Partner Id */
             partner_id: string;
             /**
@@ -2726,16 +3407,6 @@ export interface components {
              */
             invoice_number?: string;
             /**
-             * Invoice Date
-             * Format: date
-             */
-            invoice_date: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date: string;
-            /**
              * Currency
              * @description Indicates the currency of the invoice (e.g. EUR).
              */
@@ -2754,6 +3425,18 @@ export interface components {
             customer_memo?: string;
             /** Id */
             id?: string;
+            /**
+             * Invoice Date
+             * Format: date
+             * @description Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
+             */
+            invoice_date: string;
+            /**
+             * Due Date
+             * Format: date
+             * @description Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.
+             */
+            due_date: string;
             /** Partner Id */
             partner_id: string;
             /**
@@ -2855,6 +3538,16 @@ export interface components {
              * @description Journal
              */
             journal_ref?: components['schemas']['FieldRef'];
+            /**
+             * Outstanding Amount
+             * @description Amount left to be paid
+             */
+            outstanding_amount?: number;
+            /**
+             * Last Updated On
+             * Format: date-time
+             */
+            last_updated_on?: string;
             /**
              * Pdf
              * @description PDF document in base64
@@ -3153,7 +3846,7 @@ export interface components {
             /** Tax Rate */
             tax_rate?: number;
             /** Description */
-            description: string;
+            description?: string;
             /**
              * Discounts
              * @default []
@@ -3164,13 +3857,18 @@ export interface components {
              * @description Reference to the product related to this item
              */
             product_id?: string;
+            /**
+             * Accounting Category Id
+             * @description Sometimes used by a POS to give a specific accounting category to an order item
+             */
+            accounting_category_id?: string;
         };
         /** Journal */
         Journal: {
             /** Id */
             id: string;
             /** Code */
-            code: string;
+            code?: string;
             /** Name */
             name: string;
             journal_type: components['schemas']['JournalType'];
@@ -3195,6 +3893,11 @@ export interface components {
             date: string;
             /** Items */
             items: components['schemas']['JournalItemIn'][];
+            /**
+             * Pdf
+             * @description Base 64 string representing the PDF attached to the item.
+             */
+            pdf?: string;
         };
         /** JournalEntryMonoAnalyticPlan */
         JournalEntryMonoAnalyticPlan: {
@@ -3214,6 +3917,8 @@ export interface components {
             /**
              * Date
              * Format: date
+             * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
+             * @default 1970-01-01
              */
             date?: string;
             /**
@@ -3247,6 +3952,8 @@ export interface components {
             /**
              * Date
              * Format: date
+             * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
+             * @default 1970-01-01
              */
             date?: string;
             /**
@@ -3286,11 +3993,6 @@ export interface components {
              * @default []
              */
             analytic_distribution?: components['schemas']['AnalyticDistribution'][];
-            /**
-             * Pdf
-             * @description Base 64 string representing the PDF attached to the item.
-             */
-            pdf?: string;
         };
         /** JournalItemMonoAnalyticPlan */
         JournalItemMonoAnalyticPlan: {
@@ -3386,6 +4088,16 @@ export interface components {
             /** Url */
             url: string;
         };
+        /** LocalAgentInfo */
+        LocalAgentInfo: {
+            status: components['schemas']['LocalAgentStatus'];
+        };
+        /**
+         * LocalAgentStatus
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        LocalAgentStatus: 'up' | 'down';
         /** LogoImage */
         LogoImage: {
             /** Integrationid */
@@ -3412,11 +4124,6 @@ export interface components {
             /** Operation Number */
             operation_number?: string;
             /**
-             * Operation Date
-             * Format: date
-             */
-            operation_date: string;
-            /**
              * Currency
              * @description Indicates the currency of the operation (e.g. EUR).
              */
@@ -3429,6 +4136,11 @@ export interface components {
             currency_exchange_rate?: number;
             /** Lines */
             lines: components['schemas']['MiscellaneousOperationLine'][];
+            /**
+             * Operation Date
+             * Format: date
+             */
+            operation_date: string;
             /**
              * Journal Id
              * @description Indicates the journal used in for the operation. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
@@ -3473,11 +4185,6 @@ export interface components {
             /** Operation Number */
             operation_number?: string;
             /**
-             * Operation Date
-             * Format: date
-             */
-            operation_date: string;
-            /**
              * Currency
              * @description Indicates the currency of the operation (e.g. EUR).
              */
@@ -3490,6 +4197,13 @@ export interface components {
             currency_exchange_rate?: number;
             /** Lines */
             lines: components['schemas']['MiscellaneousOperationLine'][];
+            /**
+             * Operation Date
+             * Format: date
+             * @description Accounting date of the miscellaneous operation. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
+             * @default 1970-01-01
+             */
+            operation_date?: string;
             /**
              * Journal Id
              * @description Indicates the journal used in for the operation.
@@ -3511,6 +4225,11 @@ export interface components {
          * @enum {string}
          */
         MiscellaneousOperationStatusOut: 'cancelled' | 'draft' | 'posted' | 'matched';
+        /** NlPaymentTermsSplit */
+        NlPaymentTermsSplit: {
+            g_account: components['schemas']['PaymentTermAccountInfo'];
+            n_account: components['schemas']['PaymentTermAccountInfo'];
+        };
         /** OpportunityItem */
         OpportunityItem: {
             /**
@@ -3607,8 +4326,6 @@ export interface components {
         OpportunityStatus: 'open' | 'won' | 'lost' | 'cancelled' | 'closed';
         /** OrderCustomerItem */
         OrderCustomerItem: {
-            /** Email */
-            email: string;
             /** First Name */
             first_name?: string;
             /** Last Name */
@@ -3617,11 +4334,11 @@ export interface components {
             phone?: string;
             /** Internal Notes */
             internal_notes?: string;
+            /** Email */
+            email: string;
         };
         /** OrderCustomerItemOut */
         OrderCustomerItemOut: {
-            /** Email */
-            email: string;
             /** First Name */
             first_name?: string;
             /** Last Name */
@@ -3630,6 +4347,8 @@ export interface components {
             phone?: string;
             /** Internal Notes */
             internal_notes?: string;
+            /** Email */
+            email?: string;
             /**
              * Id
              * @description Technical id of the customer in Chift
@@ -3804,6 +4523,21 @@ export interface components {
              * @default []
              */
             other_fees?: components['schemas']['FeesItem'][];
+            /**
+             * Payment Method Id
+             * @description Technical id of the payment method in the eCommerce
+             */
+            payment_method_id?: string;
+            /**
+             * Transactions
+             * @default []
+             */
+            transactions?: components['schemas']['OrderTransactions'][];
+            /**
+             * Payment Methods
+             * @default []
+             */
+            payment_methods?: components['schemas']['OrderPaymentMethods'][];
         };
         /** OrderLineItemIn */
         OrderLineItemIn: {
@@ -3838,6 +4572,11 @@ export interface components {
              */
             source_ref: components['schemas']['Ref'];
             /**
+             * Created On
+             * Format: date-time
+             */
+            created_on?: string;
+            /**
              * Variant
              * @description Product variant
              */
@@ -3851,6 +4590,11 @@ export interface components {
             unit_price: number;
             /** Description */
             description: string;
+            /**
+             * Tax Id
+             * @description Technical id of the tax rate in Chift
+             */
+            tax_id?: string;
             /**
              * Tax Rate
              * @description Indicates the tax rate used for the line (e.g. 21.0).
@@ -3876,6 +4620,11 @@ export interface components {
              * @default []
              */
             discounts?: components['schemas']['app__routers__commerce__DiscountItem'][];
+            /**
+             * Gift Card
+             * @default false
+             */
+            gift_card?: boolean;
         };
         /** OrderLineProductVariantItem */
         OrderLineProductVariantItem: {
@@ -3889,8 +4638,31 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** OrderPaymentMethods */
+        OrderPaymentMethods: {
+            /**
+             * Id
+             * @description Technical id of the payment method in the eCommerce
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name of the payment method
+             */
+            name?: string;
+        };
         /** OrderRefundItem */
         OrderRefundItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
             /**
              * Created On
              * Format: date-time
@@ -3910,6 +4682,11 @@ export interface components {
              * @default 0
              */
             other?: number;
+            /**
+             * Shipping Refunds
+             * @default []
+             */
+            shipping_refunds?: components['schemas']['ShippingRefund'][];
         };
         /**
          * OrderStatus
@@ -3917,6 +4694,27 @@ export interface components {
          * @enum {string}
          */
         OrderStatus: 'cancelled' | 'draft' | 'confirmed' | 'shipped' | 'refunded';
+        /** OrderTransactions */
+        OrderTransactions: {
+            /**
+             * Id
+             * @description Technical id of the transaction in the eCommerce
+             */
+            id: string;
+            /**
+             * Payment Method Id
+             * @description Technical id of the payment method in the eCommerce
+             */
+            payment_method_id?: string;
+            /**
+             * Payment Method Name
+             * @description Name of the payment method
+             */
+            payment_method_name?: string;
+            /** Amount */
+            amount: number;
+            status: components['schemas']['TransactionStatus'];
+        };
         /** OutstandingItem */
         OutstandingItem: {
             /** Id */
@@ -3950,6 +4748,8 @@ export interface components {
             account_number: string;
             /** Reference */
             reference?: string;
+            /** Payment Communication */
+            payment_communication?: string;
             /** Posted */
             posted: boolean;
         };
@@ -3994,6 +4794,12 @@ export interface components {
             addresses?: components['schemas']['AddressItem'][];
             /** Loyalty */
             loyalty?: number;
+            /**
+             * Birthdate
+             * Format: date
+             * @description Birthdate
+             */
+            birthdate?: string;
         };
         /** POSLocationItem */
         POSLocationItem: {
@@ -4012,7 +4818,10 @@ export interface components {
         POSProductItem: {
             /** Id */
             id: string;
-            /** Categories */
+            /**
+             * Categories
+             * @default []
+             */
             categories?: string[];
             /** Name */
             name: string;
@@ -4020,99 +4829,27 @@ export interface components {
             description?: string;
             /** Prices */
             prices: components['schemas']['app__routers__pos__ProductPriceItem'][];
-        };
-        /** Page[AccountBalance] */
-        Page_AccountBalance_: {
-            /** Items */
-            items: components['schemas']['AccountBalance'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[AccountItem] */
-        Page_AccountItem_: {
-            /** Items */
-            items: components['schemas']['AccountItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[AnalyticAccountItemOutMultiAnalyticPlans] */
-        Page_AnalyticAccountItemOutMultiAnalyticPlans_: {
-            /** Items */
-            items: components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[AnalyticAccountItemOut] */
-        Page_AnalyticAccountItemOut_: {
-            /** Items */
-            items: components['schemas']['AnalyticAccountItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[AnalyticAccountLineItemOut] */
-        Page_AnalyticAccountLineItemOut_: {
-            /** Items */
-            items: components['schemas']['AnalyticAccountLineItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[AnalyticPlanItem] */
-        Page_AnalyticPlanItem_: {
-            /** Items */
-            items: components['schemas']['AnalyticPlanItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[AttachmentItemOut] */
-        Page_AttachmentItemOut_: {
-            /** Items */
-            items: components['schemas']['AttachmentItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[BalanceItemOut] */
-        Page_BalanceItemOut_: {
-            /** Items */
-            items: components['schemas']['BalanceItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
+            /**
+             * Accounting Category Ids
+             * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
+             */
+            accounting_category_ids?: string[];
         };
         /** Page[BankingAccountItem] */
         Page_BankingAccountItem_: {
             /** Items */
             items: components['schemas']['BankingAccountItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** Page[BankingCounterPartItem] */
+        Page_BankingCounterPartItem_: {
+            /** Items */
+            items: components['schemas']['BankingCounterPartItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4135,303 +4872,6 @@ export interface components {
         Page_BankingTransactionItem_: {
             /** Items */
             items: components['schemas']['BankingTransactionItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[ClientItemOut] */
-        Page_ClientItemOut_: {
-            /** Items */
-            items: components['schemas']['ClientItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[CommerceCustomerItem] */
-        Page_CommerceCustomerItem_: {
-            /** Items */
-            items: components['schemas']['CommerceCustomerItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[CommerceLocationItemOut] */
-        Page_CommerceLocationItemOut_: {
-            /** Items */
-            items: components['schemas']['CommerceLocationItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[ContactItemOut] */
-        Page_ContactItemOut_: {
-            /** Items */
-            items: components['schemas']['ContactItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[EmployeeItem] */
-        Page_EmployeeItem_: {
-            /** Items */
-            items: components['schemas']['EmployeeItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[InvoiceItemOutMonoAnalyticPlan] */
-        Page_InvoiceItemOutMonoAnalyticPlan_: {
-            /** Items */
-            items: components['schemas']['InvoiceItemOutMonoAnalyticPlan'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[InvoiceItemOutMultiAnalyticPlans] */
-        Page_InvoiceItemOutMultiAnalyticPlans_: {
-            /** Items */
-            items: components['schemas']['InvoiceItemOutMultiAnalyticPlans'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[InvoiceItemOut] */
-        Page_InvoiceItemOut_: {
-            /** Items */
-            items: components['schemas']['InvoiceItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[JournalEntryMonoAnalyticPlan] */
-        Page_JournalEntryMonoAnalyticPlan_: {
-            /** Items */
-            items: components['schemas']['JournalEntryMonoAnalyticPlan'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[JournalEntryMultiAnalyticPlan] */
-        Page_JournalEntryMultiAnalyticPlan_: {
-            /** Items */
-            items: components['schemas']['JournalEntryMultiAnalyticPlan'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[Journal] */
-        Page_Journal_: {
-            /** Items */
-            items: components['schemas']['Journal'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[MiscellaneousOperationOut] */
-        Page_MiscellaneousOperationOut_: {
-            /** Items */
-            items: components['schemas']['MiscellaneousOperationOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[OpportunityItem] */
-        Page_OpportunityItem_: {
-            /** Items */
-            items: components['schemas']['OpportunityItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[OrderItemOut] */
-        Page_OrderItemOut_: {
-            /** Items */
-            items: components['schemas']['OrderItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[OrderItem] */
-        Page_OrderItem_: {
-            /** Items */
-            items: components['schemas']['OrderItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[OutstandingItem] */
-        Page_OutstandingItem_: {
-            /** Items */
-            items: components['schemas']['OutstandingItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[POSCustomerItem] */
-        Page_POSCustomerItem_: {
-            /** Items */
-            items: components['schemas']['POSCustomerItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[POSLocationItem] */
-        Page_POSLocationItem_: {
-            /** Items */
-            items: components['schemas']['POSLocationItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[POSProductItem] */
-        Page_POSProductItem_: {
-            /** Items */
-            items: components['schemas']['POSProductItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[PaymentItem] */
-        Page_PaymentItem_: {
-            /** Items */
-            items: components['schemas']['PaymentItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[PaymentMethods] */
-        Page_PaymentMethods_: {
-            /** Items */
-            items: components['schemas']['PaymentMethods'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[Payment] */
-        Page_Payment_: {
-            /** Items */
-            items: components['schemas']['Payment'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[ProductCategoryItem] */
-        Page_ProductCategoryItem_: {
-            /** Items */
-            items: components['schemas']['ProductCategoryItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[ProductItemOut] */
-        Page_ProductItemOut_: {
-            /** Items */
-            items: components['schemas']['ProductItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[ProductItem] */
-        Page_ProductItem_: {
-            /** Items */
-            items: components['schemas']['app__routers__commerce__ProductItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[SupplierItemOut] */
-        Page_SupplierItemOut_: {
-            /** Items */
-            items: components['schemas']['SupplierItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[TransactionItemOut] */
-        Page_TransactionItemOut_: {
-            /** Items */
-            items: components['schemas']['TransactionItemOut'][];
             /** Total */
             total: number;
             /** Page */
@@ -4522,6 +4962,23 @@ export interface components {
              */
             date?: string;
         };
+        /** PaymentMethodItem */
+        PaymentMethodItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /** Name */
+            name: string;
+            /** Active */
+            active: boolean;
+        };
         /** PaymentMethods */
         PaymentMethods: {
             /** Id */
@@ -4530,6 +4987,13 @@ export interface components {
             name: string;
             /** Extra */
             extra?: string;
+        };
+        /** PaymentTermAccountInfo */
+        PaymentTermAccountInfo: {
+            /** Amount */
+            amount: number;
+            /** Iban */
+            iban: string;
         };
         /** PostAddressItem */
         PostAddressItem: {
@@ -4582,22 +5046,11 @@ export interface components {
              * @default []
              */
             consumers?: string[];
-            /** Data */
-            data?: Record<string, never>;
-        };
-        /** ProductCategoryItem */
-        ProductCategoryItem: {
-            /** Id */
-            id: string;
-            /** Name */
-            name: string;
-            /** Description */
-            description?: string;
             /**
-             * Id Parent
-             * @description Indicates if the category belongs to a parent category
+             * Data
+             * @default {}
              */
-            id_parent?: string;
+            data?: Record<string, never>;
         };
         /** ProductItemOut */
         ProductItemOut: {
@@ -4697,7 +5150,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories?: components['schemas']['CategoryItem'][];
+            categories?: components['schemas']['app__routers__commerce__ProductCategoryItem'][];
             /**
              * Created On
              * Format: date-time
@@ -4756,7 +5209,8 @@ export interface components {
              * Format: date-time
              * @description Date on which the flow was enabled for this consumer
              */
-            enabled_on: string;
+            enabled_on?: string;
+            trigger: components['schemas']['ReadFlowTrigger'];
         };
         /** ReadFlowItem */
         ReadFlowItem: {
@@ -4774,7 +5228,16 @@ export interface components {
              * }
              */
             config?: components['schemas']['FlowConfig'];
-            trigger?: components['schemas']['FlowTrigger'];
+            /** Triggers */
+            triggers?: components['schemas']['FlowTrigger'][];
+        };
+        /** ReadFlowTrigger */
+        ReadFlowTrigger: {
+            /** Id */
+            id: string;
+            type: components['schemas']['TriggerType'];
+            /** Cronschedule */
+            cronschedule?: string;
         };
         /** ReadMappingItem */
         ReadMappingItem: {
@@ -4809,11 +5272,20 @@ export interface components {
             /** Name */
             name: string;
             /** Description */
-            description: string;
-            /** Logic */
-            logic?: Record<string, never>;
+            description?: string;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order?: number;
+            /** Challenge Question */
+            challenge_question?: string;
             /** Values */
             values: components['schemas']['ReadMappingItem'][];
+            /** Sub Mapping Name */
+            sub_mapping_name: string;
+            /** Sub Mapping Description */
+            sub_mapping_description?: string;
         };
         /** Ref */
         Ref: {
@@ -4866,6 +5338,24 @@ export interface components {
             tax_amount: number;
             /** Taxes */
             taxes?: components['schemas']['TotalTaxItem'][];
+        };
+        /** ShippingRefund */
+        ShippingRefund: {
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount refunded (after discount).
+             */
+            untaxed_amount: number;
+            /**
+             * Tax Amount
+             * @description Total taxes refunded (after discount).
+             */
+            tax_amount: number;
+            /**
+             * Total
+             * @description Total refunded (after discount).
+             */
+            total: number;
         };
         /**
          * States
@@ -5153,6 +5643,25 @@ export interface components {
          * @enum {unknown}
          */
         SyncConsumerStatus: 'active' | 'inactive';
+        /** TaxRateItem */
+        TaxRateItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /** Label */
+            label: string;
+            /** Rate */
+            rate: number;
+            /** Country */
+            country?: string;
+        };
         /** Token */
         Token: {
             /** Access Token */
@@ -5239,6 +5748,12 @@ export interface components {
             /** @description Accounting category */
             accounting_category: components['schemas']['TransactionAccountingCategory'];
         };
+        /**
+         * TransactionStatus
+         * @description An enumeration.
+         * @enum {string}
+         */
+        TransactionStatus: 'failed' | 'pending' | 'success';
         /** TriggerResponse */
         TriggerResponse: {
             /** Status */
@@ -5318,7 +5833,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories?: components['schemas']['CategoryItem'][];
+            categories?: components['schemas']['app__routers__commerce__ProductCategoryItem'][];
             /**
              * Created On
              * Format: date-time
@@ -5465,6 +5980,17 @@ export interface components {
             /** Integrationid */
             integrationid?: number;
         };
+        /** ChiftPage[VatCode] */
+        'app__routers__accounting__ChiftPage[VatCode]': {
+            /** Items */
+            items: components['schemas']['app__routers__accounting__VatCode'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /**
          * InvoiceType
          * @description An enumeration.
@@ -5475,17 +6001,6 @@ export interface components {
             | 'customer_refund'
             | 'supplier_invoice'
             | 'supplier_refund';
-        /** Page[VatCode] */
-        'app__routers__accounting__Page[VatCode]': {
-            /** Items */
-            items: components['schemas']['app__routers__accounting__VatCode'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
         /** VatCode */
         app__routers__accounting__VatCode: {
             /** Id */
@@ -5499,6 +6014,10 @@ export interface components {
             /** Rate */
             rate: number;
             type: components['schemas']['app__routers__accounting__VatCodeType'];
+            /** Deductible Account */
+            deductible_account?: string;
+            /** Payable Account */
+            payable_account?: string;
         };
         /**
          * VatCodeScope
@@ -5541,6 +6060,8 @@ export interface components {
         /** AddressItemOut */
         app__routers__commerce__AddressItemOut: {
             address_type: components['schemas']['AddressType'];
+            /** Company Name */
+            company_name?: string;
             /** First Name */
             first_name?: string;
             /** Last Name */
@@ -5574,6 +6095,16 @@ export interface components {
             /** Amount */
             amount: number;
         };
+        /** ProductCategoryItem */
+        app__routers__commerce__ProductCategoryItem: {
+            /**
+             * Id
+             * @description Technical id of the category in Chift
+             */
+            id: string;
+            /** Name */
+            name: string;
+        };
         /** ProductItem */
         app__routers__commerce__ProductItem: {
             /**
@@ -5596,7 +6127,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories?: components['schemas']['CategoryItem'][];
+            categories?: components['schemas']['app__routers__commerce__ProductCategoryItem'][];
             /**
              * Created On
              * Format: date-time
@@ -5654,6 +6185,11 @@ export interface components {
             /** Data */
             data?: Record<string, never>;
             status: components['schemas']['app__routers__connections__Status'];
+            /**
+             * Agent
+             * @description For local agent only. Indicates whether the local agent is up and running
+             */
+            agent?: components['schemas']['LocalAgentInfo'];
         };
         /** CredentialItem */
         app__routers__connections__CredentialItem: {
@@ -5690,8 +6226,8 @@ export interface components {
          * @enum {unknown}
          */
         app__routers__integrations__Status: 'active' | 'inactive';
-        /** Page[VatCode] */
-        'app__routers__invoicing__Page[VatCode]': {
+        /** ChiftPage[VatCode] */
+        'app__routers__invoicing__ChiftPage[VatCode]': {
             /** Items */
             items: components['schemas']['models__invoicing__VatCode'][];
             /** Total */
@@ -5720,6 +6256,20 @@ export interface components {
             | 'Failed'
             | 'Unknown'
             | 'Authorised';
+        /** ProductCategoryItem */
+        app__routers__pos__ProductCategoryItem: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string;
+            /**
+             * Id Parent
+             * @description Indicates if the category belongs to a parent category
+             */
+            id_parent?: string;
+        };
         /** ProductPriceItem */
         app__routers__pos__ProductPriceItem: {
             /** Unit Price */
@@ -6524,6 +7074,31 @@ export interface operations {
         };
     };
     /**
+     * Update existing sync
+     * @description Update existing sync & related flows and mappings
+     */
+    syncs_update_sync: {
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CreateSyncItem'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ReadSyncItem'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Get sync
      * @description Returns a sync by id
      */
@@ -6577,16 +7152,22 @@ export interface operations {
                     'application/json': components['schemas']['TriggerResponse'];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
             /** @description Not Found */
             404: {
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -6739,6 +7320,50 @@ export interface operations {
         };
     };
     /**
+     * Enable a flow for a specific consumer
+     * @description Route that can be used to enable a flow for a specific consumer
+     */
+    syncs_enable_syncconsumer: {
+        parameters: {
+            path: {
+                syncid: string;
+                flowid: string;
+                consumerid: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['EnableFlowConsumer'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': unknown;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Get list of datastores
      * @description Returns a list of datastores (active and inactive) available for your account
      */
@@ -6838,6 +7463,39 @@ export interface operations {
         };
     };
     /**
+     * Delete execution data for a specific consumer and a specific datastore
+     * @description Delete execution data related to a consumer and a datastore
+     */
+    datastores_delete_consumer_datastoredata: {
+        parameters: {
+            path: {
+                consumerid: string;
+                datastoreid: string;
+                datastoredataid: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': unknown;
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Update execution data for a specific consumer and a specific datastore
      * @description Update and returns execution data related to a consumer and a datastore
      */
@@ -6907,6 +7565,8 @@ export interface operations {
     accounting_get_analytic_plans: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -6918,7 +7578,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_AnalyticPlanItem_'];
+                    'application/json': components['schemas']['ChiftPage_AnalyticPlanItem_'];
                 };
             };
             /** @description Bad Request */
@@ -6942,6 +7602,8 @@ export interface operations {
     accounting_get_clients: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -6953,7 +7615,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_ClientItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_ClientItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -6979,6 +7641,8 @@ export interface operations {
             query?: {
                 /** @description Indicate the ID of the corresponding supplier in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing supplier with the new client/customer (if the parameter is filled in with the ID of an existing supplier). */
                 force_merge?: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 consumer_id: string;
@@ -7016,6 +7680,10 @@ export interface operations {
      */
     accounting_get_client: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 client_id: string;
                 consumer_id: string;
@@ -7054,6 +7722,10 @@ export interface operations {
      */
     accounting_update_client: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 client_id: string;
                 consumer_id: string;
@@ -7098,6 +7770,8 @@ export interface operations {
     accounting_get_suppliers: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -7109,7 +7783,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_SupplierItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_SupplierItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -7135,6 +7809,8 @@ export interface operations {
             query?: {
                 /** @description Indicate the ID of the corresponding client/customer in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing client/customer with the new supplier (if the parameter is filled in with the ID of an existing client/customer). */
                 force_merge?: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 consumer_id: string;
@@ -7172,6 +7848,10 @@ export interface operations {
      */
     accounting_get_supplier: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 supplier_id: string;
                 consumer_id: string;
@@ -7210,6 +7890,10 @@ export interface operations {
      */
     accounting_update_supplier: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 supplier_id: string;
                 consumer_id: string;
@@ -7261,6 +7945,8 @@ export interface operations {
                 force_financial_period?: string;
                 /** @description Regroup lines by account number, tax code and analytic account in the accounting system. */
                 regroup_lines?: components['schemas']['BoolParam'];
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 consumer_id: string;
@@ -7312,6 +7998,8 @@ export interface operations {
                 force_financial_period?: string;
                 /** @description Regroup lines by account number, tax code and analytic distribution in the accounting system. */
                 regroup_lines?: components['schemas']['BoolParam'];
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 consumer_id: string;
@@ -7367,6 +8055,8 @@ export interface operations {
                 include_payments?: components['schemas']['BoolParam'];
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
                 payment_status?: components['schemas']['models__common__PaymentStatus'];
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -7379,7 +8069,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_InvoiceItemOutMonoAnalyticPlan_'];
+                    'application/json': components['schemas']['ChiftPage_InvoiceItemOutMonoAnalyticPlan_'];
                 };
             };
             /** @description Bad Request */
@@ -7405,6 +8095,8 @@ export interface operations {
             query?: {
                 /** @description Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 invoice_id: string;
@@ -7447,6 +8139,8 @@ export interface operations {
             query?: {
                 /** @description Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 invoice_id: string;
@@ -7498,6 +8192,8 @@ export interface operations {
                 include_payments?: components['schemas']['BoolParam'];
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
                 payment_status?: components['schemas']['models__common__PaymentStatus'];
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -7510,7 +8206,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_InvoiceItemOutMultiAnalyticPlans_'];
+                    'application/json': components['schemas']['ChiftPage_InvoiceItemOutMultiAnalyticPlans_'];
                 };
             };
             /** @description Bad Request */
@@ -7534,6 +8230,8 @@ export interface operations {
     accounting_get_analytic_accounts: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -7545,7 +8243,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_AnalyticAccountItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_AnalyticAccountItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -7568,6 +8266,10 @@ export interface operations {
      */
     accounting_create_analytic_account: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 consumer_id: string;
             };
@@ -7604,6 +8306,10 @@ export interface operations {
      */
     accounting_create_analytic_account_multi_plans: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 analytic_plan: string;
                 consumer_id: string;
@@ -7641,6 +8347,10 @@ export interface operations {
      */
     accounting_get_analytic_account: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 analytic_account_id: string;
                 consumer_id: string;
@@ -7679,6 +8389,10 @@ export interface operations {
      */
     accounting_update_analytic_account: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 analytic_account_id: string;
                 consumer_id: string;
@@ -7722,6 +8436,10 @@ export interface operations {
      */
     accounting_get_analytic_account_multi_plans: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 analytic_account_id: string;
                 analytic_plan: string;
@@ -7761,6 +8479,10 @@ export interface operations {
      */
     accounting_update_analytic_account_multi_plans: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 analytic_account_id: string;
                 analytic_plan: string;
@@ -7806,6 +8528,8 @@ export interface operations {
     accounting_get_analytic_accounts_multi_plans: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -7817,53 +8541,11 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_AnalyticAccountItemOutMultiAnalyticPlans_'];
+                    'application/json': components['schemas']['ChiftPage_AnalyticAccountItemOutMultiAnalyticPlans_'];
                 };
             };
             /** @description Bad Request */
             400: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    /**
-     * Get analytic account lines of account
-     * @description Get a list of analytic account lines of a specific account
-     */
-    accounting_get_analytic_account_lines: {
-        parameters: {
-            query?: {
-                page?: number;
-                size?: number;
-            };
-            path: {
-                analytic_account_id: string;
-                consumer_id: string;
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                content: {
-                    'application/json': components['schemas']['Page_AnalyticAccountLineItemOut_'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
@@ -7888,6 +8570,8 @@ export interface operations {
                 date_to: string;
                 journal_id: string;
                 partner_id?: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -7899,7 +8583,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_JournalEntryMonoAnalyticPlan_'];
+                    'application/json': components['schemas']['ChiftPage_JournalEntryMonoAnalyticPlan_'];
                 };
             };
             /** @description Bad Request */
@@ -7917,11 +8601,15 @@ export interface operations {
         };
     };
     /**
-     * Create Journal Entry
+     * Create Journal Entry [Deprecated]
      * @description Create a new Journal Entry in the accounting system
      */
     accounting_create_journal_entry: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 consumer_id: string;
             };
@@ -7970,6 +8658,8 @@ export interface operations {
                 date_to: string;
                 journal_id: string;
                 partner_id?: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -7981,7 +8671,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_JournalEntryMultiAnalyticPlan_'];
+                    'application/json': components['schemas']['ChiftPage_JournalEntryMultiAnalyticPlan_'];
                 };
             };
             /** @description Bad Request */
@@ -7999,12 +8689,60 @@ export interface operations {
         };
     };
     /**
+     * Create Journal Entry
+     * @description Create a new Journal Entry in the accounting system
+     */
+    accounting_create_generic_journal_entry: {
+        parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['GenericJournalEntry'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['JournalEntryMultiAnalyticPlan'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    /**
      * Get payments by invoice ID
      * @description Get payments of a specific invoice based on its ID
      */
     accounting_get_payments_by_invoice: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8017,7 +8755,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_Payment_'];
+                    'application/json': components['schemas']['ChiftPage_Payment_'];
                 };
             };
             /** @description Bad Request */
@@ -8047,6 +8785,8 @@ export interface operations {
     accounting_get_journals: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8058,7 +8798,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_Journal_'];
+                    'application/json': components['schemas']['ChiftPage_Journal_'];
                 };
             };
             /** @description Bad Request */
@@ -8082,6 +8822,8 @@ export interface operations {
     accounting_get_vat_codes: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8093,7 +8835,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['app__routers__accounting__Page[VatCode]'];
+                    'application/json': components['schemas']['app__routers__accounting__ChiftPage[VatCode]'];
                 };
             };
             /** @description Bad Request */
@@ -8124,6 +8866,8 @@ export interface operations {
                  * @example 3,12
                  */
                 journal_ids?: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8135,7 +8879,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_MiscellaneousOperationOut_'];
+                    'application/json': components['schemas']['ChiftPage_MiscellaneousOperationOut_'];
                 };
             };
             /** @description Bad Request */
@@ -8158,6 +8902,10 @@ export interface operations {
      */
     accounting_create_miscellaneous_operation: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 consumer_id: string;
             };
@@ -8200,6 +8948,10 @@ export interface operations {
      */
     accounting_get_miscellaneous_operation: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 consumer_id: string;
                 operation_id: string;
@@ -8232,6 +8984,10 @@ export interface operations {
      */
     accounting_match_entries: {
         parameters: {
+            query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
+            };
             path: {
                 consumer_id: string;
             };
@@ -8277,6 +9033,8 @@ export interface operations {
             query?: {
                 /** @description Indicate what to do if a document is already attched to the invoice. */
                 overwrite_existing?: components['schemas']['BoolParam'];
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 invoice_id: string;
@@ -8324,6 +9082,8 @@ export interface operations {
             query?: {
                 /** @description Filter based on the class of the account (e.g. 6,7 to retrieve 6 and 7 account classes). The classes are separed by ','. */
                 classes?: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8335,7 +9095,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_AccountItem_'];
+                    'application/json': components['schemas']['ChiftPage_AccountItem_'];
                 };
             };
             /** @description Bad Request */
@@ -8359,6 +9119,8 @@ export interface operations {
     accounting_get_accounts_balances: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8375,7 +9137,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_AccountBalance_'];
+                    'application/json': components['schemas']['ChiftPage_AccountBalance_'];
                 };
             };
             /** @description Bad Request */
@@ -8399,6 +9161,8 @@ export interface operations {
     accounting_get_employees: {
         parameters: {
             query?: {
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8410,7 +9174,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_EmployeeItem_'];
+                    'application/json': components['schemas']['ChiftPage_EmployeeItem_'];
                 };
             };
             /** @description Bad Request */
@@ -8436,6 +9200,8 @@ export interface operations {
             query?: {
                 /** @description Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty. */
                 financial_counterpart_account?: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 consumer_id: string;
@@ -8482,6 +9248,8 @@ export interface operations {
             query?: {
                 /** @description Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty. */
                 financial_counterpart_account?: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
             };
             path: {
                 consumer_id: string;
@@ -8520,14 +9288,16 @@ export interface operations {
         };
     };
     /**
-     * Get clients/suppliers outstandings
-     * @description Returns a list of all clients/suppliers outstanding's informations
+     * Get clients/suppliers outstanding items
+     * @description Returns a list of all clients/suppliers outstanding items
      */
     accounting_get_outstandings: {
         parameters: {
             query: {
                 type: components['schemas']['OutstandingType'];
                 unposted_allowed: components['schemas']['BoolParam'];
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8539,7 +9309,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_OutstandingItem_'];
+                    'application/json': components['schemas']['ChiftPage_OutstandingItem_'];
                 };
             };
             /** @description Bad Request */
@@ -8565,6 +9335,8 @@ export interface operations {
             query: {
                 type: components['schemas']['DocumentType'];
                 document_id: string;
+                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                folder_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -8576,7 +9348,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_AttachmentItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_AttachmentItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -8615,7 +9387,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_OrderItem_'];
+                    'application/json': components['schemas']['ChiftPage_OrderItem_'];
                 };
             };
             /** @description Bad Request */
@@ -8761,7 +9533,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_POSLocationItem_'];
+                    'application/json': components['schemas']['ChiftPage_POSLocationItem_'];
                 };
             };
             /** @description Bad Request */
@@ -8810,7 +9582,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_PaymentItem_'];
+                    'application/json': components['schemas']['ChiftPage_PaymentItem_'];
                 };
             };
             /** @description Bad Request */
@@ -8906,7 +9678,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_PaymentMethods_'];
+                    'application/json': components['schemas']['ChiftPage_PaymentMethods_'];
                 };
             };
             /** @description Bad Request */
@@ -8942,10 +9714,12 @@ export interface operations {
     pos_get_customers: {
         parameters: {
             query?: {
-                /** @description Filter based on other parameters than the email, e.g. firstname, lastname */
+                /** @description Filter based on other parameters than the email/phone, e.g. firstname, lastname */
                 search?: string;
                 /** @description Filter based on email of customer */
                 email?: string;
+                /** @description Filter based on phone of customer */
+                phone?: string;
                 page?: number;
                 size?: number;
             };
@@ -8957,7 +9731,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_POSCustomerItem_'];
+                    'application/json': components['schemas']['ChiftPage_POSCustomerItem_'];
                 };
             };
             /** @description Bad Request */
@@ -9091,6 +9865,7 @@ export interface operations {
     pos_get_product_categories: {
         parameters: {
             query?: {
+                location_id?: string;
                 only_parents?: components['schemas']['BoolParam'];
                 page?: number;
                 size?: number;
@@ -9103,7 +9878,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_ProductCategoryItem_'];
+                    'application/json': components['schemas']['ChiftPage_ProductCategoryItem_'];
                 };
             };
             /** @description Bad Request */
@@ -9139,6 +9914,7 @@ export interface operations {
     pos_get_products: {
         parameters: {
             query?: {
+                location_id?: string;
                 page?: number;
                 size?: number;
             };
@@ -9150,7 +9926,54 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_POSProductItem_'];
+                    'application/json': components['schemas']['ChiftPage_POSProductItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get accounting categories
+     * @description Returns a list of accounting categories. When not available for a specific POS, it will return the same values as the product categories.
+     */
+    pos_get_accounting_categories: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ChiftPage_AccountingCategoryItem_'];
                 };
             };
             /** @description Bad Request */
@@ -9244,7 +10067,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_CommerceCustomerItem_'];
+                    'application/json': components['schemas']['ChiftPage_CommerceCustomerItem_'];
                 };
             };
             /** @description Bad Request */
@@ -9317,7 +10140,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_ProductItem_'];
+                    'application/json': components['schemas']['ChiftPage_ProductItem_'];
                 };
             };
             /** @description Bad Request */
@@ -9471,7 +10294,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_CommerceLocationItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_CommerceLocationItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -9514,7 +10337,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_OrderItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_OrderItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -9606,6 +10429,147 @@ export interface operations {
         };
     };
     /**
+     * Get all payment methods
+     * @description Returns the list of the payment methods
+     */
+    ecommerce_get_payments_methods: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PaymentMethodItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get all product categories
+     * @description Returns the list of the product categories
+     */
+    ecommerce_get_product_categories: {
+        parameters: {
+            query?: {
+                only_parents?: components['schemas']['BoolParam'];
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ChiftPage_CategoryItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get all tax rates
+     * @description Returns the list of all tax rates
+     */
+    ecommerce_get_taxes: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ChiftPage_TaxRateItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
+     * Get all countries
+     * @description Returns the list of all activated countries
+     */
+    ecommerce_get_countries: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['ChiftPage_CountryItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Retrieve all invoices
      * @description Returns a list of invoices. Optionally invoice type and dates can be defined to retrieve invoices of a certain type from a certain date to another date
      */
@@ -9618,6 +10582,7 @@ export interface operations {
                 payment_status?: components['schemas']['models__common__PaymentStatus'];
                 date_from?: string;
                 date_to?: string;
+                updated_after?: string;
                 page?: number;
                 size?: number;
             };
@@ -9629,7 +10594,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_InvoiceItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_InvoiceItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -9742,7 +10707,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['app__routers__invoicing__Page[VatCode]'];
+                    'application/json': components['schemas']['app__routers__invoicing__ChiftPage[VatCode]'];
                 };
             };
             /** @description Bad Request */
@@ -9815,7 +10780,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_ProductItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_ProductItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -9924,7 +10889,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_OpportunityItem_'];
+                    'application/json': components['schemas']['ChiftPage_OpportunityItem_'];
                 };
             };
             /** @description Bad Request */
@@ -9999,7 +10964,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_ContactItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_ContactItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -10200,6 +11165,44 @@ export interface operations {
         };
     };
     /**
+     * Get aggregated list of account counterparts found in transactions
+     * @description Returns the aggregated list of account counterpats found in transactions. Useful for categorisation.
+     */
+    banking_get_account_counterparts: {
+        parameters: {
+            query?: {
+                accountid?: string;
+                date_from?: string;
+                date_to?: string;
+                page?: number;
+                size?: number;
+            };
+            path: {
+                consumer_id: string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                content: {
+                    'application/json': components['schemas']['Page_BankingCounterPartItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    /**
      * Retrieve all Balances
      * @description Returns a list of balances.
      */
@@ -10217,7 +11220,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_BalanceItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_BalanceItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -10260,7 +11263,7 @@ export interface operations {
             /** @description Successful Response */
             200: {
                 content: {
-                    'application/json': components['schemas']['Page_TransactionItemOut_'];
+                    'application/json': components['schemas']['ChiftPage_TransactionItemOut_'];
                 };
             };
             /** @description Bad Request */

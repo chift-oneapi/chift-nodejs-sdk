@@ -104,8 +104,8 @@ test('updateAvailableQuantity', async () => {
     expect(product).toHaveProperty('available_quantity', expect.any(Number));
 });
 
-/*
-test('createOrder', async () => {
+// TODO: Fix create order test
+test.skip('createOrder', async () => {
     const order = await consumer.ecommerce.createOrder({
         customer: {
             email: 'test@test.com',
@@ -140,7 +140,6 @@ test('createOrder', async () => {
     expect(order).toBeTruthy();
     expect(order).toHaveProperty('id', expect.any(String));
 });
-*/
 
 let orders: components['schemas']['OrderItemOut'][];
 test('getOrders', async () => {
@@ -174,4 +173,36 @@ test('getOrder', async () => {
     expect(order).toHaveProperty('note');
     expect(order).toHaveProperty('lines', expect.any(Array));
     expect(order).toHaveProperty('other_fees');
+});
+
+test('getPaymentMethods', async () => {
+    const paymentMethods = await consumer.ecommerce.getPaymentMethods();
+    expect(paymentMethods).toBeInstanceOf(Array);
+    expect(paymentMethods.length).toBeGreaterThan(0);
+    expect(paymentMethods[0]).toHaveProperty('id', expect.any(String));
+    expect(paymentMethods[0]).toHaveProperty('name', expect.any(String));
+});
+
+test('getProductCategories', async () => {
+    const productCategories = await consumer.ecommerce.getProductCategories();
+    expect(productCategories).toBeInstanceOf(Array);
+    expect(productCategories.length).toBeGreaterThan(0);
+    expect(productCategories[0]).toHaveProperty('id', expect.any(String));
+    expect(productCategories[0]).toHaveProperty('name', expect.any(String));
+});
+
+test('getCountries', async () => {
+    const countries = await consumer.ecommerce.getCountries();
+    expect(countries).toBeInstanceOf(Array);
+    expect(countries.length).toBeGreaterThan(0);
+    expect(countries[0]).toHaveProperty('id', expect.any(String));
+    expect(countries[0]).toHaveProperty('name', expect.any(String));
+});
+
+test('getTaxes', async () => {
+    const taxes = await consumer.ecommerce.getTaxes();
+    expect(taxes).toBeInstanceOf(Array);
+    expect(taxes.length).toBeGreaterThan(0);
+    expect(taxes[0]).toHaveProperty('id', expect.any(String));
+    expect(taxes[0]).toHaveProperty('rate', expect.any(String));
 });
