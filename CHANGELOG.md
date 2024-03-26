@@ -46,3 +46,6 @@
 -   [ECOMMERCE] Add getProductCategories
 -   [ECOMMERCE] Add getCountries
 -   [ECOMMERCE] Add getTaxes
+-   [SYNC] Add create sync
+-   [SYNC] Add update sync
+-   [CONSUMER] Add enable consumer flow
