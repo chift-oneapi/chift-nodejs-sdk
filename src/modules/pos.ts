@@ -26,6 +26,11 @@ type getCustomersParams = Omit<
     'page' | 'size'
 >;
 
+type getAccountingCategoriesParams = Omit<
+    operations['pos_get_accounting_categories']['parameters']['query'],
+    'page' | 'size'
+>;
+
 type getOrdersParams = Omit<operations['pos_get_orders']['parameters']['query'], 'page' | 'size'>;
 
 const posFactory = {
@@ -83,7 +88,7 @@ const posFactory = {
     },
     getProductCategories(
         params: getProductCategoriesParams
-    ): RequestData<components['schemas']['ProductCategoryItem'][]> {
+    ): RequestData<components['schemas']['CategoryItem'][]> {
         return {
             params,
             method: 'get',
@@ -131,6 +136,15 @@ const posFactory = {
             method: 'patch',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
             body: order,
+        };
+    },
+    getAccountingCategories(
+        params: getAccountingCategoriesParams
+    ): RequestData<components['schemas']['AccountingCategoryItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/pos/accounting-categories`,
         };
     },
 };

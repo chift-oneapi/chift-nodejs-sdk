@@ -242,14 +242,6 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans',
         };
     },
-    getAnalyticLinesOfAccount(
-        analytic_account_id: string
-    ): RequestData<components['schemas']['AnalyticAccountLineItemOut'][]> {
-        return {
-            method: 'get',
-            url: `/consumers/{consumer_id}/accounting/analytic-account-lines/account/${analytic_account_id}`,
-        };
-    },
     getJournalEntries(
         params: getJournalEntriesParams
     ): RequestData<components['schemas']['JournalEntryMonoAnalyticPlan'][]> {
@@ -296,18 +288,22 @@ const accountingFactory = {
         };
     },
     createMiscOperation(
-        operation: components['schemas']['MiscellaneousOperationIn']
+        operation: components['schemas']['MiscellaneousOperationIn'],
+        params: operations['accounting_create_miscellaneous_operation']['parameters']['query']
     ): RequestData<components['schemas']['MiscellaneousOperationOut']> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/miscellaneous-operation',
             body: operation,
         };
     },
     getMiscOperation(
-        operation_id: string
+        operation_id: string,
+        params: operations['accounting_get_miscellaneous_operation']['parameters']['query']
     ): RequestData<components['schemas']['MiscellaneousOperationOut']> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/miscellaneous-operation/${operation_id}`,
         };
@@ -334,16 +330,21 @@ const accountingFactory = {
         };
     },
     getBalanceOfAccounts(
-        filter: components['schemas']['AccountBalanceFilter']
+        filter: components['schemas']['AccountBalanceFilter'],
+        params: operations['accounting_get_accounts_balances']['parameters']['query']
     ): RequestData<components['schemas']['AccountBalance'][]> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/chart-of-accounts/balance',
             body: filter,
         };
     },
-    getEmployees(): RequestData<components['schemas']['EmployeeItem'][]> {
+    getEmployees(
+        params: operations['accounting_get_employees']['parameters']['query']
+    ): RequestData<components['schemas']['EmployeeItem'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/employees',
         };
@@ -382,12 +383,23 @@ const accountingFactory = {
             body: financial_entry,
         };
     },
-    createJournalEntry(
+    createJournalEntryOld(
         journal_entry: components['schemas']['JournalEntryIn']
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
         return {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/journal/entries',
+            body: journal_entry,
+        };
+    },
+    createJournalEntry(
+        journal_entry: components['schemas']['GenericJournalEntry'],
+        params: operations['accounting_create_generic_journal_entry']['parameters']['query']
+    ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/journal-entries',
             body: journal_entry,
         };
     },

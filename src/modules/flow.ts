@@ -38,7 +38,7 @@ const Flow = (
             name: data.name,
             description: data.description,
             execution: data.execution,
-            trigger: data.trigger,
+            triggers: data.triggers,
             config: data.config,
         });
         // execute locally or remotely by sending an event to execute the flow
