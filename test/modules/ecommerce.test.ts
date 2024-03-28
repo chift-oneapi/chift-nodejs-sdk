@@ -204,5 +204,5 @@ test('getTaxes', async () => {
     expect(taxes).toBeInstanceOf(Array);
     expect(taxes.length).toBeGreaterThan(0);
     expect(taxes[0]).toHaveProperty('id', expect.any(String));
-    expect(taxes[0]).toHaveProperty('rate', expect.any(String));
+    expect(taxes[0]).toHaveProperty('rate', expect.any(Number));
 });
