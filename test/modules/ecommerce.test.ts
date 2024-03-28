@@ -195,7 +195,7 @@ test('getCountries', async () => {
     const countries = await consumer.ecommerce.getCountries();
     expect(countries).toBeInstanceOf(Array);
     expect(countries.length).toBeGreaterThan(0);
-    expect(countries[0]).toHaveProperty('id', expect.any(String));
+    expect(countries[0]).toHaveProperty('code', expect.any(String));
     expect(countries[0]).toHaveProperty('name', expect.any(String));
 });
 
