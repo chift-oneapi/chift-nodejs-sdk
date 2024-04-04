@@ -3,57 +3,56 @@ name: Test and publish
 on:
     workflow_dispatch: {}
     push:
-      branches:
-        - main
-        - feature/**
-      tags:
-        - v[0-9]+.[0-9]+.[0-9]+*
+        branches:
+            - main
+            - feature/**
+        tags:
+            - v[0-9]+.[0-9]+.[0-9]+*
     pull_request:
-      branches:
-        - main
-        - feature/**
+        branches:
+            - main
+            - feature/**
 
 jobs:
     test:
-      name: Test
-      runs-on: ubuntu-latest
-      steps:
-          - name: Checkout
-            uses: actions/checkout@v3
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
 
-          - name: Use Node.js 16.x
-            uses: actions/setup-node@v3
-            with:
-                node-version: 16.x
+            - name: Use Node.js 16.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16.x
 
-          - name: Install dependencies
-            run: npm install
+            - name: Install dependencies
+              run: npm install
 
-          - name: Test
-            run: npm test --coverage && ./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info
-            env:
-                CHIFT_BASE_URL: ${{ secrets.CHIFT_BASE_URL }}
-                CHIFT_CLIENT_ID: ${{ secrets.CHIFT_CLIENT_ID }}
-                CHIFT_CLIENT_SECRET: ${{ secrets.CHIFT_CLIENT_SECRET }}
-                CHIFT_ACCOUNT_ID: ${{ secrets.CHIFT_ACCOUNT_ID }}
-                CHIFT_ODOO_CONSUMER_ID: ${{ secrets.CHIFT_ODOO_CONSUMER_ID }}
-                CHIFT_WOOCOMMERCE_CONSUMER_ID: ${{ secrets.CHIFT_WOOCOMMERCE_CONSUMER_ID }}
-                CHIFT_AXONAUT_CONSUMER_ID: ${{ secrets.CHIFT_AXONAUT_CONSUMER_ID }}
-                CHIFT_CASHPAD_CONSUMER_ID: ${{ secrets.CHIFT_CASHPAD_CONSUMER_ID }}
-                CHIFT_LIGHTSPEED_CONSUMER_ID: ${{ secrets.CHIFT_LIGHTSPEED_CONSUMER_ID }}
-                CHIFT_POPINA_CONSUMER_ID: ${{ secrets.CHIFT_POPINA_CONSUMER_ID }}
-                CHIFT_TEST_SYNC_ID: ${{ secrets.CHIFT_TEST_SYNC_ID }}
-                CHIFT_SYNC_CONSUMER_ID: ${{ secrets.CHIFT_SYNC_CONSUMER_ID }}
-                COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+            - name: Test
+              run: npm test --coverage && ./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info
+              env:
+                  CHIFT_BASE_URL: ${{ secrets.CHIFT_BASE_URL }}
+                  CHIFT_CLIENT_ID: ${{ secrets.CHIFT_CLIENT_ID }}
+                  CHIFT_CLIENT_SECRET: ${{ secrets.CHIFT_CLIENT_SECRET }}
+                  CHIFT_ACCOUNT_ID: ${{ secrets.CHIFT_ACCOUNT_ID }}
+                  CHIFT_ODOO_CONSUMER_ID: ${{ secrets.CHIFT_ODOO_CONSUMER_ID }}
+                  CHIFT_WOOCOMMERCE_CONSUMER_ID: ${{ secrets.CHIFT_WOOCOMMERCE_CONSUMER_ID }}
+                  CHIFT_AXONAUT_CONSUMER_ID: ${{ secrets.CHIFT_AXONAUT_CONSUMER_ID }}
+                  CHIFT_CASHPAD_CONSUMER_ID: ${{ secrets.CHIFT_CASHPAD_CONSUMER_ID }}
+                  CHIFT_LIGHTSPEED_CONSUMER_ID: ${{ secrets.CHIFT_LIGHTSPEED_CONSUMER_ID }}
+                  CHIFT_POPINA_CONSUMER_ID: ${{ secrets.CHIFT_POPINA_CONSUMER_ID }}
+                  CHIFT_TEST_SYNC_ID: ${{ secrets.CHIFT_TEST_SYNC_ID }}
+                  CHIFT_SYNC_CONSUMER_ID: ${{ secrets.CHIFT_SYNC_CONSUMER_ID }}
+                  COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
-          - name: Report Coveralls
-            uses: coverallsapp/github-action@v2
+            - name: Report Coveralls
+              uses: coverallsapp/github-action@v2
 
     publish:
         name: Publish
-        if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+        if: github.event_name == 'workflow_dispatch'
         runs-on: ubuntu-latest
-        needs: test
         steps:
             - name: Checkout
               uses: actions/checkout@v3
