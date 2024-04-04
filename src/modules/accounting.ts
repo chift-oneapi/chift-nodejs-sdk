@@ -37,14 +37,20 @@ type getOutstandingsParams = Omit<
 >;
 
 const accountingFactory = {
-    getAnalyticPlans(): RequestData<components['schemas']['AnalyticPlanItem'][]> {
+    getAnalyticPlans(
+        params: operations['accounting_get_analytic_plans']['parameters']['query']
+    ): RequestData<components['schemas']['AnalyticPlanItem'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-plans',
         };
     },
-    getClients(): RequestData<components['schemas']['ClientItemOut'][]> {
+    getClients(
+        params: operations['accounting_get_clients']['parameters']['query']
+    ): RequestData<components['schemas']['ClientItemOut'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/clients',
         };
@@ -54,30 +60,39 @@ const accountingFactory = {
         params: operations['accounting_create_client']['parameters']['query']
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/clients',
             body: client,
-            params: params,
         };
     },
-    getClient(clientId: string): RequestData<components['schemas']['ClientItemOut']> {
+    getClient(
+        clientId: string,
+        params: operations['accounting_get_client']['parameters']['query']
+    ): RequestData<components['schemas']['ClientItemOut']> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/clients/${clientId}`,
         };
     },
     updateClient(
         clientId: string,
-        client: components['schemas']['ClientItemUpdate']
+        client: components['schemas']['ClientItemUpdate'],
+        params: operations['accounting_update_client']['parameters']['query']
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
+            params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/clients/${clientId}`,
             body: client,
         };
     },
-    getSuppliers(): RequestData<components['schemas']['SupplierItemOut'][]> {
+    getSuppliers(
+        params: operations['accounting_get_suppliers']['parameters']['query']
+    ): RequestData<components['schemas']['SupplierItemOut'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/suppliers',
         };
@@ -87,23 +102,29 @@ const accountingFactory = {
         params: operations['accounting_create_supplier']['parameters']['query']
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/suppliers',
             body: supplier,
-            params: params,
         };
     },
-    getSupplier(supplierId: string): RequestData<components['schemas']['SupplierItemOut']> {
+    getSupplier(
+        supplierId: string,
+        params: operations['accounting_get_supplier']['parameters']['query']
+    ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/suppliers/${supplierId}`,
         };
     },
     updateSupplier(
         supplierId: string,
-        supplier: components['schemas']['SupplierItemUpdate']
+        supplier: components['schemas']['SupplierItemUpdate'],
+        params: operations['accounting_update_supplier']['parameters']['query']
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
+            params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/suppliers/${supplierId}`,
             body: supplier,
@@ -172,43 +193,54 @@ const accountingFactory = {
         };
     },
     createAnalyticAccount(
-        analyticAccount: components['schemas']['AnalyticAccountItemIn']
+        analyticAccount: components['schemas']['AnalyticAccountItemIn'],
+        params: operations['accounting_create_analytic_account']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
+            params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/analytic-accounts',
             body: analyticAccount,
         };
     },
-    getAnalyticAccounts(): RequestData<components['schemas']['AnalyticAccountItemOut'][]> {
+    getAnalyticAccounts(
+        params: operations['accounting_get_analytic_accounts']['parameters']['query']
+    ): RequestData<components['schemas']['AnalyticAccountItemOut'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-accounts',
         };
     },
     createAnalyticAccountWithMultiplePlans(
         analytic_plan: string,
-        analyticAccount: components['schemas']['AnalyticAccountItemIn']
+        analyticAccount: components['schemas']['AnalyticAccountItemIn'],
+        params: operations['accounting_create_analytic_account_multi_plans']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
+            params,
             method: 'post',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans/${analytic_plan}`,
             body: analyticAccount,
         };
     },
     getAnalyticAccount(
-        analytic_account_id: string
+        analytic_account_id: string,
+        params: operations['accounting_get_analytic_account']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}`,
         };
     },
     updateAnalyticAccount(
         analytic_account_id: string,
-        analyticAccount: components['schemas']['AnalyticAccountItemUpdate']
+        analyticAccount: components['schemas']['AnalyticAccountItemUpdate'],
+        params: operations['accounting_update_analytic_account']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
+            params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}`,
             body: analyticAccount,
@@ -216,9 +248,11 @@ const accountingFactory = {
     },
     getAnalyticAccountWithMultiplePlans(
         analytic_account_id: string,
-        analytic_plan: string
+        analytic_plan: string,
+        params: operations['accounting_get_analytic_account_multi_plans']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}/multi-analytic-plans/${analytic_plan}`,
         };
@@ -226,18 +260,21 @@ const accountingFactory = {
     updateAnalyticAccountWithMultiplePlans(
         analytic_account_id: string,
         analytic_plan: string,
-        analyticAccount: components['schemas']['AnalyticAccountItemUpdate']
+        analyticAccount: components['schemas']['AnalyticAccountItemUpdate'],
+        params: operations['accounting_update_analytic_account_multi_plans']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
+            params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}/multi-analytic-plans/${analytic_plan}`,
             body: analyticAccount,
         };
     },
-    getAnalyticAccountsWithMultiplePlans(): RequestData<
-        components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'][]
-    > {
+    getAnalyticAccountsWithMultiplePlans(
+        params: operations['accounting_get_analytic_accounts_multi_plans']['parameters']['query']
+    ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans',
         };
@@ -260,20 +297,30 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/journal/entries/multi-analytic-plans`,
         };
     },
-    getPaymentsByInvoiceId(invoice_id: string): RequestData<components['schemas']['Payment'][]> {
+    getPaymentsByInvoiceId(
+        invoice_id: string,
+        params: operations['accounting_get_payments_by_invoice']['parameters']['query']
+    ): RequestData<components['schemas']['Payment'][]> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/id/${invoice_id}/payments`,
         };
     },
-    getJournals(): RequestData<components['schemas']['Journal'][]> {
+    getJournals(
+        params: operations['accounting_get_journals']['parameters']['query']
+    ): RequestData<components['schemas']['Journal'][]> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journals`,
         };
     },
-    getVatCodes(): RequestData<components['schemas']['app__routers__accounting__VatCode'][]> {
+    getVatCodes(
+        params: operations['accounting_get_vat_codes']['parameters']['query']
+    ): RequestData<components['schemas']['app__routers__accounting__VatCode'][]> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/vat-codes`,
         };
@@ -318,6 +365,15 @@ const accountingFactory = {
             method: 'post',
             url: `/consumers/{consumer_id}/accounting/invoices/pdf/${invoice_id}`,
             body: attachment,
+        };
+    },
+    getAttachments(
+        params: operations['accounting_get_attachments']['parameters']['query']
+    ): RequestData<components['schemas']['AttachmentItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/attachments`,
         };
     },
     getChartOfAccounts(
@@ -401,6 +457,23 @@ const accountingFactory = {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/journal-entries',
             body: journal_entry,
+        };
+    },
+    matchEntries(
+        body: components['schemas']['MatchingIn'],
+        params: operations['accounting_match_entries']['parameters']['query']
+    ): RequestData<components['schemas']['MatchingOut']> {
+        return {
+            params,
+            body,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/matching',
+        };
+    },
+    getFolders(): RequestData<components['schemas']['FolderItem'][]> {
+        return {
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/folders',
         };
     },
 };
