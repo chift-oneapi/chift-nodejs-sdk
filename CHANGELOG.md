@@ -31,3 +31,21 @@
 ## 1.0.6 - 2023-11-24
 
 -   Update models & add new POS Routes
+
+## 1.0.7 - 2024-03-26
+
+-   [ACCOUNTING] Remove getAnalyticLinesOfAccount
+-   [ACCOUNTING] Deprecate/Replace Create Journal Entry
+-   [ACCOUNTING] Update create misc operation params
+-   [ACCOUNTING] Update get misc operation params
+-   [ACCOUNTING] Update get balance of accounts params
+-   [ACCOUNTING] Update get employees params
+-   [POS] Add getAccountingCategories
+-   [POS] Fix getProductCategories type
+-   [ECOMMERCE] Add getPaymentMethods
+-   [ECOMMERCE] Add getProductCategories
+-   [ECOMMERCE] Add getCountries
+-   [ECOMMERCE] Add getTaxes
+-   [SYNC] Add create sync
+-   [SYNC] Add update sync
+-   [CONSUMER] Add enable consumer flow

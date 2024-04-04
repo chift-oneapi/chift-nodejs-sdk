@@ -80,6 +80,18 @@ const Consumer = (
         return data;
     };
 
+    const enableFlow = async (
+        syncId: string,
+        flowId: string,
+        body: components['schemas']['EnableFlowConsumer']
+    ) => {
+        const { data }: { data: SimpleResponseModel } = await _internalApi.post(
+            `/consumers/${consumerId}/syncs/${syncId}/flows/${flowId}/enable`,
+            body
+        );
+        return data;
+    };
+
     const getDataByDataStoreName = async (dataStoreName: string, params?: object) => {
         const { data }: { data: components['schemas']['DataStoreItem'][] } = await _internalApi.get(
             `/datastores`
@@ -135,6 +147,13 @@ const Consumer = (
         return response;
     };
 
+    const deleteDataStoreData = async (dataStoreId: string, dataStoreDataId: string) => {
+        const { data: response }: { data: SimpleResponseModel } = await _internalApi.delete(
+            `/consumers/${consumerId}/datastore/${dataStoreId}/data/${dataStoreDataId}`
+        );
+        return response;
+    };
+
     /**
      * This function is used to add logs related to a chainexecution (passed in the header)
      * INTERNAL USE only
@@ -155,6 +174,7 @@ const Consumer = (
         createConnection,
         updateConnection,
         deleteConnection,
+        enableFlow,
         getSyncUrl,
         name,
         redirect_url,
@@ -170,6 +190,7 @@ const Consumer = (
         getDataByDataStoreName,
         addDataByDataStoreName,
         updateDataStoreData,
+        deleteDataStoreData,
         logData,
     };
 };

@@ -158,3 +158,9 @@ test('getProductCategories', async () => {
     expect(productCategories).toBeInstanceOf(Array);
     expect(productCategories.length).toBeGreaterThan(0);
 });
+
+test('getAccountingCategories', async () => {
+    const accountingCategories = await popinaConsumer.pos.getAccountingCategories();
+    expect(accountingCategories).toBeInstanceOf(Array);
+    expect(accountingCategories.length).toBeGreaterThan(0);
+});

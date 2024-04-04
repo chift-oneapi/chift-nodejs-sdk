@@ -6,6 +6,26 @@ type getOrdersParams = Omit<
     'page' | 'size'
 >;
 
+type getPaymentMethodsParams = Omit<
+    operations['ecommerce_get_payments_methods']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getProductCategoriesParams = Omit<
+    operations['ecommerce_get_product_categories']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getTaxesParams = Omit<
+    operations['ecommerce_get_taxes']['parameters']['query'],
+    'page' | 'size'
+>;
+
+type getCountriesParams = Omit<
+    operations['ecommerce_get_countries']['parameters']['query'],
+    'page' | 'size'
+>;
+
 const ecommerceFactory = {
     getCustomers(): RequestData<components['schemas']['CommerceCustomerItem'][]> {
         return {
@@ -75,6 +95,38 @@ const ecommerceFactory = {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/orders/${orderId}`,
+        };
+    },
+    getPaymentMethods(
+        params: getPaymentMethodsParams
+    ): RequestData<components['schemas']['PaymentMethodItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/commerce/payment-methods`,
+        };
+    },
+    getProductCategories(
+        params: getProductCategoriesParams
+    ): RequestData<components['schemas']['CategoryItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/commerce/product-categories`,
+        };
+    },
+    getTaxes(params: getTaxesParams): RequestData<components['schemas']['TaxRateItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/commerce/taxes`,
+        };
+    },
+    getCountries(params: getCountriesParams): RequestData<components['schemas']['CountryItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/commerce/countries`,
         };
     },
 };

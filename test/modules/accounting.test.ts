@@ -395,20 +395,6 @@ test('getAnalyticAccountsWithMultiplePlans', async () => {
     expect(analyticAccountsWithMultiplePlans).toBeInstanceOf(Array);
 });
 
-test('getAnalyticLinesOfAccount', async () => {
-    const analyticLinesOfAccount = await consumer.accounting.getAnalyticLinesOfAccount(
-        analyticAccounts[0].id
-    );
-    expect(analyticLinesOfAccount).toBeInstanceOf(Array);
-    if (analyticLinesOfAccount.length > 0) {
-        expect(analyticLinesOfAccount[0]).toHaveProperty('account_id', analyticAccounts[0].id);
-        expect(analyticLinesOfAccount[0]).toHaveProperty('description', expect.any(String));
-        expect(analyticLinesOfAccount[0]).toHaveProperty('amount', expect.any(Number));
-        expect(analyticLinesOfAccount[0]).toHaveProperty('date', expect.any(String));
-        expect(analyticLinesOfAccount[0]).toHaveProperty('id', expect.any(String));
-    }
-});
-
 test('createJournalEntry', async () => {
     const journal = journals.find((journal) => journal.journal_type === 'customer_invoice');
     if (!journal) {
