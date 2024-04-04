@@ -470,6 +470,12 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/matching',
         };
     },
+    getFolders(): RequestData<components['schemas']['FolderItem'][]> {
+        return {
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/folders',
+        };
+    },
 };
 
 export { accountingFactory };
