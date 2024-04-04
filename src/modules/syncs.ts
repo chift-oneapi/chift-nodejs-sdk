@@ -2,9 +2,7 @@ import { components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { Sync } from './sync';
 
-const Syncs = (
-    internalApi: InternalAPI
-): {
+export type SyncsAPI = {
     createSync: (
         body?: components['schemas']['CreateSyncItem']
     ) => Promise<ReturnType<typeof Sync>>;
@@ -13,7 +11,9 @@ const Syncs = (
     updateSync: (
         body?: components['schemas']['CreateSyncItem']
     ) => Promise<ReturnType<typeof Sync>>;
-} => {
+};
+
+const Syncs = (internalApi: InternalAPI): SyncsAPI => {
     const _internalApi: InternalAPI = internalApi;
 
     const getSyncs = async () => {

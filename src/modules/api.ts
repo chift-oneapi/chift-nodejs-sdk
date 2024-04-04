@@ -1,7 +1,7 @@
 import { AuthType } from '../types/api';
 import { InternalAPI } from './internalApi';
 import { Consumers } from './consumers';
-import { Syncs } from './syncs';
+import { Syncs, SyncsAPI } from './syncs';
 import { Integrations } from './integrations';
 import { Webhooks } from './webhooks';
 import { DataStores } from './datastores';
@@ -11,7 +11,7 @@ export class API {
     token?: string;
     internalApi?: any;
     Consumers;
-    Syncs;
+    Syncs: SyncsAPI;
     Integrations;
     Webhooks;
     DataStores;
