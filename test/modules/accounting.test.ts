@@ -595,3 +595,34 @@ test('createFinancialEntryOld', async () => {
     expect(financialEntry).toBeTruthy();
     expect(financialEntry).toHaveProperty('journal_id', journal.id);
 });
+
+let folders: components['schemas']['FolderItem'][] = [];
+test('getFolders', async () => {
+    folders = await consumer.accounting.getFolders();
+    expect(folders).toBeInstanceOf(Array);
+    expect(folders.length).toBeGreaterThan(0);
+    expect(folders[0]).toHaveProperty('id', expect.any(String));
+    expect(folders[0]).toHaveProperty('name', expect.any(String));
+});
+
+test.skip('getAttachments', async () => {
+    const attachments = await consumer.accounting.getAttachments({
+        // TODO: Add documentId from test account
+        documentId: '',
+        type: 'invoice',
+    });
+    expect(attachments).toBeInstanceOf(Array);
+    expect(attachments.length).toBeGreaterThan(0);
+    expect(attachments[0]).toHaveProperty('id', expect.any(String));
+    expect(attachments[0]).toHaveProperty('base64_string', expect.any(String));
+});
+
+test.skip('matchEntries', async () => {
+    const match = await consumer.accounting.matchEntries({
+        // TODO: Change params with test account values
+        entries: [],
+        partner_id: '',
+    });
+    expect(match).toHaveProperty('matching_number', expect.any(String));
+    expect(match).toHaveProperty('balance', expect.any(Number));
+});

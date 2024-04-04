@@ -72,3 +72,4 @@
 -   [ACCOUNTING] Add params to getVatCodes
 -   [ACCOUNTING] Add route getAttachments
 -   [ACCOUNTING] Add route matchEntries
+-   [ACCOUNTING] Add route getFolders
