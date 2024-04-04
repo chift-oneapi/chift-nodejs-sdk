@@ -49,3 +49,26 @@
 -   [SYNC] Add create sync
 -   [SYNC] Add update sync
 -   [CONSUMER] Add enable consumer flow
+
+## 1.0.8 - 2024-04-04
+
+-   [ACCOUNTING] Add params to getAnalyticPlans
+-   [ACCOUNTING] Add params to getClients
+-   [ACCOUNTING] Add params to getClient
+-   [ACCOUNTING] Add params to updateClient
+-   [ACCOUNTING] Add params to getSuppliers
+-   [ACCOUNTING] Add params to getSupplier
+-   [ACCOUNTING] Add params to updateSupplier
+-   [ACCOUNTING] Add params to createAnalyticAccount
+-   [ACCOUNTING] Add params to getAnalyticAccounts
+-   [ACCOUNTING] Add params to createAnalyticAccountWithMultiplePlans
+-   [ACCOUNTING] Add params to getAnalyticAccount
+-   [ACCOUNTING] Add params to updateAnalyticAccount
+-   [ACCOUNTING] Add params to getAnalyticAccountWithMultiplePlans
+-   [ACCOUNTING] Add params to getAnalyticAccountsWithMultiplePlans
+-   [ACCOUNTING] Add params to updateAnalyticAccountWithMultiplePlans
+-   [ACCOUNTING] Add params to getPaymentsByInvoiceId
+-   [ACCOUNTING] Add params to getJournals
+-   [ACCOUNTING] Add params to getVatCodes
+-   [ACCOUNTING] Add route getAttachments
+-   [ACCOUNTING] Add route matchEntries
