@@ -73,3 +73,7 @@
 -   [ACCOUNTING] Add route getAttachments
 -   [ACCOUNTING] Add route matchEntries
 -   [ACCOUNTING] Add route getFolders
+
+## 1.0.9 - 2024-04-04
+
+-   Add getIntegrations params
