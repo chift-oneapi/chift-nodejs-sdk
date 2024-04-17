@@ -819,6 +819,8 @@ export interface components {
         AccountBalance: {
             /** Account Number */
             account_number: string;
+            /** Account Name */
+            account_name?: string;
             /** Debit */
             debit: number;
             /** Credit */
@@ -835,12 +837,12 @@ export interface components {
             accounts: string[];
             /**
              * Start
-             * @description Start month (included, e.g. 022023 for february 2023)
+             * @description Start month (included, e.g. 202302 for february 2023)
              */
-            start: string;
+            start?: string;
             /**
              * End
-             * @description End month (included, e.g. 122023 for december 2023)
+             * @description End month (included, e.g. 202312 for december 2023)
              */
             end: string;
         };
@@ -2544,6 +2546,16 @@ export interface components {
         ExecutionType: 'code' | 'module';
         /** FeesItem */
         FeesItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
             /**
              * Created On
              * Format: date-time
@@ -5341,6 +5353,16 @@ export interface components {
         };
         /** ShippingRefund */
         ShippingRefund: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
             /**
              * Untaxed Amount
              * @description Untaxed amount refunded (after discount).
