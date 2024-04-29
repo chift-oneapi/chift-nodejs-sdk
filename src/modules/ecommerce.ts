@@ -1,29 +1,22 @@
 import { operations, components } from '../types/public-api/schema';
-import { RequestData } from '../types/api';
+import { AutoPaginatedParams, RequestData } from '../types/api';
 
-type getOrdersParams = Omit<
-    operations['ecommerce_get_orders']['parameters']['query'],
-    'page' | 'size'
+type GetOrdersParams = AutoPaginatedParams<
+    operations['ecommerce_get_orders']['parameters']['query']
 >;
 
-type getPaymentMethodsParams = Omit<
-    operations['ecommerce_get_payments_methods']['parameters']['query'],
-    'page' | 'size'
+type GetPaymentMethodsParams = AutoPaginatedParams<
+    operations['ecommerce_get_payments_methods']['parameters']['query']
 >;
 
-type getProductCategoriesParams = Omit<
-    operations['ecommerce_get_product_categories']['parameters']['query'],
-    'page' | 'size'
+type GetProductCategoriesParams = AutoPaginatedParams<
+    operations['ecommerce_get_product_categories']['parameters']['query']
 >;
 
-type getTaxesParams = Omit<
-    operations['ecommerce_get_taxes']['parameters']['query'],
-    'page' | 'size'
->;
+type GetTaxesParams = AutoPaginatedParams<operations['ecommerce_get_taxes']['parameters']['query']>;
 
-type getCountriesParams = Omit<
-    operations['ecommerce_get_countries']['parameters']['query'],
-    'page' | 'size'
+type GetCountriesParams = AutoPaginatedParams<
+    operations['ecommerce_get_countries']['parameters']['query']
 >;
 
 const ecommerceFactory = {
@@ -75,7 +68,7 @@ const ecommerceFactory = {
             url: '/consumers/{consumer_id}/commerce/locations',
         };
     },
-    getOrders(params: getOrdersParams): RequestData<components['schemas']['OrderItemOut'][]> {
+    getOrders(params: GetOrdersParams): RequestData<components['schemas']['OrderItemOut'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/orders',
@@ -98,7 +91,7 @@ const ecommerceFactory = {
         };
     },
     getPaymentMethods(
-        params: getPaymentMethodsParams
+        params: GetPaymentMethodsParams
     ): RequestData<components['schemas']['PaymentMethodItem'][]> {
         return {
             params,
@@ -107,7 +100,7 @@ const ecommerceFactory = {
         };
     },
     getProductCategories(
-        params: getProductCategoriesParams
+        params: GetProductCategoriesParams
     ): RequestData<components['schemas']['CategoryItem'][]> {
         return {
             params,
@@ -115,14 +108,14 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/product-categories`,
         };
     },
-    getTaxes(params: getTaxesParams): RequestData<components['schemas']['TaxRateItem'][]> {
+    getTaxes(params: GetTaxesParams): RequestData<components['schemas']['TaxRateItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/taxes`,
         };
     },
-    getCountries(params: getCountriesParams): RequestData<components['schemas']['CountryItem'][]> {
+    getCountries(params: GetCountriesParams): RequestData<components['schemas']['CountryItem'][]> {
         return {
             params,
             method: 'get',

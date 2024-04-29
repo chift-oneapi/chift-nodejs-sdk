@@ -14,7 +14,7 @@ See the [API docs](https://docs.chift.eu/docs/chift-api/intro).
 
 ## Requirements
 
-Node 12 or higher.
+Node 18 or higher.
 
 ## Installation
 
@@ -45,3 +45,8 @@ const locations = await consumers[0].pos.getLocations();
 How to generate the typescript schemas from the OpenAPI schema of Chift:
 
 > npx openapi-typescript https://api.chift.eu/openapi.json --output src/types/public-api/schema.d.ts
+
+### Add routes
+
+The pagination is handled by the library. If the params of the route in the schema contain `page` and `size`, use the generic type `AutoPaginatedParams<T>` for the params of the route in the module.
+e.g.: In `accounting.ts`, `operations['accounting_get_analytic_plans']['parameters']['query']` becomes `AutoPaginatedParams<operations['accounting_get_analytic_plans']['parameters']['query']>`.
