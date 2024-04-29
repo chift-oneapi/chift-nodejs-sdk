@@ -10,7 +10,9 @@ type GetContactsParams = AutoPaginatedParams<
 >;
 
 const invoicingFactory = {
-    getInvoices(params: GetInvoicesParams): RequestData<components['schemas']['InvoiceItemOut'][]> {
+    getInvoices(
+        params?: GetInvoicesParams
+    ): RequestData<components['schemas']['InvoiceItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices`,
@@ -19,7 +21,7 @@ const invoicingFactory = {
     },
     getInvoiceById(
         invoiceId: string,
-        params: operations['invoicing_get_invoice']['parameters']['query']
+        params?: operations['invoicing_get_invoice']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
             method: 'get',

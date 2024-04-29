@@ -48,5 +48,10 @@ How to generate the typescript schemas from the OpenAPI schema of Chift:
 
 ### Add routes
 
-The pagination is handled by the library. If the params of the route in the schema contain `page` and `size`, use the generic type `AutoPaginatedParams<T>` for the params of the route in the module.
-e.g.: In `accounting.ts`, `operations['accounting_get_analytic_plans']['parameters']['query']` becomes `AutoPaginatedParams<operations['accounting_get_analytic_plans']['parameters']['query']>`.
+The library handles pagination. If the route parameters in the schema contain `page` and `size`, you should use the generic type `AutoPaginatedParams<T>` for the route parameters in the module.
+
+If the `query` parameter is optional in the schema, it should also be declared as optional in the module.
+
+For example, in `accounting.ts`, the `parameters['query']` for `operations['accounting_get_analytic_plans']` should be replaced with `AutoPaginatedParams<operations['accounting_get_analytic_plans']['parameters']['query']>`.
+
+Since `query` is optional, the `getAnalyticPlans` function should be declared like this: `getAnalyticPlans(params?: GetAnalyticPlansParams)`.

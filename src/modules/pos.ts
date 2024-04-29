@@ -38,7 +38,7 @@ const posFactory = {
         };
     },
     getCustomers(
-        params: GetCustomersParams
+        params?: GetCustomersParams
     ): RequestData<components['schemas']['POSCustomerItem'][]> {
         return {
             params,
@@ -68,7 +68,7 @@ const posFactory = {
         };
     },
     getPaymentMethods(
-        params: GetPaymentMethodsParams
+        params?: GetPaymentMethodsParams
     ): RequestData<components['schemas']['PaymentMethods'][]> {
         return {
             params,
@@ -77,7 +77,7 @@ const posFactory = {
         };
     },
     getProductCategories(
-        params: GetProductCategoriesParams
+        params?: GetProductCategoriesParams
     ): RequestData<components['schemas']['CategoryItem'][]> {
         return {
             params,
@@ -85,7 +85,9 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/product-categories`,
         };
     },
-    getProducts(params: GetProductsParams): RequestData<components['schemas']['POSProductItem'][]> {
+    getProducts(
+        params?: GetProductsParams
+    ): RequestData<components['schemas']['POSProductItem'][]> {
         return {
             params,
             method: 'get',
@@ -103,7 +105,7 @@ const posFactory = {
     },
     getClosure(
         date: string,
-        params: operations['pos_get_closure']['parameters']['query']
+        params?: operations['pos_get_closure']['parameters']['query']
     ): RequestData<components['schemas']['ClosureItem']> {
         return {
             params,
@@ -129,7 +131,7 @@ const posFactory = {
         };
     },
     getAccountingCategories(
-        params: GetAccountingCategoriesParams
+        params?: GetAccountingCategoriesParams
     ): RequestData<components['schemas']['AccountingCategoryItem'][]> {
         return {
             params,

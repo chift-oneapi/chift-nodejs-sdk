@@ -81,3 +81,4 @@
 ### 1.0.12 - 2024-04-29
 
 -   Remove pagination from route params as it is handled by the library
+-   Make route params optional when they are not required
