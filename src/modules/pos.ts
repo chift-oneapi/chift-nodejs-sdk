@@ -1,37 +1,27 @@
 import { operations, components } from '../types/public-api/schema';
-import { RequestData } from '../types/api';
+import { AutoPaginatedParams, RequestData } from '../types/api';
 
-type getPaymentsParams = Omit<
-    operations['pos_get_payments']['parameters']['query'],
-    'page' | 'size'
+type GetPaymentsParams = AutoPaginatedParams<operations['pos_get_payments']['parameters']['query']>;
+
+type GetPaymentMethodsParams = AutoPaginatedParams<
+    operations['pos_get_payments_methods']['parameters']['query']
 >;
 
-type getPaymentMethodsParams = Omit<
-    operations['pos_get_payments_methods']['parameters']['query'],
-    'page' | 'size'
+type GetProductCategoriesParams = AutoPaginatedParams<
+    operations['pos_get_product_categories']['parameters']['query']
 >;
 
-type getProductCategoriesParams = Omit<
-    operations['pos_get_product_categories']['parameters']['query'],
-    'page' | 'size'
+type GetProductsParams = AutoPaginatedParams<operations['pos_get_products']['parameters']['query']>;
+
+type GetCustomersParams = AutoPaginatedParams<
+    operations['pos_get_customers']['parameters']['query']
 >;
 
-type getProductsParams = Omit<
-    operations['pos_get_products']['parameters']['query'],
-    'page' | 'size'
+type GetAccountingCategoriesParams = AutoPaginatedParams<
+    operations['pos_get_accounting_categories']['parameters']['query']
 >;
 
-type getCustomersParams = Omit<
-    operations['pos_get_customers']['parameters']['query'],
-    'page' | 'size'
->;
-
-type getAccountingCategoriesParams = Omit<
-    operations['pos_get_accounting_categories']['parameters']['query'],
-    'page' | 'size'
->;
-
-type getOrdersParams = Omit<operations['pos_get_orders']['parameters']['query'], 'page' | 'size'>;
+type GetOrdersParams = AutoPaginatedParams<operations['pos_get_orders']['parameters']['query']>;
 
 const posFactory = {
     getLocations(): RequestData<components['schemas']['POSLocationItem'][]> {
@@ -40,7 +30,7 @@ const posFactory = {
             url: '/consumers/{consumer_id}/pos/locations',
         };
     },
-    getOrders(params: getOrdersParams): RequestData<components['schemas']['OrderItem'][]> {
+    getOrders(params: GetOrdersParams): RequestData<components['schemas']['POSOrderItem'][]> {
         return {
             params,
             method: 'get',
@@ -48,7 +38,7 @@ const posFactory = {
         };
     },
     getCustomers(
-        params: getCustomersParams
+        params?: GetCustomersParams
     ): RequestData<components['schemas']['POSCustomerItem'][]> {
         return {
             params,
@@ -56,7 +46,7 @@ const posFactory = {
             url: '/consumers/{consumer_id}/pos/customers',
         };
     },
-    getOrder(orderId: string): RequestData<components['schemas']['OrderItem']> {
+    getOrder(orderId: string): RequestData<components['schemas']['POSOrderItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
@@ -78,7 +68,7 @@ const posFactory = {
         };
     },
     getPaymentMethods(
-        params: getPaymentMethodsParams
+        params?: GetPaymentMethodsParams
     ): RequestData<components['schemas']['PaymentMethods'][]> {
         return {
             params,
@@ -87,7 +77,7 @@ const posFactory = {
         };
     },
     getProductCategories(
-        params: getProductCategoriesParams
+        params?: GetProductCategoriesParams
     ): RequestData<components['schemas']['CategoryItem'][]> {
         return {
             params,
@@ -95,7 +85,9 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/product-categories`,
         };
     },
-    getProducts(params: getProductsParams): RequestData<components['schemas']['POSProductItem'][]> {
+    getProducts(
+        params?: GetProductsParams
+    ): RequestData<components['schemas']['POSProductItem'][]> {
         return {
             params,
             method: 'get',
@@ -113,7 +105,7 @@ const posFactory = {
     },
     getClosure(
         date: string,
-        params: operations['pos_get_closure']['parameters']['query']
+        params?: operations['pos_get_closure']['parameters']['query']
     ): RequestData<components['schemas']['ClosureItem']> {
         return {
             params,
@@ -121,7 +113,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/closures/${date}`,
         };
     },
-    getPayments(params: getPaymentsParams): RequestData<components['schemas']['PaymentItem'][]> {
+    getPayments(params: GetPaymentsParams): RequestData<components['schemas']['POSPaymentItem'][]> {
         return {
             params,
             method: 'get',
@@ -131,7 +123,7 @@ const posFactory = {
     updateOrder(
         orderId: string,
         order: components['schemas']['UpdateOrderItem']
-    ): RequestData<components['schemas']['OrderItem']> {
+    ): RequestData<components['schemas']['POSOrderItem']> {
         return {
             method: 'patch',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
@@ -139,7 +131,7 @@ const posFactory = {
         };
     },
     getAccountingCategories(
-        params: getAccountingCategoriesParams
+        params?: GetAccountingCategoriesParams
     ): RequestData<components['schemas']['AccountingCategoryItem'][]> {
         return {
             params,

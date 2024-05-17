@@ -74,11 +74,22 @@
 -   [ACCOUNTING] Add route matchEntries
 -   [ACCOUNTING] Add route getFolders
 
-## 1.0.9 - 2024-04-04
+## 1.0.9 - 2024-04-10
 
 -   Add getIntegrations params
+
+### 1.0.12 - 2024-04-29
+
+-   Remove pagination from route params as it is handled by the library
+-   Make route params optional when they are not required
 
 ## 1.0.13 - 2024-05-07
 
 -   Add X-Chift-ConnectionId header
 -   Add X-Chift-IntegrationId header
+
+## 1.0.14 - 2024-05-21
+-  Enhance auto-pagination
+
+## 1.0.15 - 2024-05-23
+-   Support PMS vertical

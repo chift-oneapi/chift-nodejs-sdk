@@ -1,44 +1,77 @@
 import { operations, components } from '../types/public-api/schema';
-import { RequestData } from '../types/api';
+import { AutoPaginatedParams, RequestData } from '../types/api';
 
-type getChartOfAccountsParams = Omit<
-    operations['accounting_get_chart_of_accounts']['parameters']['query'],
-    'page' | 'size'
+type GetChartOfAccountsParams = AutoPaginatedParams<
+    operations['accounting_get_chart_of_accounts']['parameters']['query']
 >;
 
-type getMiscOperationsParams = Omit<
-    operations['accounting_get_miscellaneous_operations']['parameters']['query'],
-    'page' | 'size'
+type GetMiscOperationsParams = AutoPaginatedParams<
+    operations['accounting_get_miscellaneous_operations']['parameters']['query']
 >;
 
-type getJournalEntriesWithMultiplePlansParams = Omit<
-    operations['accounting_get_journal_entries_mutli_plan']['parameters']['query'],
-    'page' | 'size'
+type GetInvoicesByTypeWithMultiplePlansParams = AutoPaginatedParams<
+    operations['accounting_get_invoices_by_type_multi_analytic_plans']['parameters']['query']
 >;
 
-type getJournalEntriesParams = Omit<
-    operations['accounting_get_journal_entries']['parameters']['query'],
-    'page' | 'size'
+type GetInvoicesByTypeParams = AutoPaginatedParams<
+    operations['accounting_get_invoices_by_type']['parameters']['query']
 >;
 
-type getInvoicesByTypeWithMultiplePlansParams = Omit<
-    operations['accounting_get_invoices_by_type_multi_analytic_plans']['parameters']['query'],
-    'page' | 'size'
+type GetOutstandingsParams = AutoPaginatedParams<
+    operations['accounting_get_outstandings']['parameters']['query']
 >;
 
-type getInvoicesByTypeParams = Omit<
-    operations['accounting_get_invoices_by_type']['parameters']['query'],
-    'page' | 'size'
+type GetAnalyticPlansParams = AutoPaginatedParams<
+    operations['accounting_get_analytic_plans']['parameters']['query']
 >;
 
-type getOutstandingsParams = Omit<
-    operations['accounting_get_outstandings']['parameters']['query'],
-    'page' | 'size'
+type GetVatCodesParams = AutoPaginatedParams<
+    operations['accounting_get_vat_codes']['parameters']['query']
+>;
+
+type GetJournalsParams = AutoPaginatedParams<
+    operations['accounting_get_journals']['parameters']['query']
+>;
+
+type GetJournalEntriesParams = AutoPaginatedParams<
+    operations['accounting_get_journal_entries']['parameters']['query']
+>;
+
+type GetJournalEntriesWithMultiplePlansParams = AutoPaginatedParams<
+    operations['accounting_get_journal_entries_mutli_plan']['parameters']['query']
+>;
+
+type GetEmployeesParams = AutoPaginatedParams<
+    operations['accounting_get_employees']['parameters']['query']
+>;
+
+type GetAttachmentsParams = AutoPaginatedParams<
+    operations['accounting_get_attachments']['parameters']['query']
+>;
+
+type GetBalanceOfAccountsParams = AutoPaginatedParams<
+    operations['accounting_get_accounts_balances']['parameters']['query']
+>;
+
+type GetClientsParams = AutoPaginatedParams<
+    operations['accounting_get_clients']['parameters']['query']
+>;
+
+type GetSuppliersParams = AutoPaginatedParams<
+    operations['accounting_get_suppliers']['parameters']['query']
+>;
+
+type GetAnalyticAccountsParams = AutoPaginatedParams<
+    operations['accounting_get_analytic_accounts']['parameters']['query']
+>;
+
+type GetAnalyticAccountsWithMultiplePlansParams = AutoPaginatedParams<
+    operations['accounting_get_analytic_accounts_multi_plans']['parameters']['query']
 >;
 
 const accountingFactory = {
     getAnalyticPlans(
-        params: operations['accounting_get_analytic_plans']['parameters']['query']
+        params?: GetAnalyticPlansParams
     ): RequestData<components['schemas']['AnalyticPlanItem'][]> {
         return {
             params,
@@ -46,9 +79,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/analytic-plans',
         };
     },
-    getClients(
-        params: operations['accounting_get_clients']['parameters']['query']
-    ): RequestData<components['schemas']['ClientItemOut'][]> {
+    getClients(params?: GetClientsParams): RequestData<components['schemas']['ClientItemOut'][]> {
         return {
             params,
             method: 'get',
@@ -57,7 +88,7 @@ const accountingFactory = {
     },
     createClient(
         client: components['schemas']['ClientItemIn'],
-        params: operations['accounting_create_client']['parameters']['query']
+        params?: operations['accounting_create_client']['parameters']['query']
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
             params,
@@ -68,7 +99,7 @@ const accountingFactory = {
     },
     getClient(
         clientId: string,
-        params: operations['accounting_get_client']['parameters']['query']
+        params?: operations['accounting_get_client']['parameters']['query']
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
             params,
@@ -79,7 +110,7 @@ const accountingFactory = {
     updateClient(
         clientId: string,
         client: components['schemas']['ClientItemUpdate'],
-        params: operations['accounting_update_client']['parameters']['query']
+        params?: operations['accounting_update_client']['parameters']['query']
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
             params,
@@ -89,7 +120,7 @@ const accountingFactory = {
         };
     },
     getSuppliers(
-        params: operations['accounting_get_suppliers']['parameters']['query']
+        params?: GetSuppliersParams
     ): RequestData<components['schemas']['SupplierItemOut'][]> {
         return {
             params,
@@ -99,7 +130,7 @@ const accountingFactory = {
     },
     createSupplier(
         supplier: components['schemas']['SupplierItemIn'],
-        params: operations['accounting_create_supplier']['parameters']['query']
+        params?: operations['accounting_create_supplier']['parameters']['query']
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
             params,
@@ -110,7 +141,7 @@ const accountingFactory = {
     },
     getSupplier(
         supplierId: string,
-        params: operations['accounting_get_supplier']['parameters']['query']
+        params?: operations['accounting_get_supplier']['parameters']['query']
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
             params,
@@ -121,7 +152,7 @@ const accountingFactory = {
     updateSupplier(
         supplierId: string,
         supplier: components['schemas']['SupplierItemUpdate'],
-        params: operations['accounting_update_supplier']['parameters']['query']
+        params?: operations['accounting_update_supplier']['parameters']['query']
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
             params,
@@ -132,7 +163,7 @@ const accountingFactory = {
     },
     createInvoice(
         invoice: components['schemas']['InvoiceItemInMonoAnalyticPlan'],
-        params: operations['accounting_create_invoice']['parameters']['query']
+        params?: operations['accounting_create_invoice']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan']> {
         return {
             params,
@@ -143,7 +174,7 @@ const accountingFactory = {
     },
     createInvoiceWithMultiplePlans(
         invoice: components['schemas']['InvoiceItemInMultiAnalyticPlans'],
-        params: operations['accounting_create_invoice_multiple_plans']['parameters']['query']
+        params?: operations['accounting_create_invoice_multiple_plans']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans']> {
         return {
             params,
@@ -154,7 +185,7 @@ const accountingFactory = {
     },
     getInvoicesByType(
         invoice_type: components['schemas']['app__routers__accounting__InvoiceType'],
-        params: getInvoicesByTypeParams
+        params?: GetInvoicesByTypeParams
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan'][]> {
         return {
             params,
@@ -164,7 +195,7 @@ const accountingFactory = {
     },
     getInvoice(
         invoiceId: string,
-        params: operations['accounting_get_invoice']['parameters']['query']
+        params?: operations['accounting_get_invoice']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan']> {
         return {
             params,
@@ -174,7 +205,7 @@ const accountingFactory = {
     },
     getInvoiceWithMultiplePlans(
         invoiceId: string,
-        params: operations['accounting_get_invoice_multi_analytic_plans']['parameters']['query']
+        params?: operations['accounting_get_invoice_multi_analytic_plans']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans']> {
         return {
             params,
@@ -184,7 +215,7 @@ const accountingFactory = {
     },
     getInvoicesByTypeWithMultiplePlans(
         invoice_type: components['schemas']['app__routers__accounting__InvoiceType'],
-        params: getInvoicesByTypeWithMultiplePlansParams
+        params?: GetInvoicesByTypeWithMultiplePlansParams
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans'][]> {
         return {
             params,
@@ -194,7 +225,7 @@ const accountingFactory = {
     },
     createAnalyticAccount(
         analyticAccount: components['schemas']['AnalyticAccountItemIn'],
-        params: operations['accounting_create_analytic_account']['parameters']['query']
+        params?: operations['accounting_create_analytic_account']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
             params,
@@ -204,7 +235,7 @@ const accountingFactory = {
         };
     },
     getAnalyticAccounts(
-        params: operations['accounting_get_analytic_accounts']['parameters']['query']
+        params?: GetAnalyticAccountsParams
     ): RequestData<components['schemas']['AnalyticAccountItemOut'][]> {
         return {
             params,
@@ -215,7 +246,7 @@ const accountingFactory = {
     createAnalyticAccountWithMultiplePlans(
         analytic_plan: string,
         analyticAccount: components['schemas']['AnalyticAccountItemIn'],
-        params: operations['accounting_create_analytic_account_multi_plans']['parameters']['query']
+        params?: operations['accounting_create_analytic_account_multi_plans']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
             params,
@@ -226,7 +257,7 @@ const accountingFactory = {
     },
     getAnalyticAccount(
         analytic_account_id: string,
-        params: operations['accounting_get_analytic_account']['parameters']['query']
+        params?: operations['accounting_get_analytic_account']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
             params,
@@ -237,7 +268,7 @@ const accountingFactory = {
     updateAnalyticAccount(
         analytic_account_id: string,
         analyticAccount: components['schemas']['AnalyticAccountItemUpdate'],
-        params: operations['accounting_update_analytic_account']['parameters']['query']
+        params?: operations['accounting_update_analytic_account']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
             params,
@@ -249,7 +280,7 @@ const accountingFactory = {
     getAnalyticAccountWithMultiplePlans(
         analytic_account_id: string,
         analytic_plan: string,
-        params: operations['accounting_get_analytic_account_multi_plans']['parameters']['query']
+        params?: operations['accounting_get_analytic_account_multi_plans']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
             params,
@@ -261,7 +292,7 @@ const accountingFactory = {
         analytic_account_id: string,
         analytic_plan: string,
         analyticAccount: components['schemas']['AnalyticAccountItemUpdate'],
-        params: operations['accounting_update_analytic_account_multi_plans']['parameters']['query']
+        params?: operations['accounting_update_analytic_account_multi_plans']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
             params,
@@ -271,7 +302,7 @@ const accountingFactory = {
         };
     },
     getAnalyticAccountsWithMultiplePlans(
-        params: operations['accounting_get_analytic_accounts_multi_plans']['parameters']['query']
+        params?: GetAnalyticAccountsWithMultiplePlansParams
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'][]> {
         return {
             params,
@@ -280,7 +311,7 @@ const accountingFactory = {
         };
     },
     getJournalEntries(
-        params: getJournalEntriesParams
+        params: GetJournalEntriesParams
     ): RequestData<components['schemas']['JournalEntryMonoAnalyticPlan'][]> {
         return {
             params,
@@ -289,7 +320,7 @@ const accountingFactory = {
         };
     },
     getJournalEntriesWithMultiplePlans(
-        params: getJournalEntriesWithMultiplePlansParams
+        params: GetJournalEntriesWithMultiplePlansParams
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan'][]> {
         return {
             params,
@@ -299,7 +330,7 @@ const accountingFactory = {
     },
     getPaymentsByInvoiceId(
         invoice_id: string,
-        params: operations['accounting_get_payments_by_invoice']['parameters']['query']
+        params?: operations['accounting_get_payments_by_invoice']['parameters']['query']
     ): RequestData<components['schemas']['Payment'][]> {
         return {
             params,
@@ -307,9 +338,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/invoices/id/${invoice_id}/payments`,
         };
     },
-    getJournals(
-        params: operations['accounting_get_journals']['parameters']['query']
-    ): RequestData<components['schemas']['Journal'][]> {
+    getJournals(params?: GetJournalsParams): RequestData<components['schemas']['Journal'][]> {
         return {
             params,
             method: 'get',
@@ -317,7 +346,7 @@ const accountingFactory = {
         };
     },
     getVatCodes(
-        params: operations['accounting_get_vat_codes']['parameters']['query']
+        params?: GetVatCodesParams
     ): RequestData<components['schemas']['app__routers__accounting__VatCode'][]> {
         return {
             params,
@@ -326,7 +355,7 @@ const accountingFactory = {
         };
     },
     getMiscOperations(
-        params: getMiscOperationsParams
+        params?: GetMiscOperationsParams
     ): RequestData<components['schemas']['MiscellaneousOperationOut'][]> {
         return {
             params,
@@ -336,7 +365,7 @@ const accountingFactory = {
     },
     createMiscOperation(
         operation: components['schemas']['MiscellaneousOperationIn'],
-        params: operations['accounting_create_miscellaneous_operation']['parameters']['query']
+        params?: operations['accounting_create_miscellaneous_operation']['parameters']['query']
     ): RequestData<components['schemas']['MiscellaneousOperationOut']> {
         return {
             params,
@@ -347,7 +376,7 @@ const accountingFactory = {
     },
     getMiscOperation(
         operation_id: string,
-        params: operations['accounting_get_miscellaneous_operation']['parameters']['query']
+        params?: operations['accounting_get_miscellaneous_operation']['parameters']['query']
     ): RequestData<components['schemas']['MiscellaneousOperationOut']> {
         return {
             params,
@@ -358,7 +387,7 @@ const accountingFactory = {
     attachPDF(
         invoice_id: string,
         attachment: components['schemas']['AttachmentItem'],
-        params: operations['accounting_add_attachment']['parameters']['query']
+        params?: operations['accounting_add_attachment']['parameters']['query']
     ): RequestData<operations['accounting_add_attachment']['responses'][201]> {
         return {
             params,
@@ -368,7 +397,7 @@ const accountingFactory = {
         };
     },
     getAttachments(
-        params: operations['accounting_get_attachments']['parameters']['query']
+        params: GetAttachmentsParams
     ): RequestData<components['schemas']['AttachmentItem'][]> {
         return {
             params,
@@ -377,7 +406,7 @@ const accountingFactory = {
         };
     },
     getChartOfAccounts(
-        params: getChartOfAccountsParams
+        params?: GetChartOfAccountsParams
     ): RequestData<components['schemas']['AccountItem'][]> {
         return {
             params,
@@ -387,7 +416,7 @@ const accountingFactory = {
     },
     getBalanceOfAccounts(
         filter: components['schemas']['AccountBalanceFilter'],
-        params: operations['accounting_get_accounts_balances']['parameters']['query']
+        params?: GetBalanceOfAccountsParams
     ): RequestData<components['schemas']['AccountBalance'][]> {
         return {
             params,
@@ -397,7 +426,7 @@ const accountingFactory = {
         };
     },
     getEmployees(
-        params: operations['accounting_get_employees']['parameters']['query']
+        params?: GetEmployeesParams
     ): RequestData<components['schemas']['EmployeeItem'][]> {
         return {
             params,
@@ -406,7 +435,7 @@ const accountingFactory = {
         };
     },
     getOutstandings(
-        params: getOutstandingsParams
+        params: GetOutstandingsParams
     ): RequestData<components['schemas']['OutstandingItem'][]> {
         return {
             params,
@@ -419,7 +448,7 @@ const accountingFactory = {
      */
     createFinancialEntryOld(
         financial_entry: components['schemas']['FinancialEntryItemInOld'],
-        params: operations['accounting_create_financial_entry']['parameters']['query']
+        params?: operations['accounting_create_financial_entry']['parameters']['query']
     ): RequestData<components['schemas']['FinancialEntryItemOutOld']> {
         return {
             params,
@@ -430,7 +459,7 @@ const accountingFactory = {
     },
     createFinancialEntry(
         financial_entry: components['schemas']['FinancialEntryItemIn'],
-        params: operations['accounting_create_financial_entries']['parameters']['query']
+        params?: operations['accounting_create_financial_entries']['parameters']['query']
     ): RequestData<components['schemas']['FinancialEntryItemOut'][]> {
         return {
             params,
@@ -450,7 +479,7 @@ const accountingFactory = {
     },
     createJournalEntry(
         journal_entry: components['schemas']['GenericJournalEntry'],
-        params: operations['accounting_create_generic_journal_entry']['parameters']['query']
+        params?: operations['accounting_create_generic_journal_entry']['parameters']['query']
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
         return {
             params,
@@ -461,7 +490,7 @@ const accountingFactory = {
     },
     matchEntries(
         body: components['schemas']['MatchingIn'],
-        params: operations['accounting_match_entries']['parameters']['query']
+        params?: operations['accounting_match_entries']['parameters']['query']
     ): RequestData<components['schemas']['MatchingOut']> {
         return {
             params,
