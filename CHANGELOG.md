@@ -82,3 +82,8 @@
 
 -   Remove pagination from route params as it is handled by the library
 -   Make route params optional when they are not required
+
+## 1.0.13 - 2024-05-07
+
+-   Add X-Chift-ConnectionId header
+-   Add X-Chift-IntegrationId header

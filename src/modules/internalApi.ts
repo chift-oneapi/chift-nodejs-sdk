@@ -8,6 +8,8 @@ class InternalAPI {
     token?: TokenType;
     debug = false;
     relatedChainExecutionId?: string;
+    connectionId?: string;
+    integrationId?: string;
     get;
     post;
     patch;
@@ -27,10 +29,19 @@ class InternalAPI {
         this.instance.interceptors.request.use(
             (config) => {
                 return new Promise((resolve, reject) => {
+                    if (this.connectionId) {
+                        config.headers['X-Chift-ConnectionId'] = this.connectionId;
+                    }
+
+                    if (this.integrationId) {
+                        config.headers['X-Chift-IntegrationId'] = this.integrationId;
+                    }
+
                     if (this.relatedChainExecutionId) {
                         config.headers['X-Chift-RelatedChainExecutionId'] =
                             this.relatedChainExecutionId;
                     }
+
                     if (this.token) {
                         if (this.token?.expires_on < new Date().getTime()) {
                             return this.getToken()

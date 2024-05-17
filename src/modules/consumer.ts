@@ -26,6 +26,14 @@ const Consumer = (
     const ecommerce = createApiFor(ecommerceFactory, _internalApi, data.name, consumerId);
     const custom = createApiFor(customFactory, _internalApi, data.name, consumerId);
 
+    const setConnectionId = async (connectionId: string) => {
+        _internalApi.connectionId = connectionId;
+    };
+
+    const setIntegrationId = async (integrationId: string) => {
+        _internalApi.integrationId = integrationId;
+    };
+
     const getConnections = async () => {
         const {
             data,
@@ -192,6 +200,8 @@ const Consumer = (
         updateDataStoreData,
         deleteDataStoreData,
         logData,
+        setConnectionId,
+        setIntegrationId,
     };
 };
 
