@@ -1,9 +1,17 @@
 import { components, operations } from '../types/public-api/schema';
-import { RequestData } from '../types/api';
+import { AutoPaginatedParams, RequestData } from '../types/api';
+
+type GetInvoicesParams = AutoPaginatedParams<
+    operations['invoicing_get_invoices']['parameters']['query']
+>;
+
+type GetContactsParams = AutoPaginatedParams<
+    operations['invoicing_get_contacts']['parameters']['query']
+>;
 
 const invoicingFactory = {
     getInvoices(
-        params: operations['invoicing_get_invoices']['parameters']['query']
+        params?: GetInvoicesParams
     ): RequestData<components['schemas']['InvoiceItemOut'][]> {
         return {
             method: 'get',
@@ -13,7 +21,7 @@ const invoicingFactory = {
     },
     getInvoiceById(
         invoiceId: string,
-        params: operations['invoicing_get_invoice']['parameters']['query']
+        params?: operations['invoicing_get_invoice']['parameters']['query']
     ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
             method: 'get',
@@ -78,7 +86,7 @@ const invoicingFactory = {
         };
     },
     getContacts(
-        params?: operations['invoicing_get_contacts']['parameters']['query']
+        params?: GetContactsParams
     ): RequestData<components['schemas']['ContactItemOut'][]> {
         return {
             method: 'get',
