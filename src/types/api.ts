@@ -34,4 +34,4 @@ export type ApiFor<TFactory extends RequestFactory> = {
         : never;
 };
 
-export type AutoPaginatedParams<T> = Omit<T, 'page' | 'size'>;
+export type AutoPaginatedParams<T> = Omit<Exclude<T, undefined>, 'page' | 'size'>;
