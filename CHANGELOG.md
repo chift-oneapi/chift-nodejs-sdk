@@ -77,3 +77,8 @@
 ## 1.0.9 - 2024-04-04
 
 -   Add getIntegrations params
+
+## 1.0.13 - 2024-05-07
+
+-   Add X-Chift-ConnectionId header
+-   Add X-Chift-IntegrationId header
