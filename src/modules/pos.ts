@@ -30,7 +30,7 @@ const posFactory = {
             url: '/consumers/{consumer_id}/pos/locations',
         };
     },
-    getOrders(params: GetOrdersParams): RequestData<components['schemas']['OrderItem'][]> {
+    getOrders(params: GetOrdersParams): RequestData<components['schemas']['POSOrderItem'][]> {
         return {
             params,
             method: 'get',
@@ -46,7 +46,7 @@ const posFactory = {
             url: '/consumers/{consumer_id}/pos/customers',
         };
     },
-    getOrder(orderId: string): RequestData<components['schemas']['OrderItem']> {
+    getOrder(orderId: string): RequestData<components['schemas']['POSOrderItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
@@ -113,7 +113,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/closures/${date}`,
         };
     },
-    getPayments(params: GetPaymentsParams): RequestData<components['schemas']['PaymentItem'][]> {
+    getPayments(params: GetPaymentsParams): RequestData<components['schemas']['POSPaymentItem'][]> {
         return {
             params,
             method: 'get',
@@ -123,7 +123,7 @@ const posFactory = {
     updateOrder(
         orderId: string,
         order: components['schemas']['UpdateOrderItem']
-    ): RequestData<components['schemas']['OrderItem']> {
+    ): RequestData<components['schemas']['POSOrderItem']> {
         return {
             method: 'patch',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,

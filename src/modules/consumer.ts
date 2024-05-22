@@ -2,6 +2,7 @@ import { operations, components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { chiftOperations } from '../types/public-api/mappings';
 import { posFactory } from './pos';
+import { pmsFactory } from './pms';
 import { createApiFor } from '../helpers/openapi';
 import { accountingFactory } from './accounting';
 import { invoicingFactory } from './invoicing';
@@ -21,6 +22,7 @@ const Consumer = (
     const redirect_url = data.redirect_url;
     const email = data.email;
     const pos = createApiFor(posFactory, _internalApi, data.name, consumerId);
+    const pms = createApiFor(pmsFactory, _internalApi, data.name, consumerId);
     const accounting = createApiFor(accountingFactory, _internalApi, data.name, consumerId);
     const invoicing = createApiFor(invoicingFactory, _internalApi, data.name, consumerId);
     const ecommerce = createApiFor(ecommerceFactory, _internalApi, data.name, consumerId);
@@ -188,6 +190,7 @@ const Consumer = (
         redirect_url,
         email,
         pos,
+        pms,
         accounting,
         invoicing,
         ecommerce,

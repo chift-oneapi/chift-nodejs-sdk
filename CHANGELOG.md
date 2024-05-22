@@ -87,3 +87,9 @@
 
 -   Add X-Chift-ConnectionId header
 -   Add X-Chift-IntegrationId header
+
+## 1.0.14 - 2024-05-21
+-  Enhance auto-pagination
+
+## 1.0.15 - 2024-05-23
+-   Support PMS vertical
