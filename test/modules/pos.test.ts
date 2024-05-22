@@ -33,7 +33,7 @@ test('getLocations', async () => {
     expect(locations[0]).toHaveProperty('name', expect.any(String));
 });
 
-let orders: components['schemas']['OrderItem'][];
+let orders: components['schemas']['POSOrderItem'][];
 test('getOrders', async () => {
     orders = await lightspeedConsumer.pos.getOrders({
         date_from: '2023-01-11',
