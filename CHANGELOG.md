@@ -93,3 +93,6 @@
 
 ## 1.0.15 - 2024-05-23
 -   Support PMS vertical
+
+## 1.0.16 - 2024-05-31
+-   Update model - Get integrations

@@ -45,7 +45,9 @@ const Consumer = (
         return data;
     };
 
-    const createConnection = async (body?: components['schemas']['PostConnectionItem']) => {
+    const createConnection = async (
+        body?: components['schemas']['app__routers__connections__PostConnectionItem']
+    ) => {
         const {
             data,
         }: {

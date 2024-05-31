@@ -863,9 +863,15 @@ export interface components {
     schemas: {
         /** AccountBalance */
         AccountBalance: {
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Number of the account
+             */
             account_number: string;
-            /** Account Name */
+            /**
+             * Account Name
+             * @description Display name of the account
+             */
             account_name?: string;
             /** Debit */
             debit: number;
@@ -3155,6 +3161,12 @@ export interface components {
             /** Icon Url */
             icon_url: string;
             /**
+             * Post Connections
+             * @description List of post-connections that can be activated for this integration.
+             * @default []
+             */
+            post_connections?: components['schemas']['app__routers__integrations__PostConnectionItem'][];
+            /**
              * Credentials
              * @description List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.
              * @default []
@@ -4784,6 +4796,11 @@ export interface components {
              */
             id: string;
             /**
+             * Created On
+             * Format: date-time
+             */
+            created_on?: string;
+            /**
              * Payment Method Id
              * @description Technical id of the payment method in the eCommerce
              */
@@ -4931,9 +4948,15 @@ export interface components {
             total: number;
             /** Tax Amount */
             tax_amount: number;
-            /** Total Discount */
+            /**
+             * Total Discount
+             * @default 0
+             */
             total_discount?: number;
-            /** Total Refund */
+            /**
+             * Total Refund
+             * @default 0
+             */
             total_refund?: number;
             /**
              * Total Tip
@@ -4952,6 +4975,8 @@ export interface components {
             location_id?: string;
             /** Taxes */
             taxes?: components['schemas']['TotalTaxItem'][];
+            /** Guests */
+            guests?: number;
             /** Items */
             items: components['schemas']['PMSOrderLineItem'][];
             /**
@@ -5170,9 +5195,15 @@ export interface components {
             total: number;
             /** Tax Amount */
             tax_amount: number;
-            /** Total Discount */
+            /**
+             * Total Discount
+             * @default 0
+             */
             total_discount?: number;
-            /** Total Refund */
+            /**
+             * Total Refund
+             * @default 0
+             */
             total_refund?: number;
             /**
              * Total Tip
@@ -5191,6 +5222,8 @@ export interface components {
             location_id?: string;
             /** Taxes */
             taxes?: components['schemas']['TotalTaxItem'][];
+            /** Guests */
+            guests?: number;
             /** Payments */
             payments: components['schemas']['POSPaymentItem'][];
             /** Items */
@@ -5393,24 +5426,6 @@ export interface components {
             postal_code: string;
             /** Country */
             country?: string;
-        };
-        /** PostConnectionItem */
-        PostConnectionItem: {
-            /**
-             * Integrationid
-             * @description Can be used to specify the integration code of a specific connector. If specified, the url will will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
-             */
-            integrationid?: number;
-            /**
-             * Name
-             * @description Can be used to specify the name of the connection. Must be used in combination with an integrationid.
-             */
-            name?: string;
-            /**
-             * Credentials
-             * @description Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration
-             */
-            credentials?: components['schemas']['app__routers__connections__CredentialItem'][];
         };
         /** PostConsumerItem */
         PostConsumerItem: {
@@ -6590,6 +6605,24 @@ export interface components {
             /** Value */
             value: string;
         };
+        /** PostConnectionItem */
+        app__routers__connections__PostConnectionItem: {
+            /**
+             * Integrationid
+             * @description Can be used to specify the integration code of a specific connector. If specified, the url will will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
+             */
+            integrationid?: number;
+            /**
+             * Name
+             * @description Can be used to specify the name of the connection. Must be used in combination with an integrationid.
+             */
+            name?: string;
+            /**
+             * Credentials
+             * @description Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration
+             */
+            credentials?: components['schemas']['app__routers__connections__CredentialItem'][];
+        };
         /**
          * Status
          * @description An enumeration.
@@ -6611,6 +6644,15 @@ export interface components {
              * @default false
              */
             optional?: boolean;
+        };
+        /** PostConnectionItem */
+        app__routers__integrations__PostConnectionItem: {
+            /** Title */
+            title: string;
+            /** Optional */
+            optional: boolean;
+            /** Resource */
+            resource: string;
         };
         /**
          * Status
@@ -7060,7 +7102,7 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                'application/json': components['schemas']['PostConnectionItem'];
+                'application/json': components['schemas']['app__routers__connections__PostConnectionItem'];
             };
         };
         responses: {
@@ -10754,6 +10796,8 @@ export interface operations {
                 include_detailed_refunds?: components['schemas']['BoolParam'];
                 /** @description Include detailed information about categories */
                 include_product_categories?: components['schemas']['BoolParam'];
+                /** @description Include detailed information about customer */
+                include_customer_details?: components['schemas']['BoolParam'];
                 page?: number;
                 size?: number;
             };
