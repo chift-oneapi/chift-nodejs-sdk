@@ -89,10 +89,20 @@
 -   Add X-Chift-IntegrationId header
 
 ## 1.0.14 - 2024-05-21
--  Enhance auto-pagination
+
+-   Enhance auto-pagination
 
 ## 1.0.15 - 2024-05-23
+
 -   Support PMS vertical
 
 ## 1.0.16 - 2024-05-31
+
 -   Update model - Get integrations
+
+## 1.0.17 - 2024-09-20
+
+-   Update models
+-   Add payment API
+-   Add payment API tests
+-   Add PMS API tests
