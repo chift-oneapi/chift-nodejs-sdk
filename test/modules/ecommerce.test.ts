@@ -26,7 +26,7 @@ test('getCustomers', async () => {
     expect(customers[0]).toHaveProperty('id', expect.any(String));
 });
 
-let products: components['schemas']['app__routers__commerce__ProductItem'][];
+let products: components['schemas']['backbone_api__app__routers__commerce__ProductItem'][];
 test('getProducts', async () => {
     products = await consumer.ecommerce.getProducts();
     expect(products).toBeInstanceOf(Array);

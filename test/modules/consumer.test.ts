@@ -36,7 +36,7 @@ test('createConnection', async () => {
     expect(result).toHaveProperty('url', expect.any(String));
 });
 
-let connections: components['schemas']['app__routers__connections__ConnectionItem'][];
+let connections: components['schemas']['backbone_api__app__routers__connections__ConnectionItem'][];
 
 test('getConnections', async () => {
     connections = await syncConsumer.getConnections();

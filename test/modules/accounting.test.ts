@@ -40,7 +40,7 @@ test('getJournals', async () => {
     expect(journals[0]).toHaveProperty('journal_type', expect.any(String));
 });
 
-let vatCodes: components['schemas']['app__routers__accounting__VatCode'][];
+let vatCodes: components['schemas']['backbone_api__app__routers__accounting__VatCode'][];
 test('getVatCodes', async () => {
     vatCodes = await consumer.accounting.getVatCodes();
     expect(vatCodes).toBeInstanceOf(Array);
@@ -59,6 +59,7 @@ test('createClient', async () => {
         name: 'John Doe',
         currency: 'EUR',
         active: false,
+        is_company: true,
         addresses: [
             {
                 address_type: 'main',
@@ -121,6 +122,7 @@ test('createSupplier', async () => {
         name: 'Jane Doe',
         currency: 'EUR',
         active: false,
+        is_company: true,
         addresses: [
             {
                 address_type: 'main',
@@ -197,6 +199,8 @@ test('createInvoice', async () => {
         total: 121,
         partner_id: clients[0]?.id as string,
         journal_id: journal.id,
+        status: 'draft',
+        currency_exchange_rate: 1,
         lines: [
             {
                 description: 'Test',
@@ -208,6 +212,7 @@ test('createInvoice', async () => {
                 total: 121,
                 account_number: '700000',
                 tax_code: vatCode.id,
+                line_number: 1,
             },
         ],
     };
@@ -288,6 +293,8 @@ test('createInvoiceWithMultiplePlans', async () => {
         total: 121,
         partner_id: clients[0]?.id as string,
         journal_id: journal.id,
+        status: 'draft',
+        currency_exchange_rate: 1,
         lines: [
             {
                 description: 'Test',
@@ -299,6 +306,7 @@ test('createInvoiceWithMultiplePlans', async () => {
                 total: 121,
                 account_number: '700000',
                 tax_code: vatCode.id,
+                line_number: 1,
             },
         ],
     };
