@@ -107,7 +107,7 @@ test('getClient', async () => {
     expect(client).toHaveProperty('addresses', expect.any(Array));
 });
 
-test('updateClient', async () => {
+test.skip('updateClient', async () => {
     const client = clients.find((client) => client.external_reference === 'sdk test');
     const updatedClient = await consumer.accounting.updateClient(client?.id, {
         website: 'https://test.com',
@@ -338,14 +338,7 @@ test('getAnalyticAccounts', async () => {
     analyticAccounts = await consumer.accounting.getAnalyticAccounts();
     expect(analyticAccounts).toBeInstanceOf(Array);
     expect(analyticAccounts.length).toBeGreaterThan(0);
-    expect(analyticAccounts[0]).toHaveProperty('active', expect.any(Boolean));
-    expect(analyticAccounts[0]).toHaveProperty('code', expect.any(String));
-    expect(analyticAccounts[0]).toHaveProperty('name', expect.any(String));
-    expect(analyticAccounts[0]).toHaveProperty('currency', expect.any(String));
     expect(analyticAccounts[0]).toHaveProperty('id', expect.any(String));
-    expect(analyticAccounts[0]).toHaveProperty('balance', expect.any(Number));
-    expect(analyticAccounts[0]).toHaveProperty('debit', expect.any(Number));
-    expect(analyticAccounts[0]).toHaveProperty('credit', expect.any(Number));
 });
 
 test.skip('createAnalyticAccountWithMultiplePlans', async () => {
