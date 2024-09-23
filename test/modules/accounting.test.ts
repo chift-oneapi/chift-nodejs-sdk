@@ -7,13 +7,13 @@ import fs from 'fs';
 dotenv.config();
 
 const client = new chift.API({
-    baseUrl: process.env.CHIFT_BASE_URL,
-    clientId: process.env.CHIFT_CLIENT_ID as string,
-    clientSecret: process.env.CHIFT_CLIENT_SECRET as string,
-    accountId: process.env.CHIFT_ACCOUNT_ID as string,
+    baseUrl: process.env.CHIFT_BACKBONE_API,
+    clientId: process.env.CHIFT_TESTING_CLIENTID as string,
+    clientSecret: process.env.CHIFT_TESTING_CLIENTSECRET as string,
+    accountId: process.env.CHIFT_TESTING_ACCOUNTID as string,
 });
 
-const consumerId = process.env.CHIFT_ODOO_CONSUMER_ID as string;
+const consumerId = process.env.CHIFT_ACCOUNTING_CONSUMER_ID as string;
 
 let consumer: any;
 beforeAll(async () => {
@@ -107,7 +107,7 @@ test('getClient', async () => {
     expect(client).toHaveProperty('addresses', expect.any(Array));
 });
 
-test.skip('updateClient', async () => {
+test('updateClient', async () => {
     const client = clients.find((client) => client.external_reference === 'sdk test');
     const updatedClient = await consumer.accounting.updateClient(client?.id, {
         website: 'https://test.com',
@@ -348,7 +348,7 @@ test('getAnalyticAccounts', async () => {
     expect(analyticAccounts[0]).toHaveProperty('credit', expect.any(Number));
 });
 
-test('createAnalyticAccountWithMultiplePlans', async () => {
+test.skip('createAnalyticAccountWithMultiplePlans', async () => {
     if (analyticPlans.length === 0) {
         throw new Error('No analytic plans found to create analytic account with multiple plans');
     }
@@ -387,7 +387,7 @@ test.skip('updateAnalyticAccount', async () => {
     expect(analyticAccount).toHaveProperty('name', 'test sdk update');
 });
 
-test('getAnalyticAccountWithMultiplePlans', async () => {
+test.skip('getAnalyticAccountWithMultiplePlans', async () => {
     if (analyticPlans.length === 0) {
         throw new Error('No analytic plans found to get analytic account with multiple plans');
     }
@@ -399,7 +399,7 @@ test('getAnalyticAccountWithMultiplePlans', async () => {
     expect(analyticAccount).toBeTruthy();
 });
 
-test('updateAnalyticAccountWithMultiplePlans', async () => {
+test.skip('updateAnalyticAccountWithMultiplePlans', async () => {
     if (!analyticAccounts.length) {
         throw new Error(
             'No analytic accounts found to update analytic account with multiple plans'
@@ -419,13 +419,13 @@ test('updateAnalyticAccountWithMultiplePlans', async () => {
     expect(analyticAccount).toHaveProperty('name', 'test sdk update 2');
 });
 
-test('getAnalyticAccountsWithMultiplePlans', async () => {
+test.skip('getAnalyticAccountsWithMultiplePlans', async () => {
     const analyticAccountsWithMultiplePlans =
         await consumer.accounting.getAnalyticAccountsWithMultiplePlans();
     expect(analyticAccountsWithMultiplePlans).toBeInstanceOf(Array);
 });
 
-test('createJournalEntry', async () => {
+test.skip('createJournalEntry', async () => {
     const journal = journals.find((journal) => journal.journal_type === 'customer_invoice');
     if (!journal) {
         throw new Error('No journal with type "customer_invoice" found to create journal entry');

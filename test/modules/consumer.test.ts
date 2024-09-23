@@ -5,10 +5,10 @@ import { components } from '../../src/types/public-api/schema';
 dotenv.config();
 
 const client = new chift.API({
-    baseUrl: process.env.CHIFT_BASE_URL,
-    clientId: process.env.CHIFT_CLIENT_ID as string,
-    clientSecret: process.env.CHIFT_CLIENT_SECRET as string,
-    accountId: process.env.CHIFT_ACCOUNT_ID as string,
+    baseUrl: process.env.CHIFT_BACKBONE_API,
+    clientId: process.env.CHIFT_TESTING_CLIENTID as string,
+    clientSecret: process.env.CHIFT_TESTING_CLIENTSECRET as string,
+    accountId: process.env.CHIFT_TESTING_ACCOUNTID as string,
 });
 
 const consumerName = 'test consumer 2';

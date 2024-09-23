@@ -5,13 +5,13 @@ import { components } from '../../src/types/public-api/schema';
 dotenv.config();
 
 const client = new chift.API({
-    baseUrl: process.env.CHIFT_BASE_URL,
-    clientId: process.env.CHIFT_CLIENT_ID as string,
-    clientSecret: process.env.CHIFT_CLIENT_SECRET as string,
-    accountId: process.env.CHIFT_ACCOUNT_ID as string,
+    baseUrl: process.env.CHIFT_BACKBONE_API,
+    clientId: process.env.CHIFT_TESTING_CLIENTID as string,
+    clientSecret: process.env.CHIFT_TESTING_CLIENTSECRET as string,
+    accountId: process.env.CHIFT_TESTING_ACCOUNTID as string,
 });
 
-const consumerId = process.env.CHIFT_WOOCOMMERCE_CONSUMER_ID as string;
+const consumerId = process.env.CHIFT_ECOMMERCE_CONSUMER_ID as string;
 
 let consumer: any;
 beforeAll(async () => {
@@ -64,16 +64,17 @@ test('getProduct', async () => {
     expect(product).toHaveProperty('common_images');
 });
 
-test.skip('getProductVariantById', async () => {
+let variant: components['schemas']['VariantItem'];
+test('getProductVariantById', async () => {
     if (!products?.length) {
         throw new Error('No product to test');
     }
 
-    if (!products[0].variants) {
+    if (!products[0].variants.length) {
         throw new Error('No product variant to test');
     }
 
-    const variant = await consumer.ecommerce.getProductVariantById(products[0].variants[0].id);
+    variant = await consumer.ecommerce.getProductVariantById(products[0].variants[0].id);
     expect(variant).toBeTruthy();
     expect(variant).toHaveProperty('id', expect.any(String));
 });
@@ -96,7 +97,7 @@ test('updateAvailableQuantity', async () => {
         throw new Error('No location found to update available quantity');
     }
 
-    const product = await consumer.ecommerce.updateAvailableQuantity(products[0].id, {
+    const product = await consumer.ecommerce.updateAvailableQuantity(variant.id, {
         location_id: locations[0].id,
         available_quantity: 1,
     });
