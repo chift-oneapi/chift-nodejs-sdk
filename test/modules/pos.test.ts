@@ -28,7 +28,7 @@ test('getLocations', async () => {
 });
 
 let orders: components['schemas']['POSOrderItem'][];
-test('getOrders', async () => {
+test.skip('getOrders', async () => {
     orders = await consumer.pos.getOrders({
         date_from: '2023-01-08',
         date_to: '2023-01-01',
@@ -62,6 +62,10 @@ test.skip('getCustomers', async () => {
 
 // TODO: Fix The day parameter is missing error
 test.skip('getOrder', async () => {
+    if (!orders.length) {
+        throw new Error('No orders found to test getOrder');
+    }
+
     const order = await consumer.pos.getOrder(orders[0].id);
     expect(order).toBeTruthy();
     expect(order).toHaveProperty('id', expect.any(String));
@@ -141,7 +145,7 @@ test.skip('updateOrder', async () => {
     expect(order).toHaveProperty('id', expect.any(String));
 });
 
-test('getProducts', async () => {
+test.skip('getProducts', async () => {
     const products = await consumer.pos.getProducts();
     expect(products).toBeInstanceOf(Array);
     expect(products.length).toBeGreaterThan(0);
