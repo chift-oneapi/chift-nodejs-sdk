@@ -21,7 +21,7 @@ beforeAll(async () => {
 });
 
 let analyticPlans: components['schemas']['AnalyticPlanItem'][];
-test.skip('getAnalyticPlans', async () => {
+test('getAnalyticPlans', async () => {
     analyticPlans = await consumer.accounting.getAnalyticPlans();
     expect(analyticPlans).toBeInstanceOf(Array);
     expect(analyticPlans.length).toBeGreaterThan(0);
