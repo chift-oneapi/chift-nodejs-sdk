@@ -51,7 +51,7 @@ const invoicingFactory = {
         };
     },
     createProduct(
-        product: components['schemas']['models__invoicing__ProductItem']
+        product: components['schemas']['backbone_common__models__invoicing__ProductItem']
     ): RequestData<components['schemas']['ProductItemOut']> {
         return {
             method: 'create',
@@ -59,13 +59,17 @@ const invoicingFactory = {
             body: product,
         };
     },
-    getTaxes(): RequestData<components['schemas']['models__invoicing__VatCode'][]> {
+    getTaxes(): RequestData<
+        components['schemas']['backbone_common__models__invoicing__VatCode'][]
+    > {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/taxes`,
         };
     },
-    getTaxById(taxId: string): RequestData<components['schemas']['models__invoicing__VatCode']> {
+    getTaxById(
+        taxId: string
+    ): RequestData<components['schemas']['backbone_common__models__invoicing__VatCode']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/taxes/${taxId}`,

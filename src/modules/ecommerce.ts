@@ -26,7 +26,9 @@ const ecommerceFactory = {
             url: '/consumers/{consumer_id}/commerce/customers',
         };
     },
-    getProducts(): RequestData<components['schemas']['app__routers__commerce__ProductItem'][]> {
+    getProducts(): RequestData<
+        components['schemas']['backbone_api__app__routers__commerce__ProductItem'][]
+    > {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/products',
@@ -40,7 +42,7 @@ const ecommerceFactory = {
     },
     getProduct(
         productId: string
-    ): RequestData<components['schemas']['app__routers__commerce__ProductItem']> {
+    ): RequestData<components['schemas']['backbone_api__app__routers__commerce__ProductItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/products/${productId}`,

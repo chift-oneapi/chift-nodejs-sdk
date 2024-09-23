@@ -1,6 +1,21 @@
-export interface TriggerType {
-    type: 'timer' | 'event';
-    data?: any;
+interface FlowTriggerOptions {
+    autostart?: boolean;
+}
+
+export interface FlowTrigger {
+    id: string;
+    type: 'event' | 'timer';
+    cronschedules?: string[];
+    definitionFields?: any[];
+    visible?: boolean;
+    label?: string;
+    options?: FlowTriggerOptions;
+}
+
+interface FlowConfig {
+    datastores?: { id: string; name: string }[];
+    definitionFields?: Record<string, unknown>[];
+    doorkeyFields?: Record<string, unknown>[];
 }
 
 export interface ExecutionType {
@@ -11,9 +26,9 @@ export interface ExecutionType {
 export interface ContextType {
     name: string;
     description?: string;
-    trigger: TriggerType;
+    triggers: FlowTrigger[];
     execution: ExecutionType;
-    config?: any;
+    config?: FlowConfig;
 }
 
 export interface SimpleResponseModel {

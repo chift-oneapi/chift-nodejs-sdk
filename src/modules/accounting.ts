@@ -184,7 +184,7 @@ const accountingFactory = {
         };
     },
     getInvoicesByType(
-        invoice_type: components['schemas']['app__routers__accounting__InvoiceType'],
+        invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'],
         params?: GetInvoicesByTypeParams
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan'][]> {
         return {
@@ -214,7 +214,7 @@ const accountingFactory = {
         };
     },
     getInvoicesByTypeWithMultiplePlans(
-        invoice_type: components['schemas']['app__routers__accounting__InvoiceType'],
+        invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'],
         params?: GetInvoicesByTypeWithMultiplePlansParams
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans'][]> {
         return {
@@ -347,7 +347,7 @@ const accountingFactory = {
     },
     getVatCodes(
         params?: GetVatCodesParams
-    ): RequestData<components['schemas']['app__routers__accounting__VatCode'][]> {
+    ): RequestData<components['schemas']['backbone_api__app__routers__accounting__VatCode'][]> {
         return {
             params,
             method: 'get',

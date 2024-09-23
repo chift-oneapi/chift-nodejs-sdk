@@ -5,860 +5,2263 @@
 
 export interface paths {
     '/consumers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get consumers
          * @description Returns the list of consumers linked to your account.
          */
         get: operations['consumers_get_consumers'];
+        put?: never;
         /**
          * Create new consumer
          * @description Create a new consumer that will have the possibility to use the enabled integrations
          */
         post: operations['consumers_create_consumer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumerid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one consumer
          * @description Returns the specified consumer
          */
         get: operations['consumers_get_consumer'];
+        put?: never;
+        post?: never;
         /**
          * Delete one consumer
          * @description Endpoint that deletes one consumer in Chift
          */
         delete: operations['consumers_delete_consumer'];
+        options?: never;
+        head?: never;
         /**
          * Update one consumer
          * @description Update one consumer in Chift
          */
         patch: operations['consumers_update_consumer'];
+        trace?: never;
     };
     '/consumers/{consumerid}/connections': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get connections
          * @description Returns a list of the connections (active or inactive) linked to your consumer
          */
         get: operations['connections_get_connections'];
+        put?: never;
         /**
          * Add new connection
          * @description Returns the url that can be used by your client to enable his integrations.
          */
         post: operations['connections_create_connection'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumerid}/connections/{connectionid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
         /**
          * Delete one connection
          * @description Endpoint that deletes one connection of a consumer in Chift
          */
         delete: operations['connections_delete_connection'];
+        options?: never;
+        head?: never;
         /**
          * Update an existing connection
          * @description Returns the url that can be used by your client to update the connection
          */
         patch: operations['connections_update_connection'];
+        trace?: never;
     };
     '/integrations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get list of integrations
          * @description Returns a list of integrations (active and inactive) available for your account
          */
         get: operations['integrations_get_integrations'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/integrations/{integrationid}/{image_type}.json': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /** Returns a logo/icon of an integration (as base64) */
         get: operations['integrations_get_integration_logo_json'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/webhooks/list': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get list of possible webhooks
          * @description Returns a list of webhook that are available for your account
          */
         get: operations['webhooks_get_webhook_types'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/webhooks': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get list of webhook instances
          * @description Returns a list of webhook instances (active/inactive) for your account
          */
         get: operations['webhooks_get_webhooks'];
+        put?: never;
         /**
          * Add new webhook instance
          * @description Returns the created webhook instance
          */
         post: operations['webhooks_create_webhook'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/webhooks/{webhookid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one webhook instance
          * @description Returns one webhook instance
          */
         get: operations['webhooks_get_webhook'];
+        put?: never;
+        post?: never;
         /**
          * Delete one webhook
          * @description Endpoint that deletes one existing webhook
          */
         delete: operations['webhooks_delete_webhook'];
+        options?: never;
+        head?: never;
         /**
          * Update one webhook
          * @description Update one webhook in Chift
          */
         patch: operations['webhooks_update_webhook'];
+        trace?: never;
     };
     '/webhooks/{webhookid}/logs': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get list of webhook logs for one webhook
          * @description Returns a list of webhook logs for one webhook for your account
          */
         get: operations['webhooks_get_webhook_logs'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/syncs': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get syncs
          * @description Returns the syncs
          */
         get: operations['syncs_get_syncs'];
+        put?: never;
         /**
          * Create sync
          * @description Returns the created sync
          */
         post: operations['syncs_post_sync'];
+        delete?: never;
+        options?: never;
+        head?: never;
         /**
          * Update existing sync
          * @description Update existing sync & related flows and mappings
          */
         patch: operations['syncs_update_sync'];
+        trace?: never;
     };
     '/syncs/{syncid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get sync
          * @description Returns a sync by id
          */
         get: operations['syncs_get_sync'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/syncs/{syncid}/flows/{flowid}/event': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Send a custom event for a specific flow
          * @description Route that can be used to send a specific event for a flow
          */
         post: operations['syncs_send_custom_event'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/executions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get executions information for one consumer/flow/sync
          * @description Returns executions information for one consumer/flow/sync
          */
         get: operations['syncs_get_consumer_executions'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/syncs/{syncid}/flows/{flowid}/executions/{executionid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get execution start/end timestamp
          * @description Get execution start/end timestamp
          */
         get: operations['syncs_get_execution'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumerid}/syncs': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Retrieve the url of a sync for a specific consumer
          * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
          */
         post: operations['syncs_create_synctoconsumer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumerid}/syncs/{syncid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get sync information for one consumer
          * @description Returns sync information (creation date, mapping) related to a specific consumer
          */
         get: operations['syncs_get_syncconsumer'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/enable': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Enable a flow for a specific consumer
          * @description Route that can be used to enable a flow for a specific consumer
          */
         post: operations['syncs_enable_syncconsumer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update flow settings for a specific consumer
+         * @description Route that can be used to update the flow configuration for a specific consumer. It will merge the new configuration with the existing one.
+         */
+        patch: operations['syncs_update_flowtoconsumer'];
+        trace?: never;
     };
     '/datastores': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get list of datastores
          * @description Returns a list of datastores (active and inactive) available for your account
          */
         get: operations['datastores_get_datastores'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumerid}/datastore/{datastoreid}/data': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get execution data for a specific consumer and a specific datastore
          * @description Returns execution data related to a consumer and a datastore. Queryparams can be used to filter the restuls by datastore column or by executionid
          */
         get: operations['datastores_get_consumer_and_datastoredata'];
+        put?: never;
         /**
          * Add data into a datastore for a consumer
          * @description Endpoint that can be used to add data into a datastore for a specific consumer
          */
         post: operations['datastores_create_consumer_datastoredata'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumerid}/datastore/{datastoreid}/data/{datastoredataid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
         /**
          * Delete execution data for a specific consumer and a specific datastore
          * @description Delete execution data related to a consumer and a datastore
          */
         delete: operations['datastores_delete_consumer_datastoredata'];
+        options?: never;
+        head?: never;
         /**
          * Update execution data for a specific consumer and a specific datastore
          * @description Update and returns execution data related to a consumer and a datastore
          */
         patch: operations['datastores_update_consumer_datastoredata'];
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/folders': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /** Get Folders */
         get: operations['accounting_get_folders'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/bookyears': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /** Get Bookyears */
         get: operations['accounting_get_bookyears'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/analytic-plans': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /** Get Analytic Plans */
         get: operations['accounting_get_analytic_plans'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/clients': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get clients
          * @description Returns a list of accounting clients
          */
         get: operations['accounting_get_clients'];
+        put?: never;
         /**
          * Create client
          * @description Create a new client
          */
         post: operations['accounting_create_client'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/clients/{client_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one client
          * @description Returns a specific accounting client
          */
         get: operations['accounting_get_client'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
         /**
          * Update client
          * @description Endpoint that gives the possibility to update an accounting client
          */
         patch: operations['accounting_update_client'];
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/suppliers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get suppliers
          * @description Returns a list of accounting suppliers
          */
         get: operations['accounting_get_suppliers'];
+        put?: never;
         /**
          * Create supplier
          * @description Create a new supplier
          */
         post: operations['accounting_create_supplier'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/suppliers/{supplier_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one supplier
          * @description Returns one accounting supplier
          */
         get: operations['accounting_get_supplier'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
         /**
          * Update one supplier
          * @description Update an accounting supplier
          */
         patch: operations['accounting_update_supplier'];
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Create sale/purchase entry
          * @description Create a new sale/purchase accounting entry
          */
         post: operations['accounting_create_invoice'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Create sale/purchase entry (Multiple plans)
          * @description Create a new sale/purchase entry with multiple analytic plans in the accounting
          */
         post: operations['accounting_create_invoice_multiple_plans'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices/type/{invoice_type}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get invoices by type (sale/purchase entries)
          * @description Returns a list of invoices by a specific type (=sale/purchase entries). Each line of the invoice will include the analytic account linked to default analytic plan. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
          */
         get: operations['accounting_get_invoices_by_type'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices/{invoice_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one invoice (sale/purchase entry)
          * @description Returns a specific invoice (sale/purchase entry). Each line will include the analytic account linked to default analytic plan
          */
         get: operations['accounting_get_invoice'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/{invoice_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one invoice (sale/purchase entry - Multiple Analytic Plans)
          * @description Returns a specific invoice (=sale/purchase entry) with invoice lines including multiple analytic plans
          */
         get: operations['accounting_get_invoice_multi_analytic_plans'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/{invoice_type}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get invoices by type (sale/purchase entries - Multiple Analytic Plans)
          * @description Returns a list of invoices by a specific type (=sale/purchase entries) with invoice lines including multiple analytic plans. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
          */
         get: operations['accounting_get_invoices_by_type_multi_analytic_plans'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/analytic-accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get analytic accounts
          * @description Returns all analytic accounts of the default analytic plan
          */
         get: operations['accounting_get_analytic_accounts'];
+        put?: never;
         /**
          * Create analytic account
          * @description Create a new analytic account in the default analytic plan
          */
         post: operations['accounting_create_analytic_account'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans/{analytic_plan}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Create analytic account (Multiple Analytic Plans)
          * @description Create a new analytic account in a specific analytic plan
          */
         post: operations['accounting_create_analytic_account_multi_plans'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/analytic-accounts/{analytic_account_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get analytic account
          * @description Returns one specific analytic account of the default analytic plan
          */
         get: operations['accounting_get_analytic_account'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
         /**
          * Update analytic account
          * @description Update one specific analytic account in the default analytic plan
          */
         patch: operations['accounting_update_analytic_account'];
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/analytic-accounts/{analytic_account_id}/multi-analytic-plans/{analytic_plan}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get analytic account (Multiple Analytic Plans)
          * @description Returns one specific analytic account of a specific analytic plan
          */
         get: operations['accounting_get_analytic_account_multi_plans'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
         /**
          * Update analytic account (Multiple Analytic Plans)
          * @description Update one specific analytic account in a specific analytic plan
          */
         patch: operations['accounting_update_analytic_account_multi_plans'];
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get analytic accounts (Multiple Analytic Plans)
          * @description Returns all analytic accounts of all analytic plans
          */
         get: operations['accounting_get_analytic_accounts_multi_plans'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/journal/entries': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get journal entries
          * @description Returns a list of journal entries. Each item will include the analytic account linked to default analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
          */
         get: operations['accounting_get_journal_entries'];
+        put?: never;
         /**
          * Create Journal Entry [Deprecated]
          * @description Create a new Journal Entry in the accounting system
          */
         post: operations['accounting_create_journal_entry'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/journal/entries/multi-analytic-plans': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get journal entries (Multiple Analytic Plans)
          * @description Returns a list of journal entries with invoice items including multiple analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
          */
         get: operations['accounting_get_journal_entries_mutli_plan'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/journal-entries': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Create Journal Entry
          * @description Create a new Journal Entry in the accounting system
          */
         post: operations['accounting_create_generic_journal_entry'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices/id/{invoice_id}/payments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get payments by invoice ID
          * @description Get payments of a specific invoice based on its ID
          */
         get: operations['accounting_get_payments_by_invoice'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/journals': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get journals
          * @description Get journals existing in the accounting system
          */
         get: operations['accounting_get_journals'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/vat-codes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get vat codes
          * @description Get vat codes existing in the accounting system
          */
         get: operations['accounting_get_vat_codes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/miscellaneous-operation': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get miscellaneous operations
          * @description Get miscellaneous operations from the the accounting system
          */
         get: operations['accounting_get_miscellaneous_operations'];
+        put?: never;
         /**
          * Create miscellaneous operation
          * @description Create a new miscellaneous operation
          */
         post: operations['accounting_create_miscellaneous_operation'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/miscellaneous-operation/{operation_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one miscellaneous operation
          * @description Get a specific miscellaneous operation from the the accounting system
          */
         get: operations['accounting_get_miscellaneous_operation'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/matching': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Match entries
          * @description Match existing entries in the accounting system
          */
         post: operations['accounting_match_entries'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices/pdf/{invoice_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Attach a document (PDF)
          * @description Attach a document (PDF) to the invoice entry
          */
         post: operations['accounting_add_attachment'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/chart-of-accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get chart of accounts
          * @description Get all accounts in the chart of accounts
          */
         get: operations['accounting_get_chart_of_accounts'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/chart-of-accounts/balance': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Get the balance of accounts
          * @description Get the balance of accounts in the accounting plan (chart of accounts) between specific months
          */
         post: operations['accounting_get_accounts_balances'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/employees': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get employees
          * @description Returns a list of the employees linked to the company
          */
         get: operations['accounting_get_employees'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/financial-entry': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Create a financial entry [Deprecated]
          * @description Create a new financial entry (Bank or Cash operation)
          */
         post: operations['accounting_create_financial_entry'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/financial-entries': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Create a financial entry
          * @description Create a new financial entry (Bank or Cash operation)
          */
         post: operations['accounting_create_financial_entries'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/outstandings': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get clients/suppliers outstanding items
          * @description Returns a list of all clients/suppliers outstanding items
          */
         get: operations['accounting_get_outstandings'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/accounting/attachments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get attachments
          * @description Returns a list of all attachments linked to an accounting entry
          */
         get: operations['accounting_get_attachments'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/orders': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get orders
          * @description Returns a list of the orders
          */
         get: operations['pos_get_orders'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/orders/{order_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one order
          * @description Returns a single order
          */
         get: operations['pos_get_order'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
         /**
          * Update order
          * @description Update one order
          */
         patch: operations['pos_update_pos_customer'];
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/locations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get locations
          * @description Returns a list of the locations
          */
         get: operations['pos_get_locations'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/payments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get payments
          * @description Returns a list of payments
          */
         get: operations['pos_get_payments'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/sales': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get sales
          * @description Returns the summary of the sales
          */
         get: operations['pos_get_sales'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/payment-methods': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get payment methods
          * @description Returns the list of payment methods
          */
         get: operations['pos_get_payments_methods'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/customers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get customers
          * @description Returns the list of customers
          */
         get: operations['pos_get_customers'];
+        put?: never;
         /**
          * Create one customer
          * @description Create a customer
          */
         post: operations['pos_create_pos_customer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/customers/{customer_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one customer
          * @description Returns a specific customer
          */
         get: operations['pos_get_customer'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/product-categories': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get product categories
          * @description Returns a list of product categories
          */
         get: operations['pos_get_product_categories'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/products': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get products
          * @description Returns a list of products
          */
         get: operations['pos_get_products'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/accounting-categories': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get accounting categories
          * @description Returns a list of accounting categories. When not available for a specific POS, it will return the same values as the product categories.
          */
         get: operations['pos_get_accounting_categories'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pos/closures/{date}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get closure info for a specific day
          * @description Returns whether the closure was already done for a specific day or not
          */
         get: operations['pos_get_closure'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/customers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get all customers
          * @description Returns a list of all the customers
          */
         get: operations['ecommerce_get_customers'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/customers/{customer_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one specific customer
          * @description Returns a specific customer
          */
         get: operations['ecommerce_get_customer'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/products': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get all products
          * @description Returns a list of all the products
          */
         get: operations['ecommerce_get_products'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/products/{product_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one specific product
          * @description Returns a specific product
          */
         get: operations['ecommerce_get_product'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/variants/{variant_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one specific product variant
          * @description Returns a specific product variant
          */
         get: operations['ecommerce_get_variant'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/variants/set_quantity/{variant_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Update available quantity
          * @description Update available quantity of a product variant in a specific location
          */
         post: operations['ecommerce_update_variant_quantity'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/locations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get all locations
          * @description Returns a list of all locations
          */
         get: operations['ecommerce_get_locations'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/orders': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get all orders
          * @description Returns a list of all the orders
          */
         get: operations['ecommerce_get_orders'];
+        put?: never;
         /**
          * Create an order
          * @description Create a new order
          */
         post: operations['ecommerce_create_order'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/orders/{order_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get one specific order
          * @description Returns a specific order
          */
         get: operations['ecommerce_get_order'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/payment-methods': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get all payment methods
          * @description Returns the list of the payment methods
          */
         get: operations['ecommerce_get_payments_methods'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/product-categories': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get all product categories
          * @description Returns the list of the product categories
          */
         get: operations['ecommerce_get_product_categories'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/taxes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get all tax rates
          * @description Returns the list of all tax rates
          */
         get: operations['ecommerce_get_taxes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/commerce/countries': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get all countries
          * @description Returns the list of all activated countries
          */
         get: operations['ecommerce_get_countries'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/invoices': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve all invoices
          * @description Returns a list of invoices. Optionally invoice type and dates can be defined to retrieve invoices of a certain type from a certain date to another date
          */
         get: operations['invoicing_get_invoices'];
+        put?: never;
         /**
          * Create an invoice
          * @description Create a new invoice.
          */
         post: operations['invoicing_post_invoices'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/invoices/{invoice_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve one invoice
          * @description Returns a invoice
          */
         get: operations['invoicing_get_invoice'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/taxes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve all taxes
          * @description Returns a list of all the taxes
          */
         get: operations['invoicing_get_taxes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/taxes/{tax_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve one tax
          * @description Returns a tax
          */
         get: operations['invoicing_get_tax'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/products': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve all products
          * @description Returns a list of all the products
          */
         get: operations['invoicing_get_products'];
+        put?: never;
         /**
          * Create a product
          * @description Create a new product.
          */
         post: operations['invoicing_post_products'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/products/{product_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve one product
          * @description Returns a product
          */
         get: operations['invoicing_get_product'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/opportunities': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve all opportunities
          * @description Returns a list of all the opportunities
          */
         get: operations['invoicing_get_opportunities'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/opportunities/{opportunity_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve one opportunity
          * @description Returns an opportunity
          */
         get: operations['invoicing_get_opportunity'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/contacts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve all contacts
          * @description Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.
          */
         get: operations['invoicing_get_contacts'];
+        put?: never;
         /**
          * Create a contact
          * @description Create a new contact.
          */
         post: operations['invoicing_post_contacts'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/contacts/{contact_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve one contact
          * @description Returns a contact
          */
         get: operations['invoicing_get_contact'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/banking/financial-institutions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get list of financial institutions
          * @description Returns the list of financial institutions the user consent access to
          */
         get: operations['banking_get_financial_institutions'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/banking/accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get list of banking accounts
          * @description Returns the list of banking accounts
          */
         get: operations['banking_get_accounts'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/banking/{account_id}/transactions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get list of financial transactions
          * @description Returns the list of transactions of an account
          */
         get: operations['banking_get_account_transactions'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/banking/counterparts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get aggregated list of account counterparts found in transactions
          * @description Returns the aggregated list of account counterpats found in transactions. Useful for categorisation.
          */
         get: operations['banking_get_account_counterparts'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/payment/balances': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve all Balances
          * @description Returns a list of balances.
          */
         get: operations['payment_get_balances'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/payment/transactions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Retrieve all Transactions
          * @description Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date
          */
         get: operations['payment_get_transaction'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/payment/payments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all Payments
+         * @description Returns a list of payments.
+         */
+        get: operations['payment_get_payments'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/payment/payments/{payment_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a Payment
+         * @description Returns a specific payment.
+         */
+        get: operations['payment_get_payment'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/payment/refunds': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all Refunds
+         * @description Returns a list of refunds.
+         */
+        get: operations['payment_get_refunds'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pms/orders': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get orders (PMS)
          * @description Returns a list of the orders
          */
         get: operations['pms_get_orders'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pms/locations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get locations (PMS)
          * @description Returns a list of the locations
          */
         get: operations['pms_get_locations'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pms/payments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get payments (PMS)
          * @description Returns a list of payments
          */
         get: operations['pms_get_payments'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pms/payment-methods': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get payment methods (PMS)
          * @description Returns the list of payment methods
          */
         get: operations['pms_get_payments_methods'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pms/accounting-categories': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get accounting categories (PMS)
          * @description Returns a list of accounting categories. When not available for a specific PMS, it will return the same values as the product categories.
          */
         get: operations['pms_get_accounting_categories'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/consumers/{consumer_id}/pms/closures/{date}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         /**
          * Get closure info for a specific day (PMS)
          * @description Returns whether the closure was already done for a specific day or not
          */
         get: operations['pms_get_closure'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
     '/token': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * Get access token
          * @description This endpoint allows you to get an access token that can be used as a BEARER token to access the protected endpoints of this APIs. The token is valid for 30 minutes. You can refresh the token by requesting a new token.
          */
         post: operations['generate_access_token_token_post'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
 }
-
 export type webhooks = Record<string, never>;
-
 export interface components {
     schemas: {
         /** AccountBalance */
@@ -873,12 +2276,30 @@ export interface components {
              * @description Display name of the account
              */
             account_name?: string;
-            /** Debit */
+            /**
+             * Debit
+             * @description Debit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.
+             */
             debit: number;
-            /** Credit */
+            /**
+             * Credit
+             * @description Credit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.
+             */
             credit: number;
             /** Balance */
             balance: number;
+            /**
+             * Period Debit
+             * @description Debit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.
+             */
+            period_debit: number;
+            /**
+             * Period Credit
+             * @description Credit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.
+             */
+            period_credit: number;
+            /** Period Balance */
+            period_balance: number;
         };
         /** AccountBalanceFilter */
         AccountBalanceFilter: {
@@ -908,7 +2329,7 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             type?: components['schemas']['AccountItemType'];
         };
         /**
@@ -1044,7 +2465,7 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /** Code */
             code: string;
             /** Name */
@@ -1074,17 +2495,17 @@ export interface components {
              * Balance
              * @default 0
              */
-            balance?: number;
+            balance: number;
             /**
              * Credit
              * @default 0
              */
-            credit?: number;
+            credit: number;
             /**
              * Debit
              * @default 0
              */
-            debit?: number;
+            debit: number;
         };
         /** AnalyticAccountItemOutMultiAnalyticPlans */
         AnalyticAccountItemOutMultiAnalyticPlans: {
@@ -1105,17 +2526,17 @@ export interface components {
              * Balance
              * @default 0
              */
-            balance?: number;
+            balance: number;
             /**
              * Credit
              * @default 0
              */
-            credit?: number;
+            credit: number;
             /**
              * Debit
              * @default 0
              */
-            debit?: number;
+            debit: number;
             /** Analytic Plan */
             analytic_plan: string;
         };
@@ -1125,7 +2546,7 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /** Code */
             code?: string;
             /** Name */
@@ -1163,7 +2584,7 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
         };
         /**
          * Api
@@ -1222,10 +2643,10 @@ export interface components {
              */
             source_ref: components['schemas']['Ref'];
             /**
-             * Availale Amount
+             * Available Amount
              * @description Total amount available
              */
-            availale_amount: number;
+            available_amount: number;
             /**
              * Currency
              * @description Currency
@@ -1389,12 +2810,12 @@ export interface components {
              * Status
              * @default error
              */
-            status?: string;
+            status: string;
             /**
              * Detail
              * @default
              */
-            detail?: string;
+            detail: string;
         };
         /** ChiftPage[AccountBalance] */
         ChiftPage_AccountBalance_: {
@@ -1477,6 +2898,50 @@ export interface components {
         ChiftPage_BalanceItemOut_: {
             /** Items */
             items: components['schemas']['BalanceItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[BankingAccountItem] */
+        ChiftPage_BankingAccountItem_: {
+            /** Items */
+            items: components['schemas']['BankingAccountItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[BankingCounterPartItem] */
+        ChiftPage_BankingCounterPartItem_: {
+            /** Items */
+            items: components['schemas']['BankingCounterPartItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[BankingFinancialInstitutionItem] */
+        ChiftPage_BankingFinancialInstitutionItem_: {
+            /** Items */
+            items: components['schemas']['BankingFinancialInstitutionItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[BankingTransactionItem] */
+        ChiftPage_BankingTransactionItem_: {
+            /** Items */
+            items: components['schemas']['BankingTransactionItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -1792,6 +3257,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[PaymentItemOut] */
+        ChiftPage_PaymentItemOut_: {
+            /** Items */
+            items: components['schemas']['PaymentItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[PaymentMethodItem] */
         ChiftPage_PaymentMethodItem_: {
             /** Items */
@@ -1828,7 +3304,7 @@ export interface components {
         /** ChiftPage[ProductCategoryItem] */
         ChiftPage_ProductCategoryItem_: {
             /** Items */
-            items: components['schemas']['app__routers__pos__ProductCategoryItem'][];
+            items: components['schemas']['backbone_api__app__routers__pos__ProductCategoryItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -1850,7 +3326,18 @@ export interface components {
         /** ChiftPage[ProductItem] */
         ChiftPage_ProductItem_: {
             /** Items */
-            items: components['schemas']['app__routers__commerce__ProductItem'][];
+            items: components['schemas']['backbone_api__app__routers__commerce__ProductItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[RefundItemOut] */
+        ChiftPage_RefundItemOut_: {
+            /** Items */
+            items: components['schemas']['RefundItemOut'][];
             /** Total */
             total: number;
             /** Page */
@@ -1917,7 +3404,7 @@ export interface components {
              * @description Indicates if the client is an individual or a company.
              * @default true
              */
-            is_company?: boolean;
+            is_company: boolean;
             /**
              * Company Id
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
@@ -1959,9 +3446,9 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /** Addresses */
-            addresses: components['schemas']['models__common__AddressItemIn'][];
+            addresses: components['schemas']['backbone_common__models__common__AddressItemIn'][];
             /** Account Number */
             account_number?: string;
         };
@@ -1991,7 +3478,7 @@ export interface components {
              * @description Indicates if the client is an individual or a company.
              * @default true
              */
-            is_company?: boolean;
+            is_company: boolean;
             /**
              * Company Id
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
@@ -2033,12 +3520,12 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /**
              * Addresses
              * @default []
              */
-            addresses?: components['schemas']['models__common__AddressItemOut'][];
+            addresses: components['schemas']['backbone_common__models__common__AddressItemOut'][];
             /** Account Number */
             account_number?: string;
             /** Company Number */
@@ -2072,7 +3559,7 @@ export interface components {
              * @description Indicates if the client is an individual or a company.
              * @default true
              */
-            is_company?: boolean;
+            is_company: boolean;
             /**
              * Company Id
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
@@ -2114,12 +3601,12 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /**
              * Addresses
              * @default []
              */
-            addresses?: components['schemas']['models__common__AddressItemOut'][];
+            addresses: components['schemas']['backbone_common__models__common__AddressItemOut'][];
         };
         /** ClosureItem */
         ClosureItem: {
@@ -2172,7 +3659,7 @@ export interface components {
              * Addresses
              * @default []
              */
-            addresses?: components['schemas']['app__routers__commerce__AddressItemOut'][];
+            addresses: components['schemas']['backbone_api__app__routers__commerce__AddressItemOut'][];
             /**
              * Created On
              * Format: date-time
@@ -2336,7 +3823,7 @@ export interface components {
              * @description Addresses
              * @default []
              */
-            addresses?: components['schemas']['AddressItemInInvoicing'][];
+            addresses: components['schemas']['AddressItemInInvoicing'][];
         };
         /** ContactItemOut */
         ContactItemOut: {
@@ -2453,7 +3940,12 @@ export interface components {
              * @description Addresses
              * @default []
              */
-            addresses?: components['schemas']['AddressItemOutInvoicing'][];
+            addresses: components['schemas']['AddressItemOutInvoicing'][];
+            /**
+             * External Reference
+             * @description External reference of the contact in the invoicing system
+             */
+            external_reference?: string;
         };
         /**
          * ContactType
@@ -2483,7 +3975,7 @@ export interface components {
              * @description [OPTIONAL] Can be used to specify maximum one integrationid for each One API that you want to highlight. If specified, only this connector will be displayed to your clients.
              * @default []
              */
-            integrationids?: string[];
+            integrationids: string[];
             /** Link Metadata */
             link_metadata?: Record<string, never>;
         };
@@ -2497,10 +3989,10 @@ export interface components {
             /**
              * Config
              * @default {
-             *   "datastores": []
-             * }
+             *       "datastores": []
+             *     }
              */
-            config?: components['schemas']['FlowConfig'];
+            config: components['schemas']['FlowConfig'];
             /** Triggers */
             triggers: components['schemas']['FlowTrigger'][];
         };
@@ -2509,17 +4001,17 @@ export interface components {
             /** Name */
             name: string;
             /** Connections */
-            connections: components['schemas']['app__routers__syncs__ConnectionItem'][];
+            connections: components['schemas']['backbone_api__app__routers__syncs__ConnectionItem'][];
             /**
              * Mappings
              * @default []
              */
-            mappings?: components['schemas']['CreateSyncMappingItem'][];
+            mappings: components['schemas']['CreateSyncMappingItem'][];
             /**
              * Flows
              * @default []
              */
-            flows?: components['schemas']['CreateFlowItem'][];
+            flows: components['schemas']['CreateFlowItem'][];
         };
         /** CreateSyncMappingItem */
         CreateSyncMappingItem: {
@@ -2531,14 +4023,14 @@ export interface components {
              * Display Order
              * @default 0
              */
-            display_order?: number;
+            display_order: number;
             /** Challenge Question */
             challenge_question?: string;
             /**
              * Sub Mappings
              * @default []
              */
-            sub_mappings?: components['schemas']['CreateSyncMappingToFieldItem'][];
+            sub_mappings: components['schemas']['CreateSyncMappingToFieldItem'][];
         };
         /** CreateSyncMappingToFieldItem */
         CreateSyncMappingToFieldItem: {
@@ -2550,7 +4042,7 @@ export interface components {
              * Display Order
              * @default 0
              */
-            display_order?: number;
+            display_order: number;
             /** Challenge Question */
             challenge_question?: string;
             source_field: components['schemas']['FieldItem'];
@@ -2559,7 +4051,7 @@ export interface components {
              * Display Delete
              * @default false
              */
-            display_delete?: boolean;
+            display_delete: boolean;
             /** Logic */
             logic?: Record<string, never>;
         };
@@ -2587,7 +4079,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status?: components['schemas']['app__routers__datastores__Status'];
+            status: components['schemas']['backbone_api__app__routers__datastores__Status'];
             definition: components['schemas']['DatastoreDef'];
         };
         /** DatastoreColumn */
@@ -2602,7 +4094,7 @@ export interface components {
              * Optional
              * @default false
              */
-            optional?: boolean;
+            optional: boolean;
         };
         /** DatastoreDef */
         DatastoreDef: {
@@ -2642,7 +4134,7 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /** Reference */
             reference?: string;
             /** Account Number */
@@ -2655,14 +4147,20 @@ export interface components {
              * @description List of integrationids of the connections that will be used to enable the flow
              * @default []
              */
-            integrationids?: string[];
+            integrationids: string[];
             /**
              * Triggerid
              * @default trigger-1
              */
-            triggerid?: string;
+            triggerid: string;
             /** Cronschedule */
             cronschedule?: string;
+            /**
+             * Data
+             * @description Object containing the configuration of the flow for the consumer
+             * @default {}
+             */
+            data: Record<string, never>;
         };
         /**
          * EntryLineType
@@ -2698,6 +4196,12 @@ export interface components {
              */
             created_on?: string;
             type: components['schemas']['FeesType'];
+            /**
+             * Removed
+             * @description Indicates if the fee has been removed from the order
+             * @default false
+             */
+            removed: boolean;
             /** Tax Rate */
             tax_rate: number;
             /**
@@ -2709,7 +4213,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts?: components['schemas']['app__routers__commerce__DiscountItem'][];
+            discounts: components['schemas']['backbone_api__app__routers__commerce__DiscountItem'][];
             /** Untaxed Amount */
             untaxed_amount: number;
             /** Tax Amount */
@@ -2734,7 +4238,7 @@ export interface components {
              * Values
              * @default []
              */
-            values?: components['schemas']['FieldItemValue'][];
+            values: components['schemas']['FieldItemValue'][];
             /** Api Route */
             api_route?: string;
             /** Connection Type */
@@ -2793,7 +4297,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /** Reference */
             reference?: string;
             /** Number */
@@ -2828,7 +4332,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /** Reference */
             reference?: string;
             /** Number */
@@ -2863,7 +4367,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /** Reference */
             reference?: string;
             /** Id */
@@ -2895,7 +4399,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /** Reference */
             reference?: string;
             /** Id */
@@ -2983,7 +4487,7 @@ export interface components {
              * Datastores
              * @default []
              */
-            datastores?: components['schemas']['FlowDataStoreItem'][];
+            datastores: components['schemas']['FlowDataStoreItem'][];
         };
         /** FlowDataStoreItem */
         FlowDataStoreItem: {
@@ -2992,7 +4496,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status?: components['schemas']['app__routers__datastores__Status'];
+            status: components['schemas']['backbone_api__app__routers__datastores__Status'];
             definition: components['schemas']['DatastoreDef'];
         };
         /** FlowExecution */
@@ -3024,9 +4528,11 @@ export interface components {
              * Visible
              * @default true
              */
-            visible?: boolean;
+            visible: boolean;
             /** Definitionfields */
             definitionFields?: Record<string, never>[];
+            /** Options */
+            options?: Record<string, never>;
         };
         /** FolderItem */
         FolderItem: {
@@ -3038,7 +4544,7 @@ export interface components {
              * Selected
              * @default true
              */
-            selected?: boolean;
+            selected: boolean;
             /** Vat */
             vat?: string;
             /** Company Number */
@@ -3063,7 +4569,7 @@ export interface components {
              * Currency Exchange Rate
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /**
              * Date
              * Format: date
@@ -3080,7 +4586,7 @@ export interface components {
              * Posted
              * @default true
              */
-            posted?: boolean;
+            posted: boolean;
         };
         /** GenericJournalItem */
         GenericJournalItem: {
@@ -3097,7 +4603,7 @@ export interface components {
              * @description Indicate if we need to prioritise the information from thirdparty accounts when forcing the general account in a software where only 1 account is accepted.
              * @default false
              */
-            prioritise_thirdparty_account?: boolean;
+            prioritise_thirdparty_account: boolean;
             /** Description */
             description?: string;
             /** Debit */
@@ -3108,7 +4614,7 @@ export interface components {
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution?: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][];
             /**
              * Tax Code
              * @description Indicates the tax code used for the entry item. This is the ID of the Tax Code in the accounting software.
@@ -3126,7 +4632,7 @@ export interface components {
              * Status
              * @default error
              */
-            status?: string;
+            status: string;
             /** Detail */
             detail?: components['schemas']['ValidationError'][];
         };
@@ -3154,7 +4660,7 @@ export interface components {
             integrationid: number;
             /** Name */
             name: string;
-            status: components['schemas']['app__routers__integrations__Status'];
+            status: components['schemas']['backbone_api__app__routers__integrations__Status'];
             api: components['schemas']['Api'];
             /** Logo Url */
             logo_url: string;
@@ -3165,13 +4671,13 @@ export interface components {
              * @description List of post-connections that can be activated for this integration.
              * @default []
              */
-            post_connections?: components['schemas']['app__routers__integrations__PostConnectionItem'][];
+            post_connections: components['schemas']['backbone_api__app__routers__integrations__PostConnectionItem'][];
             /**
              * Credentials
              * @description List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.
              * @default []
              */
-            credentials?: components['schemas']['app__routers__integrations__CredentialItem'][];
+            credentials: components['schemas']['backbone_api__app__routers__integrations__CredentialItem'][];
         };
         /** InventoryDetailsItem */
         InventoryDetailsItem: {
@@ -3208,7 +4714,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['models__invoicing__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__invoicing__InvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -3237,7 +4743,7 @@ export interface components {
              * @description Invoice lines
              * @default []
              */
-            lines?: components['schemas']['InvoiceLineItem'][];
+            lines: components['schemas']['InvoiceLineItem'][];
             /**
              * Partner Id
              * @description Technical id of the vendor/customer in Chift
@@ -3274,15 +4780,10 @@ export interface components {
              * @description Journal
              */
             journal_ref?: components['schemas']['FieldRef'];
-            /**
-             * Outstanding Amount
-             * @description Amount left to be paid
-             */
-            outstanding_amount?: number;
         };
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
-            invoice_type: components['schemas']['app__routers__accounting__InvoiceType'];
+            invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
             /**
              * Invoice Number
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
@@ -3323,7 +4824,7 @@ export interface components {
              */
             journal_id?: string;
             /** @default posted */
-            status?: components['schemas']['InvoiceStatusIn'];
+            status: components['schemas']['InvoiceStatusIn'];
             /**
              * Pdf
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
@@ -3334,7 +4835,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /**
              * Invoice Correction
              * @description Information used to add a correction line when roundings have an impact on the total amount of the invoice.
@@ -3348,7 +4849,7 @@ export interface components {
         };
         /** InvoiceItemInMultiAnalyticPlans */
         InvoiceItemInMultiAnalyticPlans: {
-            invoice_type: components['schemas']['app__routers__accounting__InvoiceType'];
+            invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
             /**
              * Invoice Number
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
@@ -3389,7 +4890,7 @@ export interface components {
              */
             journal_id?: string;
             /** @default posted */
-            status?: components['schemas']['InvoiceStatusIn'];
+            status: components['schemas']['InvoiceStatusIn'];
             /**
              * Pdf
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
@@ -3400,7 +4901,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /**
              * Invoice Correction
              * @description Information used to add a correction line when roundings have an impact on the total amount of the invoice.
@@ -3430,7 +4931,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['models__invoicing__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__invoicing__InvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -3459,7 +4960,7 @@ export interface components {
              * @description Invoice lines
              * @default []
              */
-            lines?: components['schemas']['InvoiceLineItem'][];
+            lines: components['schemas']['InvoiceLineItem'][];
             /**
              * Partner Id
              * @description Technical id of the vendor/customer in Chift
@@ -3497,19 +4998,19 @@ export interface components {
              */
             journal_ref?: components['schemas']['FieldRef'];
             /**
-             * Outstanding Amount
-             * @description Amount left to be paid
-             */
-            outstanding_amount?: number;
-            /**
              * Last Updated On
              * Format: date-time
              */
             last_updated_on?: string;
+            /**
+             * Outstanding Amount
+             * @description Amount left to be paid
+             */
+            outstanding_amount?: number;
         };
         /** InvoiceItemOutMonoAnalyticPlan */
         InvoiceItemOutMonoAnalyticPlan: {
-            invoice_type: components['schemas']['app__routers__accounting__InvoiceType'];
+            invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
             /**
              * Invoice Number
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
@@ -3556,13 +5057,13 @@ export interface components {
             /** Payments */
             payments?: components['schemas']['Payment'][];
             /** @default posted */
-            status?: components['schemas']['InvoiceStatusOut'];
+            status: components['schemas']['InvoiceStatusOut'];
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMonoAnalyticPlan'][];
         };
         /** InvoiceItemOutMultiAnalyticPlans */
         InvoiceItemOutMultiAnalyticPlans: {
-            invoice_type: components['schemas']['app__routers__accounting__InvoiceType'];
+            invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
             /**
              * Invoice Number
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
@@ -3609,7 +5110,7 @@ export interface components {
             /** Payments */
             payments?: components['schemas']['Payment'][];
             /** @default posted */
-            status?: components['schemas']['InvoiceStatusOut'];
+            status: components['schemas']['InvoiceStatusOut'];
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMultiAnalyticPlans'][];
         };
@@ -3634,7 +5135,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['models__invoicing__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__invoicing__InvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -3663,7 +5164,7 @@ export interface components {
              * @description Invoice lines
              * @default []
              */
-            lines?: components['schemas']['InvoiceLineItem'][];
+            lines: components['schemas']['InvoiceLineItem'][];
             /**
              * Partner Id
              * @description Technical id of the vendor/customer in Chift
@@ -3701,15 +5202,15 @@ export interface components {
              */
             journal_ref?: components['schemas']['FieldRef'];
             /**
-             * Outstanding Amount
-             * @description Amount left to be paid
-             */
-            outstanding_amount?: number;
-            /**
              * Last Updated On
              * Format: date-time
              */
             last_updated_on?: string;
+            /**
+             * Outstanding Amount
+             * @description Amount left to be paid
+             */
+            outstanding_amount?: number;
             /**
              * Pdf
              * @description PDF document in base64
@@ -3738,7 +5239,7 @@ export interface components {
              * @description Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount
              * @default 0
              */
-            discount_amount?: number;
+            discount_amount: number;
             /**
              * Tax Amount
              * @description Line total taxes amount
@@ -3796,7 +5297,7 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number?: number;
+            line_number: number;
             /** Description */
             description: string;
             /** Unit Price */
@@ -3838,7 +5339,7 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number?: number;
+            line_number: number;
             /** Description */
             description: string;
             /** Unit Price */
@@ -3875,7 +5376,7 @@ export interface components {
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution?: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][];
         };
         /** InvoiceLineItemOutMonoAnalyticPlan */
         InvoiceLineItemOutMonoAnalyticPlan: {
@@ -3883,7 +5384,7 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number?: number;
+            line_number: number;
             /** Description */
             description: string;
             /** Unit Price */
@@ -3925,7 +5426,7 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number?: number;
+            line_number: number;
             /** Description */
             description: string;
             /** Unit Price */
@@ -3962,7 +5463,7 @@ export interface components {
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution?: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][];
         };
         /**
          * InvoiceStatus
@@ -4002,6 +5503,13 @@ export interface components {
             /** Name */
             name: string;
             journal_type: components['schemas']['JournalType'];
+            /** Counterpart Account */
+            counterpart_account?: string;
+            /**
+             * Next Document Numbers
+             * @default []
+             */
+            next_document_numbers: components['schemas']['NextDocumentNumber'][];
         };
         /** JournalEntryIn */
         JournalEntryIn: {
@@ -4050,19 +5558,19 @@ export interface components {
              * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
-            date?: string;
+            date: string;
             /**
              * Posted
              * @default false
              */
-            posted?: boolean;
+            posted: boolean;
             /** Id */
             id: string;
             /**
              * Items
              * @default []
              */
-            items?: components['schemas']['JournalItemMonoAnalyticPlan'][];
+            items: components['schemas']['JournalItemMonoAnalyticPlan'][];
         };
         /** JournalEntryMultiAnalyticPlan */
         JournalEntryMultiAnalyticPlan: {
@@ -4085,19 +5593,19 @@ export interface components {
              * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
-            date?: string;
+            date: string;
             /**
              * Posted
              * @default false
              */
-            posted?: boolean;
+            posted: boolean;
             /** Id */
             id: string;
             /**
              * Items
              * @default []
              */
-            items?: components['schemas']['JournalItemMultiAnalyticPlan'][];
+            items: components['schemas']['JournalItemMultiAnalyticPlan'][];
         };
         /** JournalItemIn */
         JournalItemIn: {
@@ -4117,12 +5625,12 @@ export interface components {
              * Currency Exchange Rate
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /**
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution?: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][];
         };
         /** JournalItemMonoAnalyticPlan */
         JournalItemMonoAnalyticPlan: {
@@ -4142,7 +5650,7 @@ export interface components {
              * Currency Exchange Rate
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /** Id */
             id: string;
             /** Partner Name */
@@ -4153,7 +5661,7 @@ export interface components {
              * Matching Numbers
              * @default []
              */
-            matching_numbers?: string[];
+            matching_numbers: string[];
             /** Analytic Account */
             analytic_account?: string;
             /** Analytic Account Name */
@@ -4177,7 +5685,7 @@ export interface components {
              * Currency Exchange Rate
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /** Id */
             id: string;
             /** Partner Name */
@@ -4188,12 +5696,12 @@ export interface components {
              * Matching Numbers
              * @default []
              */
-            matching_numbers?: string[];
+            matching_numbers: string[];
             /**
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution?: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][];
         };
         /**
          * JournalType
@@ -4263,7 +5771,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /** Lines */
             lines: components['schemas']['MiscellaneousOperationLine'][];
             /**
@@ -4277,7 +5785,7 @@ export interface components {
              */
             journal_id?: string;
             /** @default posted */
-            status?: components['schemas']['MiscellaneousOperationStatusIn'];
+            status: components['schemas']['MiscellaneousOperationStatusIn'];
         };
         /** MiscellaneousOperationLine */
         MiscellaneousOperationLine: {
@@ -4285,7 +5793,7 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number?: number;
+            line_number: number;
             /** Description */
             description?: string;
             /**
@@ -4324,7 +5832,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate?: number;
+            currency_exchange_rate: number;
             /** Lines */
             lines: components['schemas']['MiscellaneousOperationLine'][];
             /**
@@ -4333,7 +5841,7 @@ export interface components {
              * @description Accounting date of the miscellaneous operation. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
-            operation_date?: string;
+            operation_date: string;
             /**
              * Journal Id
              * @description Indicates the journal used in for the operation.
@@ -4355,6 +5863,23 @@ export interface components {
          * @enum {string}
          */
         MiscellaneousOperationStatusOut: 'cancelled' | 'draft' | 'posted' | 'matched';
+        /** NextDocumentNumber */
+        NextDocumentNumber: {
+            /** Bookyear Name */
+            bookyear_name?: string;
+            /** Next Document Number */
+            next_document_number?: string;
+            /**
+             * Start Date
+             * Format: date
+             */
+            start_date?: string;
+            /**
+             * End Date
+             * Format: date
+             */
+            end_date?: string;
+        };
         /** NlPaymentTermsSplit */
         NlPaymentTermsSplit: {
             g_account: components['schemas']['PaymentTermAccountInfo'];
@@ -4488,8 +6013,8 @@ export interface components {
         /** OrderItemIn */
         OrderItemIn: {
             customer: components['schemas']['OrderCustomerItem'];
-            billing_address: components['schemas']['app__routers__commerce__AddressItemIn'];
-            shipping_address: components['schemas']['app__routers__commerce__AddressItemIn'];
+            billing_address: components['schemas']['backbone_api__app__routers__commerce__AddressItemIn'];
+            shipping_address: components['schemas']['backbone_api__app__routers__commerce__AddressItemIn'];
             /**
              * Currency
              * @description Indicates the currency of the order (e.g. EUR).
@@ -4520,8 +6045,8 @@ export interface components {
             /** Order Number */
             order_number?: string;
             customer?: components['schemas']['OrderCustomerItemOut'];
-            billing_address?: components['schemas']['app__routers__commerce__AddressItemOut'];
-            shipping_address?: components['schemas']['app__routers__commerce__AddressItemOut'];
+            billing_address?: components['schemas']['backbone_api__app__routers__commerce__AddressItemOut'];
+            shipping_address?: components['schemas']['backbone_api__app__routers__commerce__AddressItemOut'];
             /**
              * Created On
              * Format: date-time
@@ -4552,7 +6077,7 @@ export interface components {
             discount_amount: number;
             /**
              * Untaxed Amount Without Fees
-             * @description Untaxed amount without fees (e.g. shipping) but with discout. Refunds are not included.
+             * @description Untaxed amount without fees (e.g. shipping) but with discout. Refunds and returns are not included.
              */
             untaxed_amount_without_fees: number;
             /**
@@ -4562,31 +6087,44 @@ export interface components {
             tax_amount_without_fees: number;
             /**
              * Total Without Fees
-             * @description Total of the order without fees (e.g. shipping) but with discount. Refunds are not included.
+             * @description Total of the order without fees (e.g. shipping) but with discount. Refunds and returns are not included.
              */
             total_without_fees: number;
             /**
+             * Current Untaxed Amount
+             * @description Untaxed amount with discout and any kind of fee (e.g. shipping). After returns, removes and returns.
+             */
+            current_untaxed_amount: number;
+            /**
+             * Current Tax Amount
+             * @description Total taxes applied to the order. After returns, removes and returns.
+             */
+            current_tax_amount: number;
+            /**
+             * Current Total
+             * @description Current total of the order with discount. After returns, removes and returns.
+             */
+            current_total: number;
+            /**
              * Untaxed Amount
-             * @description Untaxed amount with discout and any kind of fee (e.g. shipping). Refunds are not included.
+             * @description Untaxed amount with discout and any kind of fee (e.g. shipping). Refunds and returns are not included.
              */
             untaxed_amount: number;
             /**
              * Tax Amount
-             * @description Total taxes applied to the order.
+             * @description Total taxes applied to the order. Refunds and returns are not included.
              */
             tax_amount: number;
             /**
              * Total
-             * @description Total of the order with discount. Refunds are not included.
+             * @description Total of the order with discount. Refunds and returns are not included.
              */
             total: number;
             /**
              * Refunded Amount
              * @default 0
              */
-            refunded_amount?: number;
-            /** Detailed Refunds */
-            detailed_refunds?: components['schemas']['OrderRefundItem'][];
+            refunded_amount: number;
             /**
              * Currency
              * @description Indicates the currency of the order (e.g. EUR).
@@ -4600,7 +6138,7 @@ export interface components {
              * Other Fees
              * @default []
              */
-            other_fees?: components['schemas']['FeesItem'][];
+            other_fees: components['schemas']['FeesItem'][];
             /**
              * Payment Method Id
              * @description Technical id of the payment method in the eCommerce
@@ -4610,12 +6148,19 @@ export interface components {
              * Transactions
              * @default []
              */
-            transactions?: components['schemas']['OrderTransactions'][];
+            transactions: components['schemas']['OrderTransactions'][];
             /**
              * Payment Methods
              * @default []
              */
-            payment_methods?: components['schemas']['OrderPaymentMethods'][];
+            payment_methods: components['schemas']['OrderPaymentMethods'][];
+            /** Detailed Refunds */
+            detailed_refunds?: components['schemas']['OrderRefundItem'][];
+            /**
+             * Returns
+             * @default []
+             */
+            returns: components['schemas']['OrderReturnItem'][];
         };
         /** OrderLineItemIn */
         OrderLineItemIn: {
@@ -4662,6 +6207,11 @@ export interface components {
             /** Quantity */
             quantity: number;
             /**
+             * Current Quantity
+             * @description Quantity without refunds and returns.
+             */
+            current_quantity: number;
+            /**
              * Unit Price
              * @description Unit price of the product without taxes.
              */
@@ -4697,12 +6247,12 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts?: components['schemas']['app__routers__commerce__DiscountItem'][];
+            discounts: components['schemas']['backbone_api__app__routers__commerce__DiscountItem'][];
             /**
              * Gift Card
              * @default false
              */
-            gift_card?: boolean;
+            gift_card: boolean;
         };
         /** OrderLineProductVariantItem */
         OrderLineProductVariantItem: {
@@ -4719,7 +6269,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories?: components['schemas']['app__routers__commerce__ProductCategoryItem'][];
+            categories: components['schemas']['backbone_api__app__routers__commerce__ProductCategoryItem'][];
         };
         /** OrderPaymentMethods */
         OrderPaymentMethods: {
@@ -4759,22 +6309,60 @@ export interface components {
              * Order Lines
              * @default []
              */
-            order_lines?: components['schemas']['RefundOrderLineItem'][];
+            order_lines: components['schemas']['RefundOrderLineItem'][];
             /**
              * Other
              * @default 0
              */
-            other?: number;
+            other: number;
             /**
              * Shipping Refunds
              * @default []
              */
-            shipping_refunds?: components['schemas']['ShippingRefund'][];
+            shipping_refunds: components['schemas']['ShippingRefund'][];
+            /**
+             * Other Fees
+             * @default []
+             */
+            other_fees: components['schemas']['RefundFeesItem'][];
             /**
              * Transactions
              * @default []
              */
-            transactions?: components['schemas']['OrderTransactions'][];
+            transactions: components['schemas']['OrderTransactions'][];
+        };
+        /** OrderReturnItem */
+        OrderReturnItem: {
+            /**
+             * Id
+             * @description Technical id of the return in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on?: string;
+            /**
+             * Order Lines
+             * @default []
+             */
+            order_lines: components['schemas']['ReturnOrderLineItem'][];
+            /**
+             * New Lines
+             * @default []
+             */
+            new_lines: components['schemas']['ReturnOrderLineItem'][];
+            /**
+             * Linked Fees
+             * @default []
+             */
+            linked_fees: components['schemas']['ReturnFeesItem'][];
         };
         /**
          * OrderStatus
@@ -4952,17 +6540,22 @@ export interface components {
              * Total Discount
              * @default 0
              */
-            total_discount?: number;
+            total_discount: number;
             /**
              * Total Refund
              * @default 0
              */
-            total_refund?: number;
+            total_refund: number;
             /**
              * Total Tip
              * @default 0
              */
-            total_tip?: number;
+            total_tip: number;
+            /**
+             * Delivery Fee
+             * @default 0
+             */
+            delivery_fee: number;
             /** Currency */
             currency?: string;
             /** Country */
@@ -5010,7 +6603,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts?: components['schemas']['models__pos_pms__DiscountItem'][];
+            discounts: components['schemas']['backbone_common__models__pos_pms__DiscountItem'][];
             /**
              * Product Id
              * @description Reference to the product related to this item
@@ -5041,9 +6634,9 @@ export interface components {
              * Tip
              * @default 0
              */
-            tip?: number;
+            tip: number;
             /** @default Unknown */
-            status?: components['schemas']['models__pos_pms__PaymentStatus'];
+            status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'];
             /** Currency */
             currency?: string;
             /**
@@ -5139,7 +6732,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts?: components['schemas']['models__pos_pms__DiscountItem'][];
+            discounts: components['schemas']['backbone_common__models__pos_pms__DiscountItem'][];
             /**
              * Product Id
              * @description Reference to the product related to this item
@@ -5199,17 +6792,22 @@ export interface components {
              * Total Discount
              * @default 0
              */
-            total_discount?: number;
+            total_discount: number;
             /**
              * Total Refund
              * @default 0
              */
-            total_refund?: number;
+            total_refund: number;
             /**
              * Total Tip
              * @default 0
              */
-            total_tip?: number;
+            total_tip: number;
+            /**
+             * Delivery Fee
+             * @default 0
+             */
+            delivery_fee: number;
             /** Currency */
             currency?: string;
             /** Country */
@@ -5243,9 +6841,9 @@ export interface components {
              * Tip
              * @default 0
              */
-            tip?: number;
+            tip: number;
             /** @default Unknown */
-            status?: components['schemas']['models__pos_pms__PaymentStatus'];
+            status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'];
             /** Currency */
             currency?: string;
             /**
@@ -5262,62 +6860,18 @@ export interface components {
              * Categories
              * @default []
              */
-            categories?: string[];
+            categories: string[];
             /** Name */
             name: string;
             /** Description */
             description?: string;
             /** Prices */
-            prices: components['schemas']['app__routers__pos__ProductPriceItem'][];
+            prices: components['schemas']['backbone_api__app__routers__pos__ProductPriceItem'][];
             /**
              * Accounting Category Ids
              * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
              */
             accounting_category_ids?: string[];
-        };
-        /** Page[BankingAccountItem] */
-        Page_BankingAccountItem_: {
-            /** Items */
-            items: components['schemas']['BankingAccountItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[BankingCounterPartItem] */
-        Page_BankingCounterPartItem_: {
-            /** Items */
-            items: components['schemas']['BankingCounterPartItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[BankingFinancialInstitutionItem] */
-        Page_BankingFinancialInstitutionItem_: {
-            /** Items */
-            items: components['schemas']['BankingFinancialInstitutionItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** Page[BankingTransactionItem] */
-        Page_BankingTransactionItem_: {
-            /** Items */
-            items: components['schemas']['BankingTransactionItem'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
         };
         /** PatchConnectionItem */
         PatchConnectionItem: {
@@ -5326,7 +6880,7 @@ export interface components {
              * @description Indicates whether you want to return to the consumer's redirectUrl after update (true) or whether you want to return on the connection page (false)
              * @default false
              */
-            redirect?: boolean;
+            redirect: boolean;
             /**
              * Name
              * @description Can be used to update the name of an existing connection
@@ -5336,7 +6890,7 @@ export interface components {
              * Credentials
              * @description Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration
              */
-            credentials?: components['schemas']['app__routers__connections__CredentialItem'][];
+            credentials?: components['schemas']['backbone_api__app__routers__connections__CredentialItem'][];
         };
         /** Payment */
         Payment: {
@@ -5356,7 +6910,7 @@ export interface components {
              * @description Amount of the payment dedicated to the invoice. Zero the accounting software doesn't provide the information.
              * @default 0
              */
-            dedicated_amount?: number;
+            dedicated_amount: number;
             /**
              * Payment Date
              * Format: date
@@ -5371,11 +6925,52 @@ export interface components {
              * Reconciled
              * @default false
              */
-            reconciled?: boolean;
+            reconciled: boolean;
             /** Communication */
             communication?: string;
             /** Matching Number */
             matching_number?: string;
+        };
+        /** PaymentItemOut */
+        PaymentItemOut: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /** @description Payment status */
+            status: components['schemas']['backbone_common__models__payment__PaymentStatus'];
+            /**
+             * Description
+             * @description Description
+             */
+            description: string;
+            /**
+             * Amount
+             * @description Amount
+             */
+            amount: number;
+            /**
+             * Currency
+             * @description Currency
+             */
+            currency: string;
+            /**
+             * Payment Date
+             * Format: date-time
+             * @description Date of creation
+             */
+            payment_date: string;
+            /**
+             * Partner Id
+             * @description Partner ID
+             */
+            partner_id: string;
         };
         /** PaymentMethodItem */
         PaymentMethodItem: {
@@ -5442,12 +7037,12 @@ export interface components {
              * Consumers
              * @default []
              */
-            consumers?: string[];
+            consumers: string[];
             /**
              * Data
              * @default {}
              */
-            data?: Record<string, never>;
+            data: Record<string, never>;
         };
         /** ProductItemOut */
         ProductItemOut: {
@@ -5506,13 +7101,13 @@ export interface components {
              * @description Available quanity of the product in stock. Will only be used for products that have an inventory (services will always be 0)
              * @default 0
              */
-            available_quantity?: number;
+            available_quantity: number;
             /**
              * Cost
              * @description Cost of the product
              * @default 0
              */
-            cost?: number;
+            cost: number;
         };
         /**
          * ProductStatus
@@ -5547,7 +7142,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories?: components['schemas']['app__routers__commerce__ProductCategoryItem'][];
+            categories: components['schemas']['backbone_api__app__routers__commerce__ProductCategoryItem'][];
             /**
              * Created On
              * Format: date-time
@@ -5561,19 +7156,19 @@ export interface components {
              * Available Quantity
              * @default 0
              */
-            available_quantity?: number;
+            available_quantity: number;
             /**
              * Prices
              * @default []
              */
-            prices?: components['schemas']['app__routers__commerce__ProductPriceItem'][];
+            prices: components['schemas']['backbone_api__app__routers__commerce__ProductPriceItem'][];
             /** Unit Of Measure */
             unit_of_measure?: string;
             /**
              * Weight
              * @default 0
              */
-            weight?: number;
+            weight: number;
             /** Weight Unit */
             weight_unit?: string;
             status?: components['schemas']['ProductStatus'];
@@ -5582,13 +7177,13 @@ export interface components {
              * @description List of attributes that are specific to the variant of the product.
              * @default []
              */
-            variant_attributes?: components['schemas']['VariantAttributeItem'][];
+            variant_attributes: components['schemas']['VariantAttributeItem'][];
             /**
              * Variant Images
              * @description List of images that are specific to the variant of the product.
              * @default []
              */
-            variant_images?: components['schemas']['ImageItem'][];
+            variant_images: components['schemas']['ImageItem'][];
         };
         /** ReadFlowConsumerItem */
         ReadFlowConsumerItem: {
@@ -5621,10 +7216,10 @@ export interface components {
             /**
              * Config
              * @default {
-             *   "datastores": []
-             * }
+             *       "datastores": []
+             *     }
              */
-            config?: components['schemas']['FlowConfig'];
+            config: components['schemas']['FlowConfig'];
             /** Triggers */
             triggers?: components['schemas']['FlowTrigger'][];
         };
@@ -5648,12 +7243,12 @@ export interface components {
             /** Name */
             name: string;
             /** Connections */
-            connections: components['schemas']['app__routers__syncs__ConnectionItem'][];
+            connections: components['schemas']['backbone_api__app__routers__syncs__ConnectionItem'][];
             /**
              * Mappings
              * @default []
              */
-            mappings?: components['schemas']['CreateSyncMappingItem'][];
+            mappings: components['schemas']['CreateSyncMappingItem'][];
             /**
              * Syncid
              * Format: uuid
@@ -5674,7 +7269,7 @@ export interface components {
              * Display Order
              * @default 0
              */
-            display_order?: number;
+            display_order: number;
             /** Challenge Question */
             challenge_question?: string;
             /** Values */
@@ -5697,8 +7292,119 @@ export interface components {
              */
             model?: string;
         };
+        /** RefundFeesItem */
+        RefundFeesItem: {
+            /**
+             * Id
+             * @description Technical id of the fee in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            type: components['schemas']['FeesType'];
+            /** Untaxed Amount */
+            untaxed_amount: number;
+            /** Tax Amount */
+            tax_amount: number;
+            /** Total */
+            total: number;
+        };
+        /** RefundItemOut */
+        RefundItemOut: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /** @description Payment status */
+            status: components['schemas']['backbone_common__models__payment__PaymentStatus'];
+            /**
+             * Description
+             * @description Description
+             */
+            description: string;
+            /**
+             * Amount
+             * @description Amount
+             */
+            amount: number;
+            /**
+             * Currency
+             * @description Currency
+             */
+            currency: string;
+            /**
+             * Refund Date
+             * Format: date-time
+             * @description Date of creation
+             */
+            refund_date: string;
+            /**
+             * Payment Id
+             * @description ID of the payment being refunded
+             */
+            payment_id?: string;
+        };
         /** RefundOrderLineItem */
         RefundOrderLineItem: {
+            /**
+             * Id
+             * @description Technical id of the order line in Chift
+             */
+            id: string;
+            /**
+             * Variant
+             * @description Product variant
+             */
+            variant?: components['schemas']['OrderLineProductVariantItem'];
+            /** Quantity */
+            quantity: number;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount refunded (after discount).
+             */
+            untaxed_amount: number;
+            /**
+             * Tax Amount
+             * @description Total taxes refunded (after discount).
+             */
+            tax_amount: number;
+            /**
+             * Total
+             * @description Total refunded (after discount).
+             */
+            total: number;
+        };
+        /** ReturnFeesItem */
+        ReturnFeesItem: {
+            /**
+             * Id
+             * @description Technical id of the fee in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            type: components['schemas']['FeesType'];
+            /** Untaxed Amount */
+            untaxed_amount: number;
+            /** Tax Amount */
+            tax_amount: number;
+            /** Total */
+            total: number;
+        };
+        /** ReturnOrderLineItem */
+        ReturnOrderLineItem: {
             /**
              * Id
              * @description Technical id of the order line in Chift
@@ -5796,7 +7502,7 @@ export interface components {
              * @description Indicates if the supplier is an individual or a company.
              * @default true
              */
-            is_company?: boolean;
+            is_company: boolean;
             /**
              * Company Id
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
@@ -5838,9 +7544,9 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /** Addresses */
-            addresses: components['schemas']['models__common__AddressItemIn'][];
+            addresses: components['schemas']['backbone_common__models__common__AddressItemIn'][];
             /** Account Number */
             account_number?: string;
         };
@@ -5870,7 +7576,7 @@ export interface components {
              * @description Indicates if the supplier is an individual or a company.
              * @default true
              */
-            is_company?: boolean;
+            is_company: boolean;
             /**
              * Company Id
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
@@ -5912,12 +7618,12 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /**
              * Addresses
              * @default []
              */
-            addresses?: components['schemas']['models__common__AddressItemOut'][];
+            addresses: components['schemas']['backbone_common__models__common__AddressItemOut'][];
             /** Account Number */
             account_number?: string;
             /** Company Number */
@@ -5951,7 +7657,7 @@ export interface components {
              * @description Indicates if the supplier is an individual or a company.
              * @default true
              */
-            is_company?: boolean;
+            is_company: boolean;
             /**
              * Company Id
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
@@ -5993,12 +7699,12 @@ export interface components {
              * Active
              * @default true
              */
-            active?: boolean;
+            active: boolean;
             /**
              * Addresses
              * @default []
              */
-            addresses?: components['schemas']['models__common__AddressItemOut'][];
+            addresses: components['schemas']['backbone_common__models__common__AddressItemOut'][];
         };
         /** SyncConsumerItem */
         SyncConsumerItem: {
@@ -6016,7 +7722,7 @@ export interface components {
              * @description Indicates whether the consumer has setup the sync. If the setup is complete, it will return 'active'. Otherwise 'inactive'.
              * @default inactive
              */
-            status?: components['schemas']['SyncConsumerStatus'];
+            status: components['schemas']['SyncConsumerStatus'];
             /**
              * Status Details
              * @description Gives additional information if the status is inactive
@@ -6154,6 +7860,10 @@ export interface components {
             application_type: string;
             /** @description Accounting category */
             accounting_category: components['schemas']['TransactionAccountingCategory'];
+            /** Refund Id */
+            refund_id?: string;
+            /** Payment Id */
+            payment_id?: string;
         };
         /**
          * TransactionStatus
@@ -6184,6 +7894,20 @@ export interface components {
             email?: string;
             /** Redirect Url */
             redirect_url?: string;
+        };
+        /** UpdateFlowConsumer */
+        UpdateFlowConsumer: {
+            /**
+             * Triggerid
+             * @default trigger-1
+             */
+            triggerid: string;
+            /**
+             * Data
+             * @description Object containing the configuration of the flow for the consumer
+             * @default {}
+             */
+            data: Record<string, never>;
         };
         /** UpdateOrderItem */
         UpdateOrderItem: {
@@ -6240,7 +7964,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories?: components['schemas']['app__routers__commerce__ProductCategoryItem'][];
+            categories: components['schemas']['backbone_api__app__routers__commerce__ProductCategoryItem'][];
             /**
              * Created On
              * Format: date-time
@@ -6254,19 +7978,19 @@ export interface components {
              * Available Quantity
              * @default 0
              */
-            available_quantity?: number;
+            available_quantity: number;
             /**
              * Prices
              * @default []
              */
-            prices?: components['schemas']['app__routers__commerce__ProductPriceItem'][];
+            prices: components['schemas']['backbone_api__app__routers__commerce__ProductPriceItem'][];
             /** Unit Of Measure */
             unit_of_measure?: string;
             /**
              * Weight
              * @default 0
              */
-            weight?: number;
+            weight: number;
             /** Weight Unit */
             weight_unit?: string;
             status?: components['schemas']['ProductStatus'];
@@ -6274,31 +7998,31 @@ export interface components {
              * Inventory Details
              * @default []
              */
-            inventory_details?: components['schemas']['InventoryDetailsItem'][];
+            inventory_details: components['schemas']['InventoryDetailsItem'][];
             /**
              * Common Attributes
              * @description List of attributes that are shared by all variants of the product.
              * @default []
              */
-            common_attributes?: components['schemas']['CommonAttributeItem'][];
+            common_attributes: components['schemas']['CommonAttributeItem'][];
             /**
              * Variant Attributes
              * @description List of attributes that are specific to the variant of the product.
              * @default []
              */
-            variant_attributes?: components['schemas']['VariantAttributeItem'][];
+            variant_attributes: components['schemas']['VariantAttributeItem'][];
             /**
              * Common Images
              * @description List of images that are shared by all variants of the product.
              * @default []
              */
-            common_images?: components['schemas']['ImageItem'][];
+            common_images: components['schemas']['ImageItem'][];
             /**
              * Variant Images
              * @description List of images that are specific to the variant of the product.
              * @default []
              */
-            variant_images?: components['schemas']['ImageItem'][];
+            variant_images: components['schemas']['ImageItem'][];
         };
         /** WebhookInstanceGetItem */
         WebhookInstanceGetItem: {
@@ -6326,13 +8050,13 @@ export interface components {
             event: string;
             /** Url */
             url: string;
-            status: components['schemas']['app__routers__webhooks__Status'];
+            status: components['schemas']['backbone_api__app__routers__webhooks__Status'];
             /** Integrationid */
             integrationid?: number;
         };
         /** WebhookInstancePatchItem */
         WebhookInstancePatchItem: {
-            status?: components['schemas']['app__routers__webhooks__Status'];
+            status?: components['schemas']['backbone_api__app__routers__webhooks__Status'];
             /** Url */
             url?: string;
             /** Signingsecret */
@@ -6388,9 +8112,9 @@ export interface components {
             integrationid?: number;
         };
         /** ChiftPage[VatCode] */
-        'app__routers__accounting__ChiftPage[VatCode]': {
+        'backbone_api__app__routers__accounting__ChiftPage[VatCode]': {
             /** Items */
-            items: components['schemas']['app__routers__accounting__VatCode'][];
+            items: components['schemas']['backbone_api__app__routers__accounting__VatCode'][];
             /** Total */
             total: number;
             /** Page */
@@ -6403,13 +8127,13 @@ export interface components {
          * @description An enumeration.
          * @enum {string}
          */
-        app__routers__accounting__InvoiceType:
+        backbone_api__app__routers__accounting__InvoiceType:
             | 'customer_invoice'
             | 'customer_refund'
             | 'supplier_invoice'
             | 'supplier_refund';
         /** VatCode */
-        app__routers__accounting__VatCode: {
+        backbone_api__app__routers__accounting__VatCode: {
             /** Id */
             id: string;
             /** Code */
@@ -6417,10 +8141,10 @@ export interface components {
             /** Label */
             label: string;
             /** @default unknown */
-            scope?: components['schemas']['app__routers__accounting__VatCodeScope'];
+            scope: components['schemas']['backbone_api__app__routers__accounting__VatCodeScope'];
             /** Rate */
             rate: number;
-            type: components['schemas']['app__routers__accounting__VatCodeType'];
+            type: components['schemas']['backbone_api__app__routers__accounting__VatCodeType'];
             /** Deductible Account */
             deductible_account?: string;
             /** Payable Account */
@@ -6431,15 +8155,19 @@ export interface components {
          * @description An enumeration.
          * @enum {string}
          */
-        app__routers__accounting__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
+        backbone_api__app__routers__accounting__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
         /**
          * VatCodeType
          * @description An enumeration.
          * @enum {string}
          */
-        app__routers__accounting__VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
+        backbone_api__app__routers__accounting__VatCodeType:
+            | 'sale'
+            | 'purchase'
+            | 'both'
+            | 'unknown';
         /** AddressItemIn */
-        app__routers__commerce__AddressItemIn: {
+        backbone_api__app__routers__commerce__AddressItemIn: {
             /** First Name */
             first_name: string;
             /** Last Name */
@@ -6465,7 +8193,7 @@ export interface components {
             email?: string;
         };
         /** AddressItemOut */
-        app__routers__commerce__AddressItemOut: {
+        backbone_api__app__routers__commerce__AddressItemOut: {
             address_type: components['schemas']['AddressType'];
             /** Company Name */
             company_name?: string;
@@ -6494,7 +8222,7 @@ export interface components {
             email?: string;
         };
         /** DiscountItem */
-        app__routers__commerce__DiscountItem: {
+        backbone_api__app__routers__commerce__DiscountItem: {
             /** Name */
             name: string;
             /** Description */
@@ -6503,7 +8231,7 @@ export interface components {
             amount: number;
         };
         /** ProductCategoryItem */
-        app__routers__commerce__ProductCategoryItem: {
+        backbone_api__app__routers__commerce__ProductCategoryItem: {
             /**
              * Id
              * @description Technical id of the category in Chift
@@ -6513,7 +8241,7 @@ export interface components {
             name: string;
         };
         /** ProductItem */
-        app__routers__commerce__ProductItem: {
+        backbone_api__app__routers__commerce__ProductItem: {
             /**
              * Id
              * @description Technical id in Chift
@@ -6534,7 +8262,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories?: components['schemas']['app__routers__commerce__ProductCategoryItem'][];
+            categories: components['schemas']['backbone_api__app__routers__commerce__ProductCategoryItem'][];
             /**
              * Created On
              * Format: date-time
@@ -6544,38 +8272,38 @@ export interface components {
              * Variants
              * @default []
              */
-            variants?: components['schemas']['ProductVariantItem'][];
+            variants: components['schemas']['ProductVariantItem'][];
             status?: components['schemas']['ProductStatus'];
             /**
              * Common Attributes
              * @description List of attributes that are shared by all variants of the product.
              * @default []
              */
-            common_attributes?: components['schemas']['CommonAttributeItem'][];
+            common_attributes: components['schemas']['CommonAttributeItem'][];
             /**
              * Variant Attributes Options
              * @default []
              */
-            variant_attributes_options?: components['schemas']['VariantAttributeOptionItem'][];
+            variant_attributes_options: components['schemas']['VariantAttributeOptionItem'][];
             /**
              * Common Images
              * @description List of images that are shared by all variants of the product.
              * @default []
              */
-            common_images?: components['schemas']['ImageItem'][];
+            common_images: components['schemas']['ImageItem'][];
         };
         /** ProductPriceItem */
-        app__routers__commerce__ProductPriceItem: {
+        backbone_api__app__routers__commerce__ProductPriceItem: {
             /** Currency */
             currency: string;
             /**
              * Price
              * @default 0
              */
-            price?: number;
+            price: number;
         };
         /** ConnectionItem */
-        app__routers__connections__ConnectionItem: {
+        backbone_api__app__routers__connections__ConnectionItem: {
             /**
              * Connectionid
              * Format: uuid
@@ -6591,7 +8319,7 @@ export interface components {
             api: string;
             /** Data */
             data?: Record<string, never>;
-            status: components['schemas']['app__routers__connections__Status'];
+            status: components['schemas']['backbone_api__app__routers__connections__Status'];
             /**
              * Agent
              * @description For local agent only. Indicates whether the local agent is up and running
@@ -6599,14 +8327,14 @@ export interface components {
             agent?: components['schemas']['LocalAgentInfo'];
         };
         /** CredentialItem */
-        app__routers__connections__CredentialItem: {
+        backbone_api__app__routers__connections__CredentialItem: {
             /** Key */
             key: string;
             /** Value */
             value: string;
         };
         /** PostConnectionItem */
-        app__routers__connections__PostConnectionItem: {
+        backbone_api__app__routers__connections__PostConnectionItem: {
             /**
              * Integrationid
              * @description Can be used to specify the integration code of a specific connector. If specified, the url will will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
@@ -6621,32 +8349,32 @@ export interface components {
              * Credentials
              * @description Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration
              */
-            credentials?: components['schemas']['app__routers__connections__CredentialItem'][];
+            credentials?: components['schemas']['backbone_api__app__routers__connections__CredentialItem'][];
         };
         /**
          * Status
          * @description An enumeration.
          * @enum {unknown}
          */
-        app__routers__connections__Status: 'active' | 'inactive';
+        backbone_api__app__routers__connections__Status: 'active' | 'inactive';
         /**
          * Status
          * @description An enumeration.
          * @enum {unknown}
          */
-        app__routers__datastores__Status: 'active' | 'inactive';
+        backbone_api__app__routers__datastores__Status: 'active' | 'inactive';
         /** CredentialItem */
-        app__routers__integrations__CredentialItem: {
+        backbone_api__app__routers__integrations__CredentialItem: {
             /** Name */
             name: string;
             /**
              * Optional
              * @default false
              */
-            optional?: boolean;
+            optional: boolean;
         };
         /** PostConnectionItem */
-        app__routers__integrations__PostConnectionItem: {
+        backbone_api__app__routers__integrations__PostConnectionItem: {
             /** Title */
             title: string;
             /** Optional */
@@ -6659,11 +8387,11 @@ export interface components {
          * @description An enumeration.
          * @enum {unknown}
          */
-        app__routers__integrations__Status: 'active' | 'inactive';
+        backbone_api__app__routers__integrations__Status: 'active' | 'inactive';
         /** ChiftPage[VatCode] */
-        'app__routers__invoicing__ChiftPage[VatCode]': {
+        'backbone_api__app__routers__invoicing__ChiftPage[VatCode]': {
             /** Items */
-            items: components['schemas']['models__invoicing__VatCode'][];
+            items: components['schemas']['backbone_common__models__invoicing__VatCode'][];
             /** Total */
             total: number;
             /** Page */
@@ -6672,7 +8400,7 @@ export interface components {
             size: number;
         };
         /** ProductCategoryItem */
-        app__routers__pos__ProductCategoryItem: {
+        backbone_api__app__routers__pos__ProductCategoryItem: {
             /** Id */
             id: string;
             /** Name */
@@ -6686,14 +8414,14 @@ export interface components {
             id_parent?: string;
         };
         /** ProductPriceItem */
-        app__routers__pos__ProductPriceItem: {
+        backbone_api__app__routers__pos__ProductPriceItem: {
             /** Unit Price */
             unit_price: number;
             /** Tax Rate */
-            tax_rate: number;
+            tax_rate?: number;
         };
         /** ConnectionItem */
-        app__routers__syncs__ConnectionItem: {
+        backbone_api__app__routers__syncs__ConnectionItem: {
             /** One Api */
             one_api?: number;
             /** Connection Type */
@@ -6702,21 +8430,21 @@ export interface components {
              * Display Order
              * @default 0
              */
-            display_order?: number;
+            display_order: number;
             /**
              * Display Hidden
              * @default false
              */
-            display_hidden?: boolean;
+            display_hidden: boolean;
         };
         /**
          * Status
          * @description An enumeration.
          * @enum {unknown}
          */
-        app__routers__webhooks__Status: 'active' | 'inactive';
+        backbone_api__app__routers__webhooks__Status: 'active' | 'inactive';
         /** AddressItemIn */
-        models__common__AddressItemIn: {
+        backbone_common__models__common__AddressItemIn: {
             address_type: components['schemas']['AddressType'];
             /** Name */
             name?: string;
@@ -6743,7 +8471,7 @@ export interface components {
             country: string;
         };
         /** AddressItemOut */
-        models__common__AddressItemOut: {
+        backbone_common__models__common__AddressItemOut: {
             address_type: components['schemas']['AddressType'];
             /** Name */
             name?: string;
@@ -6774,19 +8502,19 @@ export interface components {
          * @description An enumeration.
          * @enum {string}
          */
-        models__common__PaymentStatus: 'all' | 'unpaid' | 'paid';
+        backbone_common__models__common__PaymentStatus: 'all' | 'unpaid' | 'paid';
         /**
          * InvoiceType
          * @description An enumeration.
          * @enum {string}
          */
-        models__invoicing__InvoiceType:
+        backbone_common__models__invoicing__InvoiceType:
             | 'customer_invoice'
             | 'customer_refund'
             | 'supplier_invoice'
             | 'supplier_refund';
         /** ProductItem */
-        models__invoicing__ProductItem: {
+        backbone_common__models__invoicing__ProductItem: {
             /**
              * Name
              * @description Name
@@ -6829,7 +8557,7 @@ export interface components {
             description?: string;
         };
         /** VatCode */
-        models__invoicing__VatCode: {
+        backbone_common__models__invoicing__VatCode: {
             /**
              * Id
              * @description Technical id in Chift
@@ -6851,7 +8579,7 @@ export interface components {
              */
             rate: number;
             /** @description Type */
-            type: components['schemas']['models__invoicing__VatCodeType'];
+            type: components['schemas']['backbone_common__models__invoicing__VatCodeType'];
             /**
              * Code
              * @description Code
@@ -6861,22 +8589,34 @@ export interface components {
              * @description Scope
              * @default unknown
              */
-            scope?: components['schemas']['models__invoicing__VatCodeScope'];
+            scope: components['schemas']['backbone_common__models__invoicing__VatCodeScope'];
         };
         /**
          * VatCodeScope
          * @description An enumeration.
          * @enum {string}
          */
-        models__invoicing__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
+        backbone_common__models__invoicing__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
         /**
          * VatCodeType
          * @description An enumeration.
          * @enum {string}
          */
-        models__invoicing__VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
+        backbone_common__models__invoicing__VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
+        /**
+         * PaymentStatus
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        backbone_common__models__payment__PaymentStatus:
+            | 'pending'
+            | 'completed'
+            | 'canceled'
+            | 'failed'
+            | 'unknown'
+            | 'authorized';
         /** DiscountItem */
-        models__pos_pms__DiscountItem: {
+        backbone_common__models__pos_pms__DiscountItem: {
             /** Name */
             name?: string;
             /** Total */
@@ -6887,7 +8627,7 @@ export interface components {
          * @description An enumeration.
          * @enum {unknown}
          */
-        models__pos_pms__PaymentStatus:
+        backbone_common__models__pos_pms__PaymentStatus:
             | 'Pending'
             | 'Completed'
             | 'Canceled'
@@ -6901,42 +8641,46 @@ export interface components {
     headers: never;
     pathItems: never;
 }
-
 export type $defs = Record<string, never>;
-
-export type external = Record<string, never>;
-
 export interface operations {
-    /**
-     * Get consumers
-     * @description Returns the list of consumers linked to your account.
-     */
     consumers_get_consumers: {
         parameters: {
             query?: {
                 search?: string;
             };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ConsumerItem'][];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create new consumer
-     * @description Create a new consumer that will have the possibility to use the enabled integrations
-     */
     consumers_create_consumer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         requestBody: {
             content: {
                 'application/json': components['schemas']['PostConsumerItem'];
@@ -6945,93 +8689,119 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ConsumerItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get one consumer
-     * @description Returns the specified consumer
-     */
     consumers_get_consumer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ConsumerItem'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Delete one consumer
-     * @description Endpoint that deletes one consumer in Chift
-     */
     consumers_delete_consumer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             204: {
-                content: never;
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update one consumer
-     * @description Update one consumer in Chift
-     */
     consumers_update_consumer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -7041,143 +8811,183 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ConsumerItem'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get connections
-     * @description Returns a list of the connections (active or inactive) linked to your consumer
-     */
     connections_get_connections: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['app__routers__connections__ConnectionItem'][];
+                    'application/json': components['schemas']['backbone_api__app__routers__connections__ConnectionItem'][];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Add new connection
-     * @description Returns the url that can be used by your client to enable his integrations.
-     */
     connections_create_connection: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
             };
+            cookie?: never;
         };
         requestBody?: {
             content: {
-                'application/json': components['schemas']['app__routers__connections__PostConnectionItem'];
+                'application/json': components['schemas']['backbone_api__app__routers__connections__PostConnectionItem'];
             };
         };
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['LinkItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Delete one connection
-     * @description Endpoint that deletes one connection of a consumer in Chift
-     */
     connections_delete_connection: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
                 connectionid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             204: {
-                content: never;
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update an existing connection
-     * @description Returns the url that can be used by your client to update the connection
-     */
     connections_update_connection: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
                 connectionid: string;
             };
+            cookie?: never;
         };
         requestBody?: {
             content: {
@@ -7187,128 +8997,172 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['LinkItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get list of integrations
-     * @description Returns a list of integrations (active and inactive) available for your account
-     */
     integrations_get_integrations: {
         parameters: {
             query?: {
-                status?: components['schemas']['app__routers__integrations__Status'];
+                status?: components['schemas']['backbone_api__app__routers__integrations__Status'];
             };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['IntegrationItem'][];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /** Returns a logo/icon of an integration (as base64) */
     integrations_get_integration_logo_json: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 integrationid: number;
                 image_type: components['schemas']['ImageType'];
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['LogoImage'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get list of possible webhooks
-     * @description Returns a list of webhook that are available for your account
-     */
     webhooks_get_webhook_types: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['WebhookItem'][];
                 };
             };
         };
     };
-    /**
-     * Get list of webhook instances
-     * @description Returns a list of webhook instances (active/inactive) for your account
-     */
     webhooks_get_webhooks: {
         parameters: {
             query?: {
-                status?: components['schemas']['app__routers__webhooks__Status'];
+                status?: components['schemas']['backbone_api__app__routers__webhooks__Status'];
             };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['WebhookInstanceGetItem'][];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Add new webhook instance
-     * @description Returns the created webhook instance
-     */
     webhooks_create_webhook: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         requestBody: {
             content: {
                 'application/json': components['schemas']['WebhookInstancePostItem'];
@@ -7317,93 +9171,119 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['WebhookInstanceGetItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one webhook instance
-     * @description Returns one webhook instance
-     */
     webhooks_get_webhook: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 webhookid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['WebhookInstanceGetItem'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Delete one webhook
-     * @description Endpoint that deletes one existing webhook
-     */
     webhooks_delete_webhook: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 webhookid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             204: {
-                content: never;
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update one webhook
-     * @description Update one webhook in Chift
-     */
     webhooks_update_webhook: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 webhookid: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -7413,80 +9293,109 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['WebhookInstanceGetItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get list of webhook logs for one webhook
-     * @description Returns a list of webhook logs for one webhook for your account
-     */
     webhooks_get_webhook_logs: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 webhookid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['WebhookLogItem'][];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get syncs
-     * @description Returns the syncs
-     */
     syncs_get_syncs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ReadSyncItem'][];
                 };
             };
         };
     };
-    /**
-     * Create sync
-     * @description Returns the created sync
-     */
     syncs_post_sync: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         requestBody: {
             content: {
                 'application/json': components['schemas']['CreateSyncItem'];
@@ -7495,23 +9404,31 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ReadSyncItem'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update existing sync
-     * @description Update existing sync & related flows and mappings
-     */
     syncs_update_sync: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         requestBody: {
             content: {
                 'application/json': components['schemas']['CreateSyncItem'];
@@ -7520,59 +9437,73 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ReadSyncItem'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get sync
-     * @description Returns a sync by id
-     */
     syncs_get_sync: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 syncid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ReadSyncItem'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Send a custom event for a specific flow
-     * @description Route that can be used to send a specific event for a flow
-     */
     syncs_send_custom_event: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 syncid: string;
                 flowid: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -7582,112 +9513,139 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['TriggerResponse'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get executions information for one consumer/flow/sync
-     * @description Returns executions information for one consumer/flow/sync
-     */
     syncs_get_consumer_executions: {
         parameters: {
             query?: {
                 date_to?: string;
                 date_from?: string;
             };
+            header?: never;
             path: {
                 consumerid: string;
                 syncid: string;
                 flowid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChainExecutionItem'][];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get execution start/end timestamp
-     * @description Get execution start/end timestamp
-     */
     syncs_get_execution: {
         parameters: {
             query?: {
                 consumerid?: string;
             };
+            header?: never;
             path: {
                 syncid: string;
                 flowid: string;
                 executionid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChainExecutionItem'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve the url of a sync for a specific consumer
-     * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
-     */
     syncs_create_synctoconsumer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -7697,73 +9655,93 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['LinkSyncItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get sync information for one consumer
-     * @description Returns sync information (creation date, mapping) related to a specific consumer
-     */
     syncs_get_syncconsumer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
                 syncid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['SyncConsumerItem'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Enable a flow for a specific consumer
-     * @description Route that can be used to enable a flow for a specific consumer
-     */
     syncs_enable_syncconsumer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 syncid: string;
                 flowid: string;
                 consumerid: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -7773,59 +9751,119 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': unknown;
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get list of datastores
-     * @description Returns a list of datastores (active and inactive) available for your account
-     */
-    datastores_get_datastores: {
+    syncs_update_flowtoconsumer: {
         parameters: {
-            query?: {
-                status?: components['schemas']['app__routers__datastores__Status'];
+            query?: never;
+            header?: never;
+            path: {
+                syncid: string;
+                flowid: string;
+                consumerid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['UpdateFlowConsumer'];
             };
         };
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': unknown;
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    datastores_get_datastores: {
+        parameters: {
+            query?: {
+                status?: components['schemas']['backbone_api__app__routers__datastores__Status'];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['DataStoreItem'][];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get execution data for a specific consumer and a specific datastore
-     * @description Returns execution data related to a consumer and a datastore. Queryparams can be used to filter the restuls by datastore column or by executionid
-     */
     datastores_get_consumer_and_datastoredata: {
         parameters: {
             query?: {
@@ -7833,42 +9871,53 @@ export interface operations {
                 date_from?: string;
                 executionid?: string;
             };
+            header?: never;
             path: {
                 consumerid: string;
                 datastoreid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['DataItemOut'][];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Add data into a datastore for a consumer
-     * @description Endpoint that can be used to add data into a datastore for a specific consumer
-     */
     datastores_create_consumer_datastoredata: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
                 datastoreid: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -7878,68 +9927,85 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['DataItemOut'][];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Delete execution data for a specific consumer and a specific datastore
-     * @description Delete execution data related to a consumer and a datastore
-     */
     datastores_delete_consumer_datastoredata: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
                 datastoreid: string;
                 datastoredataid: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': unknown;
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update execution data for a specific consumer and a specific datastore
-     * @description Update and returns execution data related to a consumer and a datastore
-     */
     datastores_update_consumer_datastoredata: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumerid: string;
                 datastoreid: string;
                 datastoredataid: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -7949,53 +10015,73 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['DataItemOut'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /** Get Folders */
     accounting_get_folders: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['FolderItem'][];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /** Get Bookyears */
     accounting_get_bookyears: {
         parameters: {
             query?: {
@@ -8004,32 +10090,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_BookYear_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /** Get Analytic Plans */
     accounting_get_analytic_plans: {
         parameters: {
             query?: {
@@ -8038,35 +10135,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AnalyticPlanItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get clients
-     * @description Returns a list of accounting clients
-     */
     accounting_get_clients: {
         parameters: {
             query?: {
@@ -8075,35 +10180,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_ClientItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create client
-     * @description Create a new client
-     */
     accounting_create_client: {
         parameters: {
             query?: {
@@ -8112,9 +10225,11 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8124,80 +10239,98 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ClientItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one client
-     * @description Returns a specific accounting client
-     */
     accounting_get_client: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 client_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ClientItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update client
-     * @description Endpoint that gives the possibility to update an accounting client
-     */
     accounting_update_client: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 client_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8207,34 +10340,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ClientItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get suppliers
-     * @description Returns a list of accounting suppliers
-     */
     accounting_get_suppliers: {
         parameters: {
             query?: {
@@ -8243,35 +10384,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_SupplierItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create supplier
-     * @description Create a new supplier
-     */
     accounting_create_supplier: {
         parameters: {
             query?: {
@@ -8280,9 +10429,11 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8292,80 +10443,98 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['SupplierItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one supplier
-     * @description Returns one accounting supplier
-     */
     accounting_get_supplier: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 supplier_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['SupplierItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update one supplier
-     * @description Update an accounting supplier
-     */
     accounting_update_supplier: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 supplier_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8375,34 +10544,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['SupplierItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create sale/purchase entry
-     * @description Create a new sale/purchase accounting entry
-     */
     accounting_create_invoice: {
         parameters: {
             query?: {
@@ -8416,9 +10593,11 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8428,34 +10607,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['InvoiceItemOutMonoAnalyticPlan'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create sale/purchase entry (Multiple plans)
-     * @description Create a new sale/purchase entry with multiple analytic plans in the accounting
-     */
     accounting_create_invoice_multiple_plans: {
         parameters: {
             query?: {
@@ -8469,9 +10656,11 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8481,34 +10670,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['InvoiceItemOutMultiAnalyticPlans'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get invoices by type (sale/purchase entries)
-     * @description Returns a list of invoices by a specific type (=sale/purchase entries). Each line of the invoice will include the analytic account linked to default analytic plan. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
-     */
     accounting_get_invoices_by_type: {
         parameters: {
             query?: {
@@ -8522,42 +10719,50 @@ export interface operations {
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?: components['schemas']['models__common__PaymentStatus'];
+                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
-                invoice_type: components['schemas']['app__routers__accounting__InvoiceType'];
+                invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_InvoiceItemOutMonoAnalyticPlan_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one invoice (sale/purchase entry)
-     * @description Returns a specific invoice (sale/purchase entry). Each line will include the analytic account linked to default analytic plan
-     */
     accounting_get_invoice: {
         parameters: {
             query?: {
@@ -8566,42 +10771,53 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 invoice_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['InvoiceItemOutMonoAnalyticPlan'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one invoice (sale/purchase entry - Multiple Analytic Plans)
-     * @description Returns a specific invoice (=sale/purchase entry) with invoice lines including multiple analytic plans
-     */
     accounting_get_invoice_multi_analytic_plans: {
         parameters: {
             query?: {
@@ -8610,42 +10826,53 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 invoice_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['InvoiceItemOutMultiAnalyticPlans'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get invoices by type (sale/purchase entries - Multiple Analytic Plans)
-     * @description Returns a list of invoices by a specific type (=sale/purchase entries) with invoice lines including multiple analytic plans. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
-     */
     accounting_get_invoices_by_type_multi_analytic_plans: {
         parameters: {
             query?: {
@@ -8659,42 +10886,50 @@ export interface operations {
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'];
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?: components['schemas']['models__common__PaymentStatus'];
+                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
-                invoice_type: components['schemas']['app__routers__accounting__InvoiceType'];
+                invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_InvoiceItemOutMultiAnalyticPlans_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get analytic accounts
-     * @description Returns all analytic accounts of the default analytic plan
-     */
     accounting_get_analytic_accounts: {
         parameters: {
             query?: {
@@ -8703,44 +10938,54 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AnalyticAccountItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create analytic account
-     * @description Create a new analytic account in the default analytic plan
-     */
     accounting_create_analytic_account: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8750,38 +10995,45 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['AnalyticAccountItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create analytic account (Multiple Analytic Plans)
-     * @description Create a new analytic account in a specific analytic plan
-     */
     accounting_create_analytic_account_multi_plans: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 analytic_plan: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8791,80 +11043,98 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get analytic account
-     * @description Returns one specific analytic account of the default analytic plan
-     */
     accounting_get_analytic_account: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 analytic_account_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['AnalyticAccountItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update analytic account
-     * @description Update one specific analytic account in the default analytic plan
-     */
     accounting_update_analytic_account: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 analytic_account_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8874,88 +11144,109 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['AnalyticAccountItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get analytic account (Multiple Analytic Plans)
-     * @description Returns one specific analytic account of a specific analytic plan
-     */
     accounting_get_analytic_account_multi_plans: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 analytic_account_id: string;
                 analytic_plan: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update analytic account (Multiple Analytic Plans)
-     * @description Update one specific analytic account in a specific analytic plan
-     */
     accounting_update_analytic_account_multi_plans: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 analytic_account_id: string;
                 analytic_plan: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -8965,34 +11256,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get analytic accounts (Multiple Analytic Plans)
-     * @description Returns all analytic accounts of all analytic plans
-     */
     accounting_get_analytic_accounts_multi_plans: {
         parameters: {
             query?: {
@@ -9001,35 +11300,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AnalyticAccountItemOutMultiAnalyticPlans_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get journal entries
-     * @description Returns a list of journal entries. Each item will include the analytic account linked to default analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
-     */
     accounting_get_journal_entries: {
         parameters: {
             query: {
@@ -9043,44 +11350,54 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_JournalEntryMonoAnalyticPlan_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create Journal Entry [Deprecated]
-     * @description Create a new Journal Entry in the accounting system
-     */
     accounting_create_journal_entry: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9090,34 +11407,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['JournalEntryMultiAnalyticPlan'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get journal entries (Multiple Analytic Plans)
-     * @description Returns a list of journal entries with invoice items including multiple analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
-     */
     accounting_get_journal_entries_mutli_plan: {
         parameters: {
             query: {
@@ -9131,44 +11456,56 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_JournalEntryMultiAnalyticPlan_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create Journal Entry
-     * @description Create a new Journal Entry in the accounting system
-     */
     accounting_create_generic_journal_entry: {
         parameters: {
             query?: {
+                /** @description Force your own currency exchange rate when creating entries. */
+                force_currency_exchange?: components['schemas']['BoolParam'];
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9178,34 +11515,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['JournalEntryMultiAnalyticPlan'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get payments by invoice ID
-     * @description Get payments of a specific invoice based on its ID
-     */
     accounting_get_payments_by_invoice: {
         parameters: {
             query?: {
@@ -9214,42 +11559,53 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
                 invoice_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_Payment_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get journals
-     * @description Get journals existing in the accounting system
-     */
     accounting_get_journals: {
         parameters: {
             query?: {
@@ -9258,35 +11614,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_Journal_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get vat codes
-     * @description Get vat codes existing in the accounting system
-     */
     accounting_get_vat_codes: {
         parameters: {
             query?: {
@@ -9295,35 +11659,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['app__routers__accounting__ChiftPage[VatCode]'];
+                    'application/json': components['schemas']['backbone_api__app__routers__accounting__ChiftPage[VatCode]'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get miscellaneous operations
-     * @description Get miscellaneous operations from the the accounting system
-     */
     accounting_get_miscellaneous_operations: {
         parameters: {
             query?: {
@@ -9339,44 +11711,54 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_MiscellaneousOperationOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create miscellaneous operation
-     * @description Create a new miscellaneous operation
-     */
     accounting_create_miscellaneous_operation: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9386,79 +11768,97 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['MiscellaneousOperationOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one miscellaneous operation
-     * @description Get a specific miscellaneous operation from the the accounting system
-     */
     accounting_get_miscellaneous_operation: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
                 operation_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['MiscellaneousOperationOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Match entries
-     * @description Match existing entries in the accounting system
-     */
     accounting_match_entries: {
         parameters: {
             query?: {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9468,34 +11868,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['MatchingOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Attach a document (PDF)
-     * @description Attach a document (PDF) to the invoice entry
-     */
     accounting_add_attachment: {
         parameters: {
             query?: {
@@ -9504,10 +11912,12 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 invoice_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9517,34 +11927,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             201: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': unknown;
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get chart of accounts
-     * @description Get all accounts in the chart of accounts
-     */
     accounting_get_chart_of_accounts: {
         parameters: {
             query?: {
@@ -9555,35 +11973,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AccountItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get the balance of accounts
-     * @description Get the balance of accounts in the accounting plan (chart of accounts) between specific months
-     */
     accounting_get_accounts_balances: {
         parameters: {
             query?: {
@@ -9592,9 +12018,11 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9604,28 +12032,33 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AccountBalance_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get employees
-     * @description Returns a list of the employees linked to the company
-     */
     accounting_get_employees: {
         parameters: {
             query?: {
@@ -9634,35 +12067,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_EmployeeItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create a financial entry [Deprecated]
-     * @description Create a new financial entry (Bank or Cash operation)
-     */
     accounting_create_financial_entry: {
         parameters: {
             query?: {
@@ -9671,9 +12112,11 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9683,34 +12126,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['FinancialEntryItemOutOld'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create a financial entry
-     * @description Create a new financial entry (Bank or Cash operation)
-     */
     accounting_create_financial_entries: {
         parameters: {
             query?: {
@@ -9719,9 +12170,11 @@ export interface operations {
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9731,34 +12184,42 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['FinancialEntryItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get clients/suppliers outstanding items
-     * @description Returns a list of all clients/suppliers outstanding items
-     */
     accounting_get_outstandings: {
         parameters: {
             query: {
@@ -9769,35 +12230,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_OutstandingItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get attachments
-     * @description Returns a list of all attachments linked to an accounting entry
-     */
     accounting_get_attachments: {
         parameters: {
             query: {
@@ -9808,35 +12277,43 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AttachmentItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get orders
-     * @description Returns a list of the orders
-     */
     pos_get_orders: {
         parameters: {
             query: {
@@ -9847,103 +12324,138 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_POSOrderItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get one order
-     * @description Returns a single order
-     */
     pos_get_order: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
                 order_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['POSOrderItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Update order
-     * @description Update one order
-     */
     pos_update_pos_customer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
                 order_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -9953,87 +12465,112 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['POSOrderItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get locations
-     * @description Returns a list of the locations
-     */
     pos_get_locations: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_POSLocationItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get payments
-     * @description Returns a list of payments
-     */
     pos_get_payments: {
         parameters: {
             query: {
@@ -10042,47 +12579,61 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_POSPaymentItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get sales
-     * @description Returns the summary of the sales
-     */
     pos_get_sales: {
         parameters: {
             query: {
@@ -10090,47 +12641,61 @@ export interface operations {
                 date_to: string;
                 location_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['SalesItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get payment methods
-     * @description Returns the list of payment methods
-     */
     pos_get_payments_methods: {
         parameters: {
             query?: {
@@ -10138,47 +12703,61 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PaymentMethods_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get customers
-     * @description Returns the list of customers
-     */
     pos_get_customers: {
         parameters: {
             query?: {
@@ -10191,52 +12770,69 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_POSCustomerItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Create one customer
-     * @description Create a customer
-     */
     pos_create_pos_customer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -10246,90 +12842,119 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['POSCustomerItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get one customer
-     * @description Returns a specific customer
-     */
     pos_get_customer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
                 customer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['POSCustomerItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get product categories
-     * @description Returns a list of product categories
-     */
     pos_get_product_categories: {
         parameters: {
             query?: {
@@ -10338,47 +12963,61 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_ProductCategoryItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get products
-     * @description Returns a list of products
-     */
     pos_get_products: {
         parameters: {
             query?: {
@@ -10386,331 +13025,429 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_POSProductItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get accounting categories
-     * @description Returns a list of accounting categories. When not available for a specific POS, it will return the same values as the product categories.
-     */
     pos_get_accounting_categories: {
         parameters: {
             query?: {
+                location_id?: string;
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AccountingCategoryItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get closure info for a specific day
-     * @description Returns whether the closure was already done for a specific day or not
-     */
     pos_get_closure: {
         parameters: {
             query?: {
                 location_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
                 date: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ClosureItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get all customers
-     * @description Returns a list of all the customers
-     */
     ecommerce_get_customers: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_CommerceCustomerItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one specific customer
-     * @description Returns a specific customer
-     */
     ecommerce_get_customer: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 customer_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['CommerceCustomerItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get all products
-     * @description Returns a list of all the products
-     */
     ecommerce_get_products: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_ProductItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one specific product
-     * @description Returns a specific product
-     */
     ecommerce_get_product: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 product_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['app__routers__commerce__ProductItem'];
+                    'application/json': components['schemas']['backbone_api__app__routers__commerce__ProductItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get one specific product variant
-     * @description Returns a specific product variant
-     */
     ecommerce_get_variant: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 variant_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['VariantItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Update available quantity
-     * @description Update available quantity of a product variant in a specific location
-     */
     ecommerce_update_variant_quantity: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 variant_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -10720,69 +13457,85 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['InventoryDetailsItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get all locations
-     * @description Returns a list of all locations
-     */
     ecommerce_get_locations: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_CommerceLocationItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get all orders
-     * @description Returns a list of all the orders
-     */
     ecommerce_get_orders: {
         parameters: {
             query?: {
@@ -10801,40 +13554,51 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_OrderItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create an order
-     * @description Create a new order
-     */
     ecommerce_create_order: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -10844,105 +13608,129 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['OrderItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Unprocessable Entity */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get one specific order
-     * @description Returns a specific order
-     */
     ecommerce_get_order: {
         parameters: {
             query?: {
                 /** @description Include detailed information about categories */
                 include_product_categories?: components['schemas']['BoolParam'];
             };
+            header?: never;
             path: {
                 order_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['OrderItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get all payment methods
-     * @description Returns the list of the payment methods
-     */
     ecommerce_get_payments_methods: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PaymentMethodItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get all product categories
-     * @description Returns the list of the product categories
-     */
     ecommerce_get_product_categories: {
         parameters: {
             query?: {
@@ -10950,152 +13738,187 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_CategoryItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get all tax rates
-     * @description Returns the list of all tax rates
-     */
     ecommerce_get_taxes: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_TaxRateItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get all countries
-     * @description Returns the list of all activated countries
-     */
     ecommerce_get_countries: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_CountryItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve all invoices
-     * @description Returns a list of invoices. Optionally invoice type and dates can be defined to retrieve invoices of a certain type from a certain date to another date
-     */
     invoicing_get_invoices: {
         parameters: {
             query?: {
                 /** @description Filter based on the type of the invoice. */
                 invoice_type?: components['schemas']['InvoiceTypeRequest'];
                 /** @description Filter paid/unpaid invoices */
-                payment_status?: components['schemas']['models__common__PaymentStatus'];
+                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
                 date_from?: string;
                 date_to?: string;
                 updated_after?: string;
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_InvoiceItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create an invoice
-     * @description Create a new invoice.
-     */
     invoicing_post_invoices: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -11105,325 +13928,409 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['InvoiceItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve one invoice
-     * @description Returns a invoice
-     */
     invoicing_get_invoice: {
         parameters: {
             query?: {
                 /** @description Include PDF as base64 string in the response. */
                 include_pdf?: components['schemas']['BoolParam'];
             };
+            header?: never;
             path: {
                 invoice_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['InvoiceItemOutSingle'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve all taxes
-     * @description Returns a list of all the taxes
-     */
     invoicing_get_taxes: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['app__routers__invoicing__ChiftPage[VatCode]'];
+                    'application/json': components['schemas']['backbone_api__app__routers__invoicing__ChiftPage[VatCode]'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve one tax
-     * @description Returns a tax
-     */
     invoicing_get_tax: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 tax_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['models__invoicing__VatCode'];
+                    'application/json': components['schemas']['backbone_common__models__invoicing__VatCode'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve all products
-     * @description Returns a list of all the products
-     */
     invoicing_get_products: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_ProductItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create a product
-     * @description Create a new product.
-     */
     invoicing_post_products: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['models__invoicing__ProductItem'];
+                'application/json': components['schemas']['backbone_common__models__invoicing__ProductItem'];
             };
         };
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ProductItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve one product
-     * @description Returns a product
-     */
     invoicing_get_product: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 product_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ProductItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve all opportunities
-     * @description Returns a list of all the opportunities
-     */
     invoicing_get_opportunities: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_OpportunityItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve one opportunity
-     * @description Returns an opportunity
-     */
     invoicing_get_opportunity: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 opportunity_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['OpportunityItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve all contacts
-     * @description Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.
-     */
     invoicing_get_contacts: {
         parameters: {
             query?: {
@@ -11432,40 +14339,51 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_ContactItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Create a contact
-     * @description Create a new contact.
-     */
     invoicing_post_contacts: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
         requestBody: {
             content: {
@@ -11475,136 +14393,169 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ContactItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve one contact
-     * @description Returns a contact
-     */
     invoicing_get_contact: {
         parameters: {
+            query?: never;
+            header?: never;
             path: {
                 contact_id: string;
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ContactItemOut'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get list of financial institutions
-     * @description Returns the list of financial institutions the user consent access to
-     */
     banking_get_financial_institutions: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['Page_BankingFinancialInstitutionItem_'];
+                    'application/json': components['schemas']['ChiftPage_BankingFinancialInstitutionItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get list of banking accounts
-     * @description Returns the list of banking accounts
-     */
     banking_get_accounts: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['Page_BankingAccountItem_'];
+                    'application/json': components['schemas']['ChiftPage_BankingAccountItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get list of financial transactions
-     * @description Returns the list of transactions of an account
-     */
     banking_get_account_transactions: {
         parameters: {
             query?: {
@@ -11614,36 +14565,44 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
                 account_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['Page_BankingTransactionItem_'];
+                    'application/json': components['schemas']['ChiftPage_BankingTransactionItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get aggregated list of account counterparts found in transactions
-     * @description Returns the aggregated list of account counterpats found in transactions. Useful for categorisation.
-     */
     banking_get_account_counterparts: {
         parameters: {
             query?: {
@@ -11653,70 +14612,86 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
-                    'application/json': components['schemas']['Page_BankingCounterPartItem_'];
+                    'application/json': components['schemas']['ChiftPage_BankingCounterPartItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve all Balances
-     * @description Returns a list of balances.
-     */
     payment_get_balances: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_BalanceItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Retrieve all Transactions
-     * @description Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date
-     */
     payment_get_transaction: {
         parameters: {
             query?: {
@@ -11731,35 +14706,185 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_TransactionItemOut_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
     };
-    /**
-     * Get orders (PMS)
-     * @description Returns a list of the orders
-     */
+    payment_get_payments: {
+        parameters: {
+            query?: {
+                date_from?: string;
+                date_to?: string;
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PaymentItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    payment_get_payment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                payment_id: string;
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PaymentItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    payment_get_refunds: {
+        parameters: {
+            query?: {
+                /** @description Optional payment ID, to retrieve all refunds associated with that payment. */
+                payment_id?: string;
+                date_from?: string;
+                date_to?: string;
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_RefundItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     pms_get_orders: {
         parameters: {
             query: {
@@ -11770,94 +14895,122 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PMSOrderItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get locations (PMS)
-     * @description Returns a list of the locations
-     */
     pms_get_locations: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PMSLocationItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get payments (PMS)
-     * @description Returns a list of payments
-     */
     pms_get_payments: {
         parameters: {
             query: {
@@ -11866,47 +15019,61 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PMSPaymentItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get payment methods (PMS)
-     * @description Returns the list of payment methods
-     */
     pms_get_payments_methods: {
         parameters: {
             query?: {
@@ -11914,142 +15081,190 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PMSPaymentMethods_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get accounting categories (PMS)
-     * @description Returns a list of accounting categories. When not available for a specific PMS, it will return the same values as the product categories.
-     */
     pms_get_accounting_categories: {
         parameters: {
             query?: {
                 page?: number;
                 size?: number;
             };
+            header?: never;
             path: {
                 consumer_id: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PMSAccountingCategoryItem_'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get closure info for a specific day (PMS)
-     * @description Returns whether the closure was already done for a specific day or not
-     */
     pms_get_closure: {
         parameters: {
             query?: {
                 location_id?: string;
             };
+            header?: never;
             path: {
                 consumer_id: string;
                 date: string;
             };
+            cookie?: never;
         };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['PMSClosureItem'];
                 };
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Method Not Allowed */
             405: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
             /** @description Bad Gateway */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
     };
-    /**
-     * Get access token
-     * @description This endpoint allows you to get an access token that can be used as a BEARER token to access the protected endpoints of this APIs. The token is valid for 30 minutes. You can refresh the token by requesting a new token.
-     */
     generate_access_token_token_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         requestBody: {
             content: {
                 'application/json': components['schemas']['AuthItem'];
@@ -12058,12 +15273,18 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['Token'];
                 };
             };
             /** @description Validation Error */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
                 };

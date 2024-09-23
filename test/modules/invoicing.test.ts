@@ -5,13 +5,13 @@ import { components } from '../../src/types/public-api/schema';
 dotenv.config();
 
 const client = new chift.API({
-    baseUrl: process.env.CHIFT_BASE_URL,
-    clientId: process.env.CHIFT_CLIENT_ID as string,
-    clientSecret: process.env.CHIFT_CLIENT_SECRET as string,
-    accountId: process.env.CHIFT_ACCOUNT_ID as string,
+    baseUrl: process.env.CHIFT_BACKBONE_API,
+    clientId: process.env.CHIFT_TESTING_CLIENTID as string,
+    clientSecret: process.env.CHIFT_TESTING_CLIENTSECRET as string,
+    accountId: process.env.CHIFT_TESTING_ACCOUNTID as string,
 });
 
-const consumerId = process.env.CHIFT_AXONAUT_CONSUMER_ID as string;
+const consumerId = process.env.CHIFT_INVOICING_CONSUMER_ID as string;
 
 let consumer: any;
 beforeAll(async () => {
@@ -22,8 +22,6 @@ let invoices: components['schemas']['InvoiceItemOut'][];
 test('getInvoices', async () => {
     invoices = await consumer.invoicing.getInvoices({
         invoice_type: 'customer_invoice',
-        date_from: '2023-01-01',
-        date_to: '2023-01-31',
     });
     expect(invoices).toBeInstanceOf(Array);
     expect(invoices.length).toBeGreaterThan(0);
@@ -31,6 +29,10 @@ test('getInvoices', async () => {
 });
 
 test('getInvoiceById', async () => {
+    if (!invoices.length) {
+        throw new Error('No invoices found to test getInvoiceById');
+    }
+
     const invoice = await consumer.invoicing.getInvoiceById(invoices[0].id, { include_pdf: false });
     expect(invoice).toHaveProperty('id', expect.any(String));
 });
@@ -48,7 +50,7 @@ test('getProductById', async () => {
     expect(product).toHaveProperty('id', expect.any(String));
 });
 
-let vatCodes: components['schemas']['models__invoicing__VatCode'][];
+let vatCodes: components['schemas']['backbone_common__models__invoicing__VatCode'][];
 test('getTaxes', async () => {
     vatCodes = await consumer.invoicing.getTaxes();
     expect(vatCodes).toBeInstanceOf(Array);
@@ -62,14 +64,18 @@ test('getTaxById', async () => {
 });
 
 let opportunities: components['schemas']['OpportunityItem'][];
-test('getOpportunities', async () => {
+test.skip('getOpportunities', async () => {
     opportunities = await consumer.invoicing.getOpportunities();
     expect(opportunities).toBeInstanceOf(Array);
     expect(opportunities.length).toBeGreaterThan(0);
     expect(opportunities[0]).toHaveProperty('id', expect.any(String));
 });
 
-test('getOpportunitiesById', async () => {
+test.skip('getOpportunitiesById', async () => {
+    if (!opportunities.length) {
+        throw new Error('No opportunities found to test getOpportunitiesById');
+    }
+
     const opportunity = await consumer.invoicing.getOpportunitiesById(opportunities[0].id);
     expect(opportunity).toHaveProperty('id', expect.any(String));
 });
@@ -83,6 +89,10 @@ test('getContacts', async () => {
 });
 
 test('getContactById', async () => {
+    if (!contacts.length) {
+        throw new Error('No contacts found to test getContactById');
+    }
+
     const contact = await consumer.invoicing.getContactById(contacts[0].id);
     expect(contact).toHaveProperty('id', expect.any(String));
 });

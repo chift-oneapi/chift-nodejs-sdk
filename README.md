@@ -31,9 +31,9 @@ yarn add @chift/chift-nodejs
 ```typescript
 const chift = require('@chift/chift-nodejs');
 const client = new chift.API({
-    clientId: process.env.CHIFT_CLIENT_ID,
-    clientSecret: process.env.CHIFT_CLIENT_SECRET,
-    accountId: process.env.CHIFT_ACCOUNT_ID,
+    clientId: process.env.CHIFT_TESTING_CLIENTID,
+    clientSecret: process.env.CHIFT_TESTING_CLIENTSECRET,
+    accountId: process.env.CHIFT_TESTING_ACCOUNTID,
 });
 const consumers = await client.Consumers.getConsumers();
 // my first consumer has a POS connection
