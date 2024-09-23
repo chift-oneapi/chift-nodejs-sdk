@@ -11,7 +11,7 @@ const client = new chift.API({
     accountId: process.env.CHIFT_ACCOUNT_ID as string,
 });
 // TODO: Setup PMS test data
-const consumerId = process.env.CHIFT_PLANITY_CONSUMER_ID as string;
+const consumerId = process.env.CHIFT_PMS_CONSUMER_ID as string;
 
 let consumer: any;
 beforeAll(async () => {
