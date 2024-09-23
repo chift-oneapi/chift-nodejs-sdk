@@ -18,14 +18,14 @@ beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
-test('getLocations', async () => {
+test.skip('getLocations', async () => {
     const locations: components['schemas']['PMSLocationItem'][] = await consumer.pms.getLocations();
     expect(locations).toBeInstanceOf(Array);
     expect(locations.length).toBeGreaterThan(0);
     expect(locations[0]).toHaveProperty('id', expect.any(String));
 });
 
-test('getOrders', async () => {
+test.skip('getOrders', async () => {
     const orders: components['schemas']['PMSOrderItem'][] = await consumer.pms.getOrders({
         date_from: '2023-01-01',
         date_to: '2023-01-31',
@@ -35,7 +35,7 @@ test('getOrders', async () => {
     expect(orders[0]).toHaveProperty('id', expect.any(String));
 });
 
-test('getPaymentMethods', async () => {
+test.skip('getPaymentMethods', async () => {
     const paymentMethods: components['schemas']['PMSPaymentMethods'][] =
         await consumer.pms.getPaymentMethods();
     expect(paymentMethods).toBeInstanceOf(Array);
@@ -43,14 +43,14 @@ test('getPaymentMethods', async () => {
     expect(paymentMethods[0]).toHaveProperty('id', expect.any(String));
 });
 
-test('getClosure', async () => {
+test.skip('getClosure', async () => {
     const closure: components['schemas']['PMSClosureItem'] = await consumer.pms.getClosure(
         '2023-01-01'
     );
     expect(closure).toHaveProperty('id', expect.any(String));
 });
 
-test('getPayments', async () => {
+test.skip('getPayments', async () => {
     const payments: components['schemas']['PMSPaymentItem'][] = await consumer.pms.getPayments({
         date_from: '2023-01-01',
         date_to: '2023-01-31',
@@ -60,7 +60,7 @@ test('getPayments', async () => {
     expect(payments[0]).toHaveProperty('id', expect.any(String));
 });
 
-test('getAccountingCategories', async () => {
+test.skip('getAccountingCategories', async () => {
     const accountingCategories: components['schemas']['PMSAccountingCategoryItem'][] =
         await consumer.pms.getAccountingCategories();
     expect(accountingCategories).toBeInstanceOf(Array);

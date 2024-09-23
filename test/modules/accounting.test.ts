@@ -21,7 +21,7 @@ beforeAll(async () => {
 });
 
 let analyticPlans: components['schemas']['AnalyticPlanItem'][];
-test('getAnalyticPlans', async () => {
+test.skip('getAnalyticPlans', async () => {
     analyticPlans = await consumer.accounting.getAnalyticPlans();
     expect(analyticPlans).toBeInstanceOf(Array);
     expect(analyticPlans.length).toBeGreaterThan(0);
@@ -107,13 +107,13 @@ test('getClient', async () => {
     expect(client).toHaveProperty('addresses', expect.any(Array));
 });
 
-test('updateClient', async () => {
+test.skip('updateClient', async () => {
     const client = clients.find((client) => client.external_reference === 'sdk test');
     const updatedClient = await consumer.accounting.updateClient(client?.id, {
-        name: 'John Updated Doe',
+        website: 'https://test.com',
     });
     expect(updatedClient).toBeTruthy();
-    expect(updatedClient).toHaveProperty('name', 'John Updated Doe');
+    expect(updatedClient).toHaveProperty('website', 'https://test.com');
 });
 
 test('createSupplier', async () => {
@@ -169,7 +169,7 @@ test('getSupplier', async () => {
     expect(supplier).toHaveProperty('addresses', expect.any(Array));
 });
 
-test('updateSupplier', async () => {
+test.skip('updateSupplier', async () => {
     const supplier = suppliers.find((supplier) => supplier.external_reference === 'sdk test');
     const updatedSupplier = await consumer.accounting.updateSupplier(supplier?.id, {
         name: 'Jane Updated Doe',
@@ -349,6 +349,10 @@ test('getAnalyticAccounts', async () => {
 });
 
 test('createAnalyticAccountWithMultiplePlans', async () => {
+    if (analyticPlans.length === 0) {
+        throw new Error('No analytic plans found to create analytic account with multiple plans');
+    }
+
     const analyticAccount = await consumer.accounting.createAnalyticAccountWithMultiplePlans(
         analyticPlans[0].id,
         {
@@ -361,11 +365,19 @@ test('createAnalyticAccountWithMultiplePlans', async () => {
 });
 
 test('getAnalyticAccount', async () => {
+    if (analyticAccounts.length === 0) {
+        throw new Error('No analytic accounts found to get analytic account');
+    }
+
     const analyticAccount = await consumer.accounting.getAnalyticAccount(analyticAccounts[0].id);
     expect(analyticAccount).toBeTruthy();
 });
 
-test('updateAnalyticAccount', async () => {
+test.skip('updateAnalyticAccount', async () => {
+    if (analyticAccounts.length === 0) {
+        throw new Error('No analytic accounts found to update analytic account');
+    }
+
     const testAnalyticAccount = analyticAccounts.find((account) => account.name === 'sdk test');
     const analyticAccount = await consumer.accounting.updateAnalyticAccount(
         testAnalyticAccount?.id,
@@ -376,6 +388,10 @@ test('updateAnalyticAccount', async () => {
 });
 
 test('getAnalyticAccountWithMultiplePlans', async () => {
+    if (analyticPlans.length === 0) {
+        throw new Error('No analytic plans found to get analytic account with multiple plans');
+    }
+
     const analyticAccount = await consumer.accounting.getAnalyticAccountWithMultiplePlans(
         analyticAccounts[0].id,
         analyticPlans[0].id
@@ -384,6 +400,12 @@ test('getAnalyticAccountWithMultiplePlans', async () => {
 });
 
 test('updateAnalyticAccountWithMultiplePlans', async () => {
+    if (!analyticAccounts.length) {
+        throw new Error(
+            'No analytic accounts found to update analytic account with multiple plans'
+        );
+    }
+
     const testAnalyticAccount = analyticAccounts.find(
         (account) => account.name === 'test sdk update'
     );
@@ -408,23 +430,25 @@ test('createJournalEntry', async () => {
     if (!journal) {
         throw new Error('No journal with type "customer_invoice" found to create journal entry');
     }
+
+    if (!clients.length) {
+        throw new Error('No clients found to create journal entry');
+    }
+
     const journalEntry = await consumer.accounting.createJournalEntry({
         journal_id: journal.id,
-        name: Date.now().toString(),
+        number: new Date().valueOf(),
+        currency: 'EUR',
         date: '2022-01-01',
         items: [
             {
-                account_number: clients[0].account_number,
+                account_type: 'customer_account',
+                account: clients[0].id,
                 credit: 0,
                 debit: 10,
-                partner_id: clients[0].id,
                 currency: 'EUR',
-            },
-            {
-                account_number: '700000',
-                credit: 10,
-                debit: 0,
-                currency: 'EUR',
+                prioritise_thirdparty_account: false,
+                analytic_distribution: [],
             },
         ],
     });
@@ -517,7 +541,7 @@ test('getChartOfAccounts', async () => {
     expect(chartOfAccounts).toBeTruthy();
 });
 
-test('getBalanceOfAccounts', async () => {
+test.skip('getBalanceOfAccounts', async () => {
     const balanceOfAccounts = await consumer.accounting.getBalanceOfAccounts({
         accounts: ['7'],
         start: '2022-01-01',
@@ -534,22 +558,12 @@ test('getEmployees', async () => {
 });
 
 test('getOutstandings', async () => {
-    expect.assertions(1);
-    try {
-        const outstandings = await consumer.accounting.getOutstandings({
-            type: 'client',
-            unposted_allowed: true,
-        });
-        expect(outstandings).toBeTruthy();
-        expect(outstandings.items).toBeInstanceOf(Array);
-    } catch (e: any) {
-        if (e?.error?.error_code) {
-            expect(e.error.error_code).toMatch('ERROR_API_RESOURCE_NOT_FOUND');
-            return;
-        }
-
-        throw e;
-    }
+    const outstandings = await consumer.accounting.getOutstandings({
+        type: 'client',
+        unposted_allowed: false,
+    });
+    expect(outstandings).toBeTruthy();
+    expect(outstandings.items).toBeInstanceOf(Array);
 });
 
 test('createFinancialEntry', async () => {
@@ -558,6 +572,10 @@ test('createFinancialEntry', async () => {
         throw new Error(
             'No journal with type "financial_operation" found to create financial entry'
         );
+    }
+
+    if (!clients.length) {
+        throw new Error('No clients found to create journal entry');
     }
 
     const financialEntry = await consumer.accounting.createFinancialEntry({

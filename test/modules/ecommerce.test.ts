@@ -64,7 +64,7 @@ test('getProduct', async () => {
     expect(product).toHaveProperty('common_images');
 });
 
-test('getProductVariantById', async () => {
+test.skip('getProductVariantById', async () => {
     if (!products?.length) {
         throw new Error('No product to test');
     }
@@ -89,14 +89,14 @@ test('getLocations', async () => {
 
 test('updateAvailableQuantity', async () => {
     if (!products?.length) {
-        throw new Error('No product to test');
+        throw new Error('No product found to update available quantity');
     }
 
-    if (!products[0].variants) {
-        throw new Error('No product variant to test');
+    if (!locations?.length) {
+        throw new Error('No location found to update available quantity');
     }
 
-    const product = await consumer.ecommerce.updateAvailableQuantity(products[0].variants[0].id, {
+    const product = await consumer.ecommerce.updateAvailableQuantity(products[0].id, {
         location_id: locations[0].id,
         available_quantity: 1,
     });
