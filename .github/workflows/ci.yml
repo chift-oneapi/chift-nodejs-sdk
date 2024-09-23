@@ -36,14 +36,14 @@ jobs:
                   CHIFT_TESTING_CLIENTID: ${{ secrets.CHIFT_TESTING_CLIENTID }}
                   CHIFT_TESTING_CLIENTSECRET: ${{ secrets.CHIFT_TESTING_CLIENTSECRET }}
                   CHIFT_TESTING_ACCOUNTID: ${{ secrets.CHIFT_TESTING_ACCOUNTID }}
-                  CHIFT_ODOO_CONSUMER_ID: ${{ secrets.CHIFT_ODOO_CONSUMER_ID }}
-                  CHIFT_WOOCOMMERCE_CONSUMER_ID: ${{ secrets.CHIFT_WOOCOMMERCE_CONSUMER_ID }}
-                  CHIFT_AXONAUT_CONSUMER_ID: ${{ secrets.CHIFT_AXONAUT_CONSUMER_ID }}
-                  CHIFT_CASHPAD_CONSUMER_ID: ${{ secrets.CHIFT_CASHPAD_CONSUMER_ID }}
-                  CHIFT_LIGHTSPEED_CONSUMER_ID: ${{ secrets.CHIFT_LIGHTSPEED_CONSUMER_ID }}
-                  CHIFT_POPINA_CONSUMER_ID: ${{ secrets.CHIFT_POPINA_CONSUMER_ID }}
                   CHIFT_TEST_SYNC_ID: ${{ secrets.CHIFT_TEST_SYNC_ID }}
                   CHIFT_SYNC_CONSUMER_ID: ${{ secrets.CHIFT_SYNC_CONSUMER_ID }}
+                  CHIFT_ACCOUNTING_CONSUMER_ID: ${{ secrets.CHIFT_ACCOUNTING_CONSUMER_ID }}
+                  CHIFT_ECOMMERCE_CONSUMER_ID: ${{ secrets.CHIFT_ECOMMERCE_CONSUMER_ID }}
+                  CHIFT_POS_CONSUMER_ID: ${{ secrets.CHIFT_POS_CONSUMER_ID }}
+                  CHIFT_INVOICING_CONSUMER_ID: ${{ secrets.CHIFT_INVOICING_CONSUMER_ID }}
+                  CHIFT_PAYMENT_CONSUMER_ID: ${{ secrets.CHIFT_PAYMENT_CONSUMER_ID }}
+                  CHIFT_PMS_CONSUMER_ID: ${{ secrets.CHIFT_PMS_CONSUMER_ID }}
                   COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
             - name: Report Coveralls
