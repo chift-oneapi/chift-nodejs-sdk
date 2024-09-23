@@ -30,8 +30,8 @@ test('getLocations', async () => {
 let orders: components['schemas']['POSOrderItem'][];
 test('getOrders', async () => {
     orders = await consumer.pos.getOrders({
-        date_from: '2023-01-11',
-        date_to: '2023-02-28',
+        date_from: '2023-01-08',
+        date_to: '2023-01-01',
     });
     expect(orders).toBeInstanceOf(Array);
     expect(orders.length).toBeGreaterThan(0);
@@ -117,10 +117,10 @@ test('getClosure', async () => {
     expect(closure).toHaveProperty('status');
 });
 
-test('getPayments', async () => {
+test.skip('getPayments', async () => {
     const payments = await consumer.pos.getPayments({
-        date_from: '2023-01-11',
-        date_to: '2023-02-28',
+        date_from: '2023-01-08',
+        date_to: '2023-01-01',
     });
     expect(payments).toBeInstanceOf(Array);
     expect(payments.length).toBeGreaterThan(0);

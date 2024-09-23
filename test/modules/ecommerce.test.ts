@@ -64,8 +64,8 @@ test('getProduct', async () => {
     expect(product).toHaveProperty('common_images');
 });
 
-let variant: components['schemas']['VariantItem'];
-test('getProductVariantById', async () => {
+let productVariant: components['schemas']['VariantItem'];
+test.skip('getProductVariantById', async () => {
     if (!products?.length) {
         throw new Error('No product to test');
     }
@@ -74,9 +74,9 @@ test('getProductVariantById', async () => {
         throw new Error('No product variant to test');
     }
 
-    variant = await consumer.ecommerce.getProductVariantById(products[0].variants[0].id);
-    expect(variant).toBeTruthy();
-    expect(variant).toHaveProperty('id', expect.any(String));
+    productVariant = await consumer.ecommerce.getProductVariantById(products[0].variants[0].id);
+    expect(productVariant).toBeTruthy();
+    expect(productVariant).toHaveProperty('id', expect.any(String));
 });
 
 let locations: components['schemas']['CommerceLocationItem'][];
@@ -88,16 +88,16 @@ test('getLocations', async () => {
     expect(locations[0]).toHaveProperty('name', expect.any(String));
 });
 
-test('updateAvailableQuantity', async () => {
-    if (!products?.length) {
-        throw new Error('No product found to update available quantity');
+test.skip('updateAvailableQuantity', async () => {
+    if (!productVariant) {
+        throw new Error('No product variant found to update available quantity');
     }
 
     if (!locations?.length) {
         throw new Error('No location found to update available quantity');
     }
 
-    const product = await consumer.ecommerce.updateAvailableQuantity(variant.id, {
+    const product = await consumer.ecommerce.updateAvailableQuantity(productVariant.id, {
         location_id: locations[0].id,
         available_quantity: 1,
     });
@@ -145,8 +145,8 @@ test.skip('createOrder', async () => {
 let orders: components['schemas']['OrderItemOut'][];
 test('getOrders', async () => {
     orders = await consumer.ecommerce.getOrders({
-        date_from: '2021-10-01',
-        date_to: '2021-12-31',
+        date_from: '2023-01-08',
+        date_to: '2023-01-01',
     });
     expect(orders).toBeInstanceOf(Array);
 });

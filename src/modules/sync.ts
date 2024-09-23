@@ -56,7 +56,7 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['ReadSyncIte
                     type: context.execution.type,
                     data: executionData,
                 },
-                trigger: context.trigger,
+                triggers: context.triggers,
                 config: context.config,
             });
         const myflow = Flow(_internalApi, createFlowData, data.syncid, data.consumers, process);

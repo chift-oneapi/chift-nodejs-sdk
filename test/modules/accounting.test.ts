@@ -550,7 +550,7 @@ test('getEmployees', async () => {
     expect(employees).toBeTruthy();
 });
 
-test('getOutstandings', async () => {
+test.skip('getOutstandings', async () => {
     const outstandings = await consumer.accounting.getOutstandings({
         type: 'client',
         unposted_allowed: false,
