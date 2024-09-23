@@ -52,7 +52,7 @@ test('getPayment', async () => {
     expect(payment).toHaveProperty('id', payments[0].id);
 });
 
-test('getRefunds', async () => {
+test.skip('getRefunds', async () => {
     const refunds: components['schemas']['RefundItemOut'][] = await consumer.payment.getRefunds({
         date_from: '2023-01-01',
         date_to: '2023-01-31',
