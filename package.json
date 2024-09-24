@@ -4,10 +4,13 @@
     "description": "The Chift NodeJS library provides convenient access to the Chift API from applications written in the NodeJS language (Javascript/Typescript).",
     "main": "dist/src/index.js",
     "types": "dist/src/index.d.ts",
+    "files": [
+        "src/types/"
+    ],
     "scripts": {
         "dev": "chokidar src --command 'npm run build' --debounce=5000",
         "prepare": "husky install",
-        "build": "tsc",
+        "build": "tsc && cp src/types/public-api/schema.d.ts dist/src/types/public-api/schema.d.ts",
         "test": "jest --maxWorkers 1"
     },
     "keywords": [],
