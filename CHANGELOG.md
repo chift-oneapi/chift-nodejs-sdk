@@ -106,3 +106,7 @@
 -   Add payment API
 -   Add payment API tests
 -   Add PMS API tests
+
+## 1.0.18 - 2024-09-24
+
+-   Fix missing type declarations
