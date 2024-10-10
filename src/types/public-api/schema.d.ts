@@ -2347,17 +2347,19 @@ export interface components {
             | 'expense'
             | 'vat'
             | 'other';
+        /** AccountToCreate */
+        AccountToCreate: {
+            /** Account Number */
+            account_number: string;
+            /** Account Name */
+            account_name: string;
+        };
         /** AccountingCategoryItem */
         AccountingCategoryItem: {
             /** Id */
             id: string;
             /** Name */
             name: string;
-            /**
-             * Id Parent
-             * @description Indicates if the category belongs to a parent category
-             */
-            id_parent?: string;
             /**
              * Code
              * @description Code assigned to the category
@@ -4587,6 +4589,16 @@ export interface components {
              * @default true
              */
             posted: boolean;
+            /**
+             * Start Date
+             * Format: date
+             */
+            start_date?: string;
+            /**
+             * End Date
+             * Format: date
+             */
+            end_date?: string;
         };
         /** GenericJournalItem */
         GenericJournalItem: {
@@ -5007,6 +5019,12 @@ export interface components {
              * @description Amount left to be paid
              */
             outstanding_amount?: number;
+            /**
+             * Accounting Date
+             * Format: date
+             * @description Accounting date
+             */
+            accounting_date?: string;
         };
         /** InvoiceItemOutMonoAnalyticPlan */
         InvoiceItemOutMonoAnalyticPlan: {
@@ -5211,6 +5229,12 @@ export interface components {
              * @description Amount left to be paid
              */
             outstanding_amount?: number;
+            /**
+             * Accounting Date
+             * Format: date
+             * @description Accounting date
+             */
+            accounting_date?: string;
             /**
              * Pdf
              * @description PDF document in base64
@@ -6132,6 +6156,11 @@ export interface components {
             currency: string;
             /** Note */
             note?: string;
+            /**
+             * Tags
+             * @default []
+             */
+            tags: string[];
             /** Lines */
             lines: components['schemas']['OrderLineItemOut'][];
             /**
@@ -6458,11 +6487,6 @@ export interface components {
             /** Name */
             name: string;
             /**
-             * Id Parent
-             * @description Indicates if the category belongs to a parent category
-             */
-            id_parent?: string;
-            /**
              * Code
              * @description Code assigned to the category
              */
@@ -6587,6 +6611,9 @@ export interface components {
              * @description Technical id in the target software
              */
             source_ref: components['schemas']['Ref'];
+            type?: components['schemas']['POSLineItemType'];
+            /** Menu Id */
+            menu_id?: string;
             /** Quantity */
             quantity: number;
             /** Unit Price */
@@ -6716,6 +6743,9 @@ export interface components {
         POSItem: {
             /** Id */
             id: string;
+            type?: components['schemas']['POSLineItemType'];
+            /** Menu Id */
+            menu_id?: string;
             /** Quantity */
             quantity: number;
             /** Unit Price */
@@ -6744,6 +6774,12 @@ export interface components {
              */
             accounting_category_id?: string;
         };
+        /**
+         * POSLineItemType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        POSLineItemType: 'menu' | 'product';
         /** POSLocationItem */
         POSLocationItem: {
             /** Id */
@@ -10175,6 +10211,8 @@ export interface operations {
     accounting_get_clients: {
         parameters: {
             query?: {
+                /** @description Filter based on the following fields: name, email, first_name, last_name, external_reference, vat and company_number */
+                search?: string;
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
                 page?: number;
@@ -10379,6 +10417,8 @@ export interface operations {
     accounting_get_suppliers: {
         parameters: {
             query?: {
+                /** @description Filter based on the following fields: name, email, first_name, last_name, external_reference, vat and company_number */
+                search?: string;
                 /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
                 page?: number;
