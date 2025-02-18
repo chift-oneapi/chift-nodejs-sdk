@@ -38,7 +38,7 @@ type GetJournalEntriesParams = AutoPaginatedParams<
 >;
 
 type GetJournalEntriesWithMultiplePlansParams = AutoPaginatedParams<
-    operations['accounting_get_journal_entries_mutli_plan']['parameters']['query']
+    operations['accounting_get_journal_entries_multi_plan']['parameters']['query']
 >;
 
 type GetEmployeesParams = AutoPaginatedParams<
@@ -184,7 +184,7 @@ const accountingFactory = {
         };
     },
     getInvoicesByType(
-        invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'],
+        invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'],
         params?: GetInvoicesByTypeParams
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan'][]> {
         return {
@@ -214,7 +214,7 @@ const accountingFactory = {
         };
     },
     getInvoicesByTypeWithMultiplePlans(
-        invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'],
+        invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'],
         params?: GetInvoicesByTypeWithMultiplePlansParams
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans'][]> {
         return {
@@ -347,7 +347,7 @@ const accountingFactory = {
     },
     getVatCodes(
         params?: GetVatCodesParams
-    ): RequestData<components['schemas']['backbone_api__app__routers__accounting__VatCode'][]> {
+    ): RequestData<components['schemas']['ChiftPage_AccountingVatCode_'][]> {
         return {
             params,
             method: 'get',
