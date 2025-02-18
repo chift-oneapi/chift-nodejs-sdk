@@ -4,6 +4,26 @@
  */
 
 export interface paths {
+    '/token': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get access token
+         * @description This endpoint allows you to get an access token that can be used as a BEARER token to access the protected endpoints of this APIs. The token is valid for 30 minutes. You can refresh the token by requesting a new token.
+         */
+        post: operations['generate_access_token_token_post'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers': {
         parameters: {
             query?: never;
@@ -378,7 +398,11 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /**
+         * Update flow mappings for a specific consumer
+         * @description Route that can be used to update the flow mappings for a specific consumer. It will replace the existing configuration with the provided one.
+         */
+        patch: operations['syncs_update_synctoconsumer'];
         trace?: never;
     };
     '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/enable': {
@@ -685,9 +709,29 @@ export interface paths {
         };
         /**
          * Get invoices by type (sale/purchase entries)
-         * @description Returns a list of invoices by a specific type (=sale/purchase entries). Each line of the invoice will include the analytic account linked to default analytic plan. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
+         * @description Returns a list of invoices by a specific type (=sale/purchase entries). Each line of the invoice will include the analytic account linked to default analytic plan. Optionally dates can be defined to retrieve invoice from a certain date to another date
          */
         get: operations['accounting_get_invoices_by_type'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/{invoice_type}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get invoices by type (sale/purchase entries - Multiple Analytic Plans)
+         * @description Returns a list of invoices by a specific type (=sale/purchase entries) with invoice lines including multiple analytic plans. Optionally dates can be defined to retrieve invoice from a certain date to another date
+         */
+        get: operations['accounting_get_invoices_by_type_multi_analytic_plans'];
         put?: never;
         post?: never;
         delete?: never;
@@ -725,29 +769,9 @@ export interface paths {
         };
         /**
          * Get one invoice (sale/purchase entry - Multiple Analytic Plans)
-         * @description Returns a specific invoice (=sale/purchase entry) with invoice lines including multiple analytic plans
+         * @description Returns a specific invoice (=sale/purchase entry) with invoice lines /oincluding multiple analytic plans
          */
         get: operations['accounting_get_invoice_multi_analytic_plans'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/{invoice_type}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get invoices by type (sale/purchase entries - Multiple Analytic Plans)
-         * @description Returns a list of invoices by a specific type (=sale/purchase entries) with invoice lines including multiple analytic plans. Optionnaly dates can be defined to retrieve invoice from a certain date to another date
-         */
-        get: operations['accounting_get_invoices_by_type_multi_analytic_plans'];
         put?: never;
         post?: never;
         delete?: never;
@@ -877,7 +901,7 @@ export interface paths {
         };
         /**
          * Get journal entries
-         * @description Returns a list of journal entries. Each item will include the analytic account linked to default analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
+         * @description Returns a list of journal entries. Each item will include the analytic account linked to default analytic plan. Optionally, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
          */
         get: operations['accounting_get_journal_entries'];
         put?: never;
@@ -901,9 +925,29 @@ export interface paths {
         };
         /**
          * Get journal entries (Multiple Analytic Plans)
-         * @description Returns a list of journal entries with invoice items including multiple analytic plan. Optionnaly, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
+         * @description Returns a list of journal entries with invoice items including multiple analytic plan.Optionally, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.
          */
-        get: operations['accounting_get_journal_entries_mutli_plan'];
+        get: operations['accounting_get_journal_entries_multi_plan'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/journal/entries/{journal_entry_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get one journal entry
+         * @description Returns a single journal entry by ID.
+         */
+        get: operations['accounting_get_journal_entry'];
         put?: never;
         post?: never;
         delete?: never;
@@ -1056,6 +1100,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/accounting/matching-multiple': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Match multiple entries
+         * @description Match existing entries in the accounting system
+         */
+        post: operations['accounting_match_entries_multiple'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/accounting/invoices/pdf/{invoice_id}': {
         parameters: {
             query?: never;
@@ -1070,6 +1134,26 @@ export interface paths {
          * @description Attach a document (PDF) to the invoice entry
          */
         post: operations['accounting_add_attachment'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/attachments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get attachments
+         * @description Returns a list of all attachments linked to an accounting entry
+         */
+        get: operations['accounting_get_attachments'];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1188,26 +1272,6 @@ export interface paths {
          * @description Returns a list of all clients/suppliers outstanding items
          */
         get: operations['accounting_get_outstandings'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/accounting/attachments': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get attachments
-         * @description Returns a list of all attachments linked to an accounting entry
-         */
-        get: operations['accounting_get_attachments'];
         put?: never;
         post?: never;
         delete?: never;
@@ -1940,6 +2004,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/invoicing/payments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all payments
+         * @description Returns a list of payments
+         */
+        get: operations['invoicing_get_payments'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/invoicing/payment-methods': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all payment methods
+         * @description Returns the list of payment methods
+         */
+        get: operations['invoicing_get_payments_methods'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/banking/financial-institutions': {
         parameters: {
             query?: never;
@@ -2140,6 +2244,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/pms/invoices': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get invoices (PMS)
+         * @description Returns a list of the invoices
+         */
+        get: operations['pms_get_invoices'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/pms/customers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get customers (PMS)
+         * @description Returns a list of all the customers
+         */
+        get: operations['pms_get_customers'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/pms/locations': {
         parameters: {
             query?: never;
@@ -2209,7 +2353,7 @@ export interface paths {
         };
         /**
          * Get accounting categories (PMS)
-         * @description Returns a list of accounting categories. When not available for a specific PMS, it will return the same values as the product categories.
+         * @description Returns a list of accounting categories. When not available for a specific PMS,it will return the same values as the product categories.
          */
         get: operations['pms_get_accounting_categories'];
         put?: never;
@@ -2234,26 +2378,6 @@ export interface paths {
         get: operations['pms_get_closure'];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/token': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get access token
-         * @description This endpoint allows you to get an access token that can be used as a BEARER token to access the protected endpoints of this APIs. The token is valid for 30 minutes. You can refresh the token by requesting a new token.
-         */
-        post: operations['generate_access_token_token_post'];
         delete?: never;
         options?: never;
         head?: never;
@@ -2375,6 +2499,24 @@ export interface components {
              * @description Posting account code assigned to the category
              */
             posting_account_code?: string;
+        };
+        /** AccountingVatCode */
+        AccountingVatCode: {
+            /** Id */
+            id: string;
+            /** Code */
+            code?: string;
+            /** Label */
+            label: string;
+            /** @default unknown */
+            scope: components['schemas']['backbone_common__models__accounting__common__VatCodeScope'];
+            /** Rate */
+            rate: number;
+            type: components['schemas']['backbone_common__models__accounting__common__VatCodeType'];
+            /** Deductible Account */
+            deductible_account?: string;
+            /** Payable Account */
+            payable_account?: string;
         };
         /** AddressItem */
         AddressItem: {
@@ -2819,6 +2961,19 @@ export interface components {
              */
             detail: string;
         };
+        /** ChiftId */
+        ChiftId: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+        };
         /** ChiftPage[AccountBalance] */
         ChiftPage_AccountBalance_: {
             /** Items */
@@ -2845,6 +3000,17 @@ export interface components {
         ChiftPage_AccountingCategoryItem_: {
             /** Items */
             items: components['schemas']['AccountingCategoryItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[AccountingVatCode] */
+        ChiftPage_AccountingVatCode_: {
+            /** Items */
+            items: components['schemas']['AccountingVatCode'][];
             /** Total */
             total: number;
             /** Page */
@@ -3072,6 +3238,39 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[InvoicingPaymentItem] */
+        ChiftPage_InvoicingPaymentItem_: {
+            /** Items */
+            items: components['schemas']['InvoicingPaymentItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[InvoicingPaymentMethodItem] */
+        ChiftPage_InvoicingPaymentMethodItem_: {
+            /** Items */
+            items: components['schemas']['InvoicingPaymentMethodItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[InvoicingVatCode] */
+        ChiftPage_InvoicingVatCode_: {
+            /** Items */
+            items: components['schemas']['InvoicingVatCode'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[JournalEntryMonoAnalyticPlan] */
         ChiftPage_JournalEntryMonoAnalyticPlan_: {
             /** Items */
@@ -3153,6 +3352,28 @@ export interface components {
         ChiftPage_PMSAccountingCategoryItem_: {
             /** Items */
             items: components['schemas']['PMSAccountingCategoryItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PMSCustomerItem] */
+        ChiftPage_PMSCustomerItem_: {
+            /** Items */
+            items: components['schemas']['PMSCustomerItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PMSInvoiceFullItem] */
+        ChiftPage_PMSInvoiceFullItem_: {
+            /** Items */
+            items: components['schemas']['PMSInvoiceFullItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -3306,7 +3527,7 @@ export interface components {
         /** ChiftPage[ProductCategoryItem] */
         ChiftPage_ProductCategoryItem_: {
             /** Items */
-            items: components['schemas']['backbone_api__app__routers__pos__ProductCategoryItem'][];
+            items: components['schemas']['backbone_common__models__pos__common__ProductCategoryItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -3328,7 +3549,7 @@ export interface components {
         /** ChiftPage[ProductItem] */
         ChiftPage_ProductItem_: {
             /** Items */
-            items: components['schemas']['backbone_api__app__routers__commerce__ProductItem'][];
+            items: components['schemas']['backbone_common__models__commerce__common__ProductItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -3661,7 +3882,7 @@ export interface components {
              * Addresses
              * @default []
              */
-            addresses: components['schemas']['backbone_api__app__routers__commerce__AddressItemOut'][];
+            addresses: components['schemas']['backbone_common__models__commerce__common__AddressItemOut'][];
             /**
              * Created On
              * Format: date-time
@@ -3711,6 +3932,8 @@ export interface components {
             name: string;
             /** Email */
             email?: string;
+            /** Internal Reference */
+            internal_reference?: string;
             /** Redirect Url */
             redirect_url?: string;
         };
@@ -4109,6 +4332,12 @@ export interface components {
             search_column?: string;
         };
         /**
+         * DiscountType
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        DiscountType: 'OFFERED' | 'UNKNOWN' | 'LOSS';
+        /**
          * DocumentType
          * @description An enumeration.
          * @enum {string}
@@ -4215,7 +4444,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts: components['schemas']['backbone_api__app__routers__commerce__DiscountItem'][];
+            discounts: components['schemas']['backbone_common__models__commerce__common__DiscountItem'][];
             /** Untaxed Amount */
             untaxed_amount: number;
             /** Tax Amount */
@@ -4718,84 +4947,9 @@ export interface components {
             /** Invoice Correction Debit Account Number */
             invoice_correction_debit_account_number?: string;
         };
-        /** InvoiceItem */
-        InvoiceItem: {
-            /**
-             * Currency
-             * @description Currency matching target sofware name
-             */
-            currency: string;
-            /** @description Invoice type */
-            invoice_type: components['schemas']['backbone_common__models__invoicing__InvoiceType'];
-            /** @description Status */
-            status: components['schemas']['InvoiceStatus'];
-            /**
-             * Invoice Date
-             * Format: date
-             * @description Invoicing date
-             */
-            invoice_date: string;
-            /**
-             * Tax Amount
-             * @description Taxes amount
-             */
-            tax_amount: number;
-            /**
-             * Untaxed Amount
-             * @description Untaxed amount
-             */
-            untaxed_amount: number;
-            /**
-             * Total
-             * @description Total amount incl. taxes
-             */
-            total: number;
-            /**
-             * Lines
-             * @description Invoice lines
-             * @default []
-             */
-            lines: components['schemas']['InvoiceLineItem'][];
-            /**
-             * Partner Id
-             * @description Technical id of the vendor/customer in Chift
-             */
-            partner_id?: string;
-            /**
-             * Invoice Number
-             * @description Number/sequence
-             */
-            invoice_number?: string;
-            /**
-             * Due Date
-             * Format: date
-             * @description Due date
-             */
-            due_date?: string;
-            /**
-             * Reference
-             * @description Reference
-             */
-            reference?: string;
-            /**
-             * Payment Communication
-             * @description Payment communication
-             */
-            payment_communication?: string;
-            /**
-             * Customer Memo
-             * @description Customer note/memo
-             */
-            customer_memo?: string;
-            /**
-             * Journal Ref
-             * @description Journal
-             */
-            journal_ref?: components['schemas']['FieldRef'];
-        };
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
-            invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
@@ -4861,7 +5015,7 @@ export interface components {
         };
         /** InvoiceItemInMultiAnalyticPlans */
         InvoiceItemInMultiAnalyticPlans: {
-            invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
@@ -4943,7 +5097,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['backbone_common__models__invoicing__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -5010,6 +5164,11 @@ export interface components {
              */
             journal_ref?: components['schemas']['FieldRef'];
             /**
+             * Italian Specificities
+             * @description Specificities for Italy
+             */
+            italian_specificities?: components['schemas']['ItalianSpecificities'];
+            /**
              * Last Updated On
              * Format: date-time
              */
@@ -5025,10 +5184,21 @@ export interface components {
              * @description Accounting date
              */
             accounting_date?: string;
+            /**
+             * Payment Method Id
+             * @description Technical id of the payment method in Chift
+             */
+            payment_method_id?: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the invoice.
+             * @default 1
+             */
+            currency_exchange_rate: number;
         };
         /** InvoiceItemOutMonoAnalyticPlan */
         InvoiceItemOutMonoAnalyticPlan: {
-            invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
@@ -5081,7 +5251,7 @@ export interface components {
         };
         /** InvoiceItemOutMultiAnalyticPlans */
         InvoiceItemOutMultiAnalyticPlans: {
-            invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
              * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
@@ -5153,7 +5323,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['backbone_common__models__invoicing__InvoiceType'];
+            invoice_type: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -5220,6 +5390,11 @@ export interface components {
              */
             journal_ref?: components['schemas']['FieldRef'];
             /**
+             * Italian Specificities
+             * @description Specificities for Italy
+             */
+            italian_specificities?: components['schemas']['ItalianSpecificities'];
+            /**
              * Last Updated On
              * Format: date-time
              */
@@ -5235,6 +5410,17 @@ export interface components {
              * @description Accounting date
              */
             accounting_date?: string;
+            /**
+             * Payment Method Id
+             * @description Technical id of the payment method in Chift
+             */
+            payment_method_id?: string;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the invoice.
+             * @default 1
+             */
+            currency_exchange_rate: number;
             /**
              * Pdf
              * @description PDF document in base64
@@ -5294,6 +5480,11 @@ export interface components {
              * @description Technical id of the tax in Chift
              */
             tax_id?: string;
+            /**
+             * Tax Exemption Reason
+             * @description Tax exemption reason
+             */
+            tax_exemption_reason?: string;
             /**
              * Unit Of Measure
              * @description Unit of measure matching target sofware name
@@ -5489,6 +5680,27 @@ export interface components {
              */
             analytic_distribution: components['schemas']['AnalyticDistribution'][];
         };
+        /** InvoicePartnerItem */
+        InvoicePartnerItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            type: components['schemas']['PartnerType'];
+            address?: components['schemas']['AddressItem'];
+            /** First Name */
+            first_name?: string;
+            /** Last Name */
+            last_name?: string;
+            /** Company Name */
+            company_name?: string;
+        };
         /**
          * InvoiceStatus
          * @description An enumeration.
@@ -5507,17 +5719,143 @@ export interface components {
          * @enum {string}
          */
         InvoiceStatusOut: 'cancelled' | 'draft' | 'posted' | 'paid';
-        /**
-         * InvoiceTypeRequest
-         * @description An enumeration.
-         * @enum {string}
-         */
-        InvoiceTypeRequest:
-            | 'customer_invoice'
-            | 'customer_refund'
-            | 'supplier_invoice'
-            | 'supplier_refund'
-            | 'all';
+        /** InvoicingPaymentItem */
+        InvoicingPaymentItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /** @description Payment status */
+            status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
+            /**
+             * Description
+             * @description Description
+             */
+            description: string;
+            /**
+             * Amount
+             * @description Amount
+             */
+            amount: number;
+            /**
+             * Currency
+             * @description Currency
+             */
+            currency: string;
+            /**
+             * Payment Date
+             * Format: date-time
+             * @description Date of creation
+             */
+            payment_date: string;
+            /**
+             * Partner Id
+             * @description Partner ID
+             */
+            partner_id: string;
+            /**
+             * Payment Method Id
+             * @description Technical id of the payment method in Chift
+             */
+            payment_method_id?: string;
+            /**
+             * Payment Method Name
+             * @description Payment method name
+             */
+            payment_method_name?: string;
+            /**
+             * Invoice Id
+             * @description Technical id of the invoice in Chift
+             */
+            invoice_id?: string;
+            /**
+             * Invoice Number
+             * @description Invoice number
+             */
+            invoice_number?: string;
+        };
+        /** InvoicingPaymentMethodItem */
+        InvoicingPaymentMethodItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Name
+             * @description Payment method name
+             */
+            name: string;
+        };
+        /** InvoicingVatCode */
+        InvoicingVatCode: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Label
+             * @description Label
+             */
+            label: string;
+            /**
+             * Rate
+             * @description Tax rate (e.g. 21.0)
+             */
+            rate: number;
+            /** @description Type */
+            type: components['schemas']['backbone_common__models__invoicing__common__VatCodeType'];
+            /**
+             * Code
+             * @description Code
+             */
+            code?: string;
+            /**
+             * @description Scope
+             * @default unknown
+             */
+            scope: components['schemas']['backbone_common__models__invoicing__common__VatCodeScope'];
+        };
+        /** ItalianSpecificities */
+        ItalianSpecificities: {
+            /**
+             * Stamp Duty Amount
+             * @description Documentary stamp tax (specific to Italy)
+             */
+            stamp_duty_amount?: number;
+            /**
+             * Withholding Tax
+             * @description Withholding tax (specific to Italy)
+             */
+            withholding_tax?: components['schemas']['WithholdingTax'];
+            /**
+             * Welfare Fund
+             * @description Welfare fund (specific to Italy)
+             */
+            welfare_fund?: components['schemas']['WelfareFund'];
+            /**
+             * Payment Reporting
+             * @description Payment reporting (specific to Italy)
+             */
+            payment_reporting?: components['schemas']['PaymentReporting'];
+        };
         /** Journal */
         Journal: {
             /** Id */
@@ -5887,6 +6225,20 @@ export interface components {
          * @enum {string}
          */
         MiscellaneousOperationStatusOut: 'cancelled' | 'draft' | 'posted' | 'matched';
+        /** MultipleMatchingIn */
+        MultipleMatchingIn: {
+            /** Matchings */
+            matchings: components['schemas']['MatchingIn'][];
+        };
+        /** MultipleMatchingOut */
+        MultipleMatchingOut: {
+            /** Matching Number */
+            matching_number?: string;
+            /** Processed */
+            processed: boolean;
+            /** Error Msg */
+            error_msg?: Record<string, never>;
+        };
         /** NextDocumentNumber */
         NextDocumentNumber: {
             /** Bookyear Name */
@@ -6037,8 +6389,8 @@ export interface components {
         /** OrderItemIn */
         OrderItemIn: {
             customer: components['schemas']['OrderCustomerItem'];
-            billing_address: components['schemas']['backbone_api__app__routers__commerce__AddressItemIn'];
-            shipping_address: components['schemas']['backbone_api__app__routers__commerce__AddressItemIn'];
+            billing_address: components['schemas']['backbone_common__models__commerce__common__AddressItemIn'];
+            shipping_address: components['schemas']['backbone_common__models__commerce__common__AddressItemIn'];
             /**
              * Currency
              * @description Indicates the currency of the order (e.g. EUR).
@@ -6069,8 +6421,8 @@ export interface components {
             /** Order Number */
             order_number?: string;
             customer?: components['schemas']['OrderCustomerItemOut'];
-            billing_address?: components['schemas']['backbone_api__app__routers__commerce__AddressItemOut'];
-            shipping_address?: components['schemas']['backbone_api__app__routers__commerce__AddressItemOut'];
+            billing_address?: components['schemas']['backbone_common__models__commerce__common__AddressItemOut'];
+            shipping_address?: components['schemas']['backbone_common__models__commerce__common__AddressItemOut'];
             /**
              * Created On
              * Format: date-time
@@ -6276,7 +6628,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts: components['schemas']['backbone_api__app__routers__commerce__DiscountItem'][];
+            discounts: components['schemas']['backbone_common__models__commerce__common__DiscountItem'][];
             /**
              * Gift Card
              * @default false
@@ -6298,7 +6650,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories: components['schemas']['backbone_api__app__routers__commerce__ProductCategoryItem'][];
+            categories: components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][];
         };
         /** OrderPaymentMethods */
         OrderPaymentMethods: {
@@ -6431,6 +6783,28 @@ export interface components {
             amount: number;
             status: components['schemas']['TransactionStatus'];
         };
+        /** OriginalOutstandingItem */
+        OriginalOutstandingItem: {
+            /** Id */
+            id?: string;
+            /** Number */
+            number?: string;
+            /** Journal Id */
+            journal_id?: string;
+            journal_type?: components['schemas']['JournalType'];
+            /**
+             * Date
+             * Format: date
+             */
+            date?: string;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date?: string;
+            /** Reference */
+            reference?: string;
+        };
         /** OutstandingItem */
         OutstandingItem: {
             /** Id */
@@ -6464,10 +6838,16 @@ export interface components {
             account_number: string;
             /** Reference */
             reference?: string;
+            /**
+             * Matching Numbers
+             * @default []
+             */
+            matching_numbers: string[];
             /** Payment Communication */
             payment_communication?: string;
             /** Posted */
             posted: boolean;
+            original_document?: components['schemas']['OriginalOutstandingItem'];
         };
         /**
          * OutstandingType
@@ -6510,6 +6890,85 @@ export interface components {
              */
             date: string;
             status: components['schemas']['ClosureStates'];
+        };
+        /** PMSCustomerItem */
+        PMSCustomerItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /** First Name */
+            first_name?: string;
+            /** Last Name */
+            last_name?: string;
+            /** Company Name */
+            company_name?: string;
+            /** Phone */
+            phone?: string;
+            /** Email */
+            email?: string;
+            /**
+             * Account Number
+             * @description Number of the accounting account used (e.g. 701000)
+             */
+            account_number?: string;
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on?: string;
+            /** Addresses */
+            addresses?: components['schemas']['AddressItem'][];
+        };
+        /** PMSInvoiceFullItem */
+        PMSInvoiceFullItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             */
+            invoice_number?: string;
+            /**
+             * Creation Date
+             * Format: date-time
+             */
+            creation_date?: string;
+            /**
+             * Closing Date
+             * Format: date-time
+             */
+            closing_date?: string;
+            /** Partners */
+            partners?: components['schemas']['InvoicePartnerItem'][];
+            /** Items */
+            items: components['schemas']['PMSOrderLineItem'][];
+            /** Payments */
+            payments: components['schemas']['PMSPaymentItem'][];
+            /**
+             * Service Id
+             * @description Reference to the service related to this order
+             */
+            service_id?: string;
+            /**
+             * Reservation
+             * @description Reference to the reservation related to this order
+             */
+            reservation?: components['schemas']['ReservationItem'];
         };
         /** PMSLocationItem */
         PMSLocationItem: {
@@ -6601,6 +7060,16 @@ export interface components {
              * @description Reference to the service related to this order
              */
             service_id?: string;
+            /**
+             * Reservation
+             * @description Reference to the reservation related to this order
+             */
+            reservation?: components['schemas']['ReservationItem'];
+            /**
+             * Bills
+             * @description Reference to the bills related to this order
+             */
+            bills?: components['schemas']['backbone_common__models__pms__common__InvoiceItem'][];
         };
         /** PMSOrderLineItem */
         PMSOrderLineItem: {
@@ -6671,6 +7140,11 @@ export interface components {
              * Format: date-time
              */
             date?: string;
+            /**
+             * Partner Id
+             * @description Reference to the customer related to this payment
+             */
+            partner_id?: components['schemas']['ChiftId'];
         };
         /** PMSPaymentMethods */
         PMSPaymentMethods: {
@@ -6902,13 +7376,19 @@ export interface components {
             /** Description */
             description?: string;
             /** Prices */
-            prices: components['schemas']['backbone_api__app__routers__pos__ProductPriceItem'][];
+            prices: components['schemas']['backbone_common__models__pos__common__ProductPriceItem'][];
             /**
              * Accounting Category Ids
              * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
              */
             accounting_category_ids?: string[];
         };
+        /**
+         * PartnerType
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        PartnerType: 'owner' | 'account';
         /** PatchConnectionItem */
         PatchConnectionItem: {
             /**
@@ -6980,7 +7460,7 @@ export interface components {
              */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
-            status: components['schemas']['backbone_common__models__payment__PaymentStatus'];
+            status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
             /**
              * Description
              * @description Description
@@ -7034,6 +7514,48 @@ export interface components {
             /** Extra */
             extra?: string;
         };
+        /** PaymentReporting */
+        PaymentReporting: {
+            /** @description Payment method */
+            method?: components['schemas']['PaymentReportingMethod'];
+            /** @description Payment conditions */
+            conditions?: components['schemas']['PaymentReportingConditions'];
+        };
+        /**
+         * PaymentReportingConditions
+         * @description An enumeration.
+         * @enum {string}
+         */
+        PaymentReportingConditions: 'TP01' | 'TP02' | 'TP03';
+        /**
+         * PaymentReportingMethod
+         * @description An enumeration.
+         * @enum {string}
+         */
+        PaymentReportingMethod:
+            | 'MP01'
+            | 'MP02'
+            | 'MP03'
+            | 'MP04'
+            | 'MP05'
+            | 'MP06'
+            | 'MP07'
+            | 'MP08'
+            | 'MP09'
+            | 'MP10'
+            | 'MP11'
+            | 'MP12'
+            | 'MP13'
+            | 'MP14'
+            | 'MP15'
+            | 'MP16'
+            | 'MP17'
+            | 'MP18'
+            | 'MP19'
+            | 'MP20'
+            | 'MP21'
+            | 'MP22'
+            | 'MP23';
         /** PaymentTermAccountInfo */
         PaymentTermAccountInfo: {
             /** Amount */
@@ -7064,6 +7586,8 @@ export interface components {
             name: string;
             /** Email */
             email?: string;
+            /** Internal Reference */
+            internal_reference?: string;
             /** Redirect Url */
             redirect_url?: string;
         };
@@ -7178,7 +7702,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories: components['schemas']['backbone_api__app__routers__commerce__ProductCategoryItem'][];
+            categories: components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][];
             /**
              * Created On
              * Format: date-time
@@ -7197,7 +7721,7 @@ export interface components {
              * Prices
              * @default []
              */
-            prices: components['schemas']['backbone_api__app__routers__commerce__ProductPriceItem'][];
+            prices: components['schemas']['backbone_common__models__commerce__common__ProductPriceItem'][];
             /** Unit Of Measure */
             unit_of_measure?: string;
             /**
@@ -7361,7 +7885,7 @@ export interface components {
              */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
-            status: components['schemas']['backbone_common__models__payment__PaymentStatus'];
+            status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
             /**
              * Description
              * @description Description
@@ -7418,6 +7942,39 @@ export interface components {
              * @description Total refunded (after discount).
              */
             total: number;
+        };
+        /** ReservationItem */
+        ReservationItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Start Date
+             * Format: date-time
+             */
+            start_date?: string;
+            /**
+             * End Date
+             * Format: date-time
+             */
+            end_date?: string;
+            /**
+             * Creation Date
+             * Format: date-time
+             */
+            creation_date?: string;
+            resource_id?: components['schemas']['ChiftId'];
+            /** Resource Name */
+            resource_name?: string;
+            /** Resource Identifier */
+            resource_identifier?: string;
         };
         /** ReturnFeesItem */
         ReturnFeesItem: {
@@ -7928,6 +8485,8 @@ export interface components {
             name?: string;
             /** Email */
             email?: string;
+            /** Internal Reference */
+            internal_reference?: string;
             /** Redirect Url */
             redirect_url?: string;
         };
@@ -8000,7 +8559,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories: components['schemas']['backbone_api__app__routers__commerce__ProductCategoryItem'][];
+            categories: components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][];
             /**
              * Created On
              * Format: date-time
@@ -8019,7 +8578,7 @@ export interface components {
              * Prices
              * @default []
              */
-            prices: components['schemas']['backbone_api__app__routers__commerce__ProductPriceItem'][];
+            prices: components['schemas']['backbone_common__models__commerce__common__ProductPriceItem'][];
             /** Unit Of Measure */
             unit_of_measure?: string;
             /**
@@ -8147,197 +8706,109 @@ export interface components {
             /** Integrationid */
             integrationid?: number;
         };
-        /** ChiftPage[VatCode] */
-        'backbone_api__app__routers__accounting__ChiftPage[VatCode]': {
-            /** Items */
-            items: components['schemas']['backbone_api__app__routers__accounting__VatCode'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /**
-         * InvoiceType
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_api__app__routers__accounting__InvoiceType:
-            | 'customer_invoice'
-            | 'customer_refund'
-            | 'supplier_invoice'
-            | 'supplier_refund';
-        /** VatCode */
-        backbone_api__app__routers__accounting__VatCode: {
-            /** Id */
-            id: string;
-            /** Code */
-            code?: string;
-            /** Label */
-            label: string;
-            /** @default unknown */
-            scope: components['schemas']['backbone_api__app__routers__accounting__VatCodeScope'];
-            /** Rate */
+        /** WelfareFund */
+        WelfareFund: {
+            /**
+             * Rate
+             * @description Rate
+             */
             rate: number;
-            type: components['schemas']['backbone_api__app__routers__accounting__VatCodeType'];
-            /** Deductible Account */
-            deductible_account?: string;
-            /** Payable Account */
-            payable_account?: string;
-        };
-        /**
-         * VatCodeScope
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_api__app__routers__accounting__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
-        /**
-         * VatCodeType
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_api__app__routers__accounting__VatCodeType:
-            | 'sale'
-            | 'purchase'
-            | 'both'
-            | 'unknown';
-        /** AddressItemIn */
-        backbone_api__app__routers__commerce__AddressItemIn: {
-            /** First Name */
-            first_name: string;
-            /** Last Name */
-            last_name: string;
-            /** Street */
-            street: string;
-            /** Number */
-            number: string;
-            /** Box */
-            box?: string;
-            /** City */
-            city: string;
-            /** Postal Code */
-            postal_code?: string;
             /**
-             * Country
-             * @description Format: ISO 3166-1 codes.
+             * Amount
+             * @description Amount
              */
-            country: string;
-            /** Phone */
-            phone?: string;
-            /** Email */
-            email?: string;
-        };
-        /** AddressItemOut */
-        backbone_api__app__routers__commerce__AddressItemOut: {
-            address_type: components['schemas']['AddressType'];
-            /** Company Name */
-            company_name?: string;
-            /** First Name */
-            first_name?: string;
-            /** Last Name */
-            last_name?: string;
-            /** Street */
-            street?: string;
-            /** Number */
-            number?: string;
-            /** Box */
-            box?: string;
-            /** City */
-            city?: string;
-            /** Postal Code */
-            postal_code?: string;
-            /**
-             * Country
-             * @description Format: ISO 3166-1 codes.
-             */
-            country?: string;
-            /** Phone */
-            phone?: string;
-            /** Email */
-            email?: string;
-        };
-        /** DiscountItem */
-        backbone_api__app__routers__commerce__DiscountItem: {
-            /** Name */
-            name: string;
-            /** Description */
-            description: string;
-            /** Amount */
             amount: number;
+            /** @description Type */
+            type?: components['schemas']['WelfareFundType'];
         };
-        /** ProductCategoryItem */
-        backbone_api__app__routers__commerce__ProductCategoryItem: {
+        /**
+         * WelfareFundType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        WelfareFundType:
+            | 'TC01'
+            | 'TC02'
+            | 'TC03'
+            | 'TC04'
+            | 'TC05'
+            | 'TC06'
+            | 'TC07'
+            | 'TC08'
+            | 'TC09'
+            | 'TC10'
+            | 'TC11'
+            | 'TC12'
+            | 'TC13'
+            | 'TC14'
+            | 'TC15'
+            | 'TC16'
+            | 'TC17'
+            | 'TC18'
+            | 'TC19'
+            | 'TC20'
+            | 'TC21'
+            | 'TC22';
+        /** WithholdingTax */
+        WithholdingTax: {
             /**
-             * Id
-             * @description Technical id of the category in Chift
+             * Rate
+             * @description Rate
              */
-            id: string;
-            /** Name */
-            name: string;
+            rate: number;
+            /**
+             * Amount
+             * @description Amount
+             */
+            amount: number;
+            /** @description Reason */
+            reason?: components['schemas']['WithholdingTaxReason'];
+            /** @description Payment reason */
+            payment_reason?: components['schemas']['WithholdingTaxPaymentReason'];
         };
-        /** ProductItem */
-        backbone_api__app__routers__commerce__ProductItem: {
-            /**
-             * Id
-             * @description Technical id in Chift
-             */
-            id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
-            source_ref: components['schemas']['Ref'];
-            /** Name */
-            name: string;
-            /** Description */
-            description?: string;
-            /** Description Html */
-            description_html?: string;
-            /**
-             * Categories
-             * @default []
-             */
-            categories: components['schemas']['backbone_api__app__routers__commerce__ProductCategoryItem'][];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
-            /**
-             * Variants
-             * @default []
-             */
-            variants: components['schemas']['ProductVariantItem'][];
-            status?: components['schemas']['ProductStatus'];
-            /**
-             * Common Attributes
-             * @description List of attributes that are shared by all variants of the product.
-             * @default []
-             */
-            common_attributes: components['schemas']['CommonAttributeItem'][];
-            /**
-             * Variant Attributes Options
-             * @default []
-             */
-            variant_attributes_options: components['schemas']['VariantAttributeOptionItem'][];
-            /**
-             * Common Images
-             * @description List of images that are shared by all variants of the product.
-             * @default []
-             */
-            common_images: components['schemas']['ImageItem'][];
-        };
-        /** ProductPriceItem */
-        backbone_api__app__routers__commerce__ProductPriceItem: {
-            /** Currency */
-            currency: string;
-            /**
-             * Price
-             * @default 0
-             */
-            price: number;
-        };
+        /**
+         * WithholdingTaxPaymentReason
+         * @description An enumeration.
+         * @enum {string}
+         */
+        WithholdingTaxPaymentReason:
+            | 'A'
+            | 'U'
+            | 'R'
+            | 'Q'
+            | 'H'
+            | 'V'
+            | 'V2'
+            | 'I'
+            | 'J'
+            | 'K'
+            | 'P'
+            | 'S'
+            | 'T'
+            | 'W'
+            | 'X'
+            | 'Y'
+            | 'B'
+            | 'C'
+            | 'D'
+            | 'E'
+            | 'F'
+            | 'G'
+            | 'L'
+            | 'L1'
+            | 'M'
+            | 'M1'
+            | 'M2'
+            | 'IN'
+            | 'O'
+            | 'O1'
+            | 'V1';
+        /**
+         * WithholdingTaxReason
+         * @description An enumeration.
+         * @enum {string}
+         */
+        WithholdingTaxReason: 'RT01' | 'RT02' | 'RT03' | 'RT04' | 'RT05' | 'RT06';
         /** ConnectionItem */
         backbone_api__app__routers__connections__ConnectionItem: {
             /**
@@ -8424,38 +8895,6 @@ export interface components {
          * @enum {unknown}
          */
         backbone_api__app__routers__integrations__Status: 'active' | 'inactive';
-        /** ChiftPage[VatCode] */
-        'backbone_api__app__routers__invoicing__ChiftPage[VatCode]': {
-            /** Items */
-            items: components['schemas']['backbone_common__models__invoicing__VatCode'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** ProductCategoryItem */
-        backbone_api__app__routers__pos__ProductCategoryItem: {
-            /** Id */
-            id: string;
-            /** Name */
-            name: string;
-            /** Description */
-            description?: string;
-            /**
-             * Id Parent
-             * @description Indicates if the category belongs to a parent category
-             */
-            id_parent?: string;
-        };
-        /** ProductPriceItem */
-        backbone_api__app__routers__pos__ProductPriceItem: {
-            /** Unit Price */
-            unit_price: number;
-            /** Tax Rate */
-            tax_rate?: number;
-        };
         /** ConnectionItem */
         backbone_api__app__routers__syncs__ConnectionItem: {
             /** One Api */
@@ -8479,6 +8918,168 @@ export interface components {
          * @enum {unknown}
          */
         backbone_api__app__routers__webhooks__Status: 'active' | 'inactive';
+        /**
+         * InvoiceType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        backbone_common__models__accounting__common__InvoiceType:
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund';
+        /**
+         * VatCodeScope
+         * @description An enumeration.
+         * @enum {string}
+         */
+        backbone_common__models__accounting__common__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
+        /**
+         * VatCodeType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        backbone_common__models__accounting__common__VatCodeType:
+            | 'sale'
+            | 'purchase'
+            | 'both'
+            | 'unknown';
+        /** AddressItemIn */
+        backbone_common__models__commerce__common__AddressItemIn: {
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Street */
+            street: string;
+            /** Number */
+            number: string;
+            /** Box */
+            box?: string;
+            /** City */
+            city: string;
+            /** Postal Code */
+            postal_code?: string;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
+            country: string;
+            /** Phone */
+            phone?: string;
+            /** Email */
+            email?: string;
+        };
+        /** AddressItemOut */
+        backbone_common__models__commerce__common__AddressItemOut: {
+            address_type: components['schemas']['AddressType'];
+            /** Company Name */
+            company_name?: string;
+            /** First Name */
+            first_name?: string;
+            /** Last Name */
+            last_name?: string;
+            /** Street */
+            street?: string;
+            /** Number */
+            number?: string;
+            /** Box */
+            box?: string;
+            /** City */
+            city?: string;
+            /** Postal Code */
+            postal_code?: string;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
+            country?: string;
+            /** Phone */
+            phone?: string;
+            /** Email */
+            email?: string;
+        };
+        /** DiscountItem */
+        backbone_common__models__commerce__common__DiscountItem: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Amount */
+            amount: number;
+        };
+        /** ProductCategoryItem */
+        backbone_common__models__commerce__common__ProductCategoryItem: {
+            /**
+             * Id
+             * @description Technical id of the category in Chift
+             */
+            id: string;
+            /** Name */
+            name: string;
+        };
+        /** ProductItem */
+        backbone_common__models__commerce__common__ProductItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /**
+             * Source Ref
+             * @description Technical id in the target software
+             */
+            source_ref: components['schemas']['Ref'];
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string;
+            /** Description Html */
+            description_html?: string;
+            /**
+             * Categories
+             * @default []
+             */
+            categories: components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][];
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on?: string;
+            /**
+             * Variants
+             * @default []
+             */
+            variants: components['schemas']['ProductVariantItem'][];
+            status?: components['schemas']['ProductStatus'];
+            /**
+             * Common Attributes
+             * @description List of attributes that are shared by all variants of the product.
+             * @default []
+             */
+            common_attributes: components['schemas']['CommonAttributeItem'][];
+            /**
+             * Variant Attributes Options
+             * @default []
+             */
+            variant_attributes_options: components['schemas']['VariantAttributeOptionItem'][];
+            /**
+             * Common Images
+             * @description List of images that are shared by all variants of the product.
+             * @default []
+             */
+            common_images: components['schemas']['ImageItem'][];
+        };
+        /** ProductPriceItem */
+        backbone_common__models__commerce__common__ProductPriceItem: {
+            /** Currency */
+            currency: string;
+            /**
+             * Price
+             * @default 0
+             */
+            price: number;
+        };
         /** AddressItemIn */
         backbone_common__models__common__AddressItemIn: {
             address_type: components['schemas']['AddressType'];
@@ -8539,18 +9140,99 @@ export interface components {
          * @enum {string}
          */
         backbone_common__models__common__PaymentStatus: 'all' | 'unpaid' | 'paid';
+        /** InvoiceItem */
+        backbone_common__models__invoicing__common__InvoiceItem: {
+            /**
+             * Currency
+             * @description Currency matching target sofware name
+             */
+            currency: string;
+            /** @description Invoice type */
+            invoice_type: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
+            /** @description Status */
+            status: components['schemas']['InvoiceStatus'];
+            /**
+             * Invoice Date
+             * Format: date
+             * @description Invoicing date
+             */
+            invoice_date: string;
+            /**
+             * Tax Amount
+             * @description Taxes amount
+             */
+            tax_amount: number;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount
+             */
+            untaxed_amount: number;
+            /**
+             * Total
+             * @description Total amount incl. taxes
+             */
+            total: number;
+            /**
+             * Lines
+             * @description Invoice lines
+             * @default []
+             */
+            lines: components['schemas']['InvoiceLineItem'][];
+            /**
+             * Partner Id
+             * @description Technical id of the vendor/customer in Chift
+             */
+            partner_id?: string;
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             */
+            invoice_number?: string;
+            /**
+             * Due Date
+             * Format: date
+             * @description Due date
+             */
+            due_date?: string;
+            /**
+             * Reference
+             * @description Reference
+             */
+            reference?: string;
+            /**
+             * Payment Communication
+             * @description Payment communication
+             */
+            payment_communication?: string;
+            /**
+             * Customer Memo
+             * @description Customer note/memo
+             */
+            customer_memo?: string;
+            /**
+             * Journal Ref
+             * @description Journal
+             */
+            journal_ref?: components['schemas']['FieldRef'];
+            /**
+             * Italian Specificities
+             * @description Specificities for Italy
+             */
+            italian_specificities?: components['schemas']['ItalianSpecificities'];
+        };
         /**
          * InvoiceType
          * @description An enumeration.
          * @enum {string}
          */
-        backbone_common__models__invoicing__InvoiceType:
+        backbone_common__models__invoicing__common__InvoiceType:
             | 'customer_invoice'
             | 'customer_refund'
             | 'supplier_invoice'
-            | 'supplier_refund';
+            | 'supplier_refund'
+            | 'all';
         /** ProductItem */
-        backbone_common__models__invoicing__ProductItem: {
+        backbone_common__models__invoicing__common__ProductItem: {
             /**
              * Name
              * @description Name
@@ -8592,8 +9274,36 @@ export interface components {
              */
             description?: string;
         };
-        /** VatCode */
-        backbone_common__models__invoicing__VatCode: {
+        /**
+         * VatCodeScope
+         * @description An enumeration.
+         * @enum {string}
+         */
+        backbone_common__models__invoicing__common__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
+        /**
+         * VatCodeType
+         * @description An enumeration.
+         * @enum {string}
+         */
+        backbone_common__models__invoicing__common__VatCodeType:
+            | 'sale'
+            | 'purchase'
+            | 'both'
+            | 'unknown';
+        /**
+         * PaymentStatus
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        backbone_common__models__payment__common__PaymentStatus:
+            | 'pending'
+            | 'completed'
+            | 'canceled'
+            | 'failed'
+            | 'unknown'
+            | 'authorized';
+        /** InvoiceItem */
+        backbone_common__models__pms__common__InvoiceItem: {
             /**
              * Id
              * @description Technical id in Chift
@@ -8605,58 +9315,52 @@ export interface components {
              */
             source_ref: components['schemas']['Ref'];
             /**
-             * Label
-             * @description Label
+             * Invoice Number
+             * @description Number/sequence
              */
-            label: string;
+            invoice_number?: string;
             /**
-             * Rate
-             * @description Tax rate (e.g. 21.0)
+             * Creation Date
+             * Format: date-time
              */
-            rate: number;
-            /** @description Type */
-            type: components['schemas']['backbone_common__models__invoicing__VatCodeType'];
+            creation_date?: string;
             /**
-             * Code
-             * @description Code
+             * Closing Date
+             * Format: date-time
              */
-            code?: string;
-            /**
-             * @description Scope
-             * @default unknown
-             */
-            scope: components['schemas']['backbone_common__models__invoicing__VatCodeScope'];
+            closing_date?: string;
+            /** Partners */
+            partners?: components['schemas']['InvoicePartnerItem'][];
         };
-        /**
-         * VatCodeScope
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_common__models__invoicing__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
-        /**
-         * VatCodeType
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_common__models__invoicing__VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
-        /**
-         * PaymentStatus
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        backbone_common__models__payment__PaymentStatus:
-            | 'pending'
-            | 'completed'
-            | 'canceled'
-            | 'failed'
-            | 'unknown'
-            | 'authorized';
+        /** ProductCategoryItem */
+        backbone_common__models__pos__common__ProductCategoryItem: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string;
+            /**
+             * Id Parent
+             * @description Indicates if the category belongs to a parent category
+             */
+            id_parent?: string;
+        };
+        /** ProductPriceItem */
+        backbone_common__models__pos__common__ProductPriceItem: {
+            /** Unit Price */
+            unit_price: number;
+            /** Tax Rate */
+            tax_rate?: number;
+        };
         /** DiscountItem */
         backbone_common__models__pos_pms__DiscountItem: {
             /** Name */
             name?: string;
             /** Total */
             total: number;
+            /** @default UNKNOWN */
+            type: components['schemas']['DiscountType'];
         };
         /**
          * PaymentStatus
@@ -8679,6 +9383,39 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    generate_access_token_token_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AuthItem'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Token'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     consumers_get_consumers: {
         parameters: {
             query?: {
@@ -9768,6 +10505,49 @@ export interface operations {
             };
         };
     };
+    syncs_update_synctoconsumer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                syncid: string;
+                consumerid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['ReadSyncMappingItem'][];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
     syncs_enable_syncconsumer: {
         parameters: {
             query?: never;
@@ -9841,13 +10621,11 @@ export interface operations {
         };
         responses: {
             /** @description Successful Response */
-            200: {
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    'application/json': unknown;
-                };
+                content?: never;
             };
             /** @description Not Found */
             404: {
@@ -10121,10 +10899,9 @@ export interface operations {
     accounting_get_bookyears: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -10166,10 +10943,9 @@ export interface operations {
     accounting_get_analytic_plans: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -10211,12 +10987,11 @@ export interface operations {
     accounting_get_clients: {
         parameters: {
             query?: {
-                /** @description Filter based on the following fields: name, email, first_name, last_name, external_reference, vat and company_number */
-                search?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
+                search?: string;
+                updated_after?: string;
             };
             header?: never;
             path: {
@@ -10258,10 +11033,8 @@ export interface operations {
     accounting_create_client: {
         parameters: {
             query?: {
-                /** @description Indicate the ID of the corresponding supplier in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing supplier with the new client/customer (if the parameter is filled in with the ID of an existing supplier). */
-                force_merge?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
+                force_merge?: string;
             };
             header?: never;
             path: {
@@ -10307,13 +11080,12 @@ export interface operations {
     accounting_get_client: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
-                client_id: string;
                 consumer_id: string;
+                client_id: string;
             };
             cookie?: never;
         };
@@ -10360,13 +11132,12 @@ export interface operations {
     accounting_update_client: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
-                client_id: string;
                 consumer_id: string;
+                client_id: string;
             };
             cookie?: never;
         };
@@ -10417,12 +11188,11 @@ export interface operations {
     accounting_get_suppliers: {
         parameters: {
             query?: {
-                /** @description Filter based on the following fields: name, email, first_name, last_name, external_reference, vat and company_number */
-                search?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
+                search?: string;
+                updated_after?: string;
             };
             header?: never;
             path: {
@@ -10464,10 +11234,8 @@ export interface operations {
     accounting_create_supplier: {
         parameters: {
             query?: {
-                /** @description Indicate the ID of the corresponding client/customer in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing client/customer with the new supplier (if the parameter is filled in with the ID of an existing client/customer). */
-                force_merge?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
+                force_merge?: string;
             };
             header?: never;
             path: {
@@ -10513,13 +11281,12 @@ export interface operations {
     accounting_get_supplier: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
-                supplier_id: string;
                 consumer_id: string;
+                supplier_id: string;
             };
             cookie?: never;
         };
@@ -10566,13 +11333,12 @@ export interface operations {
     accounting_update_supplier: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
-                supplier_id: string;
                 consumer_id: string;
+                supplier_id: string;
             };
             cookie?: never;
         };
@@ -10623,15 +11389,9 @@ export interface operations {
     accounting_create_invoice: {
         parameters: {
             query?: {
-                /**
-                 * @description Financial period in which the invoice must be created. The format is the following: mmYYYY.
-                 * @example 022022
-                 */
-                force_financial_period?: string;
-                /** @description Regroup lines by account number, tax code and analytic account in the accounting system. */
-                regroup_lines?: components['schemas']['BoolParam'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
+                force_financial_period?: string;
+                regroup_lines?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -10686,15 +11446,9 @@ export interface operations {
     accounting_create_invoice_multiple_plans: {
         parameters: {
             query?: {
-                /**
-                 * @description Financial period in which the invoice must be created. The format is the following: mmYYYY.
-                 * @example 022022
-                 */
-                force_financial_period?: string;
-                /** @description Regroup lines by account number, tax code and analytic distribution in the accounting system. */
-                regroup_lines?: components['schemas']['BoolParam'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
+                force_financial_period?: string;
+                regroup_lines?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -10749,26 +11503,20 @@ export interface operations {
     accounting_get_invoices_by_type: {
         parameters: {
             query?: {
-                date_from?: string;
-                date_to?: string;
-                /**
-                 * @description Journal Ids used to filter the invoices. The Ids are separed by ','
-                 * @example 3,12
-                 */
-                journal_ids?: string;
-                /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
-                include_payments?: components['schemas']['BoolParam'];
-                /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
+                date_from?: string;
+                date_to?: string;
+                journal_ids?: string;
+                include_payments?: components['schemas']['BoolParam'];
+                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
+                updated_after?: string;
             };
             header?: never;
             path: {
-                invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
                 consumer_id: string;
+                invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             };
             cookie?: never;
         };
@@ -10803,18 +11551,67 @@ export interface operations {
             };
         };
     };
-    accounting_get_invoice: {
+    accounting_get_invoices_by_type_multi_analytic_plans: {
         parameters: {
             query?: {
-                /** @description Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null. */
-                include_payments?: components['schemas']['BoolParam'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
+                page?: number;
+                size?: number;
                 folder_id?: string;
+                date_from?: string;
+                date_to?: string;
+                journal_ids?: string;
+                include_payments?: components['schemas']['BoolParam'];
+                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
+                updated_after?: string;
             };
             header?: never;
             path: {
-                invoice_id: string;
                 consumer_id: string;
+                invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_InvoiceItemOutMultiAnalyticPlans_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_get_invoice: {
+        parameters: {
+            query?: {
+                folder_id?: string;
+                include_payments?: components['schemas']['BoolParam'];
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                invoice_id: string;
             };
             cookie?: never;
         };
@@ -10861,15 +11658,13 @@ export interface operations {
     accounting_get_invoice_multi_analytic_plans: {
         parameters: {
             query?: {
-                /** @description Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null. */
-                include_payments?: components['schemas']['BoolParam'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
+                include_payments?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
-                invoice_id: string;
                 consumer_id: string;
+                invoice_id: string;
             };
             cookie?: never;
         };
@@ -10913,70 +11708,12 @@ export interface operations {
             };
         };
     };
-    accounting_get_invoices_by_type_multi_analytic_plans: {
-        parameters: {
-            query?: {
-                date_from?: string;
-                date_to?: string;
-                /**
-                 * @description Journal Ids used to filter the invoices. The Ids are separed by ','
-                 * @example 3,12
-                 */
-                journal_ids?: string;
-                /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
-                include_payments?: components['schemas']['BoolParam'];
-                /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
-                page?: number;
-                size?: number;
-            };
-            header?: never;
-            path: {
-                invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'];
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftPage_InvoiceItemOutMultiAnalyticPlans_'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
     accounting_get_analytic_accounts: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -11018,7 +11755,6 @@ export interface operations {
     accounting_create_analytic_account: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
@@ -11065,13 +11801,12 @@ export interface operations {
     accounting_create_analytic_account_multi_plans: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
-                analytic_plan: string;
                 consumer_id: string;
+                analytic_plan: string;
             };
             cookie?: never;
         };
@@ -11113,13 +11848,12 @@ export interface operations {
     accounting_get_analytic_account: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
-                analytic_account_id: string;
                 consumer_id: string;
+                analytic_account_id: string;
             };
             cookie?: never;
         };
@@ -11166,13 +11900,12 @@ export interface operations {
     accounting_update_analytic_account: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
-                analytic_account_id: string;
                 consumer_id: string;
+                analytic_account_id: string;
             };
             cookie?: never;
         };
@@ -11223,14 +11956,13 @@ export interface operations {
     accounting_get_analytic_account_multi_plans: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
+                consumer_id: string;
                 analytic_account_id: string;
                 analytic_plan: string;
-                consumer_id: string;
             };
             cookie?: never;
         };
@@ -11277,14 +12009,13 @@ export interface operations {
     accounting_update_analytic_account_multi_plans: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
+                consumer_id: string;
                 analytic_account_id: string;
                 analytic_plan: string;
-                consumer_id: string;
             };
             cookie?: never;
         };
@@ -11335,10 +12066,9 @@ export interface operations {
     accounting_get_analytic_accounts_multi_plans: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -11380,15 +12110,15 @@ export interface operations {
     accounting_get_journal_entries: {
         parameters: {
             query: {
-                unposted_allowed: components['schemas']['BoolParam'];
-                date_from: string;
-                date_to: string;
-                journal_id: string;
-                partner_id?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
+                unposted_allowed: components['schemas']['BoolParam'];
+                journal_id: string;
+                date_from?: string;
+                date_to?: string;
+                updated_after?: string;
+                partner_id?: string;
             };
             header?: never;
             path: {
@@ -11430,7 +12160,6 @@ export interface operations {
     accounting_create_journal_entry: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
@@ -11483,18 +12212,18 @@ export interface operations {
             };
         };
     };
-    accounting_get_journal_entries_mutli_plan: {
+    accounting_get_journal_entries_multi_plan: {
         parameters: {
             query: {
-                unposted_allowed: components['schemas']['BoolParam'];
-                date_from: string;
-                date_to: string;
-                journal_id: string;
-                partner_id?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
+                unposted_allowed: components['schemas']['BoolParam'];
+                journal_id: string;
+                date_from?: string;
+                date_to?: string;
+                updated_after?: string;
+                partner_id?: string;
             };
             header?: never;
             path: {
@@ -11533,13 +12262,63 @@ export interface operations {
             };
         };
     };
+    accounting_get_journal_entry: {
+        parameters: {
+            query?: {
+                folder_id?: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                journal_entry_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['JournalEntryMultiAnalyticPlan'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_create_generic_journal_entry: {
         parameters: {
             query?: {
-                /** @description Force your own currency exchange rate when creating entries. */
-                force_currency_exchange?: components['schemas']['BoolParam'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
+                force_currency_exchange?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -11594,10 +12373,9 @@ export interface operations {
     accounting_get_payments_by_invoice: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -11649,10 +12427,9 @@ export interface operations {
     accounting_get_journals: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -11694,10 +12471,9 @@ export interface operations {
     accounting_get_vat_codes: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -11713,7 +12489,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['backbone_api__app__routers__accounting__ChiftPage[VatCode]'];
+                    'application/json': components['schemas']['ChiftPage_AccountingVatCode_'];
                 };
             };
             /** @description Bad Request */
@@ -11739,17 +12515,12 @@ export interface operations {
     accounting_get_miscellaneous_operations: {
         parameters: {
             query?: {
-                date_from?: string;
-                date_to?: string;
-                /**
-                 * @description Journal Ids used to filter the invoices. The Ids are separed by ','
-                 * @example 3,12
-                 */
-                journal_ids?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
+                date_from?: string;
+                date_to?: string;
+                journal_ids?: string;
             };
             header?: never;
             path: {
@@ -11791,7 +12562,6 @@ export interface operations {
     accounting_create_miscellaneous_operation: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
@@ -11847,7 +12617,6 @@ export interface operations {
     accounting_get_miscellaneous_operation: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
@@ -11891,7 +12660,6 @@ export interface operations {
     accounting_match_entries: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
@@ -11944,18 +12712,71 @@ export interface operations {
             };
         };
     };
-    accounting_add_attachment: {
+    accounting_match_entries_multiple: {
         parameters: {
             query?: {
-                /** @description Indicate what to do if a document is already attched to the invoice. */
-                overwrite_existing?: components['schemas']['BoolParam'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
             };
             header?: never;
             path: {
-                invoice_id: string;
                 consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['MultipleMatchingIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['MultipleMatchingOut'][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_add_attachment: {
+        parameters: {
+            query?: {
+                folder_id?: string;
+                overwrite_existing?: components['schemas']['BoolParam'];
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                invoice_id: string;
             };
             cookie?: never;
         };
@@ -12003,15 +12824,59 @@ export interface operations {
             };
         };
     };
+    accounting_get_attachments: {
+        parameters: {
+            query: {
+                folder_id?: string;
+                type: components['schemas']['DocumentType'];
+                document_id: string;
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_AttachmentItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_get_chart_of_accounts: {
         parameters: {
             query?: {
-                /** @description Filter based on the class of the account (e.g. 6,7 to retrieve 6 and 7 account classes). The classes are separed by ','. */
-                classes?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
+                classes?: string;
             };
             header?: never;
             path: {
@@ -12053,10 +12918,9 @@ export interface operations {
     accounting_get_accounts_balances: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -12102,10 +12966,9 @@ export interface operations {
     accounting_get_employees: {
         parameters: {
             query?: {
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
             };
             header?: never;
             path: {
@@ -12147,10 +13010,8 @@ export interface operations {
     accounting_create_financial_entry: {
         parameters: {
             query?: {
-                /** @description Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty. */
-                financial_counterpart_account?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
+                financial_counterpart_account?: string;
             };
             header?: never;
             path: {
@@ -12205,10 +13066,8 @@ export interface operations {
     accounting_create_financial_entries: {
         parameters: {
             query?: {
-                /** @description Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty. */
-                financial_counterpart_account?: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
                 folder_id?: string;
+                financial_counterpart_account?: string;
             };
             header?: never;
             path: {
@@ -12263,12 +13122,11 @@ export interface operations {
     accounting_get_outstandings: {
         parameters: {
             query: {
-                type: components['schemas']['OutstandingType'];
-                unposted_allowed: components['schemas']['BoolParam'];
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
                 page?: number;
                 size?: number;
+                folder_id?: string;
+                type: components['schemas']['OutstandingType'];
+                unposted_allowed: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -12307,62 +13165,15 @@ export interface operations {
             };
         };
     };
-    accounting_get_attachments: {
-        parameters: {
-            query: {
-                type: components['schemas']['DocumentType'];
-                document_id: string;
-                /** @description Accounting folder ID, this needs to be passed when activating the multiple folders feature. */
-                folder_id?: string;
-                page?: number;
-                size?: number;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftPage_AttachmentItemOut_'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
     pos_get_orders: {
         parameters: {
             query: {
+                page?: number;
+                size?: number;
                 date_from: string;
                 date_to: string;
                 location_id?: string;
                 state?: components['schemas']['States'];
-                page?: number;
-                size?: number;
             };
             header?: never;
             path: {
@@ -12614,10 +13425,10 @@ export interface operations {
     pos_get_payments: {
         parameters: {
             query: {
-                date_from: string;
-                date_to: string;
                 page?: number;
                 size?: number;
+                date_from: string;
+                date_to: string;
             };
             header?: never;
             path: {
@@ -12739,9 +13550,9 @@ export interface operations {
     pos_get_payments_methods: {
         parameters: {
             query?: {
-                location_id?: string;
                 page?: number;
                 size?: number;
+                location_id?: string;
             };
             header?: never;
             path: {
@@ -12801,14 +13612,11 @@ export interface operations {
     pos_get_customers: {
         parameters: {
             query?: {
-                /** @description Filter based on other parameters than the email/phone, e.g. firstname, lastname */
-                search?: string;
-                /** @description Filter based on email of customer */
-                email?: string;
-                /** @description Filter based on phone of customer */
-                phone?: string;
                 page?: number;
                 size?: number;
+                search?: string;
+                email?: string;
+                phone?: string;
             };
             header?: never;
             path: {
@@ -12998,10 +13806,10 @@ export interface operations {
     pos_get_product_categories: {
         parameters: {
             query?: {
-                location_id?: string;
-                only_parents?: components['schemas']['BoolParam'];
                 page?: number;
                 size?: number;
+                location_id?: string;
+                only_parents?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -13061,9 +13869,9 @@ export interface operations {
     pos_get_products: {
         parameters: {
             query?: {
-                location_id?: string;
                 page?: number;
                 size?: number;
+                location_id?: string;
             };
             header?: never;
             path: {
@@ -13123,9 +13931,9 @@ export interface operations {
     pos_get_accounting_categories: {
         parameters: {
             query?: {
-                location_id?: string;
                 page?: number;
                 size?: number;
+                location_id?: string;
             };
             header?: never;
             path: {
@@ -13291,8 +14099,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                customer_id: string;
                 consumer_id: string;
+                customer_id: string;
             };
             cookie?: never;
         };
@@ -13384,8 +14192,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                product_id: string;
                 consumer_id: string;
+                product_id: string;
             };
             cookie?: never;
         };
@@ -13397,7 +14205,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['backbone_api__app__routers__commerce__ProductItem'];
+                    'application/json': components['schemas']['backbone_common__models__commerce__common__ProductItem'];
                 };
             };
             /** @description Bad Request */
@@ -13434,8 +14242,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                variant_id: string;
                 consumer_id: string;
+                variant_id: string;
             };
             cookie?: never;
         };
@@ -13484,8 +14292,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                variant_id: string;
                 consumer_id: string;
+                variant_id: string;
             };
             cookie?: never;
         };
@@ -13579,20 +14387,14 @@ export interface operations {
     ecommerce_get_orders: {
         parameters: {
             query?: {
-                /** @description Filter orders created at or after this date (e.g. 2023-01-31) */
-                date_from?: string;
-                /** @description Filter orders created at or before this date (e.g. 2023-01-31) */
-                date_to?: string;
-                /** @description Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
-                updated_after?: string;
-                /** @description Include detailed information concerning refunds */
-                include_detailed_refunds?: components['schemas']['BoolParam'];
-                /** @description Include detailed information about categories */
-                include_product_categories?: components['schemas']['BoolParam'];
-                /** @description Include detailed information about customer */
-                include_customer_details?: components['schemas']['BoolParam'];
                 page?: number;
                 size?: number;
+                date_from?: string;
+                date_to?: string;
+                updated_after?: string;
+                include_detailed_refunds?: components['schemas']['BoolParam'];
+                include_product_categories?: components['schemas']['BoolParam'];
+                include_customer_details?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -13678,13 +14480,14 @@ export interface operations {
     ecommerce_get_order: {
         parameters: {
             query?: {
-                /** @description Include detailed information about categories */
+                page?: number;
+                size?: number;
                 include_product_categories?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
-                order_id: string;
                 consumer_id: string;
+                order_id: string;
             };
             cookie?: never;
         };
@@ -13774,9 +14577,9 @@ export interface operations {
     ecommerce_get_product_categories: {
         parameters: {
             query?: {
-                only_parents?: components['schemas']['BoolParam'];
                 page?: number;
                 size?: number;
+                only_parents?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -13904,15 +14707,14 @@ export interface operations {
     invoicing_get_invoices: {
         parameters: {
             query?: {
-                /** @description Filter based on the type of the invoice. */
-                invoice_type?: components['schemas']['InvoiceTypeRequest'];
-                /** @description Filter paid/unpaid invoices */
-                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
-                date_from?: string;
-                date_to?: string;
-                updated_after?: string;
                 page?: number;
                 size?: number;
+                date_from?: string;
+                date_to?: string;
+                invoice_type?: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
+                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
+                updated_after?: string;
+                include_invoice_lines?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -13962,7 +14764,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['InvoiceItem'];
+                'application/json': components['schemas']['backbone_common__models__invoicing__common__InvoiceItem'];
             };
         };
         responses: {
@@ -13998,13 +14800,12 @@ export interface operations {
     invoicing_get_invoice: {
         parameters: {
             query?: {
-                /** @description Include PDF as base64 string in the response. */
                 include_pdf?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
-                invoice_id: string;
                 consumer_id: string;
+                invoice_id: string;
             };
             cookie?: never;
         };
@@ -14068,7 +14869,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['backbone_api__app__routers__invoicing__ChiftPage[VatCode]'];
+                    'application/json': components['schemas']['ChiftPage_InvoicingVatCode_'];
                 };
             };
             /** @description Bad Request */
@@ -14096,8 +14897,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                tax_id: string;
                 consumer_id: string;
+                tax_id: string;
             };
             cookie?: never;
         };
@@ -14109,7 +14910,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['backbone_common__models__invoicing__VatCode'];
+                    'application/json': components['schemas']['InvoicingVatCode'];
                 };
             };
             /** @description Bad Request */
@@ -14195,7 +14996,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['backbone_common__models__invoicing__ProductItem'];
+                'application/json': components['schemas']['backbone_common__models__invoicing__common__ProductItem'];
             };
         };
         responses: {
@@ -14233,8 +15034,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                product_id: string;
                 consumer_id: string;
+                product_id: string;
             };
             cookie?: never;
         };
@@ -14326,8 +15127,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                opportunity_id: string;
                 consumer_id: string;
+                opportunity_id: string;
             };
             cookie?: never;
         };
@@ -14374,10 +15175,9 @@ export interface operations {
     invoicing_get_contacts: {
         parameters: {
             query?: {
-                /** @description Filter based on the type of the contact (e.g. supplier/customer/prospect). */
-                contact_type?: components['schemas']['ContactType'];
                 page?: number;
                 size?: number;
+                contact_type?: components['schemas']['ContactType'];
             };
             header?: never;
             path: {
@@ -14465,8 +15265,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                contact_id: string;
                 consumer_id: string;
+                contact_id: string;
             };
             cookie?: never;
         };
@@ -14492,6 +15292,94 @@ export interface operations {
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_get_payments: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+                date_from?: string;
+                date_to?: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_InvoicingPaymentItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_get_payments_methods: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_InvoicingPaymentMethodItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14599,11 +15487,11 @@ export interface operations {
     banking_get_account_transactions: {
         parameters: {
             query?: {
+                page?: number;
+                size?: number;
                 date_from?: string;
                 date_to?: string;
                 date_type?: components['schemas']['TransactionFilterDateType'];
-                page?: number;
-                size?: number;
             };
             header?: never;
             path: {
@@ -14646,11 +15534,11 @@ export interface operations {
     banking_get_account_counterparts: {
         parameters: {
             query?: {
-                accountid?: string;
-                date_from?: string;
-                date_to?: string;
                 page?: number;
                 size?: number;
+                account_id?: string;
+                date_from?: string;
+                date_to?: string;
             };
             header?: never;
             path: {
@@ -14735,16 +15623,13 @@ export interface operations {
     payment_get_transaction: {
         parameters: {
             query?: {
-                /** @description Filter based on the type of the transaction. */
+                page?: number;
+                size?: number;
                 accounting_category?: components['schemas']['TransactionAccountingCategory'];
-                /** @description Get all transactions more recent than this one excluded */
                 starting_from?: string;
-                /** @description Get all transactions for a specific balance */
                 balance_id?: string;
                 date_from?: string;
                 date_to?: string;
-                page?: number;
-                size?: number;
             };
             header?: never;
             path: {
@@ -14786,10 +15671,10 @@ export interface operations {
     payment_get_payments: {
         parameters: {
             query?: {
-                date_from?: string;
-                date_to?: string;
                 page?: number;
                 size?: number;
+                date_from?: string;
+                date_to?: string;
             };
             header?: never;
             path: {
@@ -14833,8 +15718,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                payment_id: string;
                 consumer_id: string;
+                payment_id: string;
             };
             cookie?: never;
         };
@@ -14881,12 +15766,11 @@ export interface operations {
     payment_get_refunds: {
         parameters: {
             query?: {
-                /** @description Optional payment ID, to retrieve all refunds associated with that payment. */
+                page?: number;
+                size?: number;
                 payment_id?: string;
                 date_from?: string;
                 date_to?: string;
-                page?: number;
-                size?: number;
             };
             header?: never;
             path: {
@@ -14928,10 +15812,135 @@ export interface operations {
     pms_get_orders: {
         parameters: {
             query: {
+                page?: number;
+                size?: number;
                 date_from: string;
                 date_to: string;
                 location_id?: string;
                 state?: components['schemas']['PMSStates'];
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PMSOrderItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    pms_get_invoices: {
+        parameters: {
+            query: {
+                page?: number;
+                size?: number;
+                date_from: string;
+                date_to: string;
+                location_id?: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PMSInvoiceFullItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    pms_get_customers: {
+        parameters: {
+            query?: {
                 page?: number;
                 size?: number;
             };
@@ -14949,7 +15958,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['ChiftPage_PMSOrderItem_'];
+                    'application/json': components['schemas']['ChiftPage_PMSCustomerItem_'];
                 };
             };
             /** @description Bad Request */
@@ -15054,10 +16063,10 @@ export interface operations {
     pms_get_payments: {
         parameters: {
             query: {
-                date_from: string;
-                date_to: string;
                 page?: number;
                 size?: number;
+                date_from: string;
+                date_to: string;
             };
             header?: never;
             path: {
@@ -15117,9 +16126,9 @@ export interface operations {
     pms_get_payments_methods: {
         parameters: {
             query?: {
-                location_id?: string;
                 page?: number;
                 size?: number;
+                location_id?: string;
             };
             header?: never;
             path: {
@@ -15294,39 +16303,6 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ChiftError'];
-                };
-            };
-        };
-    };
-    generate_access_token_token_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['AuthItem'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['Token'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };

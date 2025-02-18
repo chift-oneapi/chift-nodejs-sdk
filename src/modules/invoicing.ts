@@ -109,6 +109,18 @@ const invoicingFactory = {
             body: contact,
         };
     },
+    getPayments(): RequestData<components['schemas']['InvoicingPaymentItem'][]> {
+        return {
+            method: 'get',
+            url: `/consumers/{consumer_id}/invoicing/payments`,
+        };
+    },
+    getPaymentMethods(): RequestData<components['schemas']['InvoicingPaymentMethodItem'][]> {
+        return {
+            method: 'get',
+            url: `/consumers/{consumer_id}/invoicing/payment-methods`,
+        };
+    },
 };
 
 export { invoicingFactory };

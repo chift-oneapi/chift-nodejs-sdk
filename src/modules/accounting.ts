@@ -69,6 +69,10 @@ type GetAnalyticAccountsWithMultiplePlansParams = AutoPaginatedParams<
     operations['accounting_get_analytic_accounts_multi_plans']['parameters']['query']
 >;
 
+type GetBookyearsParams = AutoPaginatedParams<
+    operations['accounting_get_bookyears']['parameters']['query']
+>;
+
 const accountingFactory = {
     getAnalyticPlans(
         params?: GetAnalyticPlansParams
@@ -499,10 +503,28 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/matching',
         };
     },
+    matchEntriesMultiple(
+        body: components['schemas']['MultipleMatchingIn'],
+        params?: operations['accounting_match_entries_multiple']['parameters']['query']
+    ): RequestData<components['schemas']['MultipleMatchingOut'][]> {
+        return {
+            params,
+            body,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/matching-multiple',
+        };
+    },
     getFolders(): RequestData<components['schemas']['FolderItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/folders',
+        };
+    },
+    getBookyears(params?: GetBookyearsParams): RequestData<components['schemas']['BookYear'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/bookyears',
         };
     },
 };
