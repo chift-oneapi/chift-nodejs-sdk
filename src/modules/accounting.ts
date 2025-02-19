@@ -351,7 +351,7 @@ const accountingFactory = {
     },
     getVatCodes(
         params?: GetVatCodesParams
-    ): RequestData<components['schemas']['ChiftPage_AccountingVatCode_'][]> {
+    ): RequestData<components['schemas']['AccountingVatCode'][]> {
         return {
             params,
             method: 'get',

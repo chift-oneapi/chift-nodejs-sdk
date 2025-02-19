@@ -50,7 +50,7 @@ test('getProductById', async () => {
     expect(product).toHaveProperty('id', expect.any(String));
 });
 
-let vatCodes: components['schemas']['backbone_common__models__invoicing__VatCode'][];
+let vatCodes: components['schemas']['InvoicingVatCode'][];
 test('getTaxes', async () => {
     vatCodes = await consumer.invoicing.getTaxes();
     expect(vatCodes).toBeInstanceOf(Array);

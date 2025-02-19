@@ -59,13 +59,13 @@ const invoicingFactory = {
             body: product,
         };
     },
-    getTaxes(): RequestData<components['schemas']['ChiftPage_InvoicingVatCode_'][]> {
+    getTaxes(): RequestData<components['schemas']['InvoicingVatCode'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/taxes`,
         };
     },
-    getTaxById(taxId: string): RequestData<components['schemas']['ChiftPage_InvoicingVatCode_']> {
+    getTaxById(taxId: string): RequestData<components['schemas']['InvoicingVatCode']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/taxes/${taxId}`,
