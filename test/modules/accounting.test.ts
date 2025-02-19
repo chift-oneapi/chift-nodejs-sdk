@@ -645,3 +645,8 @@ test.skip('matchEntries', async () => {
     expect(match).toHaveProperty('matching_number', expect.any(String));
     expect(match).toHaveProperty('balance', expect.any(Number));
 });
+
+test('getBookyears', async () => {
+    const bookyears = await consumer.accounting.getBookyears();
+    expect(bookyears).toBeInstanceOf(Array);
+});
