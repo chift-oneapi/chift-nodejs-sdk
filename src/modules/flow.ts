@@ -29,6 +29,14 @@ const Flow = (
         return response;
     };
 
+    const getConsumerExecutions = async (consumerId: string) => {
+        const { data: response }: { data: components['schemas']['ChainExecutionItem'][] } =
+            await _internalApi.get(
+                `/consumers/${consumerId}/syncs/${_syncid}/flows/${data.id}/executions`
+            );
+        return response;
+    };
+
     /**
      * Internal use: Function used to execute a flow while testing locally or by calling the sendEvent function
      */
@@ -159,6 +167,7 @@ const Flow = (
     return {
         execute,
         getExecution,
+        getConsumerExecutions,
         executeLocal,
         flowId: data.id,
         name: data.name,

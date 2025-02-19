@@ -63,6 +63,29 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['ReadSyncIte
         return myflow;
     };
 
+    const sendCustomEvent = async (
+        flowid: string,
+        eventData: components['schemas']['PostSyncFlowEvent']
+    ) => {
+        const { data }: { data: components['schemas']['TriggerResponse'] } =
+            await _internalApi.post(`/syncs/${syncid}/flows/${flowid}/event`, eventData);
+        return data;
+    };
+
+    const getConsumerExecutions = async (consumerid: string, flowid: string) => {
+        const { data }: { data: components['schemas']['ChainExecutionItem'][] } =
+            await _internalApi.get(
+                `/consumers/${consumerid}/syncs/${syncid}/flows/${flowid}/executions`
+            );
+        return data;
+    };
+
+    const getExecution = async (flowid: string, executionid: string) => {
+        const { data }: { data: components['schemas']['ChainExecutionItem'] } =
+            await _internalApi.get(`/syncs/${syncid}/flows/${flowid}/executions/${executionid}`);
+        return data;
+    };
+
     return {
         createFlow,
         getFlows,
@@ -71,6 +94,9 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['ReadSyncIte
         name,
         consumers,
         syncid,
+        sendCustomEvent,
+        getConsumerExecutions,
+        getExecution,
     };
 };
 

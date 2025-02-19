@@ -182,6 +182,27 @@ const Consumer = (
         return response;
     };
 
+    const updateConsumer = async (body: components['schemas']['UpdateConsumerItem']) => {
+        const { data }: { data: components['schemas']['ConsumerItem'] } = await _internalApi.patch(
+            `/consumers/${consumerId}`,
+            body
+        );
+        return data;
+    };
+
+    const updateFlowConfig = async (
+        syncId: string,
+        flowId: string,
+        body: components['schemas']['UpdateFlowConsumer']
+    ) => {
+        const { data }: { data: components['schemas']['ReadFlowConsumerItem'] } =
+            await _internalApi.patch(
+                `/consumers/${consumerId}/syncs/${syncId}/flows/${flowId}`,
+                body
+            );
+        return data;
+    };
+
     return {
         consumerId,
         getConnections,
@@ -210,6 +231,8 @@ const Consumer = (
         logData,
         setConnectionId,
         setIntegrationId,
+        updateConsumer,
+        updateFlowConfig,
     };
 };
 
