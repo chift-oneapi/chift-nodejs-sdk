@@ -38,7 +38,7 @@ type GetJournalEntriesParams = AutoPaginatedParams<
 >;
 
 type GetJournalEntriesWithMultiplePlansParams = AutoPaginatedParams<
-    operations['accounting_get_journal_entries_mutli_plan']['parameters']['query']
+    operations['accounting_get_journal_entries_multi_plan']['parameters']['query']
 >;
 
 type GetEmployeesParams = AutoPaginatedParams<
@@ -67,6 +67,10 @@ type GetAnalyticAccountsParams = AutoPaginatedParams<
 
 type GetAnalyticAccountsWithMultiplePlansParams = AutoPaginatedParams<
     operations['accounting_get_analytic_accounts_multi_plans']['parameters']['query']
+>;
+
+type GetBookyearsParams = AutoPaginatedParams<
+    operations['accounting_get_bookyears']['parameters']['query']
 >;
 
 const accountingFactory = {
@@ -184,7 +188,7 @@ const accountingFactory = {
         };
     },
     getInvoicesByType(
-        invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'],
+        invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'],
         params?: GetInvoicesByTypeParams
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan'][]> {
         return {
@@ -214,7 +218,7 @@ const accountingFactory = {
         };
     },
     getInvoicesByTypeWithMultiplePlans(
-        invoice_type: components['schemas']['backbone_api__app__routers__accounting__InvoiceType'],
+        invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'],
         params?: GetInvoicesByTypeWithMultiplePlansParams
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans'][]> {
         return {
@@ -347,7 +351,7 @@ const accountingFactory = {
     },
     getVatCodes(
         params?: GetVatCodesParams
-    ): RequestData<components['schemas']['backbone_api__app__routers__accounting__VatCode'][]> {
+    ): RequestData<components['schemas']['AccountingVatCode'][]> {
         return {
             params,
             method: 'get',
@@ -499,10 +503,28 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/matching',
         };
     },
+    matchEntriesMultiple(
+        body: components['schemas']['MultipleMatchingIn'],
+        params?: operations['accounting_match_entries_multiple']['parameters']['query']
+    ): RequestData<components['schemas']['MultipleMatchingOut'][]> {
+        return {
+            params,
+            body,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/matching-multiple',
+        };
+    },
     getFolders(): RequestData<components['schemas']['FolderItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/folders',
+        };
+    },
+    getBookyears(params?: GetBookyearsParams): RequestData<components['schemas']['BookYear'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/bookyears',
         };
     },
 };

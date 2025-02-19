@@ -27,7 +27,7 @@ const ecommerceFactory = {
         };
     },
     getProducts(): RequestData<
-        components['schemas']['backbone_api__app__routers__commerce__ProductItem'][]
+        components['schemas']['backbone_common__models__commerce__common__ProductItem'][]
     > {
         return {
             method: 'get',
@@ -42,7 +42,9 @@ const ecommerceFactory = {
     },
     getProduct(
         productId: string
-    ): RequestData<components['schemas']['backbone_api__app__routers__commerce__ProductItem']> {
+    ): RequestData<
+        components['schemas']['backbone_common__models__commerce__common__ProductItem']
+    > {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/products/${productId}`,

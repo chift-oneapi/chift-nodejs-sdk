@@ -40,7 +40,7 @@ test('getJournals', async () => {
     expect(journals[0]).toHaveProperty('journal_type', expect.any(String));
 });
 
-let vatCodes: components['schemas']['backbone_api__app__routers__accounting__VatCode'][];
+let vatCodes: components['schemas']['AccountingVatCode'][];
 test('getVatCodes', async () => {
     vatCodes = await consumer.accounting.getVatCodes();
     expect(vatCodes).toBeInstanceOf(Array);
@@ -644,4 +644,9 @@ test.skip('matchEntries', async () => {
     });
     expect(match).toHaveProperty('matching_number', expect.any(String));
     expect(match).toHaveProperty('balance', expect.any(Number));
+});
+
+test('getBookyears', async () => {
+    const bookyears = await consumer.accounting.getBookyears();
+    expect(bookyears).toBeInstanceOf(Array);
 });

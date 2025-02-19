@@ -13,6 +13,11 @@ type GetAccountingCategoriesParams = AutoPaginatedParams<
 
 type GetOrdersParams = AutoPaginatedParams<operations['pms_get_orders']['parameters']['query']>;
 
+type GetCustomersParams = AutoPaginatedParams<
+    operations['pms_get_customers']['parameters']['query']
+>;
+type GetInvoicesParams = AutoPaginatedParams<operations['pms_get_invoices']['parameters']['query']>;
+
 const pmsFactory = {
     getLocations(): RequestData<components['schemas']['PMSLocationItem'][]> {
         return {
@@ -60,6 +65,24 @@ const pmsFactory = {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pms/accounting-categories`,
+        };
+    },
+    getCustomers(
+        params?: GetCustomersParams
+    ): RequestData<components['schemas']['PMSCustomerItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/pms/customers',
+        };
+    },
+    getInvoices(
+        params?: GetInvoicesParams
+    ): RequestData<components['schemas']['PMSInvoiceFullItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/pms/invoices',
         };
     },
 };

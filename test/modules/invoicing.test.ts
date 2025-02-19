@@ -50,7 +50,7 @@ test('getProductById', async () => {
     expect(product).toHaveProperty('id', expect.any(String));
 });
 
-let vatCodes: components['schemas']['backbone_common__models__invoicing__VatCode'][];
+let vatCodes: components['schemas']['InvoicingVatCode'][];
 test('getTaxes', async () => {
     vatCodes = await consumer.invoicing.getTaxes();
     expect(vatCodes).toBeInstanceOf(Array);
@@ -95,4 +95,21 @@ test('getContactById', async () => {
 
     const contact = await consumer.invoicing.getContactById(contacts[0].id);
     expect(contact).toHaveProperty('id', expect.any(String));
+});
+
+test('getPayments', async () => {
+    const payments = await consumer.invoicing.getPayments();
+    expect(payments).toBeInstanceOf(Array);
+    expect(payments.length).toBeGreaterThan(0);
+    expect(payments[0]).toHaveProperty('id', expect.any(String));
+    expect(payments[0]).toHaveProperty('date', expect.any(String));
+    expect(payments[0]).toHaveProperty('amount', expect.any(Number));
+});
+
+test('getPaymentMethods', async () => {
+    const paymentMethods = await consumer.invoicing.getPaymentMethods();
+    expect(paymentMethods).toBeInstanceOf(Array);
+    expect(paymentMethods.length).toBeGreaterThan(0);
+    expect(paymentMethods[0]).toHaveProperty('id', expect.any(String));
+    expect(paymentMethods[0]).toHaveProperty('name', expect.any(String));
 });

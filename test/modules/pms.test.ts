@@ -67,3 +67,22 @@ test.skip('getAccountingCategories', async () => {
     expect(accountingCategories.length).toBeGreaterThan(0);
     expect(accountingCategories[0]).toHaveProperty('id', expect.any(String));
 });
+
+test.skip('getCustomers', async () => {
+    const customers: components['schemas']['PMSCustomerItem'][] = await consumer.pms.getCustomers();
+    expect(customers).toBeInstanceOf(Array);
+    expect(customers.length).toBeGreaterThan(0);
+    expect(customers[0]).toHaveProperty('id', expect.any(String));
+    expect(customers[0]).toHaveProperty('source_ref');
+    expect(customers[0]).toHaveProperty('account_number');
+});
+
+test.skip('getInvoices', async () => {
+    const invoices: components['schemas']['PMSInvoiceFullItem'][] = await consumer.pms.getInvoices({
+        date_from: '2023-01-01',
+        date_to: '2023-01-31',
+    });
+    expect(invoices).toBeInstanceOf(Array);
+    expect(invoices.length).toBeGreaterThan(0);
+    expect(invoices[0]).toHaveProperty('id', expect.any(String));
+});

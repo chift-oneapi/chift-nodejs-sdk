@@ -1,4 +1,4 @@
-import { operations } from '../types/public-api/schema';
+import { operations, components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { chiftOperations } from '../types/public-api/mappings';
 
@@ -16,8 +16,17 @@ const Integrations = (internalApi: InternalAPI) => {
         return data;
     };
 
+    const getIntegrationLogo = async (
+        integrationId: number,
+        imageType: components['schemas']['ImageType']
+    ) => {
+        const { data } = await _internalApi.get(`/integrations/${integrationId}/${imageType}.json`);
+        return data;
+    };
+
     return {
         getIntegrations,
+        getIntegrationLogo,
     };
 };
 

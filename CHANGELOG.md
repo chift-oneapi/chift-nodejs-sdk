@@ -110,3 +110,52 @@
 ## 1.0.18 - 2024-09-24
 
 -   Fix missing type declarations
+
+## 1.0.21 - 2025-02-19
+
+### Accounting
+
+-   matchEntriesMultiple
+-   getBookyears
+
+### Consumer
+
+-   updateConsumer
+-   updateFlowConfig
+
+### Datastores
+
+-   getConsumerDataStoreData
+-   createConsumerDataStoreData
+-   updateConsumerDataStoreData
+-   deleteConsumerDataStoreData
+
+### Flow
+
+-   getConsumerExecutions
+
+### Integrations
+
+-   getIntegrationLogo
+
+### Invoicing
+
+-   getPayments
+-   getPaymentMethods
+
+### PMS
+
+-   getCustomers
+-   getInvoices
+
+### Sync
+
+-   sendCustomEvent
+-   getConsumerExecutions
+-   getExecution
+
+### Syncs
+
+-   sendCustomEvent
+-   getConsumerExecutions
+-   getExecution
