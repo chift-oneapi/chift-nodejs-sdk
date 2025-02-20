@@ -464,7 +464,7 @@ const accountingFactory = {
     createFinancialEntry(
         financial_entry: components['schemas']['FinancialEntryItemIn'],
         params?: operations['accounting_create_financial_entries']['parameters']['query']
-    ): RequestData<components['schemas']['FinancialEntryItemOut'][]> {
+    ): RequestData<components['schemas']['FinancialEntryItemOut']> {
         return {
             params,
             method: 'post',
