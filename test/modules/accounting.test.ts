@@ -40,6 +40,16 @@ test('getJournals', async () => {
     expect(journals[0]).toHaveProperty('journal_type', expect.any(String));
 });
 
+test('createJournal', async () => {
+    const journal = await consumer.accounting.createJournal({
+        name: 'Test Journal',
+        code: 'TJ',
+        journal_type: 'bank',
+    });
+    expect(journal).toBeTruthy();
+    expect(journal).toHaveProperty('name', 'Test Journal');
+});
+
 let vatCodes: components['schemas']['AccountingVatCode'][];
 test('getVatCodes', async () => {
     vatCodes = await consumer.accounting.getVatCodes();

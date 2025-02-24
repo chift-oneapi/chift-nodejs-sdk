@@ -349,6 +349,17 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/journals`,
         };
     },
+    createJournal(
+        journal: components['schemas']['JournalIn'],
+        params?: operations['accounting_create_journal']['parameters']['query']
+    ): RequestData<components['schemas']['Journal']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/journals',
+            body: journal,
+        };
+    },
     getVatCodes(
         params?: GetVatCodesParams
     ): RequestData<components['schemas']['AccountingVatCode'][]> {
