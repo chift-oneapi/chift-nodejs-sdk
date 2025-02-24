@@ -227,6 +227,17 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/${invoice_type}`,
         };
     },
+    createLedgerAccount(
+        ledgerAccount: components['schemas']['LedgerAccountItemIn'],
+        params?: operations['accounting_create_ledger_account']['parameters']['query']
+    ): RequestData<components['schemas']['AccountItem']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/accounts',
+            body: ledgerAccount,
+        };
+    },
     createAnalyticAccount(
         analyticAccount: components['schemas']['AnalyticAccountItemIn'],
         params?: operations['accounting_create_analytic_account']['parameters']['query']

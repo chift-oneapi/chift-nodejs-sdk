@@ -321,6 +321,16 @@ test('getInvoiceWithMultiplePlans', async () => {
     expect(invoice).toBeTruthy();
 });
 
+test('createLedgerAccount', async () => {
+    const body: components['schemas']['LedgerAccountItemIn'] = {
+        name: 'sdk test',
+        number: '1324',
+    };
+    const ledgerAccount = await consumer.accounting.createAnalyticAccount(body);
+    expect(ledgerAccount).toBeTruthy();
+    expect(ledgerAccount).toHaveProperty('name', 'sdk test');
+});
+
 test('createAnalyticAccount', async () => {
     const body: components['schemas']['AnalyticAccountItemIn'] = {
         active: false,
