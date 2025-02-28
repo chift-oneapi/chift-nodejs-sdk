@@ -538,6 +538,16 @@ const accountingFactory = {
             body: account,
         };
     },
+    getJournalEntry(
+        journalEntryId: string,
+        params?: operations['accounting_get_journal_entry']['parameters']['query']
+    ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/journal/entries/${journalEntryId}`,
+        };
+    },
 };
 
 export { accountingFactory };

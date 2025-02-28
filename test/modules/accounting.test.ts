@@ -449,9 +449,10 @@ test.skip('createJournalEntry', async () => {
     expect(journalEntry).toHaveProperty('journal_id', journal.id);
 });
 
+let journalEntries: components['schemas']['JournalEntryMonoAnalyticPlan'][];
 test('getJournalEntries', async () => {
-    const journalEntries = await consumer.accounting.getJournalEntries({
-        unposted_allowed: true,
+    journalEntries = await consumer.accounting.getJournalEntries({
+        unposted_allowed: 'true',
         date_from: '2022-01-01',
         date_to: '2022-01-31',
         journal_id: journals[0].id,
@@ -659,4 +660,10 @@ test('createLedgerAccount', async () => {
     const ledgerAccount = await consumer.accounting.createLedgerAccount(body);
     expect(ledgerAccount).toBeTruthy();
     expect(ledgerAccount).toHaveProperty('name', 'sdk test');
+});
+
+test('getJournalEntry', async () => {
+    if (!journalEntries?.[0].id) throw new Error('Journal entry ID is required');
+    const journalEntry = await consumer.accounting.getJournalEntry(journalEntries[0].id);
+    expect(journalEntry).toBeTruthy();
 });
