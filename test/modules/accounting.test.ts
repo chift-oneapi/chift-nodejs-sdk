@@ -650,3 +650,13 @@ test('getBookyears', async () => {
     const bookyears = await consumer.accounting.getBookyears();
     expect(bookyears).toBeInstanceOf(Array);
 });
+
+test('createLedgerAccount', async () => {
+    const body: components['schemas']['LedgerAccountItemIn'] = {
+        name: 'sdk test',
+        number: '1324',
+    };
+    const ledgerAccount = await consumer.accounting.createLedgerAccount(body);
+    expect(ledgerAccount).toBeTruthy();
+    expect(ledgerAccount).toHaveProperty('name', 'sdk test');
+});

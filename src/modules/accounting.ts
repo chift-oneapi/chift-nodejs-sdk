@@ -527,6 +527,17 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/bookyears',
         };
     },
+    createLedgerAccount(
+        account: components['schemas']['LedgerAccountItemIn'],
+        params?: operations['accounting_create_ledger_account']['parameters']['query']
+    ): RequestData<components['schemas']['AccountItem']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/accounts',
+            body: account,
+        };
+    },
 };
 
 export { accountingFactory };
