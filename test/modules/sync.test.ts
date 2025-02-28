@@ -1,6 +1,7 @@
 import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
+import { Sync } from '../../src/modules/sync';
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const client = new chift.API({
 
 const flowName = 'CI GENERATED';
 
-let sync: any;
+let sync: ReturnType<typeof Sync>;
 
 beforeAll(async () => {
     const syncId = process.env.CHIFT_TEST_SYNC_ID as string;

@@ -498,9 +498,9 @@ const accountingFactory = {
     ): RequestData<components['schemas']['MatchingOut']> {
         return {
             params,
-            body,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/matching',
+            body,
         };
     },
     matchEntriesMultiple(
@@ -509,9 +509,9 @@ const accountingFactory = {
     ): RequestData<components['schemas']['MultipleMatchingOut'][]> {
         return {
             params,
-            body,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/matching-multiple',
+            body,
         };
     },
     getFolders(): RequestData<components['schemas']['FolderItem'][]> {

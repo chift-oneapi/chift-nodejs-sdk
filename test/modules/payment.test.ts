@@ -2,6 +2,7 @@ import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
 import { components } from '../../src/types/public-api/schema';
+import { Consumer } from '../../src/modules/consumer';
 dotenv.config();
 
 const client = new chift.API({
@@ -13,22 +14,23 @@ const client = new chift.API({
 // TODO: Setup Payment test data
 const consumerId = process.env.CHIFT_PAYMENT_CONSUMER_ID as string;
 
-let consumer: any;
+let consumer: ReturnType<typeof Consumer>;
 beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
 
 let payments: components['schemas']['PaymentItemOut'][];
 test('getPayments', async () => {
-    payments = await consumer.payment.getPayments();
+    payments = await consumer.payment.getPayments({});
     expect(payments).toBeInstanceOf(Array);
     expect(payments.length).toBeGreaterThan(0);
     expect(payments[0]).toHaveProperty('id', expect.any(String));
 });
 
 test('getBalances', async () => {
-    const balances: components['schemas']['BalanceItemOut'][] =
-        await consumer.payment.getBalances();
+    const balances: components['schemas']['BalanceItemOut'][] = await consumer.payment.getBalances(
+        {}
+    );
     expect(balances).toBeInstanceOf(Array);
     expect(balances.length).toBeGreaterThan(0);
     expect(balances[0]).toHaveProperty('id', expect.any(String));
@@ -36,18 +38,19 @@ test('getBalances', async () => {
 
 test.skip('getTransactions', async () => {
     const transactions: components['schemas']['TransactionItemOut'][] =
-        await consumer.payment.getTransactions();
+        await consumer.payment.getTransactions({});
     expect(transactions).toBeInstanceOf(Array);
     expect(transactions.length).toBeGreaterThan(0);
     expect(transactions[0]).toHaveProperty('id', expect.any(String));
 });
 
 test.skip('getPayment', async () => {
-    if (!payments.length) {
+    if (!payments?.[0].id) {
         throw new Error('No payments found to test getPayment');
     }
 
     const payment: components['schemas']['PaymentItemOut'] = await consumer.payment.getPayment({
+        consumer_id: consumerId,
         payment_id: payments[0].id,
     });
     expect(payment).toHaveProperty('id', payments[0].id);

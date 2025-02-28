@@ -2,6 +2,7 @@ import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
 import { components } from '../../src/types/public-api/schema';
+import { Consumer } from '../../src/modules/consumer';
 dotenv.config();
 
 const client = new chift.API({
@@ -13,7 +14,7 @@ const client = new chift.API({
 
 const consumerId = process.env.CHIFT_INVOICING_CONSUMER_ID as string;
 
-let consumer: any;
+let consumer: ReturnType<typeof Consumer>;
 beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
@@ -33,7 +34,9 @@ test('getInvoiceById', async () => {
         throw new Error('No invoices found to test getInvoiceById');
     }
 
-    const invoice = await consumer.invoicing.getInvoiceById(invoices[0].id, { include_pdf: false });
+    const invoice = await consumer.invoicing.getInvoiceById(invoices[0].id, {
+        include_pdf: 'false',
+    });
     expect(invoice).toHaveProperty('id', expect.any(String));
 });
 
