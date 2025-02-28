@@ -392,7 +392,7 @@ const accountingFactory = {
         invoice_id: string,
         attachment: components['schemas']['AttachmentItem'],
         params?: operations['accounting_add_attachment']['parameters']['query']
-    ): RequestData<operations['accounting_add_attachment']['responses'][201]> {
+    ): RequestData<operations['accounting_add_attachment']['responses'][204]> {
         return {
             params,
             method: 'post',
@@ -498,9 +498,9 @@ const accountingFactory = {
     ): RequestData<components['schemas']['MatchingOut']> {
         return {
             params,
-            body,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/matching',
+            body,
         };
     },
     matchEntriesMultiple(
@@ -509,9 +509,9 @@ const accountingFactory = {
     ): RequestData<components['schemas']['MultipleMatchingOut'][]> {
         return {
             params,
-            body,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/matching-multiple',
+            body,
         };
     },
     getFolders(): RequestData<components['schemas']['FolderItem'][]> {
@@ -525,6 +525,27 @@ const accountingFactory = {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/bookyears',
+        };
+    },
+    createLedgerAccount(
+        account: components['schemas']['LedgerAccountItemIn'],
+        params?: operations['accounting_create_ledger_account']['parameters']['query']
+    ): RequestData<components['schemas']['AccountItem']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/accounts',
+            body: account,
+        };
+    },
+    getJournalEntry(
+        journalEntryId: string,
+        params?: operations['accounting_get_journal_entry']['parameters']['query']
+    ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/journal/entries/${journalEntryId}`,
         };
     },
 };

@@ -2,6 +2,7 @@ import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
 import { components } from '../../src/types/public-api/schema';
+import { Consumer } from '../../src/modules/consumer';
 dotenv.config();
 
 const client = new chift.API({
@@ -13,7 +14,7 @@ const client = new chift.API({
 // TODO: Setup PMS test data
 const consumerId = process.env.CHIFT_PMS_CONSUMER_ID as string;
 
-let consumer: any;
+let consumer: ReturnType<typeof Consumer>;
 beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });

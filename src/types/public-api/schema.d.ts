@@ -780,6 +780,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/accounting/accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create ledger account
+         * @description Create a new ledger account in the chart of accounts
+         */
+        post: operations['accounting_create_ledger_account'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/accounting/analytic-accounts': {
         parameters: {
             query?: never;
@@ -2284,6 +2304,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/pms/customers/{customer_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get one customer (PMS)
+         * @description Returns a specific customer
+         */
+        get: operations['pms_get_customer'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/pms/locations': {
         parameters: {
             query?: never;
@@ -2480,23 +2520,34 @@ export interface components {
         };
         /** AccountingCategoryItem */
         AccountingCategoryItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the accounting category
+             * @example 371ca583-d218-4900-b236-397532cf0e2
+             */
             id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name given to the accounting category
+             * @example Beverages
+             */
             name: string;
             /**
              * Code
              * @description Code assigned to the category
+             * @example 123456
              */
             code?: string;
             /**
              * Ledger Account Code
              * @description Ledger account code assigned to the category
+             * @example 123456
              */
             ledger_account_code?: string;
             /**
              * Posting Account Code
              * @description Posting account code assigned to the category
+             * @example 123456
              */
             posting_account_code?: string;
         };
@@ -2520,21 +2571,53 @@ export interface components {
         };
         /** AddressItem */
         AddressItem: {
-            /** Address Type */
+            /**
+             * Address Type
+             * @description Type of the address
+             * @example home
+             */
             address_type?: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name given to the address (e.g. 'home')
+             * @example Home
+             */
             name?: string;
-            /** Street */
+            /**
+             * Street
+             * @description Street name
+             * @example Main Street
+             */
             street?: string;
-            /** Number */
+            /**
+             * Number
+             * @description Number of the address
+             * @example 123
+             */
             number?: string;
-            /** Box */
+            /**
+             * Box
+             * @description Box of the address
+             * @example A
+             */
             box?: string;
-            /** City */
+            /**
+             * City
+             * @description City name
+             * @example Paris
+             */
             city?: string;
-            /** Postal Code */
+            /**
+             * Postal Code
+             * @description Postal code of the address
+             * @example 75000
+             */
             postal_code?: string;
-            /** Country */
+            /**
+             * Country
+             * @description Country, format: ISO 3166-1 codes.
+             * @example FR
+             */
             country?: string;
         };
         /** AddressItemInInvoicing */
@@ -2805,84 +2888,186 @@ export interface components {
         };
         /** BankingAccountItem */
         BankingAccountItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the account
+             * @example account-123
+             */
             id: string;
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency of the account
+             * @example EUR
+             */
             currency: string;
-            /** Current Balance */
+            /**
+             * Current Balance
+             * @description Current balance of the account
+             * @example 1000
+             */
             current_balance: number;
             /**
              * Current Balance Last Update Date
              * Format: date-time
+             * @description Last update date of the current balance
+             * @example 2025-01-01T00:00:00Z
              */
             current_balance_last_update_date?: string;
-            /** Available Balance */
+            /**
+             * Available Balance
+             * @description Available balance of the account
+             * @example 1000
+             */
             available_balance: number;
             /**
              * Available Balance Last Update Date
              * Format: date-time
+             * @description Last update date of the available balance
+             * @example 2025-01-01T00:00:00Z
              */
             available_balance_last_update_date?: string;
-            /** Description */
+            /**
+             * Description
+             * @description Description of the account
+             * @example Chift account
+             */
             description: string;
-            /** Reference */
+            /**
+             * Reference
+             * @description Reference of the account
+             * @example FR76300040123456789012345678
+             */
             reference: string;
-            /** Reference Type */
+            /**
+             * Reference Type
+             * @description Type of the reference
+             * @example IBAN
+             */
             reference_type: string;
-            /** Holder Name */
+            /**
+             * Holder Name
+             * @description Name of the account holder
+             * @example John Doe
+             */
             holder_name?: string;
         };
         /** BankingCounterPartItem */
         BankingCounterPartItem: {
-            /** Name */
+            /**
+             * Name
+             * @description Name of the counterpart
+             * @example John Doe
+             */
             name?: string;
-            /** Reference */
+            /**
+             * Reference
+             * @description Reference of the counterpart
+             * @example FR76300040123456789012345678
+             */
             reference?: string;
-            /** Details */
+            /**
+             * Details
+             * @description Details of the counterpart
+             * @example Chift counterpart
+             */
             details?: string;
         };
         /** BankingFinancialInstitutionItem */
         BankingFinancialInstitutionItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the financial institution
+             * @example financial-institution-123
+             */
             id: string;
-            /** Bic */
+            /**
+             * Bic
+             * @description BIC of the financial institution
+             * @example GEBABEBBXXX
+             */
             bic?: string;
-            /** Country */
+            /**
+             * Country
+             * @description Country of the financial institution, format: ISO 3166-1 codes.
+             * @example FR
+             */
             country?: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name of the financial institution
+             * @example BNP
+             */
             name: string;
         };
         /** BankingTransactionItem */
         BankingTransactionItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the transaction
+             * @example transaction-123
+             */
             id: string;
-            /** Amount */
+            /**
+             * Amount
+             * @description Amount of the transaction
+             * @example 1000
+             */
             amount: number;
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency of the transaction
+             * @example EUR
+             */
             currency: string;
-            /** Description */
+            /**
+             * Description
+             * @description Description of the transaction
+             * @example Chift transaction
+             */
             description?: string;
-            /** Additional Information */
+            /**
+             * Additional Information
+             * @description Additional information of the transaction
+             * @example Chift transaction
+             */
             additional_information?: string;
-            /** Counterpart Name */
+            /**
+             * Counterpart Name
+             * @description Name of the counterpart
+             * @example John Doe
+             */
             counterpart_name?: string;
-            /** Counterpart Reference */
+            /**
+             * Counterpart Reference
+             * @description Reference of the counterpart
+             * @example FR76300040123456789012345678
+             */
             counterpart_reference?: string;
-            /** Remittance Information */
+            /**
+             * Remittance Information
+             * @description Remittance information of the transaction
+             * @example Chift transaction
+             */
             remittance_information?: string;
             /**
              * Creation Date
              * Format: date-time
+             * @description Creation date of the transaction
+             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Value Date
              * Format: date-time
+             * @description Value date of the transaction
+             * @example 2025-01-01T00:00:00Z
              */
             value_date: string;
             /**
              * Execution Date
              * Format: date-time
+             * @description Execution date of the transaction
+             * @example 2025-01-01T00:00:00Z
              */
             execution_date: string;
         };
@@ -3836,8 +4021,14 @@ export interface components {
             /**
              * Date
              * Format: date
+             * @description Date of the closure
+             * @example 2025-01-01
              */
             date: string;
+            /**
+             * @description Status of the closure
+             * @example closed
+             */
             status: components['schemas']['ClosureStates'];
         };
         /**
@@ -5692,13 +5883,27 @@ export interface components {
              * @description Technical id in the target software
              */
             source_ref: components['schemas']['Ref'];
+            /** @description Type of the partner */
             type: components['schemas']['PartnerType'];
+            /**
+             * Address
+             * @description Address of the partner
+             */
             address?: components['schemas']['AddressItem'];
-            /** First Name */
+            /**
+             * First Name
+             * @description First name of the partner. In case the partner is an individual.
+             */
             first_name?: string;
-            /** Last Name */
+            /**
+             * Last Name
+             * @description Last name of the partner. In case the partner is an individual.
+             */
             last_name?: string;
-            /** Company Name */
+            /**
+             * Company Name
+             * @description Company name of the partner. In case the partner is a company.
+             */
             company_name?: string;
         };
         /**
@@ -6078,6 +6283,13 @@ export interface components {
             | 'financial_operation'
             | 'miscellaneous_operation'
             | 'unknown';
+        /** LedgerAccountItemIn */
+        LedgerAccountItemIn: {
+            /** Name */
+            name: string;
+            /** Number */
+            number: string;
+        };
         /** LinkItem */
         LinkItem: {
             /** Url */
@@ -6857,28 +7069,39 @@ export interface components {
         OutstandingType: 'client' | 'supplier';
         /** PMSAccountingCategoryItem */
         PMSAccountingCategoryItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the accounting category
+             * @example 371ca583-d218-4900-b236-397532cf0e2
+             */
             id: string;
             /**
              * Source Ref
              * @description Technical id in the target software
              */
             source_ref: components['schemas']['Ref'];
-            /** Name */
+            /**
+             * Name
+             * @description Name given to the accounting category
+             * @example Beverages
+             */
             name: string;
             /**
              * Code
              * @description Code assigned to the category
+             * @example 123456
              */
             code?: string;
             /**
              * Ledger Account Code
              * @description Ledger account code assigned to the category
+             * @example 123456
              */
             ledger_account_code?: string;
             /**
              * Posting Account Code
              * @description Posting account code assigned to the category
+             * @example 123456
              */
             posting_account_code?: string;
         };
@@ -6887,8 +7110,14 @@ export interface components {
             /**
              * Date
              * Format: date
+             * @description Date of the closure
+             * @example 2025-01-01
              */
             date: string;
+            /**
+             * @description Status of the closure
+             * @example closed
+             */
             status: components['schemas']['ClosureStates'];
         };
         /** PMSCustomerItem */
@@ -6903,15 +7132,30 @@ export interface components {
              * @description Technical id in the target software
              */
             source_ref: components['schemas']['Ref'];
-            /** First Name */
+            /**
+             * First Name
+             * @description First name of the customer. In case the customer is an individual.
+             */
             first_name?: string;
-            /** Last Name */
+            /**
+             * Last Name
+             * @description Last name of the customer. In case the customer is an individual.
+             */
             last_name?: string;
-            /** Company Name */
+            /**
+             * Company Name
+             * @description Company name of the customer. In case the customer is a company.
+             */
             company_name?: string;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the customer
+             */
             phone?: string;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the customer
+             */
             email?: string;
             /**
              * Account Number
@@ -6921,9 +7165,13 @@ export interface components {
             /**
              * Created On
              * Format: date-time
+             * @description Creation date of the customer
              */
             created_on?: string;
-            /** Addresses */
+            /**
+             * Addresses
+             * @description List of addresses related to the customer
+             */
             addresses?: components['schemas']['AddressItem'][];
         };
         /** PMSInvoiceFullItem */
@@ -6946,18 +7194,29 @@ export interface components {
             /**
              * Creation Date
              * Format: date-time
+             * @description Creation date of the invoice
              */
             creation_date?: string;
             /**
              * Closing Date
              * Format: date-time
+             * @description Closing date of the invoice
              */
             closing_date?: string;
-            /** Partners */
+            /**
+             * Partners
+             * @description List of partners related to the invoice
+             */
             partners?: components['schemas']['InvoicePartnerItem'][];
-            /** Items */
+            /**
+             * Items
+             * @description List of items related to the invoice
+             */
             items: components['schemas']['PMSOrderLineItem'][];
-            /** Payments */
+            /**
+             * Payments
+             * @description List of payments related to the invoice
+             */
             payments: components['schemas']['PMSPaymentItem'][];
             /**
              * Service Id
@@ -6972,88 +7231,162 @@ export interface components {
         };
         /** PMSLocationItem */
         PMSLocationItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the location
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
             id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name given to the location
+             * @example Restaurant de la Paix
+             */
             name: string;
             /**
              * Timezone
              * @description Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .
+             * @example Europe/Paris
              */
             timezone?: string;
+            /**
+             * Address
+             * @description Address of the location
+             */
             address?: components['schemas']['AddressItem'];
         };
         /** PMSOrderItem */
         PMSOrderItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the order
+             * @example 123
+             */
             id: string;
             /**
              * Source Ref
              * @description Technical id in the target software
              */
             source_ref: components['schemas']['Ref'];
-            /** Order Number */
+            /**
+             * Order Number
+             * @description Order number (often unique reference during the day)
+             * @example 1
+             */
             order_number?: string;
             /**
              * Creation Date
              * Format: date-time
+             * @description Creation date of the order
+             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Closing Date
              * Format: date-time
+             * @description Closing date of the order
+             * @example 2025-01-01T00:00:00Z
              */
             closing_date?: string;
             /**
              * Service Date
              * Format: date-time
              * @description Indicates the date of the service to which the order belongs (can be used to group orders by closure date)
+             * @example 2025-01-01T00:00:00Z
              */
             service_date?: string;
             /**
              * Device Id
              * @description ID of device that created the order
+             * @example device-123
              */
             device_id?: string;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount including tax of the order
+             * @example 11
+             */
             total: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of the taxes of the order
+             * @example 1
+             */
             tax_amount: number;
             /**
              * Total Discount
+             * @description Total amount of the discounts of the order
              * @default 0
+             * @example 10
              */
             total_discount: number;
             /**
              * Total Refund
+             * @description Total amount of the refunds of the order
              * @default 0
+             * @example 5
              */
             total_refund: number;
             /**
              * Total Tip
+             * @description Total amount of the tips of the order. Tips are not part of the total of the order
              * @default 0
+             * @example 1
              */
             total_tip: number;
             /**
              * Delivery Fee
+             * @description Total amount of the delivery fees of the order
              * @default 0
+             * @example 1
              */
             delivery_fee: number;
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency of the order
+             * @example EUR
+             */
             currency?: string;
-            /** Country */
+            /**
+             * Country
+             * @description Country of the order, format: ISO 3166-1 codes.
+             * @example FR
+             */
             country?: string;
-            /** Loyalty */
+            /**
+             * Loyalty
+             * @description Loyalty points of the order
+             * @example 100
+             */
             loyalty?: number;
-            /** Customer Id */
+            /**
+             * Customer Id
+             * @description Unique identifier of the customer
+             * @example customer-123
+             */
             customer_id?: string;
-            /** Location Id */
+            /**
+             * Location Id
+             * @description Unique identifier of the location
+             * @example location-123
+             */
             location_id?: string;
-            /** Taxes */
-            taxes?: components['schemas']['TotalTaxItem'][];
-            /** Guests */
+            /**
+             * Taxes
+             * @description List of taxes of the order
+             * @default []
+             */
+            taxes: components['schemas']['TotalTaxItem'][];
+            /**
+             * Guests
+             * @description Number of guests linked to the order
+             * @example 1
+             */
             guests?: number;
-            /** Items */
+            /**
+             * Items
+             * @description List of items related to the order
+             */
             items: components['schemas']['PMSOrderLineItem'][];
             /**
              * Service Id
@@ -7073,71 +7406,139 @@ export interface components {
         };
         /** PMSOrderLineItem */
         PMSOrderLineItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the order line item
+             * @example 123
+             */
             id: string;
             /**
              * Source Ref
              * @description Technical id in the target software
              */
             source_ref: components['schemas']['Ref'];
+            /**
+             * @description Type of the order line item
+             * @example product
+             */
             type?: components['schemas']['POSLineItemType'];
-            /** Menu Id */
+            /**
+             * Menu Id
+             * @description Unique identifier of the menu
+             * @example 456
+             */
             menu_id?: string;
-            /** Quantity */
+            /**
+             * Quantity
+             * @description Quantity of the order line item
+             * @example 1
+             */
             quantity: number;
-            /** Unit Price */
+            /**
+             * Unit Price
+             * @description Unit price (without tax) of the order line item
+             * @example 10
+             */
             unit_price: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount including tax of the order line item
+             * @example 11
+             */
             total: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of the taxes of the order line item
+             * @example 1
+             */
             tax_amount: number;
-            /** Tax Rate */
+            /**
+             * Tax Rate
+             * @description Tax rate of the order line item
+             * @example 10
+             */
             tax_rate?: number;
-            /** Description */
+            /**
+             * Description
+             * @description Description of the order line item
+             * @example Pizza
+             */
             description?: string;
             /**
              * Discounts
+             * @description List of discounts of the order line item. Discounts of items are always part of the total discount of the order
              * @default []
+             * @example []
              */
             discounts: components['schemas']['backbone_common__models__pos_pms__DiscountItem'][];
             /**
              * Product Id
              * @description Reference to the product related to this item
+             * @example 789
              */
             product_id?: string;
             /**
              * Accounting Category Id
              * @description Sometimes used by a POS to give a specific accounting category to an order item
+             * @example 123
              */
             accounting_category_id?: string;
         };
         /** PMSPaymentItem */
         PMSPaymentItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the payment
+             * @example payment-123
+             */
             id?: string;
             /**
              * Source Ref
              * @description Technical id in the target software
              */
             source_ref: components['schemas']['Ref'];
-            /** Payment Method Id */
+            /**
+             * Payment Method Id
+             * @description Unique identifier of the payment method used for the payment
+             * @example payment-method-123
+             */
             payment_method_id?: string;
-            /** Payment Method Name */
+            /**
+             * Payment Method Name
+             * @description Chift's name of the payment method used for the payment
+             * @example Cash
+             */
             payment_method_name?: string;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount of the payment
+             * @example 11
+             */
             total: number;
             /**
              * Tip
+             * @description Total amount of the tips of the payment. Tips are not part of the total of the payment
              * @default 0
+             * @example 1
              */
             tip: number;
-            /** @default Unknown */
+            /**
+             * @description Status of the payment
+             * @default Unknown
+             * @example Completed
+             */
             status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'];
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency of the payment
+             * @example EUR
+             */
             currency?: string;
             /**
              * Date
              * Format: date-time
+             * @description Date of the payment
+             * @example 2025-01-01T00:00:00Z
              */
             date?: string;
             /**
@@ -7148,16 +7549,28 @@ export interface components {
         };
         /** PMSPaymentMethods */
         PMSPaymentMethods: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the payment method
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
             id: string;
             /**
              * Source Ref
              * @description Technical id in the target software
              */
             source_ref: components['schemas']['Ref'];
-            /** Name */
+            /**
+             * Name
+             * @description Chift's name of the payment method (e.g. 'Cash', 'Card', 'Transfer', ...)
+             * @example Cash
+             */
             name: string;
-            /** Extra */
+            /**
+             * Extra
+             * @description Original name of the payment method
+             * @example Espèces
+             */
             extra?: string;
             /**
              * Ledger Account Code
@@ -7173,78 +7586,173 @@ export interface components {
         PMSStates: 'consumed' | 'closed';
         /** POSCreateCustomerItem */
         POSCreateCustomerItem: {
-            /** First Name */
+            /**
+             * First Name
+             * @description First name of the customer
+             * @example John
+             */
             first_name: string;
-            /** Last Name */
+            /**
+             * Last Name
+             * @description Last name of the customer
+             * @example Doe
+             */
             last_name: string;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number (mobile, home, work, ...) of the customer
+             * @example +32475123456
+             */
             phone?: string;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the customer
+             * @example john.doe@gmail.com
+             */
             email?: string;
+            /**
+             * Address
+             * @description Address of the customer
+             */
             address?: components['schemas']['PostAddressItem'];
         };
         /** POSCustomerItem */
         POSCustomerItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the customer
+             * @example 371ca583-d218-8000-b236-397532cf0e52
+             */
             id: string;
-            /** First Name */
+            /**
+             * First Name
+             * @description First name of the customer
+             * @example John
+             */
             first_name?: string;
-            /** Last Name */
+            /**
+             * Last Name
+             * @description Last name of the customer
+             * @example Doe
+             */
             last_name?: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name (first name + last name) of the customer
+             * @example John Doe
+             */
             name: string;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number (mobile, home, work, ...) of the customer
+             * @example +32475123456
+             */
             phone?: string;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the customer
+             * @example john.doe@gmail.com
+             */
             email?: string;
             /**
              * Created On
              * Format: date-time
+             * @description Date and time when the customer was created
+             * @example 2025-01-01T00:00:00Z
              */
             created_on?: string;
-            /** Addresses */
-            addresses?: components['schemas']['AddressItem'][];
-            /** Loyalty */
+            /**
+             * Addresses
+             * @description List of addresses of the customer
+             * @default []
+             */
+            addresses: components['schemas']['AddressItem'][];
+            /**
+             * Loyalty
+             * @description Loyalty points of the customer
+             * @example 100
+             */
             loyalty?: number;
             /**
              * Birthdate
              * Format: date
-             * @description Birthdate
+             * @description Birthdate of the customer
+             * @example 1990-01-01
              */
             birthdate?: string;
         };
         /** POSItem */
         POSItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the order line item
+             * @example 123
+             */
             id: string;
+            /**
+             * @description Type of the order line item
+             * @example product
+             */
             type?: components['schemas']['POSLineItemType'];
-            /** Menu Id */
+            /**
+             * Menu Id
+             * @description Unique identifier of the menu
+             * @example 456
+             */
             menu_id?: string;
-            /** Quantity */
+            /**
+             * Quantity
+             * @description Quantity of the order line item
+             * @example 1
+             */
             quantity: number;
-            /** Unit Price */
+            /**
+             * Unit Price
+             * @description Unit price (without tax) of the order line item
+             * @example 10
+             */
             unit_price: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount including tax of the order line item
+             * @example 11
+             */
             total: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of the taxes of the order line item
+             * @example 1
+             */
             tax_amount: number;
-            /** Tax Rate */
+            /**
+             * Tax Rate
+             * @description Tax rate of the order line item
+             * @example 10
+             */
             tax_rate?: number;
-            /** Description */
+            /**
+             * Description
+             * @description Description of the order line item
+             * @example Pizza
+             */
             description?: string;
             /**
              * Discounts
+             * @description List of discounts of the order line item. Discounts of items are always part of the total discount of the order
              * @default []
+             * @example []
              */
             discounts: components['schemas']['backbone_common__models__pos_pms__DiscountItem'][];
             /**
              * Product Id
              * @description Reference to the product related to this item
+             * @example 789
              */
             product_id?: string;
             /**
              * Accounting Category Id
              * @description Sometimes used by a POS to give a specific accounting category to an order item
+             * @example 123
              */
             accounting_category_id?: string;
         };
@@ -7256,130 +7764,253 @@ export interface components {
         POSLineItemType: 'menu' | 'product';
         /** POSLocationItem */
         POSLocationItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the location
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
             id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name given to the location
+             * @example Restaurant de la Paix
+             */
             name: string;
             /**
              * Timezone
              * @description Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .
+             * @example Europe/Paris
              */
             timezone?: string;
+            /**
+             * Address
+             * @description Address of the location
+             */
             address?: components['schemas']['AddressItem'];
         };
         /** POSOrderItem */
         POSOrderItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the order
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
             id: string;
-            /** Order Number */
+            /**
+             * Order Number
+             * @description Order number (often unique reference during the day)
+             * @example 1
+             */
             order_number?: string;
             /**
              * Creation Date
              * Format: date-time
+             * @description Creation date of the order
+             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Closing Date
              * Format: date-time
+             * @description Closing date of the order
+             * @example 2025-01-01T00:00:00Z
              */
             closing_date?: string;
             /**
              * Service Date
              * Format: date-time
              * @description Indicates the date of the service to which the order belongs (can be used to group orders by closure date)
+             * @example 2025-01-01T00:00:00Z
              */
             service_date?: string;
             /**
              * Device Id
              * @description ID of device that created the order
+             * @example device-123
              */
             device_id?: string;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount including tax of the order
+             * @example 11
+             */
             total: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of the taxes of the order
+             * @example 1
+             */
             tax_amount: number;
             /**
              * Total Discount
+             * @description Total amount of the discounts of the order
              * @default 0
+             * @example 10
              */
             total_discount: number;
             /**
              * Total Refund
+             * @description Total amount of the refunds of the order
              * @default 0
+             * @example 5
              */
             total_refund: number;
             /**
              * Total Tip
+             * @description Total amount of the tips of the order. Tips are not part of the total of the order
              * @default 0
+             * @example 1
              */
             total_tip: number;
             /**
              * Delivery Fee
+             * @description Total amount of the delivery fees of the order
              * @default 0
+             * @example 1
              */
             delivery_fee: number;
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency of the order
+             * @example EUR
+             */
             currency?: string;
-            /** Country */
+            /**
+             * Country
+             * @description Country of the order, format: ISO 3166-1 codes.
+             * @example FR
+             */
             country?: string;
-            /** Loyalty */
+            /**
+             * Loyalty
+             * @description Loyalty points of the order
+             * @example 100
+             */
             loyalty?: number;
-            /** Customer Id */
+            /**
+             * Customer Id
+             * @description Unique identifier of the customer
+             * @example customer-123
+             */
             customer_id?: string;
-            /** Location Id */
+            /**
+             * Location Id
+             * @description Unique identifier of the location
+             * @example location-123
+             */
             location_id?: string;
-            /** Taxes */
-            taxes?: components['schemas']['TotalTaxItem'][];
-            /** Guests */
+            /**
+             * Taxes
+             * @description List of taxes of the order
+             * @default []
+             */
+            taxes: components['schemas']['TotalTaxItem'][];
+            /**
+             * Guests
+             * @description Number of guests linked to the order
+             * @example 1
+             */
             guests?: number;
-            /** Payments */
+            /**
+             * Payments
+             * @description List of payments made for the order
+             */
             payments: components['schemas']['POSPaymentItem'][];
-            /** Items */
+            /**
+             * Items
+             * @description List of item lines in the order
+             */
             items: components['schemas']['POSItem'][];
         };
         /** POSPaymentItem */
         POSPaymentItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the payment
+             * @example payment-123
+             */
             id?: string;
-            /** Payment Method Id */
+            /**
+             * Payment Method Id
+             * @description Unique identifier of the payment method used for the payment
+             * @example payment-method-123
+             */
             payment_method_id?: string;
-            /** Payment Method Name */
+            /**
+             * Payment Method Name
+             * @description Chift's name of the payment method used for the payment
+             * @example Cash
+             */
             payment_method_name?: string;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount of the payment
+             * @example 11
+             */
             total: number;
             /**
              * Tip
+             * @description Total amount of the tips of the payment. Tips are not part of the total of the payment
              * @default 0
+             * @example 1
              */
             tip: number;
-            /** @default Unknown */
+            /**
+             * @description Status of the payment
+             * @default Unknown
+             * @example Completed
+             */
             status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'];
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency of the payment
+             * @example EUR
+             */
             currency?: string;
             /**
              * Date
              * Format: date-time
+             * @description Date of the payment
+             * @example 2025-01-01T00:00:00Z
              */
             date?: string;
         };
         /** POSProductItem */
         POSProductItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the product
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
             id: string;
             /**
              * Categories
+             * @description List of categories the product belongs to
              * @default []
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             categories: string[];
-            /** Name */
+            /**
+             * Name
+             * @description Name ofthe product
+             * @example Pizza margheritta
+             */
             name: string;
-            /** Description */
+            /**
+             * Description
+             * @description Description of the product
+             * @example Pizza margheritta
+             */
             description?: string;
-            /** Prices */
+            /**
+             * Prices
+             * @description List of prices for the product
+             */
             prices: components['schemas']['backbone_common__models__pos__common__ProductPriceItem'][];
             /**
              * Accounting Category Ids
              * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
+             * @example 371ca583-d218-4900-b236-397532cf0e2
              */
             accounting_category_ids?: string[];
         };
@@ -7507,11 +8138,23 @@ export interface components {
         };
         /** PaymentMethods */
         PaymentMethods: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the payment method
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
             id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Chift's name of the payment method (e.g. 'Cash', 'Card', 'Transfer', ...)
+             * @example Cash
+             */
             name: string;
-            /** Extra */
+            /**
+             * Extra
+             * @description Original name of the payment method
+             * @example Espèces
+             */
             extra?: string;
         };
         /** PaymentReporting */
@@ -7565,19 +8208,47 @@ export interface components {
         };
         /** PostAddressItem */
         PostAddressItem: {
-            /** Name */
+            /**
+             * Name
+             * @description Name given to the address (e.g. 'home')
+             * @example home
+             */
             name: string;
-            /** Street */
+            /**
+             * Street
+             * @description Street name
+             * @example Avenue de la République
+             */
             street?: string;
-            /** Number */
+            /**
+             * Number
+             * @description Number of the address
+             * @example 123
+             */
             number?: string;
-            /** Box */
+            /**
+             * Box
+             * @description Box of the address
+             * @example A
+             */
             box?: string;
-            /** City */
+            /**
+             * City
+             * @description City name
+             * @example Paris
+             */
             city: string;
-            /** Postal Code */
+            /**
+             * Postal Code
+             * @description Postal code of the address
+             * @example 75000
+             */
             postal_code: string;
-            /** Country */
+            /**
+             * Country
+             * @description Country, format: ISO 3166-1 codes.
+             * @example FR
+             */
             country?: string;
         };
         /** PostConsumerItem */
@@ -7958,22 +8629,35 @@ export interface components {
             /**
              * Start Date
              * Format: date-time
+             * @description Start date of the reservation
              */
             start_date?: string;
             /**
              * End Date
              * Format: date-time
+             * @description End date of the reservation
              */
             end_date?: string;
             /**
              * Creation Date
              * Format: date-time
+             * @description Creation date of the reservation
              */
             creation_date?: string;
+            /**
+             * Resource Id
+             * @description Uniuqe reference to the resource related to the reservation
+             */
             resource_id?: components['schemas']['ChiftId'];
-            /** Resource Name */
+            /**
+             * Resource Name
+             * @description Name of the resource related to the reservation
+             */
             resource_name?: string;
-            /** Resource Identifier */
+            /**
+             * Resource Identifier
+             * @description Identifier of the resource related to the reservation
+             */
             resource_identifier?: string;
         };
         /** ReturnFeesItem */
@@ -8028,12 +8712,24 @@ export interface components {
         };
         /** SalesItem */
         SalesItem: {
-            /** Total */
+            /**
+             * Total
+             * @description Total amount including tax of the sales
+             * @example 10
+             */
             total: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of the taxes
+             * @example 1
+             */
             tax_amount: number;
-            /** Taxes */
-            taxes?: components['schemas']['TotalTaxItem'][];
+            /**
+             * Taxes
+             * @description List of taxes grouped by tax rateapplied to the sales
+             * @default []
+             */
+            taxes: components['schemas']['TotalTaxItem'][];
         };
         /** ShippingRefund */
         ShippingRefund: {
@@ -8381,11 +9077,23 @@ export interface components {
         };
         /** TotalTaxItem */
         TotalTaxItem: {
-            /** Tax Rate */
+            /**
+             * Tax Rate
+             * @description Tax rate
+             * @example 10
+             */
             tax_rate: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Tax amount
+             * @example 1
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount including tax
+             * @example 11
+             */
             total: number;
         };
         /**
@@ -8506,7 +9214,11 @@ export interface components {
         };
         /** UpdateOrderItem */
         UpdateOrderItem: {
-            /** Customer Id */
+            /**
+             * Customer Id
+             * @description Unique identifier of the customer
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
             customer_id?: string;
         };
         /** ValidationError */
@@ -9322,44 +10034,82 @@ export interface components {
             /**
              * Creation Date
              * Format: date-time
+             * @description Creation date of the invoice
              */
             creation_date?: string;
             /**
              * Closing Date
              * Format: date-time
+             * @description Closing date of the invoice
              */
             closing_date?: string;
-            /** Partners */
+            /**
+             * Partners
+             * @description List of partners related to the invoice
+             */
             partners?: components['schemas']['InvoicePartnerItem'][];
         };
         /** ProductCategoryItem */
         backbone_common__models__pos__common__ProductCategoryItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique identifier of the category
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
             id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name given to the category
+             * @example Pizza
+             */
             name: string;
-            /** Description */
+            /**
+             * Description
+             * @description Description of the category
+             * @example Delicious pizza
+             */
             description?: string;
             /**
              * Id Parent
              * @description Indicates if the category belongs to a parent category
+             * @example 371ca583-d218-4900-b236-397532cf0e55
              */
             id_parent?: string;
         };
         /** ProductPriceItem */
         backbone_common__models__pos__common__ProductPriceItem: {
-            /** Unit Price */
+            /**
+             * Unit Price
+             * @description Unit price (without tax) of the product
+             * @example 10
+             */
             unit_price: number;
-            /** Tax Rate */
+            /**
+             * Tax Rate
+             * @description Tax rate applied to the product
+             * @example 10
+             */
             tax_rate?: number;
         };
         /** DiscountItem */
         backbone_common__models__pos_pms__DiscountItem: {
-            /** Name */
+            /**
+             * Name
+             * @description Name of the discount
+             * @example Percentage discount
+             */
             name?: string;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount of the discount
+             * @example 10
+             */
             total: number;
-            /** @default UNKNOWN */
+            /**
+             * @description Type of the discount
+             * @default UNKNOWN
+             * @example offered
+             */
             type: components['schemas']['DiscountType'];
         };
         /**
@@ -11392,6 +12142,7 @@ export interface operations {
                 folder_id?: string;
                 force_financial_period?: string;
                 regroup_lines?: components['schemas']['BoolParam'];
+                force_currency_exchange?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -11449,6 +12200,7 @@ export interface operations {
                 folder_id?: string;
                 force_financial_period?: string;
                 regroup_lines?: components['schemas']['BoolParam'];
+                force_currency_exchange?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -11690,6 +12442,52 @@ export interface operations {
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_create_ledger_account: {
+        parameters: {
+            query?: {
+                folder_id?: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['LedgerAccountItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AccountItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12787,13 +13585,11 @@ export interface operations {
         };
         responses: {
             /** @description Successful Response */
-            201: {
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    'application/json': unknown;
-                };
+                content?: never;
             };
             /** @description Bad Request */
             400: {
@@ -13012,6 +13808,7 @@ export interface operations {
             query?: {
                 folder_id?: string;
                 financial_counterpart_account?: string;
+                force_currency_exchange?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -13068,6 +13865,7 @@ export interface operations {
             query?: {
                 folder_id?: string;
                 financial_counterpart_account?: string;
+                force_currency_exchange?: components['schemas']['BoolParam'];
             };
             header?: never;
             path: {
@@ -15963,6 +16761,74 @@ export interface operations {
             };
             /** @description Bad Request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    pms_get_customer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                customer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PMSCustomerItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

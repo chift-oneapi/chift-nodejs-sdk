@@ -163,3 +163,9 @@
 ## 1.0.22 - 2025-02-20
 
 -   Fix createFinancialEntry return type
+
+## 1.0.23 - 2025-02-28
+
+-   Add createLedgerAccount
+-   Add getJournalEntry
+-   Improve tests typing

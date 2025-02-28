@@ -2,6 +2,7 @@ import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
 import { components } from '../../src/types/public-api/schema';
+import { Consumer } from '../../src/modules/consumer';
 dotenv.config();
 
 const client = new chift.API({
@@ -15,9 +16,8 @@ const consumerName = 'test consumer 2';
 const email = 'support@chift.eu';
 const redirect_url = 'https://chift.eu';
 
-let syncConsumer: any;
-let consumer: any;
-let connection: any;
+let syncConsumer: ReturnType<typeof Consumer>;
+let consumer: ReturnType<typeof Consumer>;
 
 beforeAll(async () => {
     consumer = await client.Consumers.createConsumer({
@@ -46,12 +46,13 @@ test('getConnections', async () => {
 test.skip('updateConnection', async () => {
     const updatedConnection = await syncConsumer.updateConnection(connections[0]?.connectionid, {
         name: 'updated connection name',
+        redirect: false,
     });
     expect(updatedConnection).toHaveProperty('name', 'updated connection name');
 });
 
 test.skip('deleteConnection', async () => {
-    await consumer.deleteConnection(connection.connectionId);
+    await consumer.deleteConnection(connections[0].connectionid);
 });
 
 test('getSyncUrl', async () => {

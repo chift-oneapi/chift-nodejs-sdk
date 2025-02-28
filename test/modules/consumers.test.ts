@@ -2,6 +2,7 @@ import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
+import { Consumer } from '../../src/modules/consumer';
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ const consumerName = 'test consumer';
 const email = 'support@chift.eu';
 const redirect_url = 'https://chift.eu';
 
-let consumer: any;
+let consumer: ReturnType<typeof Consumer>;
 
 beforeAll(async () => {
     consumer = await client.Consumers.createConsumer({

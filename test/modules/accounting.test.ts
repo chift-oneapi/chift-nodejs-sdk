@@ -3,6 +3,7 @@ import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
 import { components } from '../../src/types/public-api/schema';
 import fs from 'fs';
+import { Consumer } from '../../src/modules/consumer';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const client = new chift.API({
 
 const consumerId = process.env.CHIFT_ACCOUNTING_CONSUMER_ID as string;
 
-let consumer: any;
+let consumer: ReturnType<typeof Consumer>;
 beforeAll(async () => {
     consumer = await client.Consumers.getConsumerById(consumerId);
 });
@@ -82,8 +83,8 @@ test('getClients', async () => {
     expect(clients.length).toBeGreaterThan(0);
     expect(clients[0]).toHaveProperty('id', expect.any(String));
 });
-
 test('getClient', async () => {
+    if (!clients[0].id) throw new Error('Client ID is required');
     const client = await consumer.accounting.getClient(clients[0].id);
     expect(client).toBeTruthy();
     expect(client).toHaveProperty('external_reference');
@@ -109,8 +110,20 @@ test('getClient', async () => {
 
 test.skip('updateClient', async () => {
     const client = clients.find((client) => client.external_reference === 'sdk test');
-    const updatedClient = await consumer.accounting.updateClient(client?.id, {
+    if (!client?.id) throw new Error('Client id not found');
+    const updatedClient = await consumer.accounting.updateClient(client.id, {
         website: 'https://test.com',
+        is_company: true,
+        active: true,
+        addresses: [
+            {
+                address_type: 'main',
+                street: 'Main Street',
+                city: 'Brussels',
+                postal_code: '1000',
+                country: 'BE',
+            },
+        ],
     });
     expect(updatedClient).toBeTruthy();
     expect(updatedClient).toHaveProperty('website', 'https://test.com');
@@ -144,9 +157,8 @@ test('getSuppliers', async () => {
     expect(suppliers).toBeInstanceOf(Array);
     expect(suppliers.length).toBeGreaterThan(0);
 });
-
 test('getSupplier', async () => {
-    const supplier = await consumer.accounting.getSupplier(suppliers[0].id);
+    const supplier = await consumer.accounting.getSupplier(suppliers[0]?.id || '');
     expect(supplier).toBeTruthy();
     expect(supplier).toHaveProperty('external_reference');
     expect(supplier).toHaveProperty('first_name');
@@ -171,8 +183,22 @@ test('getSupplier', async () => {
 
 test.skip('updateSupplier', async () => {
     const supplier = suppliers.find((supplier) => supplier.external_reference === 'sdk test');
-    const updatedSupplier = await consumer.accounting.updateSupplier(supplier?.id, {
+    if (!supplier?.id) {
+        throw new Error('Supplier not found');
+    }
+    const updatedSupplier = await consumer.accounting.updateSupplier(supplier.id, {
         name: 'Jane Updated Doe',
+        is_company: true,
+        active: true,
+        addresses: [
+            {
+                address_type: 'main',
+                street: 'Main Street',
+                city: 'Brussels',
+                postal_code: '1000',
+                country: 'BE',
+            },
+        ],
     });
     expect(updatedSupplier).toBeTruthy();
     expect(updatedSupplier).toHaveProperty('name', 'Jane Updated Doe');
@@ -246,8 +272,9 @@ test('getInvoicesByTypeWithMultiplePlans', async () => {
 });
 
 test('getInvoice', async () => {
+    if (!invoices?.[0].id) throw new Error('Invoice ID is required');
     const invoice = await consumer.accounting.getInvoice(invoices[0].id, {
-        include_payments: true,
+        include_payments: 'true',
     });
     expect(invoice).toBeTruthy();
     expect(invoice).toHaveProperty('id', invoices[0].id);
@@ -283,7 +310,7 @@ test('createInvoiceWithMultiplePlans', async () => {
         throw new Error('No vat code with type "sale" and rate 21 found to create invoice');
     }
 
-    const body: components['schemas']['InvoiceItemInMonoAnalyticPlan'] = {
+    const body: components['schemas']['InvoiceItemInMultiAnalyticPlans'] = {
         invoice_type: 'customer_invoice',
         invoice_date: '2022-12-01',
         due_date: '2022-12-31',
@@ -307,6 +334,7 @@ test('createInvoiceWithMultiplePlans', async () => {
                 account_number: '700000',
                 tax_code: vatCode.id,
                 line_number: 1,
+                analytic_distribution: [],
             },
         ],
     };
@@ -315,8 +343,9 @@ test('createInvoiceWithMultiplePlans', async () => {
 });
 
 test('getInvoiceWithMultiplePlans', async () => {
+    if (!invoices?.[0].id) throw new Error('Invoice ID is required');
     const invoice = await consumer.accounting.getInvoiceWithMultiplePlans(invoices[0].id, {
-        include_payments: true,
+        include_payments: 'true',
     });
     expect(invoice).toBeTruthy();
 });
@@ -349,6 +378,7 @@ test.skip('createAnalyticAccountWithMultiplePlans', async () => {
     const analyticAccount = await consumer.accounting.createAnalyticAccountWithMultiplePlans(
         analyticPlans[0].id,
         {
+            active: false,
             code: '4000',
             name: 'sdk test',
             currency: 'EUR',
@@ -372,9 +402,12 @@ test.skip('updateAnalyticAccount', async () => {
     }
 
     const testAnalyticAccount = analyticAccounts.find((account) => account.name === 'sdk test');
+    if (!testAnalyticAccount?.id) {
+        throw new Error('No analytic account with name "sdk test" found to update');
+    }
     const analyticAccount = await consumer.accounting.updateAnalyticAccount(
-        testAnalyticAccount?.id,
-        { name: 'test sdk update' }
+        testAnalyticAccount.id,
+        { active: true, name: 'test sdk update' }
     );
     expect(analyticAccount).toBeTruthy();
     expect(analyticAccount).toHaveProperty('name', 'test sdk update');
@@ -403,10 +436,14 @@ test.skip('updateAnalyticAccountWithMultiplePlans', async () => {
         (account) => account.name === 'test sdk update'
     );
 
+    if (!testAnalyticAccount?.id) {
+        throw new Error('No analytic account with name "test sdk update" found to update');
+    }
+
     const analyticAccount = await consumer.accounting.updateAnalyticAccountWithMultiplePlans(
-        testAnalyticAccount?.id,
+        testAnalyticAccount.id,
         '1',
-        { name: 'test sdk update 2' }
+        { name: 'test sdk update 2', active: true }
     );
     expect(analyticAccount).toBeTruthy();
     expect(analyticAccount).toHaveProperty('name', 'test sdk update 2');
@@ -428,18 +465,23 @@ test.skip('createJournalEntry', async () => {
         throw new Error('No clients found to create journal entry');
     }
 
+    if (!clients[0].id) {
+        throw new Error('No client found to create journal entry');
+    }
+
     const journalEntry = await consumer.accounting.createJournalEntry({
         journal_id: journal.id,
-        number: new Date().valueOf(),
+        number: new Date().valueOf().toString(),
         currency: 'EUR',
         date: '2022-01-01',
+        currency_exchange_rate: 0,
+        posted: false,
         items: [
             {
                 account_type: 'customer_account',
                 account: clients[0].id,
                 credit: 0,
                 debit: 10,
-                currency: 'EUR',
                 prioritise_thirdparty_account: false,
                 analytic_distribution: [],
             },
@@ -449,9 +491,10 @@ test.skip('createJournalEntry', async () => {
     expect(journalEntry).toHaveProperty('journal_id', journal.id);
 });
 
+let journalEntries: components['schemas']['JournalEntryMonoAnalyticPlan'][];
 test('getJournalEntries', async () => {
-    const journalEntries = await consumer.accounting.getJournalEntries({
-        unposted_allowed: true,
+    journalEntries = await consumer.accounting.getJournalEntries({
+        unposted_allowed: 'true',
         date_from: '2022-01-01',
         date_to: '2022-01-31',
         journal_id: journals[0].id,
@@ -461,7 +504,7 @@ test('getJournalEntries', async () => {
 
 test('getJournalEntriesWithMultiplePlans', async () => {
     const journalEntries = await consumer.accounting.getJournalEntriesWithMultiplePlans({
-        unposted_allowed: true,
+        unposted_allowed: 'true',
         date_from: '2022-01-01',
         date_to: '2022-01-31',
         journal_id: journals[0].id,
@@ -470,6 +513,7 @@ test('getJournalEntriesWithMultiplePlans', async () => {
 });
 
 test('getPaymentsByInvoiceId', async () => {
+    if (!invoices?.[0].id) throw new Error('Invoice ID is required');
     const payments = await consumer.accounting.getPaymentsByInvoiceId(invoices[0].id);
     expect(payments).toBeInstanceOf(Array);
 });
@@ -486,6 +530,7 @@ test('createMiscOperation', async () => {
     const data = {
         operation_date: '2023-04-29',
         currency: 'EUR',
+        currency_exchange_rate: 1,
         lines: [
             {
                 line_number: 1,
@@ -500,7 +545,7 @@ test('createMiscOperation', async () => {
                 journal.journal_type === 'miscellaneous_operation'
         )?.id,
         status: 'draft',
-    };
+    } as components['schemas']['MiscellaneousOperationIn'];
 
     const miscOperation = await consumer.accounting.createMiscOperation(data);
     expect(miscOperation).toBeTruthy();
@@ -520,10 +565,11 @@ test('getMiscOperation', async () => {
 
 test('attachPDF', async () => {
     const pdfData = fs.readFileSync('test/data/accounting_invoice.pdf');
+    if (!invoices?.[0].id) throw new Error('Invoice ID is required');
     await consumer.accounting.attachPDF(
         invoices[0].id,
         { base64_string: pdfData.toString('base64') },
-        { overwrite_existing: true }
+        { overwrite_existing: 'true' }
     );
 });
 
@@ -534,15 +580,14 @@ test('getChartOfAccounts', async () => {
     expect(chartOfAccounts).toBeTruthy();
 });
 
-test.skip('getBalanceOfAccounts', async () => {
+test('getBalanceOfAccounts', async () => {
     const balanceOfAccounts = await consumer.accounting.getBalanceOfAccounts({
         accounts: ['7'],
         start: '2022-01-01',
         end: '2022-12-31',
     });
     expect(balanceOfAccounts).toBeTruthy();
-    expect(balanceOfAccounts).toHaveProperty('items');
-    expect(balanceOfAccounts.items).toBeInstanceOf(Array);
+    expect(balanceOfAccounts).toBeInstanceOf(Array);
 });
 
 test('getEmployees', async () => {
@@ -550,13 +595,13 @@ test('getEmployees', async () => {
     expect(employees).toBeTruthy();
 });
 
-test.skip('getOutstandings', async () => {
+test('getOutstandings', async () => {
     const outstandings = await consumer.accounting.getOutstandings({
         type: 'client',
-        unposted_allowed: false,
+        unposted_allowed: 'false',
     });
     expect(outstandings).toBeTruthy();
-    expect(outstandings.items).toBeInstanceOf(Array);
+    expect(outstandings).toBeInstanceOf(Array);
 });
 
 test('createFinancialEntry', async () => {
@@ -567,14 +612,15 @@ test('createFinancialEntry', async () => {
         );
     }
 
-    if (!clients.length) {
-        throw new Error('No clients found to create journal entry');
+    if (!clients?.[0]?.id) {
+        throw new Error('No client ID found to create journal entry');
     }
 
     const financialEntry = await consumer.accounting.createFinancialEntry({
         date: '2022-01-01',
         journal_id: journal.id,
         currency: 'EUR',
+        currency_exchange_rate: 1,
         items: [
             {
                 account_type: 'customer_account',
@@ -598,10 +644,15 @@ test('createFinancialEntryOld', async () => {
         );
     }
 
+    if (!clients?.[0]?.account_number) {
+        throw new Error('[DEPRECATED] No client account_number found to create financial entry');
+    }
+
     const financialEntry = await consumer.accounting.createFinancialEntryOld({
         date: '2022-01-01',
         journal_id: journal.id,
         currency: 'EUR',
+        currency_exchange_rate: 1,
         items: [
             {
                 type: 'customer_account',
@@ -627,7 +678,7 @@ test('getFolders', async () => {
 test.skip('getAttachments', async () => {
     const attachments = await consumer.accounting.getAttachments({
         // TODO: Add documentId from test account
-        documentId: '',
+        document_id: '',
         type: 'invoice',
     });
     expect(attachments).toBeInstanceOf(Array);
@@ -649,4 +700,20 @@ test.skip('matchEntries', async () => {
 test('getBookyears', async () => {
     const bookyears = await consumer.accounting.getBookyears();
     expect(bookyears).toBeInstanceOf(Array);
+});
+
+test('createLedgerAccount', async () => {
+    const body: components['schemas']['LedgerAccountItemIn'] = {
+        name: 'sdk test',
+        number: '1324',
+    };
+    const ledgerAccount = await consumer.accounting.createLedgerAccount(body);
+    expect(ledgerAccount).toBeTruthy();
+    expect(ledgerAccount).toHaveProperty('name', 'sdk test');
+});
+
+test('getJournalEntry', async () => {
+    if (!journalEntries?.[0].id) throw new Error('Journal entry ID is required');
+    const journalEntry = await consumer.accounting.getJournalEntry(journalEntries[0].id);
+    expect(journalEntry).toBeTruthy();
 });
