@@ -392,7 +392,7 @@ const accountingFactory = {
         invoice_id: string,
         attachment: components['schemas']['AttachmentItem'],
         params?: operations['accounting_add_attachment']['parameters']['query']
-    ): RequestData<operations['accounting_add_attachment']['responses'][201]> {
+    ): RequestData<operations['accounting_add_attachment']['responses'][204]> {
         return {
             params,
             method: 'post',
