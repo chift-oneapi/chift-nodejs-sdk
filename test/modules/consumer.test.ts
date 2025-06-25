@@ -67,3 +67,11 @@ test('getSyncData', async () => {
     const syncData = await syncConsumer.getSyncData(process.env.CHIFT_TEST_SYNC_ID as string);
     expect(syncData).toBeTruthy();
 });
+
+test('consumer has banking module', async () => {
+    expect(consumer.banking).toBeDefined();
+    expect(typeof consumer.banking.getFinancialInstitutions).toBe('function');
+    expect(typeof consumer.banking.getAccounts).toBe('function');
+    expect(typeof consumer.banking.getAccountTransactions).toBe('function');
+    expect(typeof consumer.banking.getAccountCounterparts).toBe('function');
+});
