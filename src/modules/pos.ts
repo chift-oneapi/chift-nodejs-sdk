@@ -62,7 +62,7 @@ const posFactory = {
         customer: components['schemas']['POSCreateCustomerItem']
     ): RequestData<components['schemas']['POSCustomerItem']> {
         return {
-            method: 'create',
+            method: 'post',
             url: `/consumers/{consumer_id}/pos/customers`,
             body: customer,
         };
@@ -78,7 +78,9 @@ const posFactory = {
     },
     getProductCategories(
         params?: GetProductCategoriesParams
-    ): RequestData<components['schemas']['CategoryItem'][]> {
+    ): RequestData<
+        components['schemas']['backbone_common__models__pos__common__ProductCategoryItem'][]
+    > {
         return {
             params,
             method: 'get',

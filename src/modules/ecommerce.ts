@@ -19,17 +19,35 @@ type GetCountriesParams = AutoPaginatedParams<
     operations['ecommerce_get_countries']['parameters']['query']
 >;
 
+type GetCustomersParams = AutoPaginatedParams<
+    operations['ecommerce_get_customers']['parameters']['query']
+>;
+
+type GetProductsParams = AutoPaginatedParams<
+    operations['ecommerce_get_products']['parameters']['query']
+>;
+
+type GetLocationsParams = AutoPaginatedParams<
+    operations['ecommerce_get_locations']['parameters']['query']
+>;
+
 const ecommerceFactory = {
-    getCustomers(): RequestData<components['schemas']['CommerceCustomerItem'][]> {
+    getCustomers(
+        params?: GetCustomersParams
+    ): RequestData<components['schemas']['CommerceCustomerItem'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/customers',
         };
     },
-    getProducts(): RequestData<
+    getProducts(
+        params?: GetProductsParams
+    ): RequestData<
         components['schemas']['backbone_common__models__commerce__common__ProductItem'][]
     > {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/products',
         };
@@ -66,8 +84,11 @@ const ecommerceFactory = {
             body: inventoryDetails,
         };
     },
-    getLocations(): RequestData<components['schemas']['CommerceLocationItem'][]> {
+    getLocations(
+        params?: GetLocationsParams
+    ): RequestData<components['schemas']['CommerceLocationItemOut'][]> {
         return {
+            params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/locations',
         };
@@ -88,8 +109,12 @@ const ecommerceFactory = {
             body: order,
         };
     },
-    getOrder(orderId: string): RequestData<components['schemas']['OrderItemOut']> {
+    getOrder(
+        orderId: string,
+        params?: operations['ecommerce_get_order']['parameters']['query']
+    ): RequestData<components['schemas']['OrderItemOut']> {
         return {
+            params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/orders/${orderId}`,
         };

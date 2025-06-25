@@ -33,7 +33,7 @@ const invoicingFactory = {
         invoice: components['schemas']['backbone_common__models__invoicing__common__InvoiceItem']
     ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
-            method: 'create',
+            method: 'post',
             url: `/consumers/{consumer_id}/invoicing/invoices`,
             body: invoice,
         };
@@ -54,7 +54,7 @@ const invoicingFactory = {
         product: components['schemas']['backbone_common__models__invoicing__common__ProductItem']
     ): RequestData<components['schemas']['ProductItemOut']> {
         return {
-            method: 'create',
+            method: 'post',
             url: `/consumers/{consumer_id}/invoicing/products`,
             body: product,
         };
@@ -104,7 +104,7 @@ const invoicingFactory = {
         contact: components['schemas']['ContactItemIn']
     ): RequestData<components['schemas']['ContactItemOut']> {
         return {
-            method: 'create',
+            method: 'post',
             url: `/consumers/{consumer_id}/invoicing/contacts`,
             body: contact,
         };
