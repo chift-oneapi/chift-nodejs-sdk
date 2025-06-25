@@ -30,7 +30,7 @@ const invoicingFactory = {
         };
     },
     createInvoice(
-        invoice: components['schemas']['backbone_common__models__invoicing__common__InvoiceItem']
+        invoice: components['schemas']['InvoiceItem-Input']
     ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
             method: 'post',
@@ -51,7 +51,7 @@ const invoicingFactory = {
         };
     },
     createProduct(
-        product: components['schemas']['backbone_common__models__invoicing__common__ProductItem']
+        product: components['schemas']['ProductItem-Input']
     ): RequestData<components['schemas']['ProductItemOut']> {
         return {
             method: 'post',

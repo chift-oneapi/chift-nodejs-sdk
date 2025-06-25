@@ -27,7 +27,7 @@ test('getCustomers', async () => {
     expect(customers[0]).toHaveProperty('id', expect.any(String));
 });
 
-let products: components['schemas']['backbone_common__models__commerce__common__ProductItem'][];
+let products: components['schemas']['ProductItem-Output'][];
 test('getProducts', async () => {
     products = await consumer.ecommerce.getProducts();
     expect(products).toBeInstanceOf(Array);
@@ -71,7 +71,7 @@ test.skip('getProductVariantById', async () => {
         throw new Error('No product to test');
     }
 
-    if (!products[0].variants.length) {
+    if (!products[0].variants?.length) {
         throw new Error('No product variant to test');
     }
 

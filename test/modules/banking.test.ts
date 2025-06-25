@@ -27,7 +27,7 @@ test('getFinancialInstitutions', async () => {
     expect(financialInstitutions.length).toBeGreaterThan(0);
     expect(financialInstitutions[0]).toHaveProperty('id', expect.any(String));
     expect(financialInstitutions[0]).toHaveProperty('name', expect.any(String));
-    expect(financialInstitutions[0]).toHaveProperty('country_code');
+    expect(financialInstitutions[0]).toHaveProperty('country');
     expect(financialInstitutions[0]).toHaveProperty('bic');
 });
 
@@ -37,12 +37,11 @@ test('getAccounts', async () => {
     expect(accounts).toBeInstanceOf(Array);
     expect(accounts.length).toBeGreaterThan(0);
     expect(accounts[0]).toHaveProperty('id', expect.any(String));
-    expect(accounts[0]).toHaveProperty('account_number');
-    expect(accounts[0]).toHaveProperty('iban');
     expect(accounts[0]).toHaveProperty('currency', expect.any(String));
-    expect(accounts[0]).toHaveProperty('account_type');
-    expect(accounts[0]).toHaveProperty('balance', expect.any(Number));
-    expect(accounts[0]).toHaveProperty('financial_institution_id');
+    expect(accounts[0]).toHaveProperty('current_balance', expect.any(Number));
+    expect(accounts[0]).toHaveProperty('available_balance', expect.any(Number));
+    expect(accounts[0]).toHaveProperty('description', expect.any(String));
+    expect(accounts[0]).toHaveProperty('reference', expect.any(String));
 });
 
 let transactions: components['schemas']['BankingTransactionItem'][];
@@ -57,7 +56,7 @@ test('getAccountTransactions', async () => {
         expect(transactions[0]).toHaveProperty('id', expect.any(String));
         expect(transactions[0]).toHaveProperty('amount', expect.any(Number));
         expect(transactions[0]).toHaveProperty('currency', expect.any(String));
-        expect(transactions[0]).toHaveProperty('transaction_date', expect.any(String));
+        expect(transactions[0]).toHaveProperty('creation_date', expect.any(String));
     }
 });
 
@@ -66,7 +65,7 @@ test('getAccountCounterparts', async () => {
     counterparts = await consumer.banking.getAccountCounterparts();
     expect(counterparts).toBeInstanceOf(Array);
     if (counterparts.length > 0) {
-        expect(counterparts[0]).toHaveProperty('id', expect.any(String));
-        expect(counterparts[0]).toHaveProperty('name', expect.any(String));
+        expect(counterparts[0]).toHaveProperty('name');
+        expect(counterparts[0]).toHaveProperty('reference');
     }
 });

@@ -68,6 +68,7 @@ export type chiftOperations = {
     getInvoice: 'accounting_get_invoice';
     getInvoiceMultiPlans: 'accounting_get_invoice_multi_analytic_plans';
     createLedgerAccount: 'accounting_create_ledger_account';
+    createBankAccount: 'accounting_create_bank_account';
     getAnalyticAccounts: 'accounting_get_analytic_accounts';
     createAnalyticAccount: 'accounting_create_analytic_account';
     createAnalyticAccountMultiPlans: 'accounting_create_analytic_account_multi_plans';
@@ -83,6 +84,7 @@ export type chiftOperations = {
     createGenericJournalEntry: 'accounting_create_generic_journal_entry';
     getPaymentsByInvoice: 'accounting_get_payments_by_invoice';
     getJournals: 'accounting_get_journals';
+    createJournal: 'accounting_create_journal';
     getVatCodes: 'accounting_get_vat_codes';
     getMiscellaneousOperations: 'accounting_get_miscellaneous_operations';
     createMiscellaneousOperation: 'accounting_create_miscellaneous_operation';
