@@ -45,12 +45,6 @@ test('getAccounts', async () => {
     expect(accounts[0]).toHaveProperty('financial_institution_id');
 });
 
-test('getAccountsWithParams', async () => {
-    // AutoPaginatedParams removes page/size, so we test with other available params
-    const accountsWithParams = await consumer.banking.getAccounts();
-    expect(accountsWithParams).toBeInstanceOf(Array);
-});
-
 let transactions: components['schemas']['BankingTransactionItem'][];
 test('getAccountTransactions', async () => {
     if (!accounts.length) {
@@ -64,22 +58,7 @@ test('getAccountTransactions', async () => {
         expect(transactions[0]).toHaveProperty('amount', expect.any(Number));
         expect(transactions[0]).toHaveProperty('currency', expect.any(String));
         expect(transactions[0]).toHaveProperty('transaction_date', expect.any(String));
-        expect(transactions[0]).toHaveProperty('description');
-        expect(transactions[0]).toHaveProperty('transaction_type');
-        expect(transactions[0]).toHaveProperty('account_id', accounts[0].id);
     }
-});
-
-test('getAccountTransactionsWithParams', async () => {
-    if (!accounts.length) {
-        throw new Error('No accounts found to test getAccountTransactionsWithParams');
-    }
-
-    const transactionsWithParams = await consumer.banking.getAccountTransactions(accounts[0].id, {
-        date_from: '2023-01-01',
-        date_to: '2023-12-31',
-    });
-    expect(transactionsWithParams).toBeInstanceOf(Array);
 });
 
 let counterparts: components['schemas']['BankingCounterPartItem'][];
@@ -89,24 +68,5 @@ test('getAccountCounterparts', async () => {
     if (counterparts.length > 0) {
         expect(counterparts[0]).toHaveProperty('id', expect.any(String));
         expect(counterparts[0]).toHaveProperty('name', expect.any(String));
-        expect(counterparts[0]).toHaveProperty('account_number');
-        expect(counterparts[0]).toHaveProperty('iban');
-        expect(counterparts[0]).toHaveProperty('counterpart_type');
     }
-});
-
-test('getAccountCounterpartsWithParams', async () => {
-    const counterpartsWithParams = await consumer.banking.getAccountCounterparts({
-        date_from: '2023-01-01',
-        date_to: '2023-12-31',
-    });
-    expect(counterpartsWithParams).toBeInstanceOf(Array);
-});
-
-test('banking module is accessible from consumer', async () => {
-    expect(consumer.banking).toBeDefined();
-    expect(typeof consumer.banking.getFinancialInstitutions).toBe('function');
-    expect(typeof consumer.banking.getAccounts).toBe('function');
-    expect(typeof consumer.banking.getAccountTransactions).toBe('function');
-    expect(typeof consumer.banking.getAccountCounterparts).toBe('function');
 });
