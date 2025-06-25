@@ -59,12 +59,14 @@ const posFactory = {
         };
     },
     createCustomer(
-        customer: components['schemas']['POSCreateCustomerItem']
+        customer: components['schemas']['POSCreateCustomerItem'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['POSCustomerItem']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/pos/customers`,
             body: customer,
+            clientRequestId,
         };
     },
     getPaymentMethods(
@@ -124,12 +126,14 @@ const posFactory = {
     },
     updateOrder(
         orderId: string,
-        order: components['schemas']['UpdateOrderItem']
+        order: components['schemas']['UpdateOrderItem'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['POSOrderItem']> {
         return {
             method: 'patch',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
             body: order,
+            clientRequestId,
         };
     },
     getAccountingCategories(

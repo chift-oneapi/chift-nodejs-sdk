@@ -92,13 +92,15 @@ const accountingFactory = {
     },
     createClient(
         client: components['schemas']['ClientItemIn'],
-        params?: operations['accounting_create_client']['parameters']['query']
+        params?: operations['accounting_create_client']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/clients',
             body: client,
+            clientRequestId,
         };
     },
     getClient(
@@ -114,13 +116,15 @@ const accountingFactory = {
     updateClient(
         clientId: string,
         client: components['schemas']['ClientItemUpdate'],
-        params?: operations['accounting_update_client']['parameters']['query']
+        params?: operations['accounting_update_client']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
             params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/clients/${clientId}`,
             body: client,
+            clientRequestId,
         };
     },
     getSuppliers(
@@ -134,13 +138,15 @@ const accountingFactory = {
     },
     createSupplier(
         supplier: components['schemas']['SupplierItemIn'],
-        params?: operations['accounting_create_supplier']['parameters']['query']
+        params?: operations['accounting_create_supplier']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/suppliers',
             body: supplier,
+            clientRequestId,
         };
     },
     getSupplier(
@@ -167,13 +173,15 @@ const accountingFactory = {
     },
     createInvoice(
         invoice: components['schemas']['InvoiceItemInMonoAnalyticPlan'],
-        params?: operations['accounting_create_invoice']['parameters']['query']
+        params?: operations['accounting_create_invoice']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/invoices',
             body: invoice,
+            clientRequestId,
         };
     },
     createInvoiceWithMultiplePlans(

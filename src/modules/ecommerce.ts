@@ -70,12 +70,14 @@ const ecommerceFactory = {
     },
     updateAvailableQuantity(
         variantId: string,
-        inventoryDetails: components['schemas']['InventoryDetailsUpdate']
+        inventoryDetails: components['schemas']['InventoryDetailsUpdate'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['InventoryDetailsItem']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/commerce/variants/set_quantity/${variantId}`,
             body: inventoryDetails,
+            clientRequestId,
         };
     },
     getLocations(
@@ -99,12 +101,14 @@ const ecommerceFactory = {
         };
     },
     createOrder(
-        order: components['schemas']['OrderItemIn']
+        order: components['schemas']['OrderItemIn'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['OrderItemOut']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/commerce/orders`,
             body: order,
+            clientRequestId,
         };
     },
     getOrder(

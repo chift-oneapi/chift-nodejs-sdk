@@ -30,12 +30,14 @@ const invoicingFactory = {
         };
     },
     createInvoice(
-        invoice: components['schemas']['InvoiceItem-Input']
+        invoice: components['schemas']['InvoiceItem-Input'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/invoicing/invoices`,
             body: invoice,
+            clientRequestId,
         };
     },
     getProducts(): RequestData<components['schemas']['ProductItemOut'][]> {
@@ -51,12 +53,14 @@ const invoicingFactory = {
         };
     },
     createProduct(
-        product: components['schemas']['ProductItem-Input']
+        product: components['schemas']['ProductItem-Input'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['ProductItemOut']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/invoicing/products`,
             body: product,
+            clientRequestId,
         };
     },
     getTaxes(): RequestData<components['schemas']['InvoicingVatCode'][]> {
@@ -101,12 +105,14 @@ const invoicingFactory = {
         };
     },
     createContact(
-        contact: components['schemas']['ContactItemIn']
+        contact: components['schemas']['ContactItemIn'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['ContactItemOut']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/invoicing/contacts`,
             body: contact,
+            clientRequestId,
         };
     },
     getPayments(): RequestData<components['schemas']['InvoicingPaymentItem'][]> {

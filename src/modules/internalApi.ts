@@ -137,6 +137,9 @@ class InternalAPI {
                 if (requestData.rawData) {
                     headers['x-chift-raw-data'] = 'true';
                 }
+                if (requestData.clientRequestId) {
+                    headers['x-chift-client-requestid'] = requestData.clientRequestId;
+                }
 
                 const res = await this.instance({
                     url: requestData.url,
