@@ -189,22 +189,26 @@ const accountingFactory = {
     },
     getInvoicesByType(
         invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'],
-        params?: GetInvoicesByTypeParams
+        params?: GetInvoicesByTypeParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/type/${invoice_type}`,
+            rawData,
         };
     },
     getInvoice(
         invoiceId: string,
-        params?: operations['accounting_get_invoice']['parameters']['query']
+        params?: operations['accounting_get_invoice']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/${invoiceId}`,
+            rawData,
         };
     },
     getInvoiceWithMultiplePlans(

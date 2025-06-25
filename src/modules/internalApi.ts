@@ -133,11 +133,17 @@ class InternalAPI {
                         ...this.getPaginationParams(currentPage),
                     };
                 }
+                const headers: any = {};
+                if (requestData.rawData) {
+                    headers['x-chift-raw-data'] = 'true';
+                }
+
                 const res = await this.instance({
                     url: requestData.url,
                     method: requestData.method,
                     params: params,
                     data: requestData.body !== undefined ? requestData.body : undefined,
+                    headers: headers,
                 });
                 const { data } = res;
                 if (data) {

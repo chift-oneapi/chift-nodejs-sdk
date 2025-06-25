@@ -22,6 +22,7 @@ export type RequestData<TResponse> = {
     url: string;
     params?: unknown;
     body?: unknown;
+    rawData?: boolean;
 };
 
 export type RequestFactory = { [key: string]: (...args: any) => RequestData<any> };

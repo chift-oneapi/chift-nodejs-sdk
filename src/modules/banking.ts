@@ -38,12 +38,14 @@ const bankingFactory = {
     },
     getAccountTransactions(
         accountId: string,
-        params?: GetAccountTransactionsParams
+        params?: GetAccountTransactionsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['BankingTransactionItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/banking/${accountId}/transactions`,
+            rawData,
         };
     },
     getAccountCounterparts(

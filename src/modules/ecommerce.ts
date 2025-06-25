@@ -87,11 +87,15 @@ const ecommerceFactory = {
             url: '/consumers/{consumer_id}/commerce/locations',
         };
     },
-    getOrders(params?: GetOrdersParams): RequestData<components['schemas']['OrderItemOut'][]> {
+    getOrders(
+        params?: GetOrdersParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['OrderItemOut'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/orders',
             params: params,
+            rawData,
         };
     },
     createOrder(
@@ -105,12 +109,14 @@ const ecommerceFactory = {
     },
     getOrder(
         orderId: string,
-        params?: operations['ecommerce_get_order']['parameters']['query']
+        params?: operations['ecommerce_get_order']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['OrderItemOut']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/orders/${orderId}`,
+            rawData,
         };
     },
     getPaymentMethods(
