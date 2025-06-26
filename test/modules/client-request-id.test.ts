@@ -3,6 +3,7 @@ import { accountingFactory } from '../../src/modules/accounting';
 import { ecommerceFactory } from '../../src/modules/ecommerce';
 import { invoicingFactory } from '../../src/modules/invoicing';
 import { posFactory } from '../../src/modules/pos';
+import { customFactory } from '../../src/modules/custom';
 
 test('accounting factory methods support clientRequestId parameter for create operations', () => {
     // Test that createClient supports clientRequestId parameter
@@ -156,6 +157,73 @@ test('pos factory methods support clientRequestId parameter', () => {
     expect(updateOrderRequest).toHaveProperty('body', { status: 'completed' });
 });
 
+test('custom factory methods support clientRequestId parameter', () => {
+    // Test that post supports clientRequestId parameter
+    const postRequest = customFactory.post(
+        'test-integration',
+        'test-resource',
+        { data: 'test' },
+        undefined,
+        'test-custom-post-id-123'
+    );
+    expect(postRequest).toHaveProperty('clientRequestId', 'test-custom-post-id-123');
+    expect(postRequest).toHaveProperty('method', 'post');
+    expect(postRequest).toHaveProperty(
+        'url',
+        '/consumers/{consumer_id}/custom/test-integration/test-resource'
+    );
+    expect(postRequest).toHaveProperty('body', { data: 'test' });
+
+    // Test that patch supports clientRequestId parameter
+    const patchRequest = customFactory.patch(
+        'test-integration',
+        'test-resource',
+        { data: 'updated' },
+        undefined,
+        'test-custom-patch-id-456'
+    );
+    expect(patchRequest).toHaveProperty('clientRequestId', 'test-custom-patch-id-456');
+    expect(patchRequest).toHaveProperty('method', 'patch');
+    expect(patchRequest).toHaveProperty(
+        'url',
+        '/consumers/{consumer_id}/custom/test-integration/test-resource'
+    );
+    expect(patchRequest).toHaveProperty('body', { data: 'updated' });
+});
+
+test('additional accounting factory methods support clientRequestId parameter', () => {
+    // Test that createJournal supports clientRequestId parameter
+    const createJournalRequest = accountingFactory.createJournal(
+        { name: 'Test Journal' } as any,
+        undefined,
+        'test-journal-request-id-111'
+    );
+    expect(createJournalRequest).toHaveProperty('clientRequestId', 'test-journal-request-id-111');
+    expect(createJournalRequest).toHaveProperty('method', 'post');
+
+    // Test that createBankAccount supports clientRequestId parameter
+    const createBankAccountRequest = accountingFactory.createBankAccount(
+        { name: 'Test Bank Account' } as any,
+        undefined,
+        'test-bank-account-request-id-222'
+    );
+    expect(createBankAccountRequest).toHaveProperty(
+        'clientRequestId',
+        'test-bank-account-request-id-222'
+    );
+    expect(createBankAccountRequest).toHaveProperty('method', 'post');
+
+    // Test that updateSupplier supports clientRequestId parameter
+    const updateSupplierRequest = accountingFactory.updateSupplier(
+        'supplier-123',
+        { name: 'Updated Supplier' } as any,
+        undefined,
+        'test-update-supplier-id-333'
+    );
+    expect(updateSupplierRequest).toHaveProperty('clientRequestId', 'test-update-supplier-id-333');
+    expect(updateSupplierRequest).toHaveProperty('method', 'patch');
+});
+
 test('clientRequestId parameter defaults to undefined when not specified', () => {
     // Test that clientRequestId is undefined when not specified
     const createClientRequest = accountingFactory.createClient({ name: 'Test Client' } as any);
@@ -169,4 +237,7 @@ test('clientRequestId parameter defaults to undefined when not specified', () =>
 
     const createCustomerRequest = posFactory.createCustomer({ name: 'Test Customer' } as any);
     expect(createCustomerRequest.clientRequestId).toBeUndefined();
+
+    const customPostRequest = customFactory.post('test', 'resource', { data: 'test' });
+    expect(customPostRequest.clientRequestId).toBeUndefined();
 });

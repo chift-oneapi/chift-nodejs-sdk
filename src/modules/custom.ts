@@ -8,20 +8,34 @@ const customFactory = {
             params: params,
         };
     },
-    post(name: string, resource: string, body: any, params?: any): RequestData<any> {
+    post(
+        name: string,
+        resource: string,
+        body: any,
+        params?: any,
+        clientRequestId?: string
+    ): RequestData<any> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/custom/${name}/${resource}`,
             body: body,
             params: params,
+            clientRequestId,
         };
     },
-    patch(name: string, resource: string, body: any, params?: any): RequestData<any> {
+    patch(
+        name: string,
+        resource: string,
+        body: any,
+        params?: any,
+        clientRequestId?: string
+    ): RequestData<any> {
         return {
             method: 'patch',
             url: `/consumers/{consumer_id}/custom/${name}/${resource}`,
             body: body,
             params: params,
+            clientRequestId,
         };
     },
     delete(name: string, resource: string, params?: any): RequestData<any> {

@@ -162,13 +162,15 @@ const accountingFactory = {
     updateSupplier(
         supplierId: string,
         supplier: components['schemas']['SupplierItemUpdate'],
-        params?: operations['accounting_update_supplier']['parameters']['query']
+        params?: operations['accounting_update_supplier']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
             params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/suppliers/${supplierId}`,
             body: supplier,
+            clientRequestId,
         };
     },
     createInvoice(
@@ -186,13 +188,15 @@ const accountingFactory = {
     },
     createInvoiceWithMultiplePlans(
         invoice: components['schemas']['InvoiceItemInMultiAnalyticPlans'],
-        params?: operations['accounting_create_invoice_multiple_plans']['parameters']['query']
+        params?: operations['accounting_create_invoice_multiple_plans']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans',
             body: invoice,
+            clientRequestId,
         };
     },
     getInvoicesByType(
@@ -241,13 +245,15 @@ const accountingFactory = {
     },
     createAnalyticAccount(
         analyticAccount: components['schemas']['AnalyticAccountItemIn'],
-        params?: operations['accounting_create_analytic_account']['parameters']['query']
+        params?: operations['accounting_create_analytic_account']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/analytic-accounts',
             body: analyticAccount,
+            clientRequestId,
         };
     },
     getAnalyticAccounts(
@@ -262,13 +268,15 @@ const accountingFactory = {
     createAnalyticAccountWithMultiplePlans(
         analytic_plan: string,
         analyticAccount: components['schemas']['AnalyticAccountItemIn'],
-        params?: operations['accounting_create_analytic_account_multi_plans']['parameters']['query']
+        params?: operations['accounting_create_analytic_account_multi_plans']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
             params,
             method: 'post',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans/${analytic_plan}`,
             body: analyticAccount,
+            clientRequestId,
         };
     },
     getAnalyticAccount(
@@ -284,13 +292,15 @@ const accountingFactory = {
     updateAnalyticAccount(
         analytic_account_id: string,
         analyticAccount: components['schemas']['AnalyticAccountItemUpdate'],
-        params?: operations['accounting_update_analytic_account']['parameters']['query']
+        params?: operations['accounting_update_analytic_account']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
             params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}`,
             body: analyticAccount,
+            clientRequestId,
         };
     },
     getAnalyticAccountWithMultiplePlans(
@@ -308,13 +318,15 @@ const accountingFactory = {
         analytic_account_id: string,
         analytic_plan: string,
         analyticAccount: components['schemas']['AnalyticAccountItemUpdate'],
-        params?: operations['accounting_update_analytic_account_multi_plans']['parameters']['query']
+        params?: operations['accounting_update_analytic_account_multi_plans']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
             params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}/multi-analytic-plans/${analytic_plan}`,
             body: analyticAccount,
+            clientRequestId,
         };
     },
     getAnalyticAccountsWithMultiplePlans(
@@ -363,13 +375,15 @@ const accountingFactory = {
     },
     createJournal(
         journal: components['schemas']['JournalIn'],
-        params?: operations['accounting_create_journal']['parameters']['query']
+        params?: operations['accounting_create_journal']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['Journal']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/journals',
             body: journal,
+            clientRequestId,
         };
     },
     getVatCodes(
@@ -392,13 +406,15 @@ const accountingFactory = {
     },
     createMiscOperation(
         operation: components['schemas']['MiscellaneousOperationIn'],
-        params?: operations['accounting_create_miscellaneous_operation']['parameters']['query']
+        params?: operations['accounting_create_miscellaneous_operation']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['MiscellaneousOperationOut']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/miscellaneous-operation',
             body: operation,
+            clientRequestId,
         };
     },
     getMiscOperation(
@@ -475,44 +491,52 @@ const accountingFactory = {
      */
     createFinancialEntryOld(
         financial_entry: components['schemas']['FinancialEntryItemInOld'],
-        params?: operations['accounting_create_financial_entry']['parameters']['query']
+        params?: operations['accounting_create_financial_entry']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['FinancialEntryItemOutOld']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/financial-entry',
             body: financial_entry,
+            clientRequestId,
         };
     },
     createFinancialEntry(
         financial_entry: components['schemas']['FinancialEntryItemIn'],
-        params?: operations['accounting_create_financial_entries']['parameters']['query']
+        params?: operations['accounting_create_financial_entries']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['FinancialEntryItemOut']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/financial-entries',
             body: financial_entry,
+            clientRequestId,
         };
     },
     createJournalEntryOld(
-        journal_entry: components['schemas']['JournalEntryIn']
+        journal_entry: components['schemas']['JournalEntryIn'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
         return {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/journal/entries',
             body: journal_entry,
+            clientRequestId,
         };
     },
     createJournalEntry(
         journal_entry: components['schemas']['GenericJournalEntry'],
-        params?: operations['accounting_create_generic_journal_entry']['parameters']['query']
+        params?: operations['accounting_create_generic_journal_entry']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/journal-entries',
             body: journal_entry,
+            clientRequestId,
         };
     },
     matchEntries(
@@ -552,24 +576,28 @@ const accountingFactory = {
     },
     createLedgerAccount(
         account: components['schemas']['LedgerAccountItemIn'],
-        params?: operations['accounting_create_ledger_account']['parameters']['query']
+        params?: operations['accounting_create_ledger_account']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['AccountItem']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/accounts',
             body: account,
+            clientRequestId,
         };
     },
     createBankAccount(
         bankAccount: components['schemas']['BankAccountItemIn'],
-        params?: operations['accounting_create_bank_account']['parameters']['query']
+        params?: operations['accounting_create_bank_account']['parameters']['query'],
+        clientRequestId?: string
     ): RequestData<components['schemas']['BankAccountItemOut']> {
         return {
             params,
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/bank-accounts',
             body: bankAccount,
+            clientRequestId,
         };
     },
     getJournalEntry(
