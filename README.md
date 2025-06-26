@@ -44,7 +44,7 @@ const locations = await consumers[0].pos.getLocations();
 
 ### Idempotency with Client Request ID
 
-The SDK supports idempotency for create and update operations using the `x-chift-client-requestid` header. This helps prevent duplicate operations when requests are retried.
+The SDK supports idempotency for create and update operations using the `x-chift-client-requestid` header. This helps prevent duplicate resource creation. See [developer guide](https://docs.chift.eu/developer-guides/advanced/idempotency#idempotency)
 
 ```typescript
 // Create a client with idempotency
@@ -73,23 +73,6 @@ const rawInvoices = await consumer.accounting.getInvoicesByType('customer_invoic
 
 // Get raw data from orders
 const rawOrders = await consumer.ecommerce.getOrders({}, true);
-```
-
-### Invoice PDF Support
-
-The invoicing module supports retrieving invoices with PDF attachments:
-
-```typescript
-// Get invoice with PDF included (returns InvoiceItemOutSingle with pdf field)
-const invoiceWithPdf = await consumer.invoicing.getInvoiceById('invoice-123', {
-    include_pdf: 'true'
-});
-
-// Check if PDF is available
-if (invoiceWithPdf.pdf) {
-    console.log('PDF available as base64 string');
-    // invoiceWithPdf.pdf contains the PDF as a base64 encoded string
-}
 ```
 
 ## Development
