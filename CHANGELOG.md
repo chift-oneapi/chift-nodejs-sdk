@@ -173,6 +173,7 @@
 ## [Unreleased]
 * Add support for `x-chift-client-requestid` header for idempotency on create/update requests
 * Add `clientRequestId` parameter to create and update methods across all modules (accounting, ecommerce, invoicing, pos)
+* Fix `invoicing.getInvoiceById()` return type to include `pdf` field when `include_pdf: 'true'` parameter is used
 
 ## [1.0.23] - 2024-12-19
 * Add support for `x-chift-raw-data` header to get raw data from the API

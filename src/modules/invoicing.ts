@@ -22,7 +22,7 @@ const invoicingFactory = {
     getInvoiceById(
         invoiceId: string,
         params?: operations['invoicing_get_invoice']['parameters']['query']
-    ): RequestData<components['schemas']['InvoiceItemOut']> {
+    ): RequestData<components['schemas']['InvoiceItemOutSingle']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices/${invoiceId}`,

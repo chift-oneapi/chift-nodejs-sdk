@@ -75,6 +75,23 @@ const rawInvoices = await consumer.accounting.getInvoicesByType('customer_invoic
 const rawOrders = await consumer.ecommerce.getOrders({}, true);
 ```
 
+### Invoice PDF Support
+
+The invoicing module supports retrieving invoices with PDF attachments:
+
+```typescript
+// Get invoice with PDF included (returns InvoiceItemOutSingle with pdf field)
+const invoiceWithPdf = await consumer.invoicing.getInvoiceById('invoice-123', {
+    include_pdf: 'true'
+});
+
+// Check if PDF is available
+if (invoiceWithPdf.pdf) {
+    console.log('PDF available as base64 string');
+    // invoiceWithPdf.pdf contains the PDF as a base64 encoded string
+}
+```
+
 ## Development
 
 How to generate the typescript schemas from the OpenAPI schema of Chift:
