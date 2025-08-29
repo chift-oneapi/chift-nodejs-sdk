@@ -340,15 +340,13 @@ const accountingFactory = {
         analytic_account_id: string,
         analytic_plan: string,
         analyticAccount: components['schemas']['AnalyticAccountItemUpdate'],
-        params?: operations['accounting_update_analytic_account_multi_plans']['parameters']['query'],
-        options?: ClientRequestOption
+        params?: operations['accounting_update_analytic_account_multi_plans']['parameters']['query']
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
             params,
             method: 'patch',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}/multi-analytic-plans/${analytic_plan}`,
             body: analyticAccount,
-            clientRequestId: options?.clientRequestId,
         };
     },
     getAnalyticAccountsWithMultiplePlans(
