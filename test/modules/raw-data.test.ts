@@ -5,7 +5,11 @@ import { bankingFactory } from '../../src/modules/banking';
 
 test('accounting factory methods support rawData parameter', () => {
     // Test that getInvoicesByType supports rawData parameter
-    const getInvoicesRequest = accountingFactory.getInvoicesByType('customer_invoice', {}, true);
+    const getInvoicesRequest = accountingFactory.getInvoicesByType(
+        'customer_invoice',
+        {},
+        { rawData: true }
+    );
     expect(getInvoicesRequest).toHaveProperty('rawData', true);
     expect(getInvoicesRequest).toHaveProperty('method', 'get');
     expect(getInvoicesRequest).toHaveProperty(
@@ -14,7 +18,11 @@ test('accounting factory methods support rawData parameter', () => {
     );
 
     // Test that getInvoice supports rawData parameter
-    const getInvoiceRequest = accountingFactory.getInvoice('test-invoice-id', {}, true);
+    const getInvoiceRequest = accountingFactory.getInvoice(
+        'test-invoice-id',
+        {},
+        { rawData: true }
+    );
     expect(getInvoiceRequest).toHaveProperty('rawData', true);
     expect(getInvoiceRequest).toHaveProperty('method', 'get');
     expect(getInvoiceRequest).toHaveProperty(
@@ -25,13 +33,13 @@ test('accounting factory methods support rawData parameter', () => {
 
 test('ecommerce factory methods support rawData parameter', () => {
     // Test that getOrders supports rawData parameter
-    const getOrdersRequest = ecommerceFactory.getOrders({}, true);
+    const getOrdersRequest = ecommerceFactory.getOrders({}, { rawData: true });
     expect(getOrdersRequest).toHaveProperty('rawData', true);
     expect(getOrdersRequest).toHaveProperty('method', 'get');
     expect(getOrdersRequest).toHaveProperty('url', '/consumers/{consumer_id}/commerce/orders');
 
     // Test that getOrder supports rawData parameter
-    const getOrderRequest = ecommerceFactory.getOrder('test-order-id', {}, true);
+    const getOrderRequest = ecommerceFactory.getOrder('test-order-id', {}, { rawData: true });
     expect(getOrderRequest).toHaveProperty('rawData', true);
     expect(getOrderRequest).toHaveProperty('method', 'get');
     expect(getOrderRequest).toHaveProperty(
@@ -45,7 +53,7 @@ test('banking factory methods support rawData parameter', () => {
     const getTransactionsRequest = bankingFactory.getAccountTransactions(
         'test-account-id',
         {},
-        true
+        { rawData: true }
     );
     expect(getTransactionsRequest).toHaveProperty('rawData', true);
     expect(getTransactionsRequest).toHaveProperty('method', 'get');
@@ -69,16 +77,20 @@ test('rawData parameter defaults to undefined when not specified', () => {
 
 test('rawData parameter can be explicitly set to false', () => {
     // Test that rawData can be explicitly set to false
-    const getInvoicesRequest = accountingFactory.getInvoicesByType('customer_invoice', {}, false);
+    const getInvoicesRequest = accountingFactory.getInvoicesByType(
+        'customer_invoice',
+        {},
+        { rawData: false }
+    );
     expect(getInvoicesRequest).toHaveProperty('rawData', false);
 
-    const getOrdersRequest = ecommerceFactory.getOrders({}, false);
+    const getOrdersRequest = ecommerceFactory.getOrders({}, { rawData: false });
     expect(getOrdersRequest).toHaveProperty('rawData', false);
 
     const getTransactionsRequest = bankingFactory.getAccountTransactions(
         'test-account-id',
         {},
-        false
+        { rawData: false }
     );
     expect(getTransactionsRequest).toHaveProperty('rawData', false);
 });

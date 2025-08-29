@@ -1,5 +1,5 @@
 import { operations, components } from '../types/public-api/schema';
-import { AutoPaginatedParams, RequestData } from '../types/api';
+import { AutoPaginatedParams, RequestData, RawDataOption, ClientRequestOption } from '../types/api';
 
 type GetOrdersParams = AutoPaginatedParams<
     operations['ecommerce_get_orders']['parameters']['query']
@@ -34,155 +34,155 @@ type GetLocationsParams = AutoPaginatedParams<
 const ecommerceFactory = {
     getCustomers(
         params?: GetCustomersParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['CommerceCustomerItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/customers',
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getProducts(
         params?: GetProductsParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['ProductItem-Output'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/products',
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getCustomer(
         customerId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['CommerceCustomerItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/customers/${customerId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getProduct(
         productId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['ProductItem-Output']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/products/${productId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getProductVariantById(
         variantId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['VariantItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/variants/${variantId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     updateAvailableQuantity(
         variantId: string,
         inventoryDetails: components['schemas']['InventoryDetailsUpdate'],
-        clientRequestId?: string
+        options?: ClientRequestOption
     ): RequestData<components['schemas']['InventoryDetailsItem']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/commerce/variants/set_quantity/${variantId}`,
             body: inventoryDetails,
-            clientRequestId,
+            clientRequestId: options?.clientRequestId,
         };
     },
     getLocations(
         params?: GetLocationsParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['CommerceLocationItemOut'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/locations',
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getOrders(
         params?: GetOrdersParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['OrderItemOut'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/orders',
             params: params,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     createOrder(
         order: components['schemas']['OrderItemIn'],
-        clientRequestId?: string
+        options?: ClientRequestOption
     ): RequestData<components['schemas']['OrderItemOut']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/commerce/orders`,
             body: order,
-            clientRequestId,
+            clientRequestId: options?.clientRequestId,
         };
     },
     getOrder(
         orderId: string,
         params?: operations['ecommerce_get_order']['parameters']['query'],
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['OrderItemOut']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/orders/${orderId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getPaymentMethods(
         params?: GetPaymentMethodsParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['PaymentMethodItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/payment-methods`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getProductCategories(
         params?: GetProductCategoriesParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['CategoryItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/product-categories`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getTaxes(
         params?: GetTaxesParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['TaxRateItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/taxes`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getCountries(
         params?: GetCountriesParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['CountryItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/countries`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
 };

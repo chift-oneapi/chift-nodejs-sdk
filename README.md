@@ -48,18 +48,16 @@ The SDK supports idempotency for create and update operations using the `x-chift
 
 ```typescript
 // Create a client with idempotency
-const client = await consumer.accounting.createClient(
-    { name: 'Acme Corp' },
-    undefined, // query params
-    'unique-request-id-123' // clientRequestId for idempotency
-);
+const client = await consumer.accounting.createClient({ name: 'Acme Corp' }, undefined, {
+    clientRequestId: 'unique-request-id-123',
+});
 
 // Update a client with idempotency
 const updatedClient = await consumer.accounting.updateClient(
     'client-id',
     { name: 'Acme Corporation' },
-    undefined, // query params
-    'unique-update-id-456' // clientRequestId for idempotency
+    undefined,
+    { clientRequestId: 'unique-update-id-456' }
 );
 ```
 
@@ -69,10 +67,14 @@ The SDK supports accessing raw data from the API using the `rawData` parameter:
 
 ```typescript
 // Get raw data from invoices
-const rawInvoices = await consumer.accounting.getInvoicesByType('customer_invoice', {}, true);
+const rawInvoices = await consumer.accounting.getInvoicesByType(
+    'customer_invoice',
+    {},
+    { rawData: true }
+);
 
 // Get raw data from orders
-const rawOrders = await consumer.ecommerce.getOrders({}, true);
+const rawOrders = await consumer.ecommerce.getOrders({}, { rawData: true });
 ```
 
 ## Development

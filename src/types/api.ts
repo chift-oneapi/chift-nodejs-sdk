@@ -37,3 +37,11 @@ export type ApiFor<TFactory extends RequestFactory> = {
 };
 
 export type AutoPaginatedParams<T> = Omit<Exclude<T, undefined>, 'page' | 'size'>;
+
+export type RawDataOption = {
+    rawData?: boolean;
+};
+
+export type ClientRequestOption = {
+    clientRequestId?: string;
+};

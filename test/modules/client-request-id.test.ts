@@ -10,7 +10,7 @@ test('accounting factory methods support clientRequestId parameter for create op
     const createClientRequest = accountingFactory.createClient(
         { name: 'Test Client' } as any,
         undefined,
-        'test-request-id-123'
+        { clientRequestId: 'test-request-id-123' }
     );
     expect(createClientRequest).toHaveProperty('clientRequestId', 'test-request-id-123');
     expect(createClientRequest).toHaveProperty('method', 'post');
@@ -24,7 +24,7 @@ test('accounting factory methods support clientRequestId parameter for create op
     const createInvoiceRequest = accountingFactory.createInvoice(
         { number: 'INV-001' } as any,
         undefined,
-        'test-invoice-request-id-789'
+        { clientRequestId: 'test-invoice-request-id-789' }
     );
     expect(createInvoiceRequest).toHaveProperty('clientRequestId', 'test-invoice-request-id-789');
     expect(createInvoiceRequest).toHaveProperty('method', 'post');
@@ -37,7 +37,7 @@ test('accounting factory methods support clientRequestId parameter for create op
     const createSupplierRequest = accountingFactory.createSupplier(
         { name: 'Test Supplier' } as any,
         undefined,
-        'test-supplier-request-id-456'
+        { clientRequestId: 'test-supplier-request-id-456' }
     );
     expect(createSupplierRequest).toHaveProperty('clientRequestId', 'test-supplier-request-id-456');
     expect(createSupplierRequest).toHaveProperty('method', 'post');
@@ -53,7 +53,7 @@ test('accounting factory methods support clientRequestId parameter for update op
         'client-123',
         { name: 'Updated Client' } as any,
         undefined,
-        'test-update-request-id-456'
+        { clientRequestId: 'test-update-request-id-456' }
     );
     expect(updateClientRequest).toHaveProperty('clientRequestId', 'test-update-request-id-456');
     expect(updateClientRequest).toHaveProperty('method', 'patch');
@@ -66,10 +66,9 @@ test('accounting factory methods support clientRequestId parameter for update op
 
 test('ecommerce factory methods support clientRequestId parameter', () => {
     // Test that createOrder supports clientRequestId parameter
-    const createOrderRequest = ecommerceFactory.createOrder(
-        { customer_id: 'cust-123' } as any,
-        'test-ecommerce-order-id-123'
-    );
+    const createOrderRequest = ecommerceFactory.createOrder({ customer_id: 'cust-123' } as any, {
+        clientRequestId: 'test-ecommerce-order-id-123',
+    });
     expect(createOrderRequest).toHaveProperty('clientRequestId', 'test-ecommerce-order-id-123');
     expect(createOrderRequest).toHaveProperty('method', 'post');
     expect(createOrderRequest).toHaveProperty('url', '/consumers/{consumer_id}/commerce/orders');
@@ -79,7 +78,7 @@ test('ecommerce factory methods support clientRequestId parameter', () => {
     const updateQuantityRequest = ecommerceFactory.updateAvailableQuantity(
         'variant-123',
         { quantity: 10 } as any,
-        'test-quantity-update-id-456'
+        { clientRequestId: 'test-quantity-update-id-456' }
     );
     expect(updateQuantityRequest).toHaveProperty('clientRequestId', 'test-quantity-update-id-456');
     expect(updateQuantityRequest).toHaveProperty('method', 'post');
@@ -92,10 +91,9 @@ test('ecommerce factory methods support clientRequestId parameter', () => {
 
 test('invoicing factory methods support clientRequestId parameter', () => {
     // Test that createInvoice supports clientRequestId parameter
-    const createInvoiceRequest = invoicingFactory.createInvoice(
-        { number: 'INV-001' } as any,
-        'test-invoicing-invoice-id-123'
-    );
+    const createInvoiceRequest = invoicingFactory.createInvoice({ number: 'INV-001' } as any, {
+        clientRequestId: 'test-invoicing-invoice-id-123',
+    });
     expect(createInvoiceRequest).toHaveProperty('clientRequestId', 'test-invoicing-invoice-id-123');
     expect(createInvoiceRequest).toHaveProperty('method', 'post');
     expect(createInvoiceRequest).toHaveProperty(
@@ -105,10 +103,9 @@ test('invoicing factory methods support clientRequestId parameter', () => {
     expect(createInvoiceRequest).toHaveProperty('body', { number: 'INV-001' });
 
     // Test that createProduct supports clientRequestId parameter
-    const createProductRequest = invoicingFactory.createProduct(
-        { name: 'Test Product' } as any,
-        'test-invoicing-product-id-456'
-    );
+    const createProductRequest = invoicingFactory.createProduct({ name: 'Test Product' } as any, {
+        clientRequestId: 'test-invoicing-product-id-456',
+    });
     expect(createProductRequest).toHaveProperty('clientRequestId', 'test-invoicing-product-id-456');
     expect(createProductRequest).toHaveProperty('method', 'post');
     expect(createProductRequest).toHaveProperty(
@@ -118,10 +115,9 @@ test('invoicing factory methods support clientRequestId parameter', () => {
     expect(createProductRequest).toHaveProperty('body', { name: 'Test Product' });
 
     // Test that createContact supports clientRequestId parameter
-    const createContactRequest = invoicingFactory.createContact(
-        { name: 'Test Contact' } as any,
-        'test-invoicing-contact-id-789'
-    );
+    const createContactRequest = invoicingFactory.createContact({ name: 'Test Contact' } as any, {
+        clientRequestId: 'test-invoicing-contact-id-789',
+    });
     expect(createContactRequest).toHaveProperty('clientRequestId', 'test-invoicing-contact-id-789');
     expect(createContactRequest).toHaveProperty('method', 'post');
     expect(createContactRequest).toHaveProperty(
@@ -133,21 +129,18 @@ test('invoicing factory methods support clientRequestId parameter', () => {
 
 test('pos factory methods support clientRequestId parameter', () => {
     // Test that createCustomer supports clientRequestId parameter
-    const createCustomerRequest = posFactory.createCustomer(
-        { name: 'Test Customer' } as any,
-        'test-pos-customer-id-123'
-    );
+    const createCustomerRequest = posFactory.createCustomer({ name: 'Test Customer' } as any, {
+        clientRequestId: 'test-pos-customer-id-123',
+    });
     expect(createCustomerRequest).toHaveProperty('clientRequestId', 'test-pos-customer-id-123');
     expect(createCustomerRequest).toHaveProperty('method', 'post');
     expect(createCustomerRequest).toHaveProperty('url', '/consumers/{consumer_id}/pos/customers');
     expect(createCustomerRequest).toHaveProperty('body', { name: 'Test Customer' });
 
     // Test that updateOrder supports clientRequestId parameter
-    const updateOrderRequest = posFactory.updateOrder(
-        'order-123',
-        { status: 'completed' } as any,
-        'test-pos-order-update-id-456'
-    );
+    const updateOrderRequest = posFactory.updateOrder('order-123', { status: 'completed' } as any, {
+        clientRequestId: 'test-pos-order-update-id-456',
+    });
     expect(updateOrderRequest).toHaveProperty('clientRequestId', 'test-pos-order-update-id-456');
     expect(updateOrderRequest).toHaveProperty('method', 'patch');
     expect(updateOrderRequest).toHaveProperty(
@@ -164,7 +157,7 @@ test('custom factory methods support clientRequestId parameter', () => {
         'test-resource',
         { data: 'test' },
         undefined,
-        'test-custom-post-id-123'
+        { clientRequestId: 'test-custom-post-id-123' }
     );
     expect(postRequest).toHaveProperty('clientRequestId', 'test-custom-post-id-123');
     expect(postRequest).toHaveProperty('method', 'post');
@@ -180,7 +173,7 @@ test('custom factory methods support clientRequestId parameter', () => {
         'test-resource',
         { data: 'updated' },
         undefined,
-        'test-custom-patch-id-456'
+        { clientRequestId: 'test-custom-patch-id-456' }
     );
     expect(patchRequest).toHaveProperty('clientRequestId', 'test-custom-patch-id-456');
     expect(patchRequest).toHaveProperty('method', 'patch');
@@ -196,7 +189,7 @@ test('additional accounting factory methods support clientRequestId parameter', 
     const createJournalRequest = accountingFactory.createJournal(
         { name: 'Test Journal' } as any,
         undefined,
-        'test-journal-request-id-111'
+        { clientRequestId: 'test-journal-request-id-111' }
     );
     expect(createJournalRequest).toHaveProperty('clientRequestId', 'test-journal-request-id-111');
     expect(createJournalRequest).toHaveProperty('method', 'post');
@@ -205,7 +198,7 @@ test('additional accounting factory methods support clientRequestId parameter', 
     const createBankAccountRequest = accountingFactory.createBankAccount(
         { name: 'Test Bank Account' } as any,
         undefined,
-        'test-bank-account-request-id-222'
+        { clientRequestId: 'test-bank-account-request-id-222' }
     );
     expect(createBankAccountRequest).toHaveProperty(
         'clientRequestId',
@@ -218,7 +211,7 @@ test('additional accounting factory methods support clientRequestId parameter', 
         'supplier-123',
         { name: 'Updated Supplier' } as any,
         undefined,
-        'test-update-supplier-id-333'
+        { clientRequestId: 'test-update-supplier-id-333' }
     );
     expect(updateSupplierRequest).toHaveProperty('clientRequestId', 'test-update-supplier-id-333');
     expect(updateSupplierRequest).toHaveProperty('method', 'patch');

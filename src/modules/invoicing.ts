@@ -1,5 +1,5 @@
 import { components, operations } from '../types/public-api/schema';
-import { AutoPaginatedParams, RequestData } from '../types/api';
+import { AutoPaginatedParams, RequestData, RawDataOption, ClientRequestOption } from '../types/api';
 
 type GetInvoicesParams = AutoPaginatedParams<
     operations['invoicing_get_invoices']['parameters']['query']
@@ -12,146 +12,150 @@ type GetContactsParams = AutoPaginatedParams<
 const invoicingFactory = {
     getInvoices(
         params?: GetInvoicesParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['InvoiceItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices`,
             params: params,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getInvoiceById(
         invoiceId: string,
         params?: operations['invoicing_get_invoice']['parameters']['query'],
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['InvoiceItemOutSingle']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices/${invoiceId}`,
             params: params,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     createInvoice(
         invoice: components['schemas']['InvoiceItem-Input'],
-        clientRequestId?: string
+        options?: ClientRequestOption
     ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/invoicing/invoices`,
             body: invoice,
-            clientRequestId,
+            clientRequestId: options?.clientRequestId,
         };
     },
-    getProducts(rawData?: boolean): RequestData<components['schemas']['ProductItemOut'][]> {
+    getProducts(options?: RawDataOption): RequestData<components['schemas']['ProductItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getProductById(
         productId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['ProductItemOut']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products/${productId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     createProduct(
         product: components['schemas']['ProductItem-Input'],
-        clientRequestId?: string
+        options?: ClientRequestOption
     ): RequestData<components['schemas']['ProductItemOut']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/invoicing/products`,
             body: product,
-            clientRequestId,
+            clientRequestId: options?.clientRequestId,
         };
     },
-    getTaxes(rawData?: boolean): RequestData<components['schemas']['InvoicingVatCode'][]> {
+    getTaxes(options?: RawDataOption): RequestData<components['schemas']['InvoicingVatCode'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/taxes`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getTaxById(
         taxId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['InvoicingVatCode']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/taxes/${taxId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
-    getOpportunities(rawData?: boolean): RequestData<components['schemas']['OpportunityItem'][]> {
+    getOpportunities(
+        options?: RawDataOption
+    ): RequestData<components['schemas']['OpportunityItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/opportunities`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getOpportunitiesById(
         opportunityId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['OpportunityItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/opportunities/${opportunityId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getContacts(
         params?: GetContactsParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['ContactItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts`,
             params: params,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getContactById(
         contactId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['ContactItemOut']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts/${contactId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     createContact(
         contact: components['schemas']['ContactItemIn'],
-        clientRequestId?: string
+        options?: ClientRequestOption
     ): RequestData<components['schemas']['ContactItemOut']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/invoicing/contacts`,
             body: contact,
-            clientRequestId,
+            clientRequestId: options?.clientRequestId,
         };
     },
-    getPayments(rawData?: boolean): RequestData<components['schemas']['InvoicingPaymentItem'][]> {
+    getPayments(
+        options?: RawDataOption
+    ): RequestData<components['schemas']['InvoicingPaymentItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/payments`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getPaymentMethods(
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['InvoicingPaymentMethodItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/payment-methods`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
 };

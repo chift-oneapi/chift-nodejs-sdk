@@ -1,5 +1,5 @@
 import { operations, components } from '../types/public-api/schema';
-import { AutoPaginatedParams, RequestData } from '../types/api';
+import { AutoPaginatedParams, RequestData, RawDataOption, ClientRequestOption } from '../types/api';
 
 type GetPaymentsParams = AutoPaginatedParams<operations['pos_get_payments']['parameters']['query']>;
 
@@ -24,80 +24,80 @@ type GetAccountingCategoriesParams = AutoPaginatedParams<
 type GetOrdersParams = AutoPaginatedParams<operations['pos_get_orders']['parameters']['query']>;
 
 const posFactory = {
-    getLocations(rawData?: boolean): RequestData<components['schemas']['POSLocationItem'][]> {
+    getLocations(options?: RawDataOption): RequestData<components['schemas']['POSLocationItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/pos/locations',
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getOrders(
         params: GetOrdersParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['POSOrderItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/pos/orders',
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getCustomers(
         params?: GetCustomersParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['POSCustomerItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/pos/customers',
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getOrder(
         orderId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['POSOrderItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getCustomer(
         customerId: string,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['POSCustomerItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/customers/${customerId}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     createCustomer(
         customer: components['schemas']['POSCreateCustomerItem'],
-        clientRequestId?: string
+        options?: ClientRequestOption
     ): RequestData<components['schemas']['POSCustomerItem']> {
         return {
             method: 'post',
             url: `/consumers/{consumer_id}/pos/customers`,
             body: customer,
-            clientRequestId,
+            clientRequestId: options?.clientRequestId,
         };
     },
     getPaymentMethods(
         params?: GetPaymentMethodsParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['PaymentMethods'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/payment-methods`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getProductCategories(
         params?: GetProductCategoriesParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<
         components['schemas']['backbone_common__models__pos__common__ProductCategoryItem'][]
     > {
@@ -105,75 +105,75 @@ const posFactory = {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/product-categories`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getProducts(
         params?: GetProductsParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['POSProductItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/products`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getSales(
         params: operations['pos_get_sales']['parameters']['query'],
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['SalesItem']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/sales`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getClosure(
         date: string,
         params?: operations['pos_get_closure']['parameters']['query'],
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['ClosureItem']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/closures/${date}`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     getPayments(
         params: GetPaymentsParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['POSPaymentItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/payments`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
     updateOrder(
         orderId: string,
         order: components['schemas']['UpdateOrderItem'],
-        clientRequestId?: string
+        options?: ClientRequestOption
     ): RequestData<components['schemas']['POSOrderItem']> {
         return {
             method: 'patch',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
             body: order,
-            clientRequestId,
+            clientRequestId: options?.clientRequestId,
         };
     },
     getAccountingCategories(
         params?: GetAccountingCategoriesParams,
-        rawData?: boolean
+        options?: RawDataOption
     ): RequestData<components['schemas']['AccountingCategoryItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/accounting-categories`,
-            rawData,
+            rawData: options?.rawData,
         };
     },
 };
