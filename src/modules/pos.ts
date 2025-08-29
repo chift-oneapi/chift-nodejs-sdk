@@ -24,38 +24,53 @@ type GetAccountingCategoriesParams = AutoPaginatedParams<
 type GetOrdersParams = AutoPaginatedParams<operations['pos_get_orders']['parameters']['query']>;
 
 const posFactory = {
-    getLocations(): RequestData<components['schemas']['POSLocationItem'][]> {
+    getLocations(rawData?: boolean): RequestData<components['schemas']['POSLocationItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/pos/locations',
+            rawData,
         };
     },
-    getOrders(params: GetOrdersParams): RequestData<components['schemas']['POSOrderItem'][]> {
+    getOrders(
+        params: GetOrdersParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['POSOrderItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/pos/orders',
+            rawData,
         };
     },
     getCustomers(
-        params?: GetCustomersParams
+        params?: GetCustomersParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['POSCustomerItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/pos/customers',
+            rawData,
         };
     },
-    getOrder(orderId: string): RequestData<components['schemas']['POSOrderItem']> {
+    getOrder(
+        orderId: string,
+        rawData?: boolean
+    ): RequestData<components['schemas']['POSOrderItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
+            rawData,
         };
     },
-    getCustomer(customerId: string): RequestData<components['schemas']['POSCustomerItem']> {
+    getCustomer(
+        customerId: string,
+        rawData?: boolean
+    ): RequestData<components['schemas']['POSCustomerItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/pos/customers/${customerId}`,
+            rawData,
         };
     },
     createCustomer(
@@ -70,16 +85,19 @@ const posFactory = {
         };
     },
     getPaymentMethods(
-        params?: GetPaymentMethodsParams
+        params?: GetPaymentMethodsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['PaymentMethods'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/payment-methods`,
+            rawData,
         };
     },
     getProductCategories(
-        params?: GetProductCategoriesParams
+        params?: GetProductCategoriesParams,
+        rawData?: boolean
     ): RequestData<
         components['schemas']['backbone_common__models__pos__common__ProductCategoryItem'][]
     > {
@@ -87,41 +105,52 @@ const posFactory = {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/product-categories`,
+            rawData,
         };
     },
     getProducts(
-        params?: GetProductsParams
+        params?: GetProductsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['POSProductItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/products`,
+            rawData,
         };
     },
     getSales(
-        params: operations['pos_get_sales']['parameters']['query']
+        params: operations['pos_get_sales']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['SalesItem']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/sales`,
+            rawData,
         };
     },
     getClosure(
         date: string,
-        params?: operations['pos_get_closure']['parameters']['query']
+        params?: operations['pos_get_closure']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['ClosureItem']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/closures/${date}`,
+            rawData,
         };
     },
-    getPayments(params: GetPaymentsParams): RequestData<components['schemas']['POSPaymentItem'][]> {
+    getPayments(
+        params: GetPaymentsParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['POSPaymentItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/payments`,
+            rawData,
         };
     },
     updateOrder(
@@ -137,12 +166,14 @@ const posFactory = {
         };
     },
     getAccountingCategories(
-        params?: GetAccountingCategoriesParams
+        params?: GetAccountingCategoriesParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['AccountingCategoryItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/accounting-categories`,
+            rawData,
         };
     },
 };

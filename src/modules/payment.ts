@@ -15,43 +15,59 @@ type GetRefundsParams = AutoPaginatedParams<
 >;
 
 const paymentFactory = {
-    getPayments(params: GetPaymentsParams): RequestData<components['schemas']['PaymentItemOut'][]> {
+    getPayments(
+        params: GetPaymentsParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['PaymentItemOut'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/payments`,
+            rawData,
         };
     },
-    getBalances(params: GetBalancesParams): RequestData<components['schemas']['BalanceItemOut'][]> {
+    getBalances(
+        params: GetBalancesParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['BalanceItemOut'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/balances`,
+            rawData,
         };
     },
     getTransactions(
-        params: GetTransactionsParams
+        params: GetTransactionsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['TransactionItemOut'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/transactions`,
+            rawData,
         };
     },
     getPayment(
-        params: operations['payment_get_payment']['parameters']['path']
+        params: operations['payment_get_payment']['parameters']['path'],
+        rawData?: boolean
     ): RequestData<components['schemas']['PaymentItemOut']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/payments/{payment_id}`,
+            rawData,
         };
     },
-    getRefunds(params: GetRefundsParams): RequestData<components['schemas']['RefundItemOut'][]> {
+    getRefunds(
+        params: GetRefundsParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['RefundItemOut'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/refunds`,
+            rawData,
         };
     },
 };

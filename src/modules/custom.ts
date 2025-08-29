@@ -1,11 +1,12 @@
 import { RequestData } from '../types/api';
 
 const customFactory = {
-    get(name: string, resource: string, params?: any): RequestData<any> {
+    get(name: string, resource: string, params?: any, rawData?: boolean): RequestData<any> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/custom/${name}/${resource}`,
             params: params,
+            rawData,
         };
     },
     post(

@@ -19,21 +19,25 @@ type GetAccountCounterpartsParams = AutoPaginatedParams<
 
 const bankingFactory = {
     getFinancialInstitutions(
-        params?: GetFinancialInstitutionsParams
+        params?: GetFinancialInstitutionsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['BankingFinancialInstitutionItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/banking/financial-institutions',
+            rawData,
         };
     },
     getAccounts(
-        params?: GetAccountsParams
+        params?: GetAccountsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['BankingAccountItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/banking/accounts',
+            rawData,
         };
     },
     getAccountTransactions(
@@ -49,12 +53,14 @@ const bankingFactory = {
         };
     },
     getAccountCounterparts(
-        params?: GetAccountCounterpartsParams
+        params?: GetAccountCounterpartsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['BankingCounterPartItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/banking/counterparts',
+            rawData,
         };
     },
 };

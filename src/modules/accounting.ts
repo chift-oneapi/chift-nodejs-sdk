@@ -75,19 +75,25 @@ type GetBookyearsParams = AutoPaginatedParams<
 
 const accountingFactory = {
     getAnalyticPlans(
-        params?: GetAnalyticPlansParams
+        params?: GetAnalyticPlansParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['AnalyticPlanItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-plans',
+            rawData,
         };
     },
-    getClients(params?: GetClientsParams): RequestData<components['schemas']['ClientItemOut'][]> {
+    getClients(
+        params?: GetClientsParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['ClientItemOut'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/clients',
+            rawData,
         };
     },
     createClient(
@@ -105,12 +111,14 @@ const accountingFactory = {
     },
     getClient(
         clientId: string,
-        params?: operations['accounting_get_client']['parameters']['query']
+        params?: operations['accounting_get_client']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['ClientItemOut']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/clients/${clientId}`,
+            rawData,
         };
     },
     updateClient(
@@ -128,12 +136,14 @@ const accountingFactory = {
         };
     },
     getSuppliers(
-        params?: GetSuppliersParams
+        params?: GetSuppliersParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['SupplierItemOut'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/suppliers',
+            rawData,
         };
     },
     createSupplier(
@@ -151,12 +161,14 @@ const accountingFactory = {
     },
     getSupplier(
         supplierId: string,
-        params?: operations['accounting_get_supplier']['parameters']['query']
+        params?: operations['accounting_get_supplier']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['SupplierItemOut']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/suppliers/${supplierId}`,
+            rawData,
         };
     },
     updateSupplier(
@@ -225,22 +237,26 @@ const accountingFactory = {
     },
     getInvoiceWithMultiplePlans(
         invoiceId: string,
-        params?: operations['accounting_get_invoice_multi_analytic_plans']['parameters']['query']
+        params?: operations['accounting_get_invoice_multi_analytic_plans']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/${invoiceId}`,
+            rawData,
         };
     },
     getInvoicesByTypeWithMultiplePlans(
         invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'],
-        params?: GetInvoicesByTypeWithMultiplePlansParams
+        params?: GetInvoicesByTypeWithMultiplePlansParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/${invoice_type}`,
+            rawData,
         };
     },
     createAnalyticAccount(
@@ -257,12 +273,14 @@ const accountingFactory = {
         };
     },
     getAnalyticAccounts(
-        params?: GetAnalyticAccountsParams
+        params?: GetAnalyticAccountsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['AnalyticAccountItemOut'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-accounts',
+            rawData,
         };
     },
     createAnalyticAccountWithMultiplePlans(
@@ -281,12 +299,14 @@ const accountingFactory = {
     },
     getAnalyticAccount(
         analytic_account_id: string,
-        params?: operations['accounting_get_analytic_account']['parameters']['query']
+        params?: operations['accounting_get_analytic_account']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['AnalyticAccountItemOut']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}`,
+            rawData,
         };
     },
     updateAnalyticAccount(
@@ -306,12 +326,14 @@ const accountingFactory = {
     getAnalyticAccountWithMultiplePlans(
         analytic_account_id: string,
         analytic_plan: string,
-        params?: operations['accounting_get_analytic_account_multi_plans']['parameters']['query']
+        params?: operations['accounting_get_analytic_account_multi_plans']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}/multi-analytic-plans/${analytic_plan}`,
+            rawData,
         };
     },
     updateAnalyticAccountWithMultiplePlans(
@@ -330,47 +352,59 @@ const accountingFactory = {
         };
     },
     getAnalyticAccountsWithMultiplePlans(
-        params?: GetAnalyticAccountsWithMultiplePlansParams
+        params?: GetAnalyticAccountsWithMultiplePlansParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans',
+            rawData,
         };
     },
     getJournalEntries(
-        params: GetJournalEntriesParams
+        params: GetJournalEntriesParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['JournalEntryMonoAnalyticPlan'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries`,
+            rawData,
         };
     },
     getJournalEntriesWithMultiplePlans(
-        params: GetJournalEntriesWithMultiplePlansParams
+        params: GetJournalEntriesWithMultiplePlansParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries/multi-analytic-plans`,
+            rawData,
         };
     },
     getPaymentsByInvoiceId(
         invoice_id: string,
-        params?: operations['accounting_get_payments_by_invoice']['parameters']['query']
+        params?: operations['accounting_get_payments_by_invoice']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['Payment'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/id/${invoice_id}/payments`,
+            rawData,
         };
     },
-    getJournals(params?: GetJournalsParams): RequestData<components['schemas']['Journal'][]> {
+    getJournals(
+        params?: GetJournalsParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['Journal'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journals`,
+            rawData,
         };
     },
     createJournal(
@@ -387,21 +421,25 @@ const accountingFactory = {
         };
     },
     getVatCodes(
-        params?: GetVatCodesParams
+        params?: GetVatCodesParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['AccountingVatCode'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/vat-codes`,
+            rawData,
         };
     },
     getMiscOperations(
-        params?: GetMiscOperationsParams
+        params?: GetMiscOperationsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['MiscellaneousOperationOut'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/miscellaneous-operation',
+            rawData,
         };
     },
     createMiscOperation(
@@ -419,12 +457,14 @@ const accountingFactory = {
     },
     getMiscOperation(
         operation_id: string,
-        params?: operations['accounting_get_miscellaneous_operation']['parameters']['query']
+        params?: operations['accounting_get_miscellaneous_operation']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['MiscellaneousOperationOut']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/miscellaneous-operation/${operation_id}`,
+            rawData,
         };
     },
     attachPDF(
@@ -440,21 +480,25 @@ const accountingFactory = {
         };
     },
     getAttachments(
-        params: GetAttachmentsParams
+        params: GetAttachmentsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['AttachmentItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/attachments`,
+            rawData,
         };
     },
     getChartOfAccounts(
-        params?: GetChartOfAccountsParams
+        params?: GetChartOfAccountsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['AccountItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/chart-of-accounts',
+            rawData,
         };
     },
     getBalanceOfAccounts(
@@ -469,21 +513,25 @@ const accountingFactory = {
         };
     },
     getEmployees(
-        params?: GetEmployeesParams
+        params?: GetEmployeesParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['EmployeeItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/employees',
+            rawData,
         };
     },
     getOutstandings(
-        params: GetOutstandingsParams
+        params: GetOutstandingsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['OutstandingItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/outstandings',
+            rawData,
         };
     },
     /**
@@ -561,17 +609,22 @@ const accountingFactory = {
             body,
         };
     },
-    getFolders(): RequestData<components['schemas']['FolderItem'][]> {
+    getFolders(rawData?: boolean): RequestData<components['schemas']['FolderItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/folders',
+            rawData,
         };
     },
-    getBookyears(params?: GetBookyearsParams): RequestData<components['schemas']['BookYear'][]> {
+    getBookyears(
+        params?: GetBookyearsParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['BookYear'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/bookyears',
+            rawData,
         };
     },
     createLedgerAccount(
@@ -602,12 +655,14 @@ const accountingFactory = {
     },
     getJournalEntry(
         journalEntryId: string,
-        params?: operations['accounting_get_journal_entry']['parameters']['query']
+        params?: operations['accounting_get_journal_entry']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries/${journalEntryId}`,
+            rawData,
         };
     },
 };

@@ -11,22 +11,26 @@ type GetContactsParams = AutoPaginatedParams<
 
 const invoicingFactory = {
     getInvoices(
-        params?: GetInvoicesParams
+        params?: GetInvoicesParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['InvoiceItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices`,
             params: params,
+            rawData,
         };
     },
     getInvoiceById(
         invoiceId: string,
-        params?: operations['invoicing_get_invoice']['parameters']['query']
+        params?: operations['invoicing_get_invoice']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['InvoiceItemOutSingle']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/invoices/${invoiceId}`,
             params: params,
+            rawData,
         };
     },
     createInvoice(
@@ -40,16 +44,21 @@ const invoicingFactory = {
             clientRequestId,
         };
     },
-    getProducts(): RequestData<components['schemas']['ProductItemOut'][]> {
+    getProducts(rawData?: boolean): RequestData<components['schemas']['ProductItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products`,
+            rawData,
         };
     },
-    getProductById(productId: string): RequestData<components['schemas']['ProductItemOut']> {
+    getProductById(
+        productId: string,
+        rawData?: boolean
+    ): RequestData<components['schemas']['ProductItemOut']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/products/${productId}`,
+            rawData,
         };
     },
     createProduct(
@@ -63,45 +72,59 @@ const invoicingFactory = {
             clientRequestId,
         };
     },
-    getTaxes(): RequestData<components['schemas']['InvoicingVatCode'][]> {
+    getTaxes(rawData?: boolean): RequestData<components['schemas']['InvoicingVatCode'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/taxes`,
+            rawData,
         };
     },
-    getTaxById(taxId: string): RequestData<components['schemas']['InvoicingVatCode']> {
+    getTaxById(
+        taxId: string,
+        rawData?: boolean
+    ): RequestData<components['schemas']['InvoicingVatCode']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/taxes/${taxId}`,
+            rawData,
         };
     },
-    getOpportunities(): RequestData<components['schemas']['OpportunityItem'][]> {
+    getOpportunities(rawData?: boolean): RequestData<components['schemas']['OpportunityItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/opportunities`,
+            rawData,
         };
     },
     getOpportunitiesById(
-        opportunityId: string
+        opportunityId: string,
+        rawData?: boolean
     ): RequestData<components['schemas']['OpportunityItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/opportunities/${opportunityId}`,
+            rawData,
         };
     },
     getContacts(
-        params?: GetContactsParams
+        params?: GetContactsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['ContactItemOut'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts`,
             params: params,
+            rawData,
         };
     },
-    getContactById(contactId: string): RequestData<components['schemas']['ContactItemOut']> {
+    getContactById(
+        contactId: string,
+        rawData?: boolean
+    ): RequestData<components['schemas']['ContactItemOut']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/contacts/${contactId}`,
+            rawData,
         };
     },
     createContact(
@@ -115,16 +138,20 @@ const invoicingFactory = {
             clientRequestId,
         };
     },
-    getPayments(): RequestData<components['schemas']['InvoicingPaymentItem'][]> {
+    getPayments(rawData?: boolean): RequestData<components['schemas']['InvoicingPaymentItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/payments`,
+            rawData,
         };
     },
-    getPaymentMethods(): RequestData<components['schemas']['InvoicingPaymentMethodItem'][]> {
+    getPaymentMethods(
+        rawData?: boolean
+    ): RequestData<components['schemas']['InvoicingPaymentMethodItem'][]> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/payment-methods`,
+            rawData,
         };
     },
 };

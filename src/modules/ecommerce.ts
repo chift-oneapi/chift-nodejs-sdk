@@ -33,39 +33,55 @@ type GetLocationsParams = AutoPaginatedParams<
 
 const ecommerceFactory = {
     getCustomers(
-        params?: GetCustomersParams
+        params?: GetCustomersParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['CommerceCustomerItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/customers',
+            rawData,
         };
     },
     getProducts(
-        params?: GetProductsParams
+        params?: GetProductsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['ProductItem-Output'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/products',
+            rawData,
         };
     },
-    getCustomer(customerId: string): RequestData<components['schemas']['CommerceCustomerItem']> {
+    getCustomer(
+        customerId: string,
+        rawData?: boolean
+    ): RequestData<components['schemas']['CommerceCustomerItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/customers/${customerId}`,
+            rawData,
         };
     },
-    getProduct(productId: string): RequestData<components['schemas']['ProductItem-Output']> {
+    getProduct(
+        productId: string,
+        rawData?: boolean
+    ): RequestData<components['schemas']['ProductItem-Output']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/products/${productId}`,
+            rawData,
         };
     },
-    getProductVariantById(variantId: string): RequestData<components['schemas']['VariantItem']> {
+    getProductVariantById(
+        variantId: string,
+        rawData?: boolean
+    ): RequestData<components['schemas']['VariantItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/variants/${variantId}`,
+            rawData,
         };
     },
     updateAvailableQuantity(
@@ -81,12 +97,14 @@ const ecommerceFactory = {
         };
     },
     getLocations(
-        params?: GetLocationsParams
+        params?: GetLocationsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['CommerceLocationItemOut'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/commerce/locations',
+            rawData,
         };
     },
     getOrders(
@@ -124,35 +142,47 @@ const ecommerceFactory = {
         };
     },
     getPaymentMethods(
-        params?: GetPaymentMethodsParams
+        params?: GetPaymentMethodsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['PaymentMethodItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/payment-methods`,
+            rawData,
         };
     },
     getProductCategories(
-        params?: GetProductCategoriesParams
+        params?: GetProductCategoriesParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['CategoryItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/product-categories`,
+            rawData,
         };
     },
-    getTaxes(params?: GetTaxesParams): RequestData<components['schemas']['TaxRateItem'][]> {
+    getTaxes(
+        params?: GetTaxesParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['TaxRateItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/taxes`,
+            rawData,
         };
     },
-    getCountries(params?: GetCountriesParams): RequestData<components['schemas']['CountryItem'][]> {
+    getCountries(
+        params?: GetCountriesParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['CountryItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/countries`,
+            rawData,
         };
     },
 };
