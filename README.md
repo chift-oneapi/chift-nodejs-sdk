@@ -40,6 +40,43 @@ const consumers = await client.Consumers.getConsumers();
 const locations = await consumers[0].pos.getLocations();
 ```
 
+## Features
+
+### Idempotency with Client Request ID
+
+The SDK supports idempotency for create and update operations using the `x-chift-client-requestid` header. This helps prevent duplicate resource creation. See [developer guide](https://docs.chift.eu/developer-guides/advanced/idempotency#idempotency)
+
+```typescript
+// Create a client with idempotency
+const client = await consumer.accounting.createClient({ name: 'Acme Corp' }, undefined, {
+    clientRequestId: 'unique-request-id-123',
+});
+
+// Update a client with idempotency
+const updatedClient = await consumer.accounting.updateClient(
+    'client-id',
+    { name: 'Acme Corporation' },
+    undefined,
+    { clientRequestId: 'unique-update-id-456' }
+);
+```
+
+### Raw Data Access
+
+The SDK supports accessing raw data from the API using the `rawData` parameter:
+
+```typescript
+// Get raw data from invoices
+const rawInvoices = await consumer.accounting.getInvoicesByType(
+    'customer_invoice',
+    {},
+    { rawData: true }
+);
+
+// Get raw data from orders
+const rawOrders = await consumer.ecommerce.getOrders({}, { rawData: true });
+```
+
 ## Development
 
 How to generate the typescript schemas from the OpenAPI schema of Chift:

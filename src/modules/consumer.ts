@@ -9,6 +9,7 @@ import { accountingFactory } from './accounting';
 import { invoicingFactory } from './invoicing';
 import { ecommerceFactory } from './ecommerce';
 import { customFactory } from './custom';
+import { bankingFactory } from './banking';
 import { SimpleResponseModel } from '../types/sync';
 import { ConsumerLog } from '../types/consumers';
 
@@ -29,6 +30,7 @@ const Consumer = (
     const invoicing = createApiFor(invoicingFactory, _internalApi, data.name, consumerId);
     const ecommerce = createApiFor(ecommerceFactory, _internalApi, data.name, consumerId);
     const custom = createApiFor(customFactory, _internalApi, data.name, consumerId);
+    const banking = createApiFor(bankingFactory, _internalApi, data.name, consumerId);
 
     const setConnectionId = async (connectionId: string) => {
         _internalApi.connectionId = connectionId;
@@ -47,9 +49,7 @@ const Consumer = (
         return data;
     };
 
-    const createConnection = async (
-        body?: components['schemas']['backbone_api__app__routers__connections__PostConnectionItem']
-    ) => {
+    const createConnection = async (body?: components['schemas']['PostConnectionItem-Input']) => {
         const {
             data,
         }: {
@@ -221,6 +221,7 @@ const Consumer = (
         invoicing,
         ecommerce,
         custom,
+        banking,
         getDataByDataStoreId,
         addDataByDataStoreId,
         getSyncData,

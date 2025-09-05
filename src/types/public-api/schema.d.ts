@@ -513,6 +513,46 @@ export interface paths {
         patch: operations['datastores_update_consumer_datastoredata'];
         trace?: never;
     };
+    '/issues': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get issues
+         * @description Returns a list of the issues of your account. Filters can be used to query specific results. Filters can be combined and are inclusive.
+         */
+        get: operations['issues_get_issues'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/issues': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get issues by consumer id
+         * @description Returns a list of the issues linked to specific consumer. Filters can be used to query specific results. Filters can be combined and are inclusive.
+         */
+        get: operations['issues_get_issues_by_consumer_id'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/accounting/folders': {
         parameters: {
             query?: never;
@@ -800,6 +840,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/accounting/bank-accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create bank account
+         * @description Create a new bank account in the accounting system
+         */
+        post: operations['accounting_create_bank_account'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/accounting/analytic-accounts': {
         parameters: {
             query?: never;
@@ -1030,6 +1090,26 @@ export interface paths {
         get: operations['accounting_get_journals'];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/journal': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create journal
+         * @description Create a journal in the accounting system
+         */
+        post: operations['accounting_create_journal'];
         delete?: never;
         options?: never;
         head?: never;
@@ -1300,6 +1380,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/accounting/export-fec': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export entries in FEC format
+         * @description Returns accounting entries according to the FEC format
+         */
+        get: operations['accounting_export_fec'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/pos/orders': {
         parameters: {
             query?: never;
@@ -1540,6 +1640,26 @@ export interface paths {
          * @description Returns whether the closure was already done for a specific day or not
          */
         get: operations['pos_get_closure'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/pos/objectives': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get objectives
+         * @description Return the total amount and the tax amount for a specific period
+         */
+        get: operations['pos_get_objectives'];
         put?: never;
         post?: never;
         delete?: never;
@@ -2424,6 +2544,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/pms/taxes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get tax rates (PMS)
+         * @description Returns a list of the tax rates
+         */
+        get: operations['pms_get_taxes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -2439,7 +2579,7 @@ export interface components {
              * Account Name
              * @description Display name of the account
              */
-            account_name?: string;
+            account_name?: string | null;
             /**
              * Debit
              * @description Debit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.
@@ -2476,7 +2616,7 @@ export interface components {
              * Start
              * @description Start month (included, e.g. 202302 for february 2023)
              */
-            start?: string;
+            start?: string | null;
             /**
              * End
              * @description End month (included, e.g. 202312 for december 2023)
@@ -2493,12 +2633,11 @@ export interface components {
              * Active
              * @default true
              */
-            active: boolean;
-            type?: components['schemas']['AccountItemType'];
+            active: boolean | null;
+            type?: components['schemas']['AccountItemType'] | null;
         };
         /**
          * AccountItemType
-         * @description An enumeration.
          * @enum {string}
          */
         AccountItemType:
@@ -2518,123 +2657,120 @@ export interface components {
             /** Account Name */
             account_name: string;
         };
+        /**
+         * AccountTypeFilter
+         * @enum {string}
+         */
+        AccountTypeFilter: 'bank' | 'cash' | 'income' | 'expense' | 'vat';
         /** AccountingCategoryItem */
         AccountingCategoryItem: {
             /**
              * Id
              * @description Unique identifier of the accounting category
-             * @example 371ca583-d218-4900-b236-397532cf0e2
              */
             id: string;
             /**
              * Name
              * @description Name given to the accounting category
-             * @example Beverages
              */
             name: string;
             /**
              * Code
              * @description Code assigned to the category
-             * @example 123456
              */
-            code?: string;
+            code?: string | null;
             /**
              * Ledger Account Code
              * @description Ledger account code assigned to the category
-             * @example 123456
              */
-            ledger_account_code?: string;
+            ledger_account_code?: string | null;
             /**
              * Posting Account Code
              * @description Posting account code assigned to the category
-             * @example 123456
              */
-            posting_account_code?: string;
+            posting_account_code?: string | null;
         };
         /** AccountingVatCode */
         AccountingVatCode: {
             /** Id */
             id: string;
             /** Code */
-            code?: string;
+            code?: string | null;
             /** Label */
             label: string;
             /** @default unknown */
-            scope: components['schemas']['backbone_common__models__accounting__common__VatCodeScope'];
+            scope: components['schemas']['VatCodeScope'] | null;
             /** Rate */
             rate: number;
-            type: components['schemas']['backbone_common__models__accounting__common__VatCodeType'];
+            type: components['schemas']['VatCodeType'];
             /** Deductible Account */
-            deductible_account?: string;
+            deductible_account?: string | null;
             /** Payable Account */
-            payable_account?: string;
+            payable_account?: string | null;
+            /**
+             * Reversed
+             * @default false
+             */
+            reversed: boolean | null;
         };
         /** AddressItem */
         AddressItem: {
             /**
              * Address Type
              * @description Type of the address
-             * @example home
              */
-            address_type?: string;
+            address_type?: string | null;
             /**
              * Name
              * @description Name given to the address (e.g. 'home')
-             * @example Home
              */
-            name?: string;
+            name?: string | null;
             /**
              * Street
              * @description Street name
-             * @example Main Street
              */
-            street?: string;
+            street?: string | null;
             /**
              * Number
              * @description Number of the address
-             * @example 123
              */
-            number?: string;
+            number?: string | null;
             /**
              * Box
              * @description Box of the address
-             * @example A
              */
-            box?: string;
+            box?: string | null;
             /**
              * City
              * @description City name
-             * @example Paris
              */
-            city?: string;
+            city?: string | null;
             /**
              * Postal Code
              * @description Postal code of the address
-             * @example 75000
              */
-            postal_code?: string;
+            postal_code?: string | null;
             /**
              * Country
              * @description Country, format: ISO 3166-1 codes.
-             * @example FR
              */
-            country?: string;
+            country?: string | null;
         };
         /** AddressItemInInvoicing */
         AddressItemInInvoicing: {
             address_type: components['schemas']['AddressTypeInvoicing'];
             /** Name */
-            name?: string;
+            name?: string | null;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Box */
-            box?: string;
+            box?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /** Street */
             street: string;
             /** City */
@@ -2647,42 +2783,67 @@ export interface components {
              */
             country: string;
         };
-        /** AddressItemOutInvoicing */
-        AddressItemOutInvoicing: {
-            address_type: components['schemas']['AddressTypeInvoicing'];
+        /** AddressItemOut */
+        'AddressItemOut-Input': {
+            address_type: components['schemas']['AddressType'];
             /** Name */
-            name?: string;
+            name?: string | null;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Box */
-            box?: string;
+            box?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /** Street */
-            street?: string;
+            street?: string | null;
             /** City */
-            city?: string;
+            city?: string | null;
             /** Postal Code */
-            postal_code?: string;
+            postal_code?: string | null;
             /**
              * Country
              * @description Format: ISO 3166-1 codes.
              */
-            country?: string;
+            country?: string | null;
+        };
+        /** AddressItemOutInvoicing */
+        AddressItemOutInvoicing: {
+            address_type: components['schemas']['AddressTypeInvoicing'];
+            /** Name */
+            name?: string | null;
+            /** Number */
+            number?: string | null;
+            /** Box */
+            box?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Mobile */
+            mobile?: string | null;
+            /** Email */
+            email?: string | null;
+            /** Street */
+            street?: string | null;
+            /** City */
+            city?: string | null;
+            /** Postal Code */
+            postal_code?: string | null;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
+            country?: string | null;
         };
         /**
          * AddressType
-         * @description An enumeration.
          * @enum {string}
          */
         AddressType: 'main' | 'delivery' | 'invoice';
         /**
          * AddressTypeInvoicing
-         * @description An enumeration.
          * @enum {string}
          */
         AddressTypeInvoicing: 'main' | 'delivery' | 'invoice' | 'other';
@@ -2692,7 +2853,7 @@ export interface components {
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
             /** Code */
             code: string;
             /** Name */
@@ -2710,29 +2871,29 @@ export interface components {
             /** Active */
             active: boolean;
             /** Code */
-            code?: string;
+            code?: string | null;
             /** Name */
             name: string;
             /**
              * Currency
              * @description Indicates the currency of the analytic account (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Balance
              * @default 0
              */
-            balance: number;
+            balance: number | null;
             /**
              * Credit
              * @default 0
              */
-            credit: number;
+            credit: number | null;
             /**
              * Debit
              * @default 0
              */
-            debit: number;
+            debit: number | null;
         };
         /** AnalyticAccountItemOutMultiAnalyticPlans */
         AnalyticAccountItemOutMultiAnalyticPlans: {
@@ -2741,29 +2902,29 @@ export interface components {
             /** Active */
             active: boolean;
             /** Code */
-            code?: string;
+            code?: string | null;
             /** Name */
             name: string;
             /**
              * Currency
              * @description Indicates the currency of the analytic account (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Balance
              * @default 0
              */
-            balance: number;
+            balance: number | null;
             /**
              * Credit
              * @default 0
              */
-            credit: number;
+            credit: number | null;
             /**
              * Debit
              * @default 0
              */
-            debit: number;
+            debit: number | null;
             /** Analytic Plan */
             analytic_plan: string;
         };
@@ -2773,16 +2934,16 @@ export interface components {
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
             /** Code */
-            code?: string;
+            code?: string | null;
             /** Name */
-            name?: string;
+            name?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the analytic account (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
         };
         /** AnalyticDistribution */
         AnalyticDistribution: {
@@ -2811,12 +2972,13 @@ export interface components {
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
+            /** Parent Id */
+            parent_id?: string | null;
         };
         /**
          * Api
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         Api:
             | 'Point of Sale'
@@ -2851,11 +3013,8 @@ export interface components {
              * Format: uuid
              */
             accountId: string;
-            /**
-             * Marketplaceid
-             * Format: uuid
-             */
-            marketplaceId?: string;
+            /** Marketplaceid */
+            marketplaceId?: string | null;
         };
         /** BalanceItemOut */
         BalanceItemOut: {
@@ -2864,10 +3023,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Available Amount
@@ -2886,116 +3042,175 @@ export interface components {
              */
             create_date: string;
         };
+        /** BankAccountItemIn */
+        BankAccountItemIn: {
+            /**
+             * Code
+             * @description A userfriendly code to represent the bank account. This will be used as the code of the journal if we need to create a journal for the bank account.
+             */
+            code: string;
+            /**
+             * Currency
+             * @description Currency of the bank account.
+             */
+            currency: string;
+            /**
+             * Account Name
+             * @description Name of the bank account. Represents this specific bank account in the accounting system.
+             */
+            account_name?: string | null;
+            /**
+             * Account Number
+             * @description Unique number representing the bank account. At least one of the fields 'account_number' or 'IBAN' must be filled in.
+             */
+            account_number?: string | null;
+            /**
+             * Iban
+             * @description IBAN of the bank account. At least one of the fields 'account_number' or 'IBAN' must be filled in.
+             */
+            iban?: string | null;
+            /**
+             * Bank Name
+             * @description Name of the bank linked to the bank account.
+             */
+            bank_name: string;
+        };
+        /** BankAccountItemOut */
+        BankAccountItemOut: {
+            /** Id */
+            id: string;
+            /**
+             * Code
+             * @description A userfriendly code to represent the bank account. This will be used as the code of the journal if we need to create a journal for the bank account.
+             */
+            code?: string | null;
+            /**
+             * Currency
+             * @description Currency of the bank account.
+             */
+            currency?: string | null;
+            /**
+             * Account Name
+             * @description Name of the bank account. Represents this specific bank account in the accounting system.
+             */
+            account_name?: string | null;
+            /**
+             * Account Number
+             * @description Unique number representing the bank account.
+             */
+            account_number?: string | null;
+            /**
+             * Iban
+             * @description IBAN of the bank account.
+             */
+            iban?: string | null;
+            /**
+             * Bank Name
+             * @description Name of the bank linked to the bank account.
+             */
+            bank_name?: string | null;
+            /**
+             * Journal Id
+             * @description Indicates the journal used in the accounting system to represent the bank account. The journal contains all the transactions related to this specific bank account.
+             */
+            journal_id?: string | null;
+            /**
+             * Ledger Account
+             * @description Indicates the ledger account used in the accounting system to represent the bank account. The ledger account is used in all the transactions related to this specific bank account. This ledger account is used to track the balance of the bank account.
+             */
+            ledger_account?: string | null;
+        };
         /** BankingAccountItem */
         BankingAccountItem: {
             /**
              * Id
              * @description Unique identifier of the account
-             * @example account-123
              */
             id: string;
             /**
              * Currency
              * @description Currency of the account
-             * @example EUR
              */
             currency: string;
             /**
              * Current Balance
              * @description Current balance of the account
-             * @example 1000
              */
             current_balance: number;
             /**
              * Current Balance Last Update Date
-             * Format: date-time
              * @description Last update date of the current balance
-             * @example 2025-01-01T00:00:00Z
              */
-            current_balance_last_update_date?: string;
+            current_balance_last_update_date?: string | null;
             /**
              * Available Balance
              * @description Available balance of the account
-             * @example 1000
              */
             available_balance: number;
             /**
              * Available Balance Last Update Date
-             * Format: date-time
              * @description Last update date of the available balance
-             * @example 2025-01-01T00:00:00Z
              */
-            available_balance_last_update_date?: string;
+            available_balance_last_update_date?: string | null;
             /**
              * Description
              * @description Description of the account
-             * @example Chift account
              */
             description: string;
             /**
              * Reference
              * @description Reference of the account
-             * @example FR76300040123456789012345678
              */
             reference: string;
             /**
              * Reference Type
              * @description Type of the reference
-             * @example IBAN
              */
             reference_type: string;
             /**
              * Holder Name
              * @description Name of the account holder
-             * @example John Doe
              */
-            holder_name?: string;
+            holder_name?: string | null;
         };
         /** BankingCounterPartItem */
         BankingCounterPartItem: {
             /**
              * Name
              * @description Name of the counterpart
-             * @example John Doe
              */
-            name?: string;
+            name?: string | null;
             /**
              * Reference
              * @description Reference of the counterpart
-             * @example FR76300040123456789012345678
              */
-            reference?: string;
+            reference?: string | null;
             /**
              * Details
              * @description Details of the counterpart
-             * @example Chift counterpart
              */
-            details?: string;
+            details?: string | null;
         };
         /** BankingFinancialInstitutionItem */
         BankingFinancialInstitutionItem: {
             /**
              * Id
              * @description Unique identifier of the financial institution
-             * @example financial-institution-123
              */
             id: string;
             /**
              * Bic
              * @description BIC of the financial institution
-             * @example GEBABEBBXXX
              */
-            bic?: string;
+            bic?: string | null;
             /**
              * Country
              * @description Country of the financial institution, format: ISO 3166-1 codes.
-             * @example FR
              */
-            country?: string;
+            country?: string | null;
             /**
              * Name
              * @description Name of the financial institution
-             * @example BNP
              */
             name: string;
         };
@@ -3004,70 +3219,59 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the transaction
-             * @example transaction-123
              */
             id: string;
             /**
              * Amount
              * @description Amount of the transaction
-             * @example 1000
              */
             amount: number;
             /**
              * Currency
              * @description Currency of the transaction
-             * @example EUR
              */
             currency: string;
             /**
              * Description
              * @description Description of the transaction
-             * @example Chift transaction
              */
-            description?: string;
+            description?: string | null;
             /**
              * Additional Information
              * @description Additional information of the transaction
-             * @example Chift transaction
              */
-            additional_information?: string;
+            additional_information?: string | null;
             /**
              * Counterpart Name
              * @description Name of the counterpart
-             * @example John Doe
              */
-            counterpart_name?: string;
+            counterpart_name?: string | null;
             /**
              * Counterpart Reference
              * @description Reference of the counterpart
-             * @example FR76300040123456789012345678
              */
-            counterpart_reference?: string;
+            counterpart_reference?: string | null;
             /**
              * Remittance Information
              * @description Remittance information of the transaction
-             * @example Chift transaction
              */
-            remittance_information?: string;
+            remittance_information?: string | null;
             /**
              * Creation Date
              * Format: date-time
              * @description Creation date of the transaction
-             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Value Date
              * Format: date-time
              * @description Value date of the transaction
-             * @example 2025-01-01T00:00:00Z
              */
             value_date: string;
             /**
              * Execution Date
              * Format: date-time
              * @description Execution date of the transaction
-             * @example 2025-01-01T00:00:00Z
              */
             execution_date: string;
         };
@@ -3090,7 +3294,6 @@ export interface components {
         };
         /**
          * BoolParam
-         * @description An enumeration.
          * @enum {string}
          */
         BoolParam: 'true' | 'false';
@@ -3101,10 +3304,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** Name */
             name: string;
@@ -3112,7 +3312,7 @@ export interface components {
              * Parent Id
              * @description Technical id of the parent category in the target software
              */
-            parent_id?: string;
+            parent_id?: string | null;
         };
         /** ChainExecutionItem */
         ChainExecutionItem: {
@@ -3123,11 +3323,8 @@ export interface components {
              * Format: date-time
              */
             start: string;
-            /**
-             * End
-             * Format: date-time
-             */
-            end?: string;
+            /** End */
+            end: string | null;
             /** Status */
             status: string;
         };
@@ -3139,12 +3336,12 @@ export interface components {
              * Status
              * @default error
              */
-            status: string;
+            status: string | null;
             /**
              * Detail
              * @default
              */
-            detail: string;
+            detail: string | null;
         };
         /** ChiftId */
         ChiftId: {
@@ -3153,10 +3350,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
         };
         /** ChiftPage[AccountBalance] */
@@ -3164,7 +3358,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AccountBalance'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3175,7 +3369,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AccountItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3186,7 +3380,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AccountingCategoryItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3197,7 +3391,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AccountingVatCode'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3208,7 +3402,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3219,7 +3413,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AnalyticAccountItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3230,7 +3424,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AnalyticPlanItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3241,7 +3435,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AttachmentItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3252,7 +3446,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BalanceItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3263,7 +3457,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BankingAccountItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3274,7 +3468,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BankingCounterPartItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3285,7 +3479,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BankingFinancialInstitutionItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3296,7 +3490,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BankingTransactionItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3307,7 +3501,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BookYear'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3318,7 +3512,7 @@ export interface components {
             /** Items */
             items: components['schemas']['CategoryItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3329,7 +3523,7 @@ export interface components {
             /** Items */
             items: components['schemas']['ClientItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3340,7 +3534,7 @@ export interface components {
             /** Items */
             items: components['schemas']['CommerceCustomerItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3351,7 +3545,7 @@ export interface components {
             /** Items */
             items: components['schemas']['CommerceLocationItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3362,7 +3556,7 @@ export interface components {
             /** Items */
             items: components['schemas']['ContactItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3373,7 +3567,7 @@ export interface components {
             /** Items */
             items: components['schemas']['CountryItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3384,7 +3578,7 @@ export interface components {
             /** Items */
             items: components['schemas']['EmployeeItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3395,7 +3589,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoiceItemOutMonoAnalyticPlan'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3406,7 +3600,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoiceItemOutMultiAnalyticPlans'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3417,7 +3611,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoiceItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3428,7 +3622,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoicingPaymentItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3439,7 +3633,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoicingPaymentMethodItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3450,7 +3644,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoicingVatCode'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3461,7 +3655,7 @@ export interface components {
             /** Items */
             items: components['schemas']['JournalEntryMonoAnalyticPlan'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3472,7 +3666,7 @@ export interface components {
             /** Items */
             items: components['schemas']['JournalEntryMultiAnalyticPlan'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3483,7 +3677,7 @@ export interface components {
             /** Items */
             items: components['schemas']['Journal'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3494,7 +3688,7 @@ export interface components {
             /** Items */
             items: components['schemas']['MiscellaneousOperationOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3505,7 +3699,7 @@ export interface components {
             /** Items */
             items: components['schemas']['OpportunityItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3516,7 +3710,7 @@ export interface components {
             /** Items */
             items: components['schemas']['OrderItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3527,7 +3721,7 @@ export interface components {
             /** Items */
             items: components['schemas']['OutstandingItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3538,7 +3732,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSAccountingCategoryItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3549,7 +3743,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSCustomerItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3560,7 +3754,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSInvoiceFullItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3571,7 +3765,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSLocationItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3582,7 +3776,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSOrderItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3593,7 +3787,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSPaymentItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3604,7 +3798,18 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSPaymentMethods'][];
             /** Total */
-            total: number;
+            total?: number | null;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PMSTaxRateItem] */
+        ChiftPage_PMSTaxRateItem_: {
+            /** Items */
+            items: components['schemas']['PMSTaxRateItem'][];
+            /** Total */
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3615,7 +3820,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSCustomerItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3626,7 +3831,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSLocationItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3637,7 +3842,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSOrderItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3648,7 +3853,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSPaymentItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3659,7 +3864,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSProductItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3670,7 +3875,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PaymentItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3681,7 +3886,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PaymentMethodItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3692,7 +3897,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PaymentMethods'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3703,7 +3908,7 @@ export interface components {
             /** Items */
             items: components['schemas']['Payment'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3714,7 +3919,7 @@ export interface components {
             /** Items */
             items: components['schemas']['backbone_common__models__pos__common__ProductCategoryItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3725,7 +3930,7 @@ export interface components {
             /** Items */
             items: components['schemas']['ProductItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3734,9 +3939,9 @@ export interface components {
         /** ChiftPage[ProductItem] */
         ChiftPage_ProductItem_: {
             /** Items */
-            items: components['schemas']['backbone_common__models__commerce__common__ProductItem'][];
+            items: components['schemas']['ProductItem-Output'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3747,7 +3952,7 @@ export interface components {
             /** Items */
             items: components['schemas']['RefundItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3758,7 +3963,7 @@ export interface components {
             /** Items */
             items: components['schemas']['SupplierItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3769,7 +3974,7 @@ export interface components {
             /** Items */
             items: components['schemas']['TaxRateItem'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3780,7 +3985,7 @@ export interface components {
             /** Items */
             items: components['schemas']['TransactionItemOut'][];
             /** Total */
-            total: number;
+            total?: number | null;
             /** Page */
             page: number;
             /** Size */
@@ -3789,232 +3994,239 @@ export interface components {
         /** ClientItemIn */
         ClientItemIn: {
             /** External Reference */
-            external_reference?: string;
+            external_reference?: string | null;
             /**
              * First Name
              * @description Only used when the client is an individual (is_company=false). Indicates the first name of the client.
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Only used when the client is an individual (is_company=false). Indicates the last name of the client.
              */
-            last_name?: string;
+            last_name?: string | null;
             /** Name */
             name: string;
             /**
              * Function
              * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
              */
-            function?: string;
+            function?: string | null;
             /**
              * Is Company
              * @description Indicates if the client is an individual or a company.
              * @default true
              */
-            is_company: boolean;
+            is_company: boolean | null;
             /**
              * Company Id
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
              */
-            company_id?: string;
+            company_id?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Language
              * @description Format: ISO 639-1 codes.
              */
-            language?: string;
+            language?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /** Website */
-            website?: string;
+            website?: string | null;
             /** Vat */
-            vat?: string;
+            vat?: string | null;
             /**
              * Iban
              * @description IBAN Account number of the client.
              */
-            iban?: string;
+            iban?: string | null;
             /**
              * Bank Account
              * @description Bank account number of the client.
              */
-            bank_account?: string;
+            bank_account?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the client (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
             /** Addresses */
             addresses: components['schemas']['backbone_common__models__common__AddressItemIn'][];
             /** Account Number */
-            account_number?: string;
+            account_number?: string | null;
         };
         /** ClientItemOut */
         ClientItemOut: {
             /** External Reference */
-            external_reference?: string;
+            external_reference?: string | null;
             /**
              * First Name
              * @description Only used when the client is an individual (is_company=false). Indicates the first name of the client.
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Only used when the client is an individual (is_company=false). Indicates the last name of the client.
              */
-            last_name?: string;
+            last_name?: string | null;
             /** Name */
-            name?: string;
+            name?: string | null;
             /**
              * Function
              * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
              */
-            function?: string;
+            function?: string | null;
             /**
              * Is Company
              * @description Indicates if the client is an individual or a company.
              * @default true
              */
-            is_company: boolean;
+            is_company: boolean | null;
             /**
              * Company Id
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
              */
-            company_id?: string;
+            company_id?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Language
              * @description Format: ISO 639-1 codes.
              */
-            language?: string;
+            language?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /** Website */
-            website?: string;
+            website?: string | null;
             /** Vat */
-            vat?: string;
+            vat?: string | null;
             /**
              * Iban
              * @description IBAN Account number of the client.
              */
-            iban?: string;
+            iban?: string | null;
             /**
              * Bank Account
              * @description Bank account number of the client.
              */
-            bank_account?: string;
+            bank_account?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the client (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
+            /** Account Number */
+            account_number?: string | null;
+            /** Company Number */
+            company_number?: string | null;
+            /** Id */
+            id?: string | null;
+            /**
+             * Last Updated On
+             * @description The last time the client has been updated.
+             */
+            last_updated_on?: string | null;
             /**
              * Addresses
              * @default []
              */
-            addresses: components['schemas']['backbone_common__models__common__AddressItemOut'][];
-            /** Account Number */
-            account_number?: string;
-            /** Company Number */
-            company_number?: string;
-            /** Id */
-            id?: string;
+            addresses:
+                | components['schemas']['backbone_common__models__common__AddressItemOut'][]
+                | null;
         };
         /** ClientItemUpdate */
         ClientItemUpdate: {
             /** External Reference */
-            external_reference?: string;
+            external_reference?: string | null;
             /**
              * First Name
              * @description Only used when the client is an individual (is_company=false). Indicates the first name of the client.
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Only used when the client is an individual (is_company=false). Indicates the last name of the client.
              */
-            last_name?: string;
+            last_name?: string | null;
             /** Name */
-            name?: string;
+            name?: string | null;
             /**
              * Function
              * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
              */
-            function?: string;
+            function?: string | null;
             /**
              * Is Company
              * @description Indicates if the client is an individual or a company.
              * @default true
              */
-            is_company: boolean;
+            is_company: boolean | null;
             /**
              * Company Id
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
              */
-            company_id?: string;
+            company_id?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Language
              * @description Format: ISO 639-1 codes.
              */
-            language?: string;
+            language?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /** Website */
-            website?: string;
+            website?: string | null;
             /** Vat */
-            vat?: string;
+            vat?: string | null;
             /**
              * Iban
              * @description IBAN Account number of the client.
              */
-            iban?: string;
+            iban?: string | null;
             /**
              * Bank Account
              * @description Bank account number of the client.
              */
-            bank_account?: string;
+            bank_account?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the client (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
             /**
              * Addresses
              * @default []
              */
-            addresses: components['schemas']['backbone_common__models__common__AddressItemOut'][];
+            addresses: components['schemas']['AddressItemOut-Input'][] | null;
         };
         /** ClosureItem */
         ClosureItem: {
@@ -4022,19 +4234,38 @@ export interface components {
              * Date
              * Format: date
              * @description Date of the closure
-             * @example 2025-01-01
              */
             date: string;
-            /**
-             * @description Status of the closure
-             * @example closed
-             */
+            /** @description Status of the closure */
             status: components['schemas']['ClosureStates'];
+            /**
+             * Closures
+             * @description Info about closures related to specific day
+             * @default []
+             */
+            closures: components['schemas']['POSClosureInformationItem'][] | null;
+        };
+        /** ClosurePaymentItem */
+        ClosurePaymentItem: {
+            /**
+             * Payment Method Id
+             * @description Unique identifier of the payment method used for the payment
+             */
+            payment_method_id?: string | null;
+            /**
+             * Payment Method Name
+             * @description Chift's name of the payment method used for the payment
+             */
+            payment_method_name?: string | null;
+            /**
+             * Total
+             * @description Total amount including tax
+             */
+            total: number;
         };
         /**
          * ClosureStates
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         ClosureStates: 'open' | 'closed';
         /** CommerceCustomerItem */
@@ -4044,41 +4275,37 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** First Name */
-            first_name?: string;
+            first_name?: string | null;
             /** Last Name */
-            last_name?: string;
+            last_name?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Language
              * @description Format: ISO 639-1 codes.
              */
-            language?: string;
+            language?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the client (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Addresses
              * @default []
              */
-            addresses: components['schemas']['backbone_common__models__commerce__common__AddressItemOut'][];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
+            addresses:
+                | components['schemas']['backbone_common__models__commerce__common__AddressItemOut'][]
+                | null;
+            /** Created On */
+            created_on?: string | null;
         };
         /** CommerceLocationItem */
         CommerceLocationItem: {
@@ -4099,11 +4326,8 @@ export interface components {
             id: string;
             /** Name */
             name: string;
-            /**
-             * Source Ref
-             * @description Technical id of the location in the target software
-             */
-            source_ref?: components['schemas']['Ref'];
+            /** @description Technical id of the location in the target software */
+            source_ref?: components['schemas']['Ref'] | null;
         };
         /** CommonAttributeItem */
         CommonAttributeItem: {
@@ -4111,6 +4335,23 @@ export interface components {
             name: string;
             /** Values */
             values: string[];
+        };
+        /** ConnectionItem */
+        'ConnectionItem-Input': {
+            /** One Api */
+            one_api?: number | null;
+            /** Connection Type */
+            connection_type?: number | null;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order: number;
+            /**
+             * Display Hidden
+             * @default false
+             */
+            display_hidden: boolean;
         };
         /** ConsumerItem */
         ConsumerItem: {
@@ -4122,15 +4363,14 @@ export interface components {
             /** Name */
             name: string;
             /** Email */
-            email?: string;
+            email?: string | null;
             /** Internal Reference */
-            internal_reference?: string;
+            internal_reference?: string | null;
             /** Redirect Url */
-            redirect_url?: string;
+            redirect_url?: string | null;
         };
         /**
          * ContactGender
-         * @description An enumeration.
          * @enum {string}
          */
         ContactGender: 'H' | 'F' | 'N/A';
@@ -4140,106 +4380,105 @@ export interface components {
              * Is Prospect
              * @description Is a prospect?
              */
-            is_prospect?: boolean;
+            is_prospect?: boolean | null;
             /**
              * Is Customer
              * @description Is a customer?
              */
-            is_customer?: boolean;
+            is_customer?: boolean | null;
             /**
              * Is Supplier
              * @description Is a supplier?
              */
-            is_supplier?: boolean;
+            is_supplier?: boolean | null;
             /**
              * Is Company
              * @description Is a company?
              */
-            is_company?: boolean;
+            is_company?: boolean | null;
             /**
              * Company Name
              * @description Name of the company
              */
-            company_name?: string;
+            company_name?: string | null;
             /**
              * First Name
              * @description Firstname
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Lastname
              */
-            last_name?: string;
+            last_name?: string | null;
             /**
              * Email
              * @description Email
              */
-            email?: string;
+            email?: string | null;
             /**
              * Phone
              * @description Phone
              */
-            phone?: string;
+            phone?: string | null;
             /**
              * Mobile
              * @description Mobile
              */
-            mobile?: string;
+            mobile?: string | null;
             /**
              * Company Id
              * @description Technical id of the contact' company in Chift
              */
-            company_id?: string;
+            company_id?: string | null;
             /**
              * Vat
              * @description VAT number
              */
-            vat?: string;
+            vat?: string | null;
             /**
              * Company Number
              * @description Company number (identification number different than the VAT (e.g. siret))
              */
-            company_number?: string;
+            company_number?: string | null;
             /**
              * Currency
              * @description Currency matching target sofware name
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Language
              * @description Language matching target sofware name
              */
-            language?: string;
+            language?: string | null;
             /**
              * Comment
              * @description Comment
              */
-            comment?: string;
+            comment?: string | null;
             /**
              * Customer Account Number
              * @description Number of the accounting account used for sales (e.g. 701000)
              */
-            customer_account_number?: string;
+            customer_account_number?: string | null;
             /**
              * Supplier Account Number
              * @description Number of the accounting account used for purchases (e.g. 601000)
              */
-            supplier_account_number?: string;
+            supplier_account_number?: string | null;
             /**
              * Birthdate
-             * Format: date
              * @description Birthdate
              */
-            birthdate?: string;
+            birthdate?: string | null;
             /** @description Gender */
-            gender?: components['schemas']['ContactGender'];
+            gender?: components['schemas']['ContactGender'] | null;
             /**
              * Addresses
              * @description Addresses
              * @default []
              */
-            addresses: components['schemas']['AddressItemInInvoicing'][];
+            addresses: components['schemas']['AddressItemInInvoicing'][] | null;
         };
         /** ContactItemOut */
         ContactItemOut: {
@@ -4248,124 +4487,119 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Is Prospect
              * @description Is a prospect?
              */
-            is_prospect?: boolean;
+            is_prospect?: boolean | null;
             /**
              * Is Customer
              * @description Is a customer?
              */
-            is_customer?: boolean;
+            is_customer?: boolean | null;
             /**
              * Is Supplier
              * @description Is a supplier?
              */
-            is_supplier?: boolean;
+            is_supplier?: boolean | null;
             /**
              * Is Company
              * @description Is a company?
              */
-            is_company?: boolean;
+            is_company?: boolean | null;
             /**
              * Company Name
              * @description Name of the company
              */
-            company_name?: string;
+            company_name?: string | null;
             /**
              * First Name
              * @description Firstname
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Lastname
              */
-            last_name?: string;
+            last_name?: string | null;
             /**
              * Email
              * @description Email
              */
-            email?: string;
+            email?: string | null;
             /**
              * Phone
              * @description Phone
              */
-            phone?: string;
+            phone?: string | null;
             /**
              * Mobile
              * @description Mobile
              */
-            mobile?: string;
+            mobile?: string | null;
             /**
              * Company Id
              * @description Technical id of the contact' company in Chift
              */
-            company_id?: string;
+            company_id?: string | null;
             /**
              * Vat
              * @description VAT number
              */
-            vat?: string;
+            vat?: string | null;
             /**
              * Company Number
              * @description Company number (identification number different than the VAT (e.g. siret))
              */
-            company_number?: string;
+            company_number?: string | null;
             /**
              * Currency
              * @description Currency matching target sofware name
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Language
              * @description Language matching target sofware name
              */
-            language?: string;
+            language?: string | null;
             /**
              * Comment
              * @description Comment
              */
-            comment?: string;
+            comment?: string | null;
             /**
              * Customer Account Number
              * @description Number of the accounting account used for sales (e.g. 701000)
              */
-            customer_account_number?: string;
+            customer_account_number?: string | null;
             /**
              * Supplier Account Number
              * @description Number of the accounting account used for purchases (e.g. 601000)
              */
-            supplier_account_number?: string;
+            supplier_account_number?: string | null;
             /**
              * Birthdate
-             * Format: date
              * @description Birthdate
              */
-            birthdate?: string;
+            birthdate?: string | null;
             /** @description Gender */
-            gender?: components['schemas']['ContactGender'];
+            gender?: components['schemas']['ContactGender'] | null;
             /**
              * Addresses
              * @description Addresses
              * @default []
              */
-            addresses: components['schemas']['AddressItemOutInvoicing'][];
+            addresses: components['schemas']['AddressItemOutInvoicing'][] | null;
             /**
              * External Reference
              * @description External reference of the contact in the invoicing system
              */
-            external_reference?: string;
+            external_reference?: string | null;
         };
         /**
          * ContactType
-         * @description An enumeration.
          * @enum {string}
          */
         ContactType: 'prospect' | 'customer' | 'supplier' | 'all';
@@ -4391,24 +4625,28 @@ export interface components {
              * @description [OPTIONAL] Can be used to specify maximum one integrationid for each One API that you want to highlight. If specified, only this connector will be displayed to your clients.
              * @default []
              */
-            integrationids: string[];
+            integrationids: string[] | null;
+            /**
+             * Country
+             * @description ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationids are provided.
+             */
+            country?: string | null;
             /** Link Metadata */
-            link_metadata?: Record<string, never>;
+            link_metadata?: {
+                [key: string]: unknown;
+            } | null;
         };
         /** CreateFlowItem */
         CreateFlowItem: {
             /** Name */
             name: string;
             /** Description */
-            description?: string;
+            description?: string | null;
             execution: components['schemas']['FlowExecution'];
-            /**
-             * Config
-             * @default {
+            /** @default {
              *       "datastores": []
-             *     }
-             */
-            config: components['schemas']['FlowConfig'];
+             *     } */
+            config: components['schemas']['FlowConfig-Input'] | null;
             /** Triggers */
             triggers: components['schemas']['FlowTrigger'][];
         };
@@ -4417,12 +4655,12 @@ export interface components {
             /** Name */
             name: string;
             /** Connections */
-            connections: components['schemas']['backbone_api__app__routers__syncs__ConnectionItem'][];
+            connections: components['schemas']['ConnectionItem-Input'][];
             /**
              * Mappings
              * @default []
              */
-            mappings: components['schemas']['CreateSyncMappingItem'][];
+            mappings: components['schemas']['CreateSyncMappingItem-Input'][];
             /**
              * Flows
              * @default []
@@ -4430,37 +4668,56 @@ export interface components {
             flows: components['schemas']['CreateFlowItem'][];
         };
         /** CreateSyncMappingItem */
-        CreateSyncMappingItem: {
+        'CreateSyncMappingItem-Input': {
             /** Name */
             name: string;
             /** Description */
-            description?: string;
+            description?: string | null;
             /**
              * Display Order
              * @default 0
              */
             display_order: number;
             /** Challenge Question */
-            challenge_question?: string;
+            challenge_question?: string | null;
             /**
              * Sub Mappings
              * @default []
              */
-            sub_mappings: components['schemas']['CreateSyncMappingToFieldItem'][];
+            sub_mappings: components['schemas']['CreateSyncMappingToFieldItem-Input'][];
         };
-        /** CreateSyncMappingToFieldItem */
-        CreateSyncMappingToFieldItem: {
+        /** CreateSyncMappingItem */
+        'CreateSyncMappingItem-Output': {
             /** Name */
             name: string;
             /** Description */
-            description?: string;
+            description?: string | null;
             /**
              * Display Order
              * @default 0
              */
             display_order: number;
             /** Challenge Question */
-            challenge_question?: string;
+            challenge_question?: string | null;
+            /**
+             * Sub Mappings
+             * @default []
+             */
+            sub_mappings: components['schemas']['CreateSyncMappingToFieldItem-Output'][];
+        };
+        /** CreateSyncMappingToFieldItem */
+        'CreateSyncMappingToFieldItem-Input': {
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order: number;
+            /** Challenge Question */
+            challenge_question?: string | null;
             source_field: components['schemas']['FieldItem'];
             target_field: components['schemas']['FieldItem'];
             /**
@@ -4469,17 +4726,65 @@ export interface components {
              */
             display_delete: boolean;
             /** Logic */
-            logic?: Record<string, never>;
+            logic?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        /** CreateSyncMappingToFieldItem */
+        'CreateSyncMappingToFieldItem-Output': {
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order: number;
+            /** Challenge Question */
+            challenge_question?: string | null;
+            source_field: components['schemas']['FieldItem'];
+            target_field: components['schemas']['FieldItem'];
+            /**
+             * Display Delete
+             * @default false
+             */
+            display_delete: boolean;
+            /** Logic */
+            logic?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        /** CredentialItem */
+        'CredentialItem-Input': {
+            /** Key */
+            key: string;
+            /** Value */
+            value: string;
+        };
+        /** CredentialItem */
+        'CredentialItem-Output': {
+            /** Name */
+            name: string;
+            /**
+             * Optional
+             * @default false
+             */
+            optional: boolean;
         };
         /** DataItem */
         DataItem: {
             /** Data */
-            data: Record<string, never>;
+            data: {
+                [key: string]: unknown;
+            };
         };
         /** DataItemOut */
         DataItemOut: {
             /** Data */
-            data: Record<string, never>;
+            data: {
+                [key: string]: unknown;
+            };
             /** Id */
             id: string;
             /**
@@ -4495,7 +4800,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status: components['schemas']['backbone_api__app__routers__datastores__Status'];
+            status: components['schemas']['Status'] | null;
             definition: components['schemas']['DatastoreDef'];
         };
         /** DatastoreColumn */
@@ -4510,7 +4815,7 @@ export interface components {
              * Optional
              * @default false
              */
-            optional: boolean;
+            optional: boolean | null;
         };
         /** DatastoreDef */
         DatastoreDef: {
@@ -4520,17 +4825,15 @@ export interface components {
              * Search Column
              * @description Column name that will be indexed and used in search if any.
              */
-            search_column?: string;
+            search_column?: string | null;
         };
         /**
          * DiscountType
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         DiscountType: 'OFFERED' | 'UNKNOWN' | 'LOSS';
         /**
          * DocumentType
-         * @description An enumeration.
          * @enum {string}
          */
         DocumentType: 'invoice' | 'entry';
@@ -4541,26 +4844,26 @@ export interface components {
             /** Name */
             name: string;
             /** First Name */
-            first_name?: string;
+            first_name?: string | null;
             /** Last Name */
-            last_name?: string;
+            last_name?: string | null;
             /** Function */
-            function?: string;
+            function?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Account Number */
-            account_number?: string;
+            account_number?: string | null;
         };
         /** EnableFlowConsumer */
         EnableFlowConsumer: {
@@ -4574,19 +4877,20 @@ export interface components {
              * Triggerid
              * @default trigger-1
              */
-            triggerid: string;
+            triggerid: string | null;
             /** Cronschedule */
-            cronschedule?: string;
+            cronschedule?: string | null;
             /**
              * Data
              * @description Object containing the configuration of the flow for the consumer
              * @default {}
              */
-            data: Record<string, never>;
+            data: {
+                [key: string]: unknown;
+            } | null;
         };
         /**
          * EntryLineType
-         * @description An enumeration.
          * @enum {string}
          */
         EntryLineType:
@@ -4594,12 +4898,65 @@ export interface components {
             | 'supplier_account'
             | 'employee_account'
             | 'general_account';
+        /** ErrorInfo */
+        ErrorInfo: {
+            /** Error Code */
+            error_code: string;
+            /** Status */
+            status: string;
+            /** Title */
+            title: string;
+            /** Description */
+            description?: string;
+        };
         /**
          * ExecutionType
-         * @description An enumeration.
          * @enum {string}
          */
         ExecutionType: 'code' | 'module';
+        /** FECItemOut */
+        FECItemOut: {
+            /** Journalcode */
+            JournalCode: string;
+            /** Journallib */
+            JournalLib: string;
+            /** Ecriturenum */
+            EcritureNum: string;
+            /**
+             * Ecrituredate
+             * Format: date
+             */
+            EcritureDate: string;
+            /** Comptenum */
+            CompteNum: string;
+            /** Comptelib */
+            CompteLib: string;
+            /** Compauxnum */
+            CompAuxNum: string;
+            /** Compauxlib */
+            CompAuxLib: string;
+            /** Pieceref */
+            PieceRef: string;
+            /**
+             * Piecedate
+             * Format: date
+             */
+            PieceDate: string;
+            /** Debit */
+            Debit: number;
+            /** Credit */
+            Credit: number;
+            /** Ecriturelet */
+            EcritureLet: string;
+            /** Datelet */
+            DateLet: string | null;
+            /** Validdate */
+            ValidDate: string | null;
+            /** Montantdevise */
+            Montantdevise: number;
+            /** Idevise */
+            Idevise: string;
+        };
         /** FeesItem */
         FeesItem: {
             /**
@@ -4607,35 +4964,31 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
+            /** Created On */
+            created_on?: string | null;
             type: components['schemas']['FeesType'];
             /**
              * Removed
              * @description Indicates if the fee has been removed from the order
              * @default false
              */
-            removed: boolean;
+            removed: boolean | null;
             /** Tax Rate */
             tax_rate: number;
             /**
              * Tax Id
              * @description Technical id of the tax rate in Chift
              */
-            tax_id?: string;
+            tax_id?: string | null;
             /**
              * Discounts
              * @default []
              */
-            discounts: components['schemas']['backbone_common__models__commerce__common__DiscountItem'][];
+            discounts:
+                | components['schemas']['backbone_common__models__commerce__common__DiscountItem'][]
+                | null;
             /** Untaxed Amount */
             untaxed_amount: number;
             /** Tax Amount */
@@ -4645,7 +4998,6 @@ export interface components {
         };
         /**
          * FeesType
-         * @description An enumeration.
          * @enum {string}
          */
         FeesType: 'shipping' | 'other';
@@ -4655,20 +5007,21 @@ export interface components {
             name: string;
             type: components['schemas']['FieldItemType'];
             /** Display Condition */
-            display_condition?: Record<string, never>;
+            display_condition?: {
+                [key: string]: unknown;
+            } | null;
             /**
              * Values
              * @default []
              */
-            values: components['schemas']['FieldItemValue'][];
+            values: components['schemas']['FieldItemValue'][] | null;
             /** Api Route */
-            api_route?: string;
+            api_route?: string | null;
             /** Connection Type */
-            connection_type?: number;
+            connection_type?: number | null;
         };
         /**
          * FieldItemType
-         * @description An enumeration.
          * @enum {string}
          */
         FieldItemType: 'fixed' | 'api';
@@ -4685,17 +5038,17 @@ export interface components {
              * Id
              * @description Technical id in the target software
              */
-            id?: string;
+            id?: string | null;
             /**
              * Model
              * @description Name of the model/entity in the target software
              */
-            model?: string;
+            model?: string | null;
             /**
              * Name
              * @description Value the field in the target software
              */
-            name?: string;
+            name?: string | null;
         };
         /** FinancialEntryItemIn */
         FinancialEntryItemIn: {
@@ -4719,18 +5072,18 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Items */
             items: components['schemas']['FinancialEntryLineItem'][];
             /**
              * Pdf
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
              */
-            pdf?: string;
+            pdf?: string | null;
         };
         /** FinancialEntryItemInOld */
         FinancialEntryItemInOld: {
@@ -4754,18 +5107,18 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Items */
             items: components['schemas']['FinancialEntryLineItemOld'][];
             /**
              * Pdf
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
              */
-            pdf?: string;
+            pdf?: string | null;
         };
         /** FinancialEntryItemOut */
         FinancialEntryItemOut: {
@@ -4789,9 +5142,9 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Id */
             id: string;
             /** Number */
@@ -4821,9 +5174,9 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Id */
             id: string;
             /** Number */
@@ -4842,7 +5195,7 @@ export interface components {
              */
             amount: number;
             /** Description */
-            description?: string;
+            description?: string | null;
         };
         /** FinancialEntryLineItemOld */
         FinancialEntryLineItemOld: {
@@ -4853,14 +5206,14 @@ export interface components {
              * Partner Id
              * @description Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type.
              */
-            partner_id?: string;
+            partner_id?: string | null;
             /**
              * Amount
              * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
              */
             amount: number;
             /** Description */
-            description?: string;
+            description?: string | null;
         };
         /** FinancialEntryLineItemOut */
         FinancialEntryLineItemOut: {
@@ -4873,7 +5226,7 @@ export interface components {
              */
             amount: number;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Counterpart Account */
             counterpart_account: string;
         };
@@ -4886,48 +5239,97 @@ export interface components {
              * Partner Id
              * @description Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type.
              */
-            partner_id?: string;
+            partner_id?: string | null;
             /**
              * Amount
              * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
              */
             amount: number;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Counterpart Account */
             counterpart_account: string;
         };
         /** FlowConfig */
-        FlowConfig: {
+        'FlowConfig-Input': {
             /** Definitionfields */
-            definitionFields?: Record<string, never>[];
+            definitionFields?:
+                | {
+                      [key: string]: unknown;
+                  }[]
+                | null;
             /** Doorkeyfields */
-            doorkeyFields?: Record<string, never>[];
+            doorkeyFields?:
+                | {
+                      [key: string]: unknown;
+                  }[]
+                | null;
             /** Customfields */
-            customFields?: Record<string, never>[];
+            customFields?:
+                | {
+                      [key: string]: unknown;
+                  }[]
+                | null;
             /**
              * Datastores
              * @default []
              */
-            datastores: components['schemas']['FlowDataStoreItem'][];
+            datastores: components['schemas']['FlowDataStoreItem-Input'][] | null;
+        };
+        /** FlowConfig */
+        'FlowConfig-Output': {
+            /** Definitionfields */
+            definitionFields?:
+                | {
+                      [key: string]: unknown;
+                  }[]
+                | null;
+            /** Doorkeyfields */
+            doorkeyFields?:
+                | {
+                      [key: string]: unknown;
+                  }[]
+                | null;
+            /** Customfields */
+            customFields?:
+                | {
+                      [key: string]: unknown;
+                  }[]
+                | null;
+            /**
+             * Datastores
+             * @default []
+             */
+            datastores: components['schemas']['FlowDataStoreItem-Output'][] | null;
         };
         /** FlowDataStoreItem */
-        FlowDataStoreItem: {
+        'FlowDataStoreItem-Input': {
             /** Id */
-            id?: string;
+            id?: string | null;
             /** Name */
             name: string;
             /** @default active */
-            status: components['schemas']['backbone_api__app__routers__datastores__Status'];
+            status: components['schemas']['Status'] | null;
+            definition: components['schemas']['DatastoreDef'];
+        };
+        /** FlowDataStoreItem */
+        'FlowDataStoreItem-Output': {
+            /** Id */
+            id?: string | null;
+            /** Name */
+            name: string;
+            /** @default active */
+            status: components['schemas']['Status'] | null;
             definition: components['schemas']['DatastoreDef'];
         };
         /** FlowExecution */
         FlowExecution: {
             type: components['schemas']['ExecutionType'];
             /** Data */
-            data?:
+            data:
                 | components['schemas']['FlowExecutionChain']
-                | components['schemas']['FlowExecutionCode'];
+                | components['schemas']['FlowExecutionCode']
+                | null;
         };
         /** FlowExecutionChain */
         FlowExecutionChain: {
@@ -4945,16 +5347,22 @@ export interface components {
             id: string;
             type: components['schemas']['TriggerType'];
             /** Cronschedules */
-            cronschedules?: string[];
+            cronschedules?: string[] | null;
             /**
              * Visible
              * @default true
              */
-            visible: boolean;
+            visible: boolean | null;
             /** Definitionfields */
-            definitionFields?: Record<string, never>[];
+            definitionFields?:
+                | {
+                      [key: string]: unknown;
+                  }[]
+                | null;
             /** Options */
-            options?: Record<string, never>;
+            options?: {
+                [key: string]: unknown;
+            } | null;
         };
         /** FolderItem */
         FolderItem: {
@@ -4966,21 +5374,18 @@ export interface components {
              * Selected
              * @default true
              */
-            selected: boolean;
+            selected: boolean | null;
             /** Vat */
-            vat?: string;
+            vat?: string | null;
             /** Company Number */
-            company_number?: string;
+            company_number?: string | null;
         };
         /** GenericJournalEntry */
         GenericJournalEntry: {
             /** Reference */
-            reference?: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date?: string;
+            reference?: string | null;
+            /** Due Date */
+            due_date?: string | null;
             /** Journal Id */
             journal_id: string;
             /** Number */
@@ -4991,7 +5396,7 @@ export interface components {
              * Currency Exchange Rate
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /**
              * Date
              * Format: date
@@ -5003,22 +5408,16 @@ export interface components {
              * Pdf
              * @description Base 64 string representing the PDF attached to the item.
              */
-            pdf?: string;
+            pdf?: string | null;
             /**
              * Posted
              * @default true
              */
-            posted: boolean;
-            /**
-             * Start Date
-             * Format: date
-             */
-            start_date?: string;
-            /**
-             * End Date
-             * Format: date
-             */
-            end_date?: string;
+            posted: boolean | null;
+            /** Start Date */
+            start_date?: string | null;
+            /** End Date */
+            end_date?: string | null;
         };
         /** GenericJournalItem */
         GenericJournalItem: {
@@ -5027,17 +5426,17 @@ export interface components {
             account: string;
             /**
              * Force General Account
-             * @description For ustomer/supplier/employee accounts we determine the general account based on the configurations in the accounting system. The general account can also be forced by specifying the value in this field.
+             * @description For customer/supplier/employee accounts we determine the general account based on the configurations in the accounting system. The general account can also be forced by specifying the value in this field.
              */
-            force_general_account?: string;
+            force_general_account?: string | null;
             /**
              * Prioritise Thirdparty Account
              * @description Indicate if we need to prioritise the information from thirdparty accounts when forcing the general account in a software where only 1 account is accepted.
              * @default false
              */
-            prioritise_thirdparty_account: boolean;
+            prioritise_thirdparty_account: boolean | null;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Debit */
             debit: number;
             /** Credit */
@@ -5046,12 +5445,16 @@ export interface components {
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
             /**
              * Tax Code
              * @description Indicates the tax code used for the entry item. This is the ID of the Tax Code in the accounting software.
              */
-            tax_code?: string;
+            tax_code?: string | null;
+            /** Country */
+            country?: string | null;
+            /** @description Information about the thirdparty account that must be created. In some tools we cannot create a thirdparty account (=client/supplier) by API. Missing thirdparty accounts must be explicitly provided during the entry creation and will be automatically created by the accounting software. This is for example the case for Tiime. */
+            account_info?: components['schemas']['AccountToCreate'] | null;
         };
         /** Validation Error */
         HTTPValidationError: {
@@ -5082,8 +5485,7 @@ export interface components {
         };
         /**
          * ImageType
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         ImageType: 'icon' | 'logo';
         /** IntegrationItem */
@@ -5092,7 +5494,7 @@ export interface components {
             integrationid: number;
             /** Name */
             name: string;
-            status: components['schemas']['backbone_api__app__routers__integrations__Status'];
+            status: components['schemas']['Status'];
             api: components['schemas']['Api'];
             /** Logo Url */
             logo_url: string;
@@ -5103,13 +5505,18 @@ export interface components {
              * @description List of post-connections that can be activated for this integration.
              * @default []
              */
-            post_connections: components['schemas']['backbone_api__app__routers__integrations__PostConnectionItem'][];
+            post_connections: components['schemas']['PostConnectionItem-Output'][] | null;
             /**
              * Credentials
              * @description List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.
              * @default []
              */
-            credentials: components['schemas']['backbone_api__app__routers__integrations__CredentialItem'][];
+            credentials: components['schemas']['CredentialItem-Output'][] | null;
+            /**
+             * Supported Countries
+             * @description Country codes (ISO 3166-1 alpha-2) where this integration is supported. If not defined, the integration is supported globally.
+             */
+            supported_countries?: string[] | null;
         };
         /** InventoryDetailsItem */
         InventoryDetailsItem: {
@@ -5130,22 +5537,125 @@ export interface components {
         /** InvoiceCorrection */
         InvoiceCorrection: {
             /** Sale Invoice Correction Tax Code */
-            sale_invoice_correction_tax_code?: string;
+            sale_invoice_correction_tax_code?: string | null;
             /** Purchase Invoice Correction Tax Code */
-            purchase_invoice_correction_tax_code?: string;
+            purchase_invoice_correction_tax_code?: string | null;
             /** Invoice Correction Credit Account Number */
-            invoice_correction_credit_account_number?: string;
+            invoice_correction_credit_account_number?: string | null;
             /** Invoice Correction Debit Account Number */
-            invoice_correction_debit_account_number?: string;
+            invoice_correction_debit_account_number?: string | null;
+        };
+        /** InvoiceItem */
+        'InvoiceItem-Input': {
+            /**
+             * Currency
+             * @description Currency matching target sofware name
+             */
+            currency: string;
+            /** @description Invoice type */
+            invoice_type: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
+            /** @description Status */
+            status: components['schemas']['InvoiceStatus'];
+            /**
+             * Invoice Date
+             * Format: date
+             * @description Invoicing date
+             */
+            invoice_date: string;
+            /**
+             * Tax Amount
+             * @description Taxes amount
+             */
+            tax_amount: number;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount
+             */
+            untaxed_amount: number;
+            /**
+             * Total
+             * @description Total amount incl. taxes
+             */
+            total: number;
+            /**
+             * Lines
+             * @description Invoice lines
+             * @default []
+             */
+            lines: components['schemas']['InvoiceLineItem'][];
+            /**
+             * Partner Id
+             * @description Technical id of the vendor/customer in Chift
+             */
+            partner_id?: string | null;
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             */
+            invoice_number?: string | null;
+            /**
+             * Due Date
+             * @description Due date
+             */
+            due_date?: string | null;
+            /**
+             * Reference
+             * @description Reference
+             */
+            reference?: string | null;
+            /**
+             * Payment Communication
+             * @description Payment communication
+             */
+            payment_communication?: string | null;
+            /**
+             * Customer Memo
+             * @description Customer note/memo
+             */
+            customer_memo?: string | null;
+            /** @description Journal */
+            journal_ref?: components['schemas']['FieldRef'] | null;
+            /** @description Specificities for Italy */
+            italian_specificities?: components['schemas']['ItalianSpecificities-Input'] | null;
+        };
+        /** InvoiceItem */
+        'InvoiceItem-Output': {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             */
+            invoice_number: string | null;
+            /**
+             * Creation Date
+             * @description Creation date of the invoice
+             */
+            creation_date?: string | null;
+            /**
+             * Closing Date
+             * @description Closing date of the invoice
+             */
+            closing_date?: string | null;
+            /**
+             * Partners
+             * @description List of partners related to the invoice
+             */
+            partners?: components['schemas']['InvoicePartnerItem'][] | null;
         };
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
             invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
+             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation. In some accounting software the invoice number is a required field (see connector's limitations).
              */
-            invoice_number?: string;
+            invoice_number?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the invoice (e.g. EUR).
@@ -5158,11 +5668,11 @@ export interface components {
             /** Total */
             total: number;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Payment Communication */
-            payment_communication?: string;
+            payment_communication?: string | null;
             /** Customer Memo */
-            customer_memo?: string;
+            customer_memo?: string | null;
             /**
              * Invoice Date
              * Format: date
@@ -5179,28 +5689,27 @@ export interface components {
              * Journal Id
              * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
              */
-            journal_id?: string;
+            journal_id?: string | null;
             /** @default posted */
-            status: components['schemas']['InvoiceStatusIn'];
+            status: components['schemas']['InvoiceStatusIn'] | null;
             /**
              * Pdf
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
              */
-            pdf?: string;
+            pdf?: string | null;
             /**
              * Currency Exchange Rate
              * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate: number;
-            /**
-             * Invoice Correction
-             * @description Information used to add a correction line when roundings have an impact on the total amount of the invoice.
-             */
-            invoice_correction?: components['schemas']['InvoiceCorrection'];
-            nl_payment_terms_split?: components['schemas']['NlPaymentTermsSplit'];
+            currency_exchange_rate: number | null;
+            /** @description Information used to add a correction line when roundings have an impact on the total amount of the invoice. */
+            invoice_correction?: components['schemas']['InvoiceCorrection'] | null;
+            nl_payment_terms_split?: components['schemas']['NlPaymentTermsSplit'] | null;
             /** Shipping Country */
-            shipping_country?: string;
+            shipping_country?: string | null;
+            /** @description Information about the client/supplier that must be created. In some tools we cannot create a client/supplier by API. Missing clients/suppliers must be explicitly provided during the invoice creation and will be automatically created by the accounting software. This is for example the case for Tiime. */
+            partner_info?: components['schemas']['AccountToCreate'] | null;
             /** Lines */
             lines: components['schemas']['InvoiceLineItemInMonoAnalyticPlan'][];
         };
@@ -5209,9 +5718,9 @@ export interface components {
             invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
+             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation. In some accounting software the invoice number is a required field (see connector's limitations).
              */
-            invoice_number?: string;
+            invoice_number?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the invoice (e.g. EUR).
@@ -5224,11 +5733,11 @@ export interface components {
             /** Total */
             total: number;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Payment Communication */
-            payment_communication?: string;
+            payment_communication?: string | null;
             /** Customer Memo */
-            customer_memo?: string;
+            customer_memo?: string | null;
             /**
              * Invoice Date
              * Format: date
@@ -5245,28 +5754,27 @@ export interface components {
              * Journal Id
              * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
              */
-            journal_id?: string;
+            journal_id?: string | null;
             /** @default posted */
-            status: components['schemas']['InvoiceStatusIn'];
+            status: components['schemas']['InvoiceStatusIn'] | null;
             /**
              * Pdf
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
              */
-            pdf?: string;
+            pdf?: string | null;
             /**
              * Currency Exchange Rate
              * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate: number;
-            /**
-             * Invoice Correction
-             * @description Information used to add a correction line when roundings have an impact on the total amount of the invoice.
-             */
-            invoice_correction?: components['schemas']['InvoiceCorrection'];
-            nl_payment_terms_split?: components['schemas']['NlPaymentTermsSplit'];
+            currency_exchange_rate: number | null;
+            /** @description Information used to add a correction line when roundings have an impact on the total amount of the invoice. */
+            invoice_correction?: components['schemas']['InvoiceCorrection'] | null;
+            nl_payment_terms_split?: components['schemas']['NlPaymentTermsSplit'] | null;
             /** Shipping Country */
-            shipping_country?: string;
+            shipping_country?: string | null;
+            /** @description Information about the client/supplier that must be created. In some tools we cannot create a client/supplier by API. Missing clients/suppliers must be explicitly provided during the invoice creation and will be automatically created by the accounting software. This is for example the case for Tiime. */
+            partner_info?: components['schemas']['AccountToCreate'] | null;
             /** Lines */
             lines: components['schemas']['InvoiceLineItemInMultiAnalyticPlans'][];
         };
@@ -5277,10 +5785,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Currency
@@ -5322,79 +5827,68 @@ export interface components {
              * Partner Id
              * @description Technical id of the vendor/customer in Chift
              */
-            partner_id?: string;
+            partner_id?: string | null;
             /**
              * Invoice Number
              * @description Number/sequence
              */
-            invoice_number?: string;
+            invoice_number?: string | null;
             /**
              * Due Date
-             * Format: date
              * @description Due date
              */
-            due_date?: string;
+            due_date?: string | null;
             /**
              * Reference
              * @description Reference
              */
-            reference?: string;
+            reference?: string | null;
             /**
              * Payment Communication
              * @description Payment communication
              */
-            payment_communication?: string;
+            payment_communication?: string | null;
             /**
              * Customer Memo
              * @description Customer note/memo
              */
-            customer_memo?: string;
-            /**
-             * Journal Ref
-             * @description Journal
-             */
-            journal_ref?: components['schemas']['FieldRef'];
-            /**
-             * Italian Specificities
-             * @description Specificities for Italy
-             */
-            italian_specificities?: components['schemas']['ItalianSpecificities'];
-            /**
-             * Last Updated On
-             * Format: date-time
-             */
-            last_updated_on?: string;
+            customer_memo?: string | null;
+            /** @description Journal */
+            journal_ref?: components['schemas']['FieldRef'] | null;
+            /** @description Specificities for Italy */
+            italian_specificities?: components['schemas']['ItalianSpecificities-Output'] | null;
+            /** Last Updated On */
+            last_updated_on?: string | null;
             /**
              * Outstanding Amount
              * @description Amount left to be paid
              */
-            outstanding_amount?: number;
+            outstanding_amount?: number | null;
             /**
              * Accounting Date
-             * Format: date
              * @description Accounting date
              */
-            accounting_date?: string;
+            accounting_date?: string | null;
             /**
              * Payment Method Id
              * @description Technical id of the payment method in Chift
              */
-            payment_method_id?: string;
+            payment_method_id?: string | null;
             /**
              * Currency Exchange Rate
              * @description Indicates the exchange rate at the date of the invoice.
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
         };
         /** InvoiceItemOutMonoAnalyticPlan */
         InvoiceItemOutMonoAnalyticPlan: {
             invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
+             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation. In some accounting software the invoice number is a required field (see connector's limitations).
              */
-            invoice_number?: string;
+            invoice_number?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the invoice (e.g. EUR).
@@ -5407,13 +5901,13 @@ export interface components {
             /** Total */
             total: number;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Payment Communication */
-            payment_communication?: string;
+            payment_communication?: string | null;
             /** Customer Memo */
-            customer_memo?: string;
+            customer_memo?: string | null;
             /** Id */
-            id?: string;
+            id?: string | null;
             /**
              * Invoice Date
              * Format: date
@@ -5432,11 +5926,18 @@ export interface components {
              * Journal Id
              * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
              */
-            journal_id: string;
+            journal_id?: string | null;
             /** Payments */
-            payments?: components['schemas']['Payment'][];
+            payments?: components['schemas']['Payment'][] | null;
             /** @default posted */
-            status: components['schemas']['InvoiceStatusOut'];
+            status: components['schemas']['InvoiceStatusOut'] | null;
+            /**
+             * Last Updated On
+             * @description The last time the invoice has been updated.
+             */
+            last_updated_on?: string | null;
+            /** @description Extra information about the partner (client/supplier) linked to the invoice. To ensure this information is returned, you need to use the include_partner_info query parameter. */
+            partner?: components['schemas']['Partner'] | null;
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMonoAnalyticPlan'][];
         };
@@ -5445,9 +5946,9 @@ export interface components {
             invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.
+             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation. In some accounting software the invoice number is a required field (see connector's limitations).
              */
-            invoice_number?: string;
+            invoice_number?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the invoice (e.g. EUR).
@@ -5460,13 +5961,13 @@ export interface components {
             /** Total */
             total: number;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /** Payment Communication */
-            payment_communication?: string;
+            payment_communication?: string | null;
             /** Customer Memo */
-            customer_memo?: string;
+            customer_memo?: string | null;
             /** Id */
-            id?: string;
+            id?: string | null;
             /**
              * Invoice Date
              * Format: date
@@ -5485,11 +5986,18 @@ export interface components {
              * Journal Id
              * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
              */
-            journal_id: string;
+            journal_id?: string | null;
             /** Payments */
-            payments?: components['schemas']['Payment'][];
+            payments?: components['schemas']['Payment'][] | null;
             /** @default posted */
-            status: components['schemas']['InvoiceStatusOut'];
+            status: components['schemas']['InvoiceStatusOut'] | null;
+            /**
+             * Last Updated On
+             * @description The last time the invoice has been updated.
+             */
+            last_updated_on?: string | null;
+            /** @description Extra information about the partner (client/supplier) linked to the invoice. To ensure this information is returned, you need to use the include_partner_info query parameter. */
+            partner?: components['schemas']['Partner'] | null;
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMultiAnalyticPlans'][];
         };
@@ -5503,10 +6011,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Currency
@@ -5548,75 +6053,64 @@ export interface components {
              * Partner Id
              * @description Technical id of the vendor/customer in Chift
              */
-            partner_id?: string;
+            partner_id?: string | null;
             /**
              * Invoice Number
              * @description Number/sequence
              */
-            invoice_number?: string;
+            invoice_number?: string | null;
             /**
              * Due Date
-             * Format: date
              * @description Due date
              */
-            due_date?: string;
+            due_date?: string | null;
             /**
              * Reference
              * @description Reference
              */
-            reference?: string;
+            reference?: string | null;
             /**
              * Payment Communication
              * @description Payment communication
              */
-            payment_communication?: string;
+            payment_communication?: string | null;
             /**
              * Customer Memo
              * @description Customer note/memo
              */
-            customer_memo?: string;
-            /**
-             * Journal Ref
-             * @description Journal
-             */
-            journal_ref?: components['schemas']['FieldRef'];
-            /**
-             * Italian Specificities
-             * @description Specificities for Italy
-             */
-            italian_specificities?: components['schemas']['ItalianSpecificities'];
-            /**
-             * Last Updated On
-             * Format: date-time
-             */
-            last_updated_on?: string;
+            customer_memo?: string | null;
+            /** @description Journal */
+            journal_ref?: components['schemas']['FieldRef'] | null;
+            /** @description Specificities for Italy */
+            italian_specificities?: components['schemas']['ItalianSpecificities-Output'] | null;
+            /** Last Updated On */
+            last_updated_on?: string | null;
             /**
              * Outstanding Amount
              * @description Amount left to be paid
              */
-            outstanding_amount?: number;
+            outstanding_amount?: number | null;
             /**
              * Accounting Date
-             * Format: date
              * @description Accounting date
              */
-            accounting_date?: string;
+            accounting_date?: string | null;
             /**
              * Payment Method Id
              * @description Technical id of the payment method in Chift
              */
-            payment_method_id?: string;
+            payment_method_id?: string | null;
             /**
              * Currency Exchange Rate
              * @description Indicates the exchange rate at the date of the invoice.
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /**
              * Pdf
              * @description PDF document in base64
              */
-            pdf?: string;
+            pdf?: string | null;
         };
         /** InvoiceLineItem */
         InvoiceLineItem: {
@@ -5624,7 +6118,7 @@ export interface components {
              * Description
              * @description Line description
              */
-            description?: string;
+            description?: string | null;
             /**
              * Unit Price
              * @description Unit price excl. taxes
@@ -5660,42 +6154,42 @@ export interface components {
              * Tax Rate
              * @description Tax rate (e.g. 21.0)
              */
-            tax_rate?: number;
+            tax_rate?: number | null;
             /**
              * Account Number
              * @description Number of the accounting account used (e.g. 701000)
              */
-            account_number?: string;
+            account_number?: string | null;
             /**
              * Tax Id
              * @description Technical id of the tax in Chift
              */
-            tax_id?: string;
+            tax_id?: string | null;
             /**
              * Tax Exemption Reason
              * @description Tax exemption reason
              */
-            tax_exemption_reason?: string;
+            tax_exemption_reason?: string | null;
             /**
              * Unit Of Measure
              * @description Unit of measure matching target sofware name
              */
-            unit_of_measure?: string;
+            unit_of_measure?: string | null;
             /**
              * Product Id
              * @description Technical id of the product in Chift
              */
-            product_id?: string;
+            product_id?: string | null;
             /**
              * Product Code
              * @description Product reference
              */
-            product_code?: string;
+            product_code?: string | null;
             /**
              * Product Name
              * @description Product name
              */
-            product_name?: string;
+            product_name?: string | null;
         };
         /** InvoiceLineItemInMonoAnalyticPlan */
         InvoiceLineItemInMonoAnalyticPlan: {
@@ -5703,16 +6197,14 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number: number;
-            /** Description */
-            description: string;
+            line_number: number | null;
             /** Unit Price */
             unit_price: number;
             /**
              * Unit Of Measure
              * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
              */
-            unit_of_measure?: string;
+            unit_of_measure?: string | null;
             /** Quantity */
             quantity: number;
             /** Untaxed Amount */
@@ -5736,8 +6228,10 @@ export interface components {
              * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.
              */
             tax_code: string;
+            /** Description */
+            description: string;
             /** Analytic Account */
-            analytic_account?: string;
+            analytic_account?: string | null;
         };
         /** InvoiceLineItemInMultiAnalyticPlans */
         InvoiceLineItemInMultiAnalyticPlans: {
@@ -5745,16 +6239,14 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number: number;
-            /** Description */
-            description: string;
+            line_number: number | null;
             /** Unit Price */
             unit_price: number;
             /**
              * Unit Of Measure
              * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
              */
-            unit_of_measure?: string;
+            unit_of_measure?: string | null;
             /** Quantity */
             quantity: number;
             /** Untaxed Amount */
@@ -5778,11 +6270,13 @@ export interface components {
              * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.
              */
             tax_code: string;
+            /** Description */
+            description: string;
             /**
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
         };
         /** InvoiceLineItemOutMonoAnalyticPlan */
         InvoiceLineItemOutMonoAnalyticPlan: {
@@ -5790,16 +6284,14 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number: number;
-            /** Description */
-            description: string;
+            line_number: number | null;
             /** Unit Price */
             unit_price: number;
             /**
              * Unit Of Measure
              * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
              */
-            unit_of_measure?: string;
+            unit_of_measure?: string | null;
             /** Quantity */
             quantity: number;
             /** Untaxed Amount */
@@ -5817,14 +6309,19 @@ export interface components {
              * Account Number
              * @description Indicates the number of the account used for the line (e.g. 701000).
              */
-            account_number: string;
+            account_number?: string | null;
             /**
              * Tax Code
              * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.
              */
-            tax_code?: string;
+            tax_code?: string | null;
+            /**
+             * Description
+             * @default
+             */
+            description: string | null;
             /** Analytic Account */
-            analytic_account?: string;
+            analytic_account?: string | null;
         };
         /** InvoiceLineItemOutMultiAnalyticPlans */
         InvoiceLineItemOutMultiAnalyticPlans: {
@@ -5832,16 +6329,14 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number: number;
-            /** Description */
-            description: string;
+            line_number: number | null;
             /** Unit Price */
             unit_price: number;
             /**
              * Unit Of Measure
              * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
              */
-            unit_of_measure?: string;
+            unit_of_measure?: string | null;
             /** Quantity */
             quantity: number;
             /** Untaxed Amount */
@@ -5859,17 +6354,22 @@ export interface components {
              * Account Number
              * @description Indicates the number of the account used for the line (e.g. 701000).
              */
-            account_number: string;
+            account_number?: string | null;
             /**
              * Tax Code
              * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.
              */
-            tax_code?: string;
+            tax_code?: string | null;
+            /**
+             * Description
+             * @default
+             */
+            description: string | null;
             /**
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
         };
         /** InvoicePartnerItem */
         InvoicePartnerItem: {
@@ -5878,49 +6378,40 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Type of the partner */
             type: components['schemas']['PartnerType'];
-            /**
-             * Address
-             * @description Address of the partner
-             */
-            address?: components['schemas']['AddressItem'];
+            /** @description Address of the partner */
+            address?: components['schemas']['AddressItem'] | null;
             /**
              * First Name
              * @description First name of the partner. In case the partner is an individual.
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Last name of the partner. In case the partner is an individual.
              */
-            last_name?: string;
+            last_name?: string | null;
             /**
              * Company Name
              * @description Company name of the partner. In case the partner is a company.
              */
-            company_name?: string;
+            company_name?: string | null;
         };
         /**
          * InvoiceStatus
-         * @description An enumeration.
          * @enum {string}
          */
         InvoiceStatus: 'cancelled' | 'draft' | 'posted' | 'paid';
         /**
          * InvoiceStatusIn
-         * @description An enumeration.
          * @enum {string}
          */
         InvoiceStatusIn: 'draft' | 'posted';
         /**
          * InvoiceStatusOut
-         * @description An enumeration.
          * @enum {string}
          */
         InvoiceStatusOut: 'cancelled' | 'draft' | 'posted' | 'paid';
@@ -5931,10 +6422,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
             status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
@@ -5963,27 +6451,27 @@ export interface components {
              * Partner Id
              * @description Partner ID
              */
-            partner_id: string;
+            partner_id?: string | null;
             /**
              * Payment Method Id
              * @description Technical id of the payment method in Chift
              */
-            payment_method_id?: string;
+            payment_method_id?: string | null;
             /**
              * Payment Method Name
              * @description Payment method name
              */
-            payment_method_name?: string;
+            payment_method_name?: string | null;
             /**
              * Invoice Id
              * @description Technical id of the invoice in Chift
              */
-            invoice_id?: string;
+            invoice_id?: string | null;
             /**
              * Invoice Number
              * @description Invoice number
              */
-            invoice_number?: string;
+            invoice_number?: string | null;
         };
         /** InvoicingPaymentMethodItem */
         InvoicingPaymentMethodItem: {
@@ -5992,10 +6480,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Name
@@ -6010,10 +6495,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Label
@@ -6026,67 +6508,127 @@ export interface components {
              */
             rate: number;
             /** @description Type */
-            type: components['schemas']['backbone_common__models__invoicing__common__VatCodeType'];
+            type: components['schemas']['VatCodeType'];
             /**
              * Code
              * @description Code
              */
-            code?: string;
+            code?: string | null;
             /**
              * @description Scope
              * @default unknown
              */
-            scope: components['schemas']['backbone_common__models__invoicing__common__VatCodeScope'];
+            scope: components['schemas']['VatCodeScope'] | null;
+            /**
+             * Active
+             * @description Is the tax active?
+             * @default true
+             */
+            active: boolean | null;
         };
+        /** IssueItem */
+        IssueItem: {
+            /** Id */
+            id: string;
+            /** Consumer Id */
+            consumer_id: string;
+            /** Connection Id */
+            connection_id: string;
+            /** Integration Id */
+            integration_id: number;
+            /** Integration Name */
+            integration_name: string;
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on: string;
+            /**
+             * Updated On
+             * Format: date-time
+             */
+            updated_on: string;
+            /**
+             * Last Seen
+             * Format: date-time
+             */
+            last_seen: string;
+            error: components['schemas']['ErrorInfo'];
+            /** Occurrences */
+            occurrences: number;
+            level: components['schemas']['IssueLevel'];
+        };
+        /**
+         * IssueLevel
+         * @enum {string}
+         */
+        IssueLevel: 'error' | 'warning';
+        /**
+         * IssueStatus
+         * @enum {string}
+         */
+        IssueStatus: 'open' | 'closed' | 'all';
         /** ItalianSpecificities */
-        ItalianSpecificities: {
+        'ItalianSpecificities-Input': {
             /**
              * Stamp Duty Amount
              * @description Documentary stamp tax (specific to Italy)
              */
-            stamp_duty_amount?: number;
+            stamp_duty_amount?: number | null;
+            /** @description Withholding tax (specific to Italy) */
+            withholding_tax?: components['schemas']['WithholdingTax'] | null;
+            /** @description Welfare fund (specific to Italy) */
+            welfare_fund?: components['schemas']['WelfareFund'] | null;
+            /** @description Payment reporting (specific to Italy) */
+            payment_reporting?: components['schemas']['PaymentReporting'] | null;
+        };
+        /** ItalianSpecificities */
+        'ItalianSpecificities-Output': {
             /**
-             * Withholding Tax
-             * @description Withholding tax (specific to Italy)
+             * Stamp Duty Amount
+             * @description Documentary stamp tax (specific to Italy)
              */
-            withholding_tax?: components['schemas']['WithholdingTax'];
-            /**
-             * Welfare Fund
-             * @description Welfare fund (specific to Italy)
-             */
-            welfare_fund?: components['schemas']['WelfareFund'];
-            /**
-             * Payment Reporting
-             * @description Payment reporting (specific to Italy)
-             */
-            payment_reporting?: components['schemas']['PaymentReporting'];
+            stamp_duty_amount?: number | null;
+            /** @description Withholding tax (specific to Italy) */
+            withholding_tax?: components['schemas']['WithholdingTax'] | null;
+            /** @description Welfare fund (specific to Italy) */
+            welfare_fund?: components['schemas']['WelfareFund'] | null;
+            /** @description Payment reporting (specific to Italy) */
+            payment_reporting?: components['schemas']['PaymentReporting'] | null;
         };
         /** Journal */
         Journal: {
             /** Id */
             id: string;
             /** Code */
-            code?: string;
+            code?: string | null;
             /** Name */
             name: string;
             journal_type: components['schemas']['JournalType'];
             /** Counterpart Account */
-            counterpart_account?: string;
+            counterpart_account?: string | null;
             /**
              * Next Document Numbers
              * @default []
              */
-            next_document_numbers: components['schemas']['NextDocumentNumber'][];
+            next_document_numbers: components['schemas']['NextDocumentNumber'][] | null;
+            /**
+             * Iban
+             * @description IBAN of the bank account linked to the journal.
+             */
+            iban?: string | null;
+            /**
+             * Currency
+             * @description Currency of the journal. If empty, the journal follows the currency of the accounting folder.
+             */
+            currency?: string | null;
         };
         /** JournalEntryIn */
         JournalEntryIn: {
             /** Reference */
-            reference?: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date?: string;
+            reference?: string | null;
+            /** Due Date */
+            due_date?: string | null;
             /** Journal Id */
             journal_id: string;
             /** Name */
@@ -6102,86 +6644,100 @@ export interface components {
              * Pdf
              * @description Base 64 string representing the PDF attached to the item.
              */
-            pdf?: string;
+            pdf?: string | null;
         };
         /** JournalEntryMonoAnalyticPlan */
         JournalEntryMonoAnalyticPlan: {
             /** Reference */
-            reference?: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date?: string;
+            reference?: string | null;
+            /** Due Date */
+            due_date?: string | null;
             /** Journal Id */
             journal_id: string;
             /** Name */
-            name?: string;
+            name?: string | null;
             /** Journal Name */
-            journal_name: string;
+            journal_name?: string | null;
             /**
              * Date
-             * Format: date
              * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
-            date: string;
+            date: string | null;
             /**
              * Posted
              * @default false
              */
-            posted: boolean;
+            posted: boolean | null;
             /** Id */
             id: string;
             /**
              * Items
              * @default []
              */
-            items: components['schemas']['JournalItemMonoAnalyticPlan'][];
+            items: components['schemas']['JournalItemMonoAnalyticPlan'][] | null;
         };
         /** JournalEntryMultiAnalyticPlan */
         JournalEntryMultiAnalyticPlan: {
             /** Reference */
-            reference?: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date?: string;
+            reference?: string | null;
+            /** Due Date */
+            due_date?: string | null;
             /** Journal Id */
             journal_id: string;
             /** Name */
-            name?: string;
+            name?: string | null;
             /** Journal Name */
-            journal_name: string;
+            journal_name?: string | null;
             /**
              * Date
-             * Format: date
              * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
-            date: string;
+            date: string | null;
             /**
              * Posted
              * @default false
              */
-            posted: boolean;
+            posted: boolean | null;
             /** Id */
             id: string;
             /**
              * Items
              * @default []
              */
-            items: components['schemas']['JournalItemMultiAnalyticPlan'][];
+            items: components['schemas']['JournalItemMultiAnalyticPlan'][] | null;
         };
+        /** JournalIn */
+        JournalIn: {
+            /** Code */
+            code: string;
+            /** Name */
+            name: string;
+            journal_type: components['schemas']['JournalInType'];
+            /** Counterpart Account */
+            counterpart_account?: string | null;
+        };
+        /**
+         * JournalInType
+         * @enum {string}
+         */
+        JournalInType:
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund'
+            | 'bank'
+            | 'cash'
+            | 'miscellaneous_operation';
         /** JournalItemIn */
         JournalItemIn: {
             /** Account Number */
             account_number: string;
             /** Partner Id */
-            partner_id?: string;
+            partner_id?: string | null;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Debit */
             debit: number;
             /** Credit */
@@ -6192,21 +6748,21 @@ export interface components {
              * Currency Exchange Rate
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /**
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
         };
         /** JournalItemMonoAnalyticPlan */
         JournalItemMonoAnalyticPlan: {
             /** Account Number */
             account_number: string;
             /** Partner Id */
-            partner_id?: string;
+            partner_id?: string | null;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Debit */
             debit: number;
             /** Credit */
@@ -6217,31 +6773,31 @@ export interface components {
              * Currency Exchange Rate
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /** Id */
             id: string;
             /** Partner Name */
-            partner_name?: string;
+            partner_name?: string | null;
             /** Account Name */
             account_name: string;
             /**
              * Matching Numbers
              * @default []
              */
-            matching_numbers: string[];
+            matching_numbers: string[] | null;
             /** Analytic Account */
-            analytic_account?: string;
+            analytic_account?: string | null;
             /** Analytic Account Name */
-            analytic_account_name?: string;
+            analytic_account_name?: string | null;
         };
         /** JournalItemMultiAnalyticPlan */
         JournalItemMultiAnalyticPlan: {
             /** Account Number */
             account_number: string;
             /** Partner Id */
-            partner_id?: string;
+            partner_id?: string | null;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Debit */
             debit: number;
             /** Credit */
@@ -6252,27 +6808,26 @@ export interface components {
              * Currency Exchange Rate
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /** Id */
             id: string;
             /** Partner Name */
-            partner_name?: string;
+            partner_name?: string | null;
             /** Account Name */
             account_name: string;
             /**
              * Matching Numbers
              * @default []
              */
-            matching_numbers: string[];
+            matching_numbers: string[] | null;
             /**
              * Analytic Distribution
              * @default []
              */
-            analytic_distribution: components['schemas']['AnalyticDistribution'][];
+            analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
         };
         /**
          * JournalType
-         * @description An enumeration.
          * @enum {string}
          */
         JournalType:
@@ -6306,14 +6861,13 @@ export interface components {
         };
         /**
          * LocalAgentStatus
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         LocalAgentStatus: 'up' | 'down';
         /** LogoImage */
         LogoImage: {
             /** Integrationid */
-            integrationid: string;
+            integrationid: number;
             /** Data */
             data: string;
         };
@@ -6334,7 +6888,7 @@ export interface components {
         /** MiscellaneousOperationIn */
         MiscellaneousOperationIn: {
             /** Operation Number */
-            operation_number?: string;
+            operation_number?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the operation (e.g. EUR).
@@ -6345,7 +6899,7 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /** Lines */
             lines: components['schemas']['MiscellaneousOperationLine'][];
             /**
@@ -6357,9 +6911,9 @@ export interface components {
              * Journal Id
              * @description Indicates the journal used in for the operation. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
              */
-            journal_id?: string;
+            journal_id?: string | null;
             /** @default posted */
-            status: components['schemas']['MiscellaneousOperationStatusIn'];
+            status: components['schemas']['MiscellaneousOperationStatusIn'] | null;
         };
         /** MiscellaneousOperationLine */
         MiscellaneousOperationLine: {
@@ -6367,9 +6921,9 @@ export interface components {
              * Line Number
              * @default 1
              */
-            line_number: number;
+            line_number: number | null;
             /** Description */
-            description?: string;
+            description?: string | null;
             /**
              * Amount
              * @description Positive for Credit and negative for Debit.
@@ -6382,20 +6936,19 @@ export interface components {
              * Partner Id
              * @description Must be filled in it is a 'customer_account' or 'supplier_account' line type.
              */
-            partner_id?: string;
+            partner_id?: string | null;
             /** Analytic Account */
-            analytic_account?: string;
+            analytic_account?: string | null;
         };
         /**
          * MiscellaneousOperationLineType
-         * @description An enumeration.
          * @enum {string}
          */
         MiscellaneousOperationLineType: 'customer_account' | 'supplier_account' | 'general_account';
         /** MiscellaneousOperationOut */
         MiscellaneousOperationOut: {
             /** Operation Number */
-            operation_number?: string;
+            operation_number?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the operation (e.g. EUR).
@@ -6406,16 +6959,15 @@ export interface components {
              * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
              * @default 1
              */
-            currency_exchange_rate: number;
+            currency_exchange_rate: number | null;
             /** Lines */
             lines: components['schemas']['MiscellaneousOperationLine'][];
             /**
              * Operation Date
-             * Format: date
              * @description Accounting date of the miscellaneous operation. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
-            operation_date: string;
+            operation_date: string | null;
             /**
              * Journal Id
              * @description Indicates the journal used in for the operation.
@@ -6427,13 +6979,11 @@ export interface components {
         };
         /**
          * MiscellaneousOperationStatusIn
-         * @description An enumeration.
          * @enum {string}
          */
         MiscellaneousOperationStatusIn: 'draft' | 'posted';
         /**
          * MiscellaneousOperationStatusOut
-         * @description An enumeration.
          * @enum {string}
          */
         MiscellaneousOperationStatusOut: 'cancelled' | 'draft' | 'posted' | 'matched';
@@ -6445,33 +6995,42 @@ export interface components {
         /** MultipleMatchingOut */
         MultipleMatchingOut: {
             /** Matching Number */
-            matching_number?: string;
+            matching_number?: string | null;
             /** Processed */
             processed: boolean;
             /** Error Msg */
-            error_msg?: Record<string, never>;
+            error_msg?: {
+                [key: string]: unknown;
+            } | null;
         };
         /** NextDocumentNumber */
         NextDocumentNumber: {
             /** Bookyear Name */
-            bookyear_name?: string;
+            bookyear_name?: string | null;
             /** Next Document Number */
-            next_document_number?: string;
-            /**
-             * Start Date
-             * Format: date
-             */
-            start_date?: string;
-            /**
-             * End Date
-             * Format: date
-             */
-            end_date?: string;
+            next_document_number?: string | null;
+            /** Start Date */
+            start_date?: string | null;
+            /** End Date */
+            end_date?: string | null;
         };
         /** NlPaymentTermsSplit */
         NlPaymentTermsSplit: {
             g_account: components['schemas']['PaymentTermAccountInfo'];
             n_account: components['schemas']['PaymentTermAccountInfo'];
+        };
+        /** ObjectivesItem */
+        ObjectivesItem: {
+            /**
+             * Total
+             * @description Total amount including tax of the sales
+             */
+            total: number;
+            /**
+             * Tax Amount
+             * @description Total amount of the taxes
+             */
+            tax_amount: number;
         };
         /** OpportunityItem */
         OpportunityItem: {
@@ -6480,10 +7039,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Name
@@ -6506,92 +7062,85 @@ export interface components {
              * Partner Id
              * @description Technical id of the customer in Chift
              */
-            partner_id?: string;
+            partner_id?: string | null;
             /**
              * Comment
              * @description Comment
              */
-            comment?: string;
+            comment?: string | null;
             /**
              * Currency
              * @description Currency matching target sofware name
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Description
              * @description Description
              */
-            description?: string;
+            description?: string | null;
             /**
              * Pipe Status
              * @description Current stage in pipeline
              */
-            pipe_status?: string;
+            pipe_status?: string | null;
             /**
              * Pipe Name
              * @description Pipeline name
              */
-            pipe_name?: string;
+            pipe_name?: string | null;
             /**
              * Created Date
-             * Format: date
              * @description Date creation
              */
-            created_date?: string;
+            created_date?: string | null;
             /**
              * Due Date
-             * Format: date
              * @description Due Date
              */
-            due_date?: string;
+            due_date?: string | null;
             /**
              * End Date
-             * Format: date
              * @description End Date
              */
-            end_date?: string;
+            end_date?: string | null;
             /**
              * Is Won
              * @description Is won?
              */
-            is_won?: boolean;
-            /**
-             * Owner Ref
-             * @description Employee/User
-             */
-            owner_ref?: components['schemas']['FieldRef'];
+            is_won?: boolean | null;
+            /** @description Employee/User */
+            owner_ref?: components['schemas']['FieldRef'] | null;
         };
         /**
          * OpportunityStatus
-         * @description An enumeration.
          * @enum {string}
          */
         OpportunityStatus: 'open' | 'won' | 'lost' | 'cancelled' | 'closed';
         /** OrderCustomerItem */
         OrderCustomerItem: {
             /** First Name */
-            first_name?: string;
+            first_name?: string | null;
             /** Last Name */
-            last_name?: string;
+            last_name?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /** Email */
             email: string;
         };
         /** OrderCustomerItemOut */
         OrderCustomerItemOut: {
             /** First Name */
-            first_name?: string;
+            first_name?: string | null;
             /** Last Name */
-            last_name?: string;
+            last_name?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Id
              * @description Technical id of the customer in Chift
@@ -6609,14 +7158,14 @@ export interface components {
              */
             currency: string;
             /** Note */
-            note?: string;
+            note?: string | null;
             /** Lines */
             lines: components['schemas']['OrderLineItemIn'][];
             /**
              * Payment Method
              * @description If filled in the order will be marked as paid and processed by this payment method.
              */
-            payment_method?: string;
+            payment_method?: string | null;
         };
         /** OrderItemOut */
         OrderItemOut: {
@@ -6625,41 +7174,27 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** Order Number */
-            order_number?: string;
-            customer?: components['schemas']['OrderCustomerItemOut'];
-            billing_address?: components['schemas']['backbone_common__models__commerce__common__AddressItemOut'];
-            shipping_address?: components['schemas']['backbone_common__models__commerce__common__AddressItemOut'];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
-            /**
-             * Last Updated On
-             * Format: date-time
-             */
-            last_updated_on?: string;
-            /**
-             * Confirmed On
-             * Format: date-time
-             */
-            confirmed_on?: string;
-            /**
-             * Delivery Date
-             * Format: date-time
-             */
-            delivery_date?: string;
-            /**
-             * Cancelled On
-             * Format: date-time
-             */
-            cancelled_on?: string;
+            order_number?: string | null;
+            customer?: components['schemas']['OrderCustomerItemOut'] | null;
+            billing_address?:
+                | components['schemas']['backbone_common__models__commerce__common__AddressItemOut']
+                | null;
+            shipping_address?:
+                | components['schemas']['backbone_common__models__commerce__common__AddressItemOut']
+                | null;
+            /** Created On */
+            created_on?: string | null;
+            /** Last Updated On */
+            last_updated_on?: string | null;
+            /** Confirmed On */
+            confirmed_on?: string | null;
+            /** Delivery Date */
+            delivery_date?: string | null;
+            /** Cancelled On */
+            cancelled_on?: string | null;
             status: components['schemas']['OrderStatus'];
             /** Discount Amount */
             discount_amount: number;
@@ -6712,48 +7247,48 @@ export interface components {
              * Refunded Amount
              * @default 0
              */
-            refunded_amount: number;
+            refunded_amount: number | null;
             /**
              * Currency
              * @description Indicates the currency of the order (e.g. EUR).
              */
             currency: string;
             /** Note */
-            note?: string;
+            note?: string | null;
             /**
              * Tags
              * @default []
              */
-            tags: string[];
+            tags: string[] | null;
             /** Lines */
             lines: components['schemas']['OrderLineItemOut'][];
             /**
              * Other Fees
              * @default []
              */
-            other_fees: components['schemas']['FeesItem'][];
+            other_fees: components['schemas']['FeesItem'][] | null;
             /**
              * Payment Method Id
              * @description Technical id of the payment method in the eCommerce
              */
-            payment_method_id?: string;
+            payment_method_id?: string | null;
             /**
              * Transactions
              * @default []
              */
-            transactions: components['schemas']['OrderTransactions'][];
+            transactions: components['schemas']['OrderTransactions'][] | null;
             /**
              * Payment Methods
              * @default []
              */
-            payment_methods: components['schemas']['OrderPaymentMethods'][];
+            payment_methods: components['schemas']['OrderPaymentMethods'][] | null;
             /** Detailed Refunds */
-            detailed_refunds?: components['schemas']['OrderRefundItem'][];
+            detailed_refunds?: components['schemas']['OrderRefundItem'][] | null;
             /**
              * Returns
              * @default []
              */
-            returns: components['schemas']['OrderReturnItem'][];
+            returns: components['schemas']['OrderReturnItem'][] | null;
         };
         /** OrderLineItemIn */
         OrderLineItemIn: {
@@ -6782,21 +7317,12 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
-            /**
-             * Variant
-             * @description Product variant
-             */
-            variant?: components['schemas']['OrderLineProductVariantItem'];
+            /** Created On */
+            created_on?: string | null;
+            /** @description Product variant */
+            variant?: components['schemas']['OrderLineProductVariantItem'] | null;
             /** Quantity */
             quantity: number;
             /**
@@ -6815,7 +7341,7 @@ export interface components {
              * Tax Id
              * @description Technical id of the tax rate in Chift
              */
-            tax_id?: string;
+            tax_id?: string | null;
             /**
              * Tax Rate
              * @description Indicates the tax rate used for the line (e.g. 21.0).
@@ -6840,12 +7366,14 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts: components['schemas']['backbone_common__models__commerce__common__DiscountItem'][];
+            discounts:
+                | components['schemas']['backbone_common__models__commerce__common__DiscountItem'][]
+                | null;
             /**
              * Gift Card
              * @default false
              */
-            gift_card: boolean;
+            gift_card: boolean | null;
         };
         /** OrderLineProductVariantItem */
         OrderLineProductVariantItem: {
@@ -6855,14 +7383,16 @@ export interface components {
              */
             id: string;
             /** Sku */
-            sku?: string;
+            sku?: string | null;
             /** Name */
             name: string;
             /**
              * Categories
              * @default []
              */
-            categories: components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][];
+            categories:
+                | components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][]
+                | null;
         };
         /** OrderPaymentMethods */
         OrderPaymentMethods: {
@@ -6875,7 +7405,7 @@ export interface components {
              * Name
              * @description Name of the payment method
              */
-            name?: string;
+            name?: string | null;
         };
         /** OrderRefundItem */
         OrderRefundItem: {
@@ -6884,45 +7414,39 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
+            /** Created On */
+            created_on?: string | null;
             /** Total */
             total: number;
             /** Reason */
-            reason?: string;
+            reason?: string | null;
             /**
              * Order Lines
              * @default []
              */
-            order_lines: components['schemas']['RefundOrderLineItem'][];
+            order_lines: components['schemas']['RefundOrderLineItem'][] | null;
             /**
              * Other
              * @default 0
              */
-            other: number;
+            other: number | null;
             /**
              * Shipping Refunds
              * @default []
              */
-            shipping_refunds: components['schemas']['ShippingRefund'][];
+            shipping_refunds: components['schemas']['ShippingRefund'][] | null;
             /**
              * Other Fees
              * @default []
              */
-            other_fees: components['schemas']['RefundFeesItem'][];
+            other_fees: components['schemas']['RefundFeesItem'][] | null;
             /**
              * Transactions
              * @default []
              */
-            transactions: components['schemas']['OrderTransactions'][];
+            transactions: components['schemas']['OrderTransactions'][] | null;
         };
         /** OrderReturnItem */
         OrderReturnItem: {
@@ -6931,35 +7455,28 @@ export interface components {
              * @description Technical id of the return in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
+            /** Created On */
+            created_on?: string | null;
             /**
              * Order Lines
              * @default []
              */
-            order_lines: components['schemas']['ReturnOrderLineItem'][];
+            order_lines: components['schemas']['ReturnOrderLineItem'][] | null;
             /**
              * New Lines
              * @default []
              */
-            new_lines: components['schemas']['ReturnOrderLineItem'][];
+            new_lines: components['schemas']['ReturnOrderLineItem'][] | null;
             /**
              * Linked Fees
              * @default []
              */
-            linked_fees: components['schemas']['ReturnFeesItem'][];
+            linked_fees: components['schemas']['ReturnFeesItem'][] | null;
         };
         /**
          * OrderStatus
-         * @description An enumeration.
          * @enum {string}
          */
         OrderStatus:
@@ -6976,21 +7493,18 @@ export interface components {
              * @description Technical id of the transaction in the eCommerce
              */
             id: string;
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
+            /** Created On */
+            created_on?: string | null;
             /**
              * Payment Method Id
              * @description Technical id of the payment method in the eCommerce
              */
-            payment_method_id?: string;
+            payment_method_id?: string | null;
             /**
              * Payment Method Name
              * @description Name of the payment method
              */
-            payment_method_name?: string;
+            payment_method_name?: string | null;
             /** Amount */
             amount: number;
             status: components['schemas']['TransactionStatus'];
@@ -6998,31 +7512,25 @@ export interface components {
         /** OriginalOutstandingItem */
         OriginalOutstandingItem: {
             /** Id */
-            id?: string;
+            id?: string | null;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Journal Id */
-            journal_id?: string;
-            journal_type?: components['schemas']['JournalType'];
-            /**
-             * Date
-             * Format: date
-             */
-            date?: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date?: string;
+            journal_id?: string | null;
+            journal_type?: components['schemas']['JournalType'] | null;
+            /** Date */
+            date?: string | null;
+            /** Due Date */
+            due_date?: string | null;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
         };
         /** OutstandingItem */
         OutstandingItem: {
             /** Id */
             id: string;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Journal Id */
             journal_id: string;
             journal_type: components['schemas']['JournalType'];
@@ -7031,11 +7539,8 @@ export interface components {
              * Format: date
              */
             date: string;
-            /**
-             * Due Date
-             * Format: date
-             */
-            due_date?: string;
+            /** Due Date */
+            due_date?: string | null;
             /** Currency */
             currency: string;
             /** Currency Exchange Rate */
@@ -7049,21 +7554,20 @@ export interface components {
             /** Account Number */
             account_number: string;
             /** Reference */
-            reference?: string;
+            reference?: string | null;
             /**
              * Matching Numbers
              * @default []
              */
-            matching_numbers: string[];
+            matching_numbers: string[] | null;
             /** Payment Communication */
-            payment_communication?: string;
+            payment_communication?: string | null;
             /** Posted */
             posted: boolean;
-            original_document?: components['schemas']['OriginalOutstandingItem'];
+            original_document?: components['schemas']['OriginalOutstandingItem'] | null;
         };
         /**
          * OutstandingType
-         * @description An enumeration.
          * @enum {string}
          */
         OutstandingType: 'client' | 'supplier';
@@ -7072,38 +7576,30 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the accounting category
-             * @example 371ca583-d218-4900-b236-397532cf0e2
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Name
              * @description Name given to the accounting category
-             * @example Beverages
              */
             name: string;
             /**
              * Code
              * @description Code assigned to the category
-             * @example 123456
              */
-            code?: string;
+            code?: string | null;
             /**
              * Ledger Account Code
              * @description Ledger account code assigned to the category
-             * @example 123456
              */
-            ledger_account_code?: string;
+            ledger_account_code?: string | null;
             /**
              * Posting Account Code
              * @description Posting account code assigned to the category
-             * @example 123456
              */
-            posting_account_code?: string;
+            posting_account_code?: string | null;
         };
         /** PMSClosureItem */
         PMSClosureItem: {
@@ -7111,14 +7607,16 @@ export interface components {
              * Date
              * Format: date
              * @description Date of the closure
-             * @example 2025-01-01
              */
             date: string;
-            /**
-             * @description Status of the closure
-             * @example closed
-             */
+            /** @description Status of the closure */
             status: components['schemas']['ClosureStates'];
+            /**
+             * Closures
+             * @description Info about closures related to specific day
+             * @default []
+             */
+            closures: components['schemas']['POSClosureInformationItem'][] | null;
         };
         /** PMSCustomerItem */
         PMSCustomerItem: {
@@ -7127,52 +7625,48 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * First Name
              * @description First name of the customer. In case the customer is an individual.
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Last name of the customer. In case the customer is an individual.
              */
-            last_name?: string;
+            last_name?: string | null;
             /**
              * Company Name
              * @description Company name of the customer. In case the customer is a company.
              */
-            company_name?: string;
+            company_name?: string | null;
             /**
              * Phone
              * @description Phone number of the customer
              */
-            phone?: string;
+            phone?: string | null;
             /**
              * Email
              * @description Email address of the customer
              */
-            email?: string;
+            email?: string | null;
             /**
              * Account Number
              * @description Number of the accounting account used (e.g. 701000)
              */
-            account_number?: string;
+            account_number?: string | null;
             /**
              * Created On
-             * Format: date-time
              * @description Creation date of the customer
              */
-            created_on?: string;
+            created_on?: string | null;
             /**
              * Addresses
              * @description List of addresses related to the customer
              */
-            addresses?: components['schemas']['AddressItem'][];
+            addresses?: components['schemas']['AddressItem'][] | null;
         };
         /** PMSInvoiceFullItem */
         PMSInvoiceFullItem: {
@@ -7181,33 +7675,28 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Invoice Number
              * @description Number/sequence
              */
-            invoice_number?: string;
+            invoice_number: string | null;
             /**
              * Creation Date
-             * Format: date-time
              * @description Creation date of the invoice
              */
-            creation_date?: string;
+            creation_date?: string | null;
             /**
              * Closing Date
-             * Format: date-time
              * @description Closing date of the invoice
              */
-            closing_date?: string;
+            closing_date?: string | null;
             /**
              * Partners
              * @description List of partners related to the invoice
              */
-            partners?: components['schemas']['InvoicePartnerItem'][];
+            partners?: components['schemas']['InvoicePartnerItem'][] | null;
             /**
              * Items
              * @description List of items related to the invoice
@@ -7222,167 +7711,150 @@ export interface components {
              * Service Id
              * @description Reference to the service related to this order
              */
-            service_id?: string;
+            service_id?: string | null;
+            /** @description Reference to the reservation related to this order */
+            reservation?: components['schemas']['ReservationItem'] | null;
             /**
-             * Reservation
-             * @description Reference to the reservation related to this order
+             * Tax Amount
+             * @description Taxes amount
              */
-            reservation?: components['schemas']['ReservationItem'];
+            tax_amount: number;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount
+             */
+            untaxed_amount: number;
+            /**
+             * Total
+             * @description Total amount incl. taxes
+             */
+            total: number;
         };
         /** PMSLocationItem */
         PMSLocationItem: {
             /**
              * Id
              * @description Unique identifier of the location
-             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Name
              * @description Name given to the location
-             * @example Restaurant de la Paix
              */
             name: string;
             /**
              * Timezone
              * @description Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .
-             * @example Europe/Paris
              */
-            timezone?: string;
-            /**
-             * Address
-             * @description Address of the location
-             */
-            address?: components['schemas']['AddressItem'];
+            timezone?: string | null;
+            /** @description Address of the location */
+            address?: components['schemas']['AddressItem'] | null;
         };
         /** PMSOrderItem */
         PMSOrderItem: {
             /**
              * Id
              * @description Unique identifier of the order
-             * @example 123
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Order Number
              * @description Order number (often unique reference during the day)
-             * @example 1
              */
-            order_number?: string;
+            order_number?: string | null;
             /**
              * Creation Date
              * Format: date-time
              * @description Creation date of the order
-             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Closing Date
-             * Format: date-time
              * @description Closing date of the order
-             * @example 2025-01-01T00:00:00Z
              */
-            closing_date?: string;
+            closing_date?: string | null;
             /**
              * Service Date
-             * Format: date-time
              * @description Indicates the date of the service to which the order belongs (can be used to group orders by closure date)
-             * @example 2025-01-01T00:00:00Z
              */
-            service_date?: string;
+            service_date?: string | null;
             /**
              * Device Id
              * @description ID of device that created the order
-             * @example device-123
              */
-            device_id?: string;
+            device_id?: string | null;
             /**
              * Total
              * @description Total amount including tax of the order
-             * @example 11
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes of the order
-             * @example 1
              */
             tax_amount: number;
             /**
              * Total Discount
              * @description Total amount of the discounts of the order
              * @default 0
-             * @example 10
              */
-            total_discount: number;
+            total_discount: number | null;
             /**
              * Total Refund
              * @description Total amount of the refunds of the order
              * @default 0
-             * @example 5
              */
-            total_refund: number;
+            total_refund: number | null;
             /**
              * Total Tip
              * @description Total amount of the tips of the order. Tips are not part of the total of the order
              * @default 0
-             * @example 1
              */
-            total_tip: number;
+            total_tip: number | null;
             /**
              * Delivery Fee
              * @description Total amount of the delivery fees of the order
              * @default 0
-             * @example 1
              */
-            delivery_fee: number;
+            delivery_fee: number | null;
             /**
              * Currency
              * @description Currency of the order
-             * @example EUR
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Country
              * @description Country of the order, format: ISO 3166-1 codes.
-             * @example FR
              */
-            country?: string;
+            country?: string | null;
             /**
              * Loyalty
              * @description Loyalty points of the order
-             * @example 100
              */
-            loyalty?: number;
+            loyalty?: number | null;
             /**
              * Customer Id
              * @description Unique identifier of the customer
-             * @example customer-123
              */
-            customer_id?: string;
+            customer_id?: string | null;
             /**
              * Location Id
              * @description Unique identifier of the location
-             * @example location-123
              */
-            location_id?: string;
+            location_id?: string | null;
             /**
              * Taxes
              * @description List of taxes of the order
              * @default []
              */
-            taxes: components['schemas']['TotalTaxItem'][];
+            taxes: components['schemas']['TotalTaxItem'][] | null;
             /**
              * Guests
              * @description Number of guests linked to the order
-             * @example 1
              */
-            guests?: number;
+            guests?: number | null;
             /**
              * Items
              * @description List of items related to the order
@@ -7392,525 +7864,475 @@ export interface components {
              * Service Id
              * @description Reference to the service related to this order
              */
-            service_id?: string;
-            /**
-             * Reservation
-             * @description Reference to the reservation related to this order
-             */
-            reservation?: components['schemas']['ReservationItem'];
+            service_id?: string | null;
+            /** @description Reference to the reservation related to this order */
+            reservation?: components['schemas']['ReservationItem'] | null;
             /**
              * Bills
              * @description Reference to the bills related to this order
              */
-            bills?: components['schemas']['backbone_common__models__pms__common__InvoiceItem'][];
+            bills?: components['schemas']['InvoiceItem-Output'][] | null;
         };
         /** PMSOrderLineItem */
         PMSOrderLineItem: {
             /**
              * Id
              * @description Unique identifier of the order line item
-             * @example 123
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
-            /**
-             * @description Type of the order line item
-             * @example product
-             */
-            type?: components['schemas']['POSLineItemType'];
+            /** @description Type of the order line item */
+            type?: components['schemas']['POSLineItemType'] | null;
             /**
              * Menu Id
              * @description Unique identifier of the menu
-             * @example 456
              */
-            menu_id?: string;
+            menu_id?: string | null;
             /**
              * Quantity
              * @description Quantity of the order line item
-             * @example 1
              */
             quantity: number;
             /**
              * Unit Price
              * @description Unit price (without tax) of the order line item
-             * @example 10
              */
             unit_price: number;
             /**
              * Total
              * @description Total amount including tax of the order line item
-             * @example 11
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes of the order line item
-             * @example 1
              */
             tax_amount: number;
             /**
              * Tax Rate
              * @description Tax rate of the order line item
-             * @example 10
              */
-            tax_rate?: number;
+            tax_rate?: number | null;
             /**
              * Description
              * @description Description of the order line item
-             * @example Pizza
              */
-            description?: string;
+            description?: string | null;
             /**
              * Discounts
              * @description List of discounts of the order line item. Discounts of items are always part of the total discount of the order
              * @default []
-             * @example []
              */
-            discounts: components['schemas']['backbone_common__models__pos_pms__DiscountItem'][];
+            discounts:
+                | components['schemas']['backbone_common__models__pos_pms__DiscountItem'][]
+                | null;
             /**
              * Product Id
              * @description Reference to the product related to this item
-             * @example 789
              */
-            product_id?: string;
+            product_id?: string | null;
             /**
              * Accounting Category Id
              * @description Sometimes used by a POS to give a specific accounting category to an order item
-             * @example 123
              */
-            accounting_category_id?: string;
+            accounting_category_id?: string | null;
         };
         /** PMSPaymentItem */
         PMSPaymentItem: {
             /**
              * Id
              * @description Unique identifier of the payment
-             * @example payment-123
              */
-            id?: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            id?: string | null;
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Payment Method Id
              * @description Unique identifier of the payment method used for the payment
-             * @example payment-method-123
              */
-            payment_method_id?: string;
+            payment_method_id?: string | null;
             /**
              * Payment Method Name
              * @description Chift's name of the payment method used for the payment
-             * @example Cash
              */
-            payment_method_name?: string;
+            payment_method_name?: string | null;
             /**
              * Total
              * @description Total amount of the payment
-             * @example 11
              */
             total: number;
             /**
              * Tip
              * @description Total amount of the tips of the payment. Tips are not part of the total of the payment
              * @default 0
-             * @example 1
              */
-            tip: number;
+            tip: number | null;
             /**
              * @description Status of the payment
              * @default Unknown
-             * @example Completed
              */
-            status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'];
+            status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'] | null;
             /**
              * Currency
              * @description Currency of the payment
-             * @example EUR
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Date
-             * Format: date-time
              * @description Date of the payment
-             * @example 2025-01-01T00:00:00Z
              */
-            date?: string;
-            /**
-             * Partner Id
-             * @description Reference to the customer related to this payment
-             */
-            partner_id?: components['schemas']['ChiftId'];
+            date?: string | null;
+            /** @description Reference to the customer related to this payment */
+            partner_id?: components['schemas']['ChiftId'] | null;
         };
         /** PMSPaymentMethods */
         PMSPaymentMethods: {
             /**
              * Id
              * @description Unique identifier of the payment method
-             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Name
              * @description Chift's name of the payment method (e.g. 'Cash', 'Card', 'Transfer', ...)
-             * @example Cash
              */
             name: string;
             /**
              * Extra
              * @description Original name of the payment method
-             * @example Espèces
              */
-            extra?: string;
+            extra?: string | null;
             /**
              * Ledger Account Code
              * @description Ledger account code assigned to the category
              */
-            ledger_account_code?: string;
+            ledger_account_code?: string | null;
         };
         /**
          * PMSStates
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         PMSStates: 'consumed' | 'closed';
+        /** PMSTaxRateItem */
+        PMSTaxRateItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Label
+             * @description Label of the tax rate
+             */
+            label?: string | null;
+            /**
+             * Rate
+             * @description Percentage of the tax rate
+             */
+            rate?: number | null;
+        };
+        /** POSClosureInformationItem */
+        POSClosureInformationItem: {
+            /** Id */
+            id: string;
+            /**
+             * Total
+             * @description Total amount of the payments in current closure
+             */
+            total: number;
+            /**
+             * Tax Amount
+             * @description Total tax amount the in current closure
+             */
+            tax_amount: number;
+            /**
+             * Payments
+             * @description List of payments related to current closure
+             * @default []
+             */
+            payments: components['schemas']['ClosurePaymentItem'][] | null;
+            /**
+             * Taxes
+             * @description List of taxes related to current closure
+             * @default []
+             */
+            taxes: components['schemas']['TotalTaxItem'][] | null;
+        };
         /** POSCreateCustomerItem */
         POSCreateCustomerItem: {
             /**
              * First Name
              * @description First name of the customer
-             * @example John
              */
             first_name: string;
             /**
              * Last Name
              * @description Last name of the customer
-             * @example Doe
              */
             last_name: string;
             /**
              * Phone
              * @description Phone number (mobile, home, work, ...) of the customer
-             * @example +32475123456
              */
-            phone?: string;
+            phone?: string | null;
             /**
              * Email
              * @description Email address of the customer
-             * @example john.doe@gmail.com
              */
-            email?: string;
-            /**
-             * Address
-             * @description Address of the customer
-             */
-            address?: components['schemas']['PostAddressItem'];
+            email?: string | null;
+            /** @description Address of the customer */
+            address?: components['schemas']['PostAddressItem'] | null;
         };
         /** POSCustomerItem */
         POSCustomerItem: {
             /**
              * Id
              * @description Unique identifier of the customer
-             * @example 371ca583-d218-8000-b236-397532cf0e52
              */
             id: string;
             /**
              * First Name
              * @description First name of the customer
-             * @example John
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Last name of the customer
-             * @example Doe
              */
-            last_name?: string;
+            last_name?: string | null;
             /**
              * Name
              * @description Name (first name + last name) of the customer
-             * @example John Doe
              */
             name: string;
             /**
              * Phone
              * @description Phone number (mobile, home, work, ...) of the customer
-             * @example +32475123456
              */
-            phone?: string;
+            phone?: string | null;
             /**
              * Email
              * @description Email address of the customer
-             * @example john.doe@gmail.com
              */
-            email?: string;
+            email?: string | null;
             /**
              * Created On
-             * Format: date-time
              * @description Date and time when the customer was created
-             * @example 2025-01-01T00:00:00Z
              */
-            created_on?: string;
+            created_on?: string | null;
             /**
              * Addresses
              * @description List of addresses of the customer
              * @default []
              */
-            addresses: components['schemas']['AddressItem'][];
+            addresses: components['schemas']['AddressItem'][] | null;
             /**
              * Loyalty
              * @description Loyalty points of the customer
-             * @example 100
              */
-            loyalty?: number;
+            loyalty?: number | null;
             /**
              * Birthdate
-             * Format: date
              * @description Birthdate of the customer
-             * @example 1990-01-01
              */
-            birthdate?: string;
+            birthdate?: string | null;
         };
         /** POSItem */
         POSItem: {
             /**
              * Id
              * @description Unique identifier of the order line item
-             * @example 123
              */
             id: string;
-            /**
-             * @description Type of the order line item
-             * @example product
-             */
-            type?: components['schemas']['POSLineItemType'];
+            /** @description Type of the order line item */
+            type?: components['schemas']['POSLineItemType'] | null;
             /**
              * Menu Id
              * @description Unique identifier of the menu
-             * @example 456
              */
-            menu_id?: string;
+            menu_id?: string | null;
             /**
              * Quantity
              * @description Quantity of the order line item
-             * @example 1
              */
             quantity: number;
             /**
              * Unit Price
              * @description Unit price (without tax) of the order line item
-             * @example 10
              */
             unit_price: number;
             /**
              * Total
              * @description Total amount including tax of the order line item
-             * @example 11
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes of the order line item
-             * @example 1
              */
             tax_amount: number;
             /**
              * Tax Rate
              * @description Tax rate of the order line item
-             * @example 10
              */
-            tax_rate?: number;
+            tax_rate?: number | null;
             /**
              * Description
              * @description Description of the order line item
-             * @example Pizza
              */
-            description?: string;
+            description?: string | null;
             /**
              * Discounts
              * @description List of discounts of the order line item. Discounts of items are always part of the total discount of the order
              * @default []
-             * @example []
              */
-            discounts: components['schemas']['backbone_common__models__pos_pms__DiscountItem'][];
+            discounts:
+                | components['schemas']['backbone_common__models__pos_pms__DiscountItem'][]
+                | null;
             /**
              * Product Id
              * @description Reference to the product related to this item
-             * @example 789
              */
-            product_id?: string;
+            product_id?: string | null;
             /**
              * Accounting Category Id
              * @description Sometimes used by a POS to give a specific accounting category to an order item
-             * @example 123
              */
-            accounting_category_id?: string;
+            accounting_category_id?: string | null;
         };
         /**
          * POSLineItemType
-         * @description An enumeration.
          * @enum {string}
          */
-        POSLineItemType: 'menu' | 'product';
+        POSLineItemType: 'menu' | 'product' | 'general_discount';
         /** POSLocationItem */
         POSLocationItem: {
             /**
              * Id
              * @description Unique identifier of the location
-             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Name
              * @description Name given to the location
-             * @example Restaurant de la Paix
              */
             name: string;
             /**
              * Timezone
              * @description Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .
-             * @example Europe/Paris
              */
-            timezone?: string;
-            /**
-             * Address
-             * @description Address of the location
-             */
-            address?: components['schemas']['AddressItem'];
+            timezone?: string | null;
+            /** @description Address of the location */
+            address?: components['schemas']['AddressItem'] | null;
         };
         /** POSOrderItem */
         POSOrderItem: {
             /**
              * Id
              * @description Unique identifier of the order
-             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Order Number
              * @description Order number (often unique reference during the day)
-             * @example 1
              */
-            order_number?: string;
+            order_number?: string | null;
             /**
              * Creation Date
              * Format: date-time
              * @description Creation date of the order
-             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Closing Date
-             * Format: date-time
              * @description Closing date of the order
-             * @example 2025-01-01T00:00:00Z
              */
-            closing_date?: string;
+            closing_date?: string | null;
             /**
              * Service Date
-             * Format: date-time
              * @description Indicates the date of the service to which the order belongs (can be used to group orders by closure date)
-             * @example 2025-01-01T00:00:00Z
              */
-            service_date?: string;
+            service_date?: string | null;
             /**
              * Device Id
              * @description ID of device that created the order
-             * @example device-123
              */
-            device_id?: string;
+            device_id?: string | null;
             /**
              * Total
              * @description Total amount including tax of the order
-             * @example 11
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes of the order
-             * @example 1
              */
             tax_amount: number;
             /**
              * Total Discount
              * @description Total amount of the discounts of the order
              * @default 0
-             * @example 10
              */
-            total_discount: number;
+            total_discount: number | null;
             /**
              * Total Refund
              * @description Total amount of the refunds of the order
              * @default 0
-             * @example 5
              */
-            total_refund: number;
+            total_refund: number | null;
             /**
              * Total Tip
              * @description Total amount of the tips of the order. Tips are not part of the total of the order
              * @default 0
-             * @example 1
              */
-            total_tip: number;
+            total_tip: number | null;
             /**
              * Delivery Fee
              * @description Total amount of the delivery fees of the order
              * @default 0
-             * @example 1
              */
-            delivery_fee: number;
+            delivery_fee: number | null;
             /**
              * Currency
              * @description Currency of the order
-             * @example EUR
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Country
              * @description Country of the order, format: ISO 3166-1 codes.
-             * @example FR
              */
-            country?: string;
+            country?: string | null;
             /**
              * Loyalty
              * @description Loyalty points of the order
-             * @example 100
              */
-            loyalty?: number;
+            loyalty?: number | null;
             /**
              * Customer Id
              * @description Unique identifier of the customer
-             * @example customer-123
              */
-            customer_id?: string;
+            customer_id?: string | null;
             /**
              * Location Id
              * @description Unique identifier of the location
-             * @example location-123
              */
-            location_id?: string;
+            location_id?: string | null;
             /**
              * Taxes
              * @description List of taxes of the order
              * @default []
              */
-            taxes: components['schemas']['TotalTaxItem'][];
+            taxes: components['schemas']['TotalTaxItem'][] | null;
             /**
              * Guests
              * @description Number of guests linked to the order
-             * @example 1
              */
-            guests?: number;
+            guests?: number | null;
             /**
              * Payments
              * @description List of payments made for the order
@@ -7927,81 +8349,68 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the payment
-             * @example payment-123
              */
-            id?: string;
+            id?: string | null;
             /**
              * Payment Method Id
              * @description Unique identifier of the payment method used for the payment
-             * @example payment-method-123
              */
-            payment_method_id?: string;
+            payment_method_id?: string | null;
             /**
              * Payment Method Name
              * @description Chift's name of the payment method used for the payment
-             * @example Cash
              */
-            payment_method_name?: string;
+            payment_method_name?: string | null;
             /**
              * Total
              * @description Total amount of the payment
-             * @example 11
              */
             total: number;
             /**
              * Tip
              * @description Total amount of the tips of the payment. Tips are not part of the total of the payment
              * @default 0
-             * @example 1
              */
-            tip: number;
+            tip: number | null;
             /**
              * @description Status of the payment
              * @default Unknown
-             * @example Completed
              */
-            status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'];
+            status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'] | null;
             /**
              * Currency
              * @description Currency of the payment
-             * @example EUR
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Date
-             * Format: date-time
              * @description Date of the payment
-             * @example 2025-01-01T00:00:00Z
              */
-            date?: string;
+            date?: string | null;
         };
         /** POSProductItem */
         POSProductItem: {
             /**
              * Id
              * @description Unique identifier of the product
-             * @example 371ca583-d218-4900-b236-397532cf0e39
              */
             id: string;
             /**
              * Categories
              * @description List of categories the product belongs to
              * @default []
-             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
-            categories: string[];
+            categories: string[] | null;
             /**
              * Name
              * @description Name ofthe product
-             * @example Pizza margheritta
              */
             name: string;
             /**
              * Description
              * @description Description of the product
-             * @example Pizza margheritta
              */
-            description?: string;
+            description?: string | null;
             /**
              * Prices
              * @description List of prices for the product
@@ -8010,14 +8419,100 @@ export interface components {
             /**
              * Accounting Category Ids
              * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
-             * @example 371ca583-d218-4900-b236-397532cf0e2
              */
-            accounting_category_ids?: string[];
+            accounting_category_ids?: string[] | null;
+        };
+        /** Partner */
+        Partner: {
+            /** External Reference */
+            external_reference?: string | null;
+            /**
+             * First Name
+             * @description Only used when the client is an individual (is_company=false). Indicates the first name of the client.
+             */
+            first_name?: string | null;
+            /**
+             * Last Name
+             * @description Only used when the client is an individual (is_company=false). Indicates the last name of the client.
+             */
+            last_name?: string | null;
+            /** Name */
+            name?: string | null;
+            /**
+             * Function
+             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             */
+            function?: string | null;
+            /**
+             * Is Company
+             * @description Indicates if the client is an individual or a company.
+             * @default true
+             */
+            is_company: boolean | null;
+            /**
+             * Company Id
+             * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
+             */
+            company_id?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Mobile */
+            mobile?: string | null;
+            /** Email */
+            email?: string | null;
+            /**
+             * Language
+             * @description Format: ISO 639-1 codes.
+             */
+            language?: string | null;
+            /** Internal Notes */
+            internal_notes?: string | null;
+            /** Website */
+            website?: string | null;
+            /** Vat */
+            vat?: string | null;
+            /**
+             * Iban
+             * @description IBAN Account number of the client.
+             */
+            iban?: string | null;
+            /**
+             * Bank Account
+             * @description Bank account number of the client.
+             */
+            bank_account?: string | null;
+            /**
+             * Currency
+             * @description Indicates the currency of the client (e.g. EUR).
+             */
+            currency?: string | null;
+            /**
+             * Active
+             * @default true
+             */
+            active: boolean | null;
+            /** Account Number */
+            account_number?: string | null;
+            /** Company Number */
+            company_number?: string | null;
+            /** Id */
+            id?: string | null;
+            /**
+             * Last Updated On
+             * @description The last time the client has been updated.
+             */
+            last_updated_on?: string | null;
+            /**
+             * Addresses
+             * @default []
+             */
+            addresses:
+                | components['schemas']['backbone_common__models__common__AddressItemOut'][]
+                | null;
         };
         /**
          * PartnerType
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         PartnerType: 'owner' | 'account';
         /** PatchConnectionItem */
@@ -8027,17 +8522,17 @@ export interface components {
              * @description Indicates whether you want to return to the consumer's redirectUrl after update (true) or whether you want to return on the connection page (false)
              * @default false
              */
-            redirect: boolean;
+            redirect: boolean | null;
             /**
              * Name
              * @description Can be used to update the name of an existing connection
              */
-            name?: string;
+            name?: string | null;
             /**
              * Credentials
              * @description Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration
              */
-            credentials?: components['schemas']['backbone_api__app__routers__connections__CredentialItem'][];
+            credentials?: components['schemas']['CredentialItem-Input'][] | null;
         };
         /** Payment */
         Payment: {
@@ -8072,11 +8567,11 @@ export interface components {
              * Reconciled
              * @default false
              */
-            reconciled: boolean;
+            reconciled: boolean | null;
             /** Communication */
-            communication?: string;
+            communication?: string | null;
             /** Matching Number */
-            matching_number?: string;
+            matching_number?: string | null;
         };
         /** PaymentItemOut */
         PaymentItemOut: {
@@ -8085,10 +8580,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
             status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
@@ -8117,7 +8609,7 @@ export interface components {
              * Partner Id
              * @description Partner ID
              */
-            partner_id: string;
+            partner_id?: string | null;
         };
         /** PaymentMethodItem */
         PaymentMethodItem: {
@@ -8126,10 +8618,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** Name */
             name: string;
@@ -8141,38 +8630,33 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the payment method
-             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Name
              * @description Chift's name of the payment method (e.g. 'Cash', 'Card', 'Transfer', ...)
-             * @example Cash
              */
             name: string;
             /**
              * Extra
              * @description Original name of the payment method
-             * @example Espèces
              */
-            extra?: string;
+            extra?: string | null;
         };
         /** PaymentReporting */
         PaymentReporting: {
             /** @description Payment method */
-            method?: components['schemas']['PaymentReportingMethod'];
+            method?: components['schemas']['PaymentReportingMethod'] | null;
             /** @description Payment conditions */
-            conditions?: components['schemas']['PaymentReportingConditions'];
+            conditions?: components['schemas']['PaymentReportingConditions'] | null;
         };
         /**
          * PaymentReportingConditions
-         * @description An enumeration.
          * @enum {string}
          */
         PaymentReportingConditions: 'TP01' | 'TP02' | 'TP03';
         /**
          * PaymentReportingMethod
-         * @description An enumeration.
          * @enum {string}
          */
         PaymentReportingMethod:
@@ -8199,6 +8683,11 @@ export interface components {
             | 'MP21'
             | 'MP22'
             | 'MP23';
+        /**
+         * PaymentStatus
+         * @enum {string}
+         */
+        'PaymentStatus-Input': 'all' | 'unpaid' | 'paid';
         /** PaymentTermAccountInfo */
         PaymentTermAccountInfo: {
             /** Amount */
@@ -8211,56 +8700,83 @@ export interface components {
             /**
              * Name
              * @description Name given to the address (e.g. 'home')
-             * @example home
              */
             name: string;
             /**
              * Street
              * @description Street name
-             * @example Avenue de la République
              */
-            street?: string;
+            street?: string | null;
             /**
              * Number
              * @description Number of the address
-             * @example 123
              */
-            number?: string;
+            number?: string | null;
             /**
              * Box
              * @description Box of the address
-             * @example A
              */
-            box?: string;
+            box?: string | null;
             /**
              * City
              * @description City name
-             * @example Paris
              */
             city: string;
             /**
              * Postal Code
              * @description Postal code of the address
-             * @example 75000
              */
             postal_code: string;
             /**
              * Country
              * @description Country, format: ISO 3166-1 codes.
-             * @example FR
              */
-            country?: string;
+            country?: string | null;
+        };
+        /** PostConnectionItem */
+        'PostConnectionItem-Input': {
+            /**
+             * Integrationid
+             * @description Can be used to specify the integration code of a specific connector. If specified, the url will will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
+             */
+            integrationid?: number | null;
+            /**
+             * Name
+             * @description Can be used to specify the name of the connection. Must be used in combination with an integrationid.
+             */
+            name?: string | null;
+            /**
+             * Credentials
+             * @description Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration
+             */
+            credentials?: components['schemas']['CredentialItem-Input'][] | null;
+            /**
+             * Country
+             * @description ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided.
+             */
+            country?: string | null;
+        };
+        /** PostConnectionItem */
+        'PostConnectionItem-Output': {
+            /** Id */
+            id: string;
+            /** Title */
+            title: string;
+            /** Optional */
+            optional: boolean;
+            /** Resource */
+            resource: string;
         };
         /** PostConsumerItem */
         PostConsumerItem: {
             /** Name */
             name: string;
             /** Email */
-            email?: string;
+            email?: string | null;
             /** Internal Reference */
-            internal_reference?: string;
+            internal_reference?: string | null;
             /** Redirect Url */
-            redirect_url?: string;
+            redirect_url?: string | null;
         };
         /** PostSyncFlowEvent */
         PostSyncFlowEvent: {
@@ -8268,12 +8784,120 @@ export interface components {
              * Consumers
              * @default []
              */
-            consumers: string[];
+            consumers: string[] | null;
             /**
              * Data
              * @default {}
              */
-            data: Record<string, never>;
+            data: {
+                [key: string]: unknown;
+            } | null;
+        };
+        /** ProductCostItem */
+        ProductCostItem: {
+            /** Amount */
+            amount: number;
+            /** Currency */
+            currency: string;
+        };
+        /** ProductItem */
+        'ProductItem-Input': {
+            /**
+             * Name
+             * @description Name
+             */
+            name: string;
+            /**
+             * Unit Price
+             * @description Unit price
+             */
+            unit_price?: number | null;
+            /**
+             * Tax Id
+             * @description Technical id of the tax in Chift
+             */
+            tax_id?: string | null;
+            /**
+             * Code
+             * @description Reference/code
+             */
+            code?: string | null;
+            /**
+             * Unit
+             * @description Unit of measure matching target software name
+             */
+            unit?: string | null;
+            /**
+             * Category
+             * @description Category matching target software name
+             */
+            category?: string | null;
+            /**
+             * Currency
+             * @description Currency matching target software name
+             */
+            currency?: string | null;
+            /**
+             * Description
+             * @description Description
+             */
+            description?: string | null;
+            /**
+             * Cost
+             * @description Cost of the product
+             * @default 0
+             */
+            cost: number | null;
+        };
+        /** ProductItem */
+        'ProductItem-Output': {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /** Description Html */
+            description_html?: string | null;
+            /**
+             * Categories
+             * @default []
+             */
+            categories:
+                | components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][]
+                | null;
+            /** Created On */
+            created_on?: string | null;
+            /**
+             * Variants
+             * @default []
+             */
+            variants: components['schemas']['ProductVariantItem'][] | null;
+            status?: components['schemas']['ProductStatus'] | null;
+            /**
+             * Common Attributes
+             * @description List of attributes that are shared by all variants of the product.
+             * @default []
+             */
+            common_attributes: components['schemas']['CommonAttributeItem'][] | null;
+            /**
+             * Variant Attributes Options
+             * @default []
+             */
+            variant_attributes_options:
+                | components['schemas']['VariantAttributeOptionItem'][]
+                | null;
+            /**
+             * Common Images
+             * @description List of images that are shared by all variants of the product.
+             * @default []
+             */
+            common_images: components['schemas']['ImageItem'][] | null;
         };
         /** ProductItemOut */
         ProductItemOut: {
@@ -8282,10 +8906,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Name
@@ -8296,53 +8917,52 @@ export interface components {
              * Unit Price
              * @description Unit price
              */
-            unit_price?: number;
+            unit_price?: number | null;
             /**
              * Tax Id
              * @description Technical id of the tax in Chift
              */
-            tax_id?: string;
+            tax_id?: string | null;
             /**
              * Code
              * @description Reference/code
              */
-            code?: string;
+            code?: string | null;
             /**
              * Unit
-             * @description Unit of measure matching target sofware name
+             * @description Unit of measure matching target software name
              */
-            unit?: string;
+            unit?: string | null;
             /**
              * Category
-             * @description Category matching target sofware name
+             * @description Category matching target software name
              */
-            category?: string;
+            category?: string | null;
             /**
              * Currency
-             * @description Currency matching target sofware name
+             * @description Currency matching target software name
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Description
              * @description Description
              */
-            description?: string;
-            /**
-             * Available Quantity
-             * @description Available quanity of the product in stock. Will only be used for products that have an inventory (services will always be 0)
-             * @default 0
-             */
-            available_quantity: number;
+            description?: string | null;
             /**
              * Cost
              * @description Cost of the product
              * @default 0
              */
-            cost: number;
+            cost: number | null;
+            /**
+             * Available Quantity
+             * @description Available quanity of the product in stock. Will only be used for products that have an inventory (services will always be 0)
+             * @default 0
+             */
+            available_quantity: number | null;
         };
         /**
          * ProductStatus
-         * @description An enumeration.
          * @enum {string}
          */
         ProductStatus: 'unknown' | 'archived' | 'unpublished' | 'published';
@@ -8353,10 +8973,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Parent Id
@@ -8366,73 +8983,76 @@ export interface components {
             /** Name */
             name: string;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Description Html */
-            description_html?: string;
+            description_html?: string | null;
             /**
              * Categories
              * @default []
              */
-            categories: components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
+            categories:
+                | components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][]
+                | null;
+            /** Created On */
+            created_on?: string | null;
             /** Sku */
-            sku?: string;
+            sku?: string | null;
             /** Barcode */
-            barcode?: string;
+            barcode?: string | null;
             /**
              * Available Quantity
              * @default 0
              */
-            available_quantity: number;
+            available_quantity: number | null;
             /**
              * Prices
              * @default []
              */
-            prices: components['schemas']['backbone_common__models__commerce__common__ProductPriceItem'][];
+            prices:
+                | components['schemas']['backbone_common__models__commerce__common__ProductPriceItem'][]
+                | null;
+            unit_cost?: components['schemas']['ProductCostItem'] | null;
             /** Unit Of Measure */
-            unit_of_measure?: string;
+            unit_of_measure?: string | null;
             /**
              * Weight
              * @default 0
              */
-            weight: number;
+            weight: number | null;
             /** Weight Unit */
-            weight_unit?: string;
-            status?: components['schemas']['ProductStatus'];
+            weight_unit?: string | null;
+            status?: components['schemas']['ProductStatus'] | null;
             /**
              * Variant Attributes
              * @description List of attributes that are specific to the variant of the product.
              * @default []
              */
-            variant_attributes: components['schemas']['VariantAttributeItem'][];
+            variant_attributes: components['schemas']['VariantAttributeItem'][] | null;
             /**
              * Variant Images
              * @description List of images that are specific to the variant of the product.
              * @default []
              */
-            variant_images: components['schemas']['ImageItem'][];
+            variant_images: components['schemas']['ImageItem'][] | null;
         };
         /** ReadFlowConsumerItem */
         ReadFlowConsumerItem: {
             /** Name */
             name: string;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Id */
             id: string;
-            config?: components['schemas']['FlowConfig'];
+            config?: components['schemas']['FlowConfig-Output'] | null;
             /** Values */
-            values: Record<string, never>;
+            values: {
+                [key: string]: unknown;
+            };
             /**
              * Enabled On
-             * Format: date-time
              * @description Date on which the flow was enabled for this consumer
              */
-            enabled_on?: string;
+            enabled_on?: string | null;
             trigger: components['schemas']['ReadFlowTrigger'];
         };
         /** ReadFlowItem */
@@ -8440,19 +9060,16 @@ export interface components {
             /** Name */
             name: string;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Id */
             id: string;
-            execution?: components['schemas']['FlowExecution'];
-            /**
-             * Config
-             * @default {
+            execution?: components['schemas']['FlowExecution'] | null;
+            /** @default {
              *       "datastores": []
-             *     }
-             */
-            config: components['schemas']['FlowConfig'];
+             *     } */
+            config: components['schemas']['FlowConfig-Output'] | null;
             /** Triggers */
-            triggers?: components['schemas']['FlowTrigger'][];
+            triggers?: components['schemas']['FlowTrigger'][] | null;
         };
         /** ReadFlowTrigger */
         ReadFlowTrigger: {
@@ -8460,14 +9077,14 @@ export interface components {
             id: string;
             type: components['schemas']['TriggerType'];
             /** Cronschedule */
-            cronschedule?: string;
+            cronschedule?: string | null;
         };
         /** ReadMappingItem */
         ReadMappingItem: {
             /** Source Id */
-            source_id: string;
+            source_id?: string | null;
             /** Target Id */
-            target_id: string;
+            target_id?: string | null;
         };
         /** ReadSyncItem */
         ReadSyncItem: {
@@ -8479,7 +9096,7 @@ export interface components {
              * Mappings
              * @default []
              */
-            mappings: components['schemas']['CreateSyncMappingItem'][];
+            mappings: components['schemas']['CreateSyncMappingItem-Output'][];
             /**
              * Syncid
              * Format: uuid
@@ -8495,20 +9112,20 @@ export interface components {
             /** Name */
             name: string;
             /** Description */
-            description?: string;
+            description?: string | null;
             /**
              * Display Order
              * @default 0
              */
             display_order: number;
             /** Challenge Question */
-            challenge_question?: string;
+            challenge_question?: string | null;
             /** Values */
             values: components['schemas']['ReadMappingItem'][];
             /** Sub Mapping Name */
             sub_mapping_name: string;
             /** Sub Mapping Description */
-            sub_mapping_description?: string;
+            sub_mapping_description?: string | null;
         };
         /** Ref */
         Ref: {
@@ -8516,12 +9133,12 @@ export interface components {
              * Id
              * @description Technical id in the target software
              */
-            id?: string;
+            id?: string | null;
             /**
              * Model
              * @description Name of the model/entity in the target software
              */
-            model?: string;
+            model?: string | null;
         };
         /** RefundFeesItem */
         RefundFeesItem: {
@@ -8530,10 +9147,7 @@ export interface components {
              * @description Technical id of the fee in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             type: components['schemas']['FeesType'];
             /** Untaxed Amount */
@@ -8550,10 +9164,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
             status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
@@ -8582,7 +9193,7 @@ export interface components {
              * Payment Id
              * @description ID of the payment being refunded
              */
-            payment_id?: string;
+            payment_id?: string | null;
         };
         /** RefundOrderLineItem */
         RefundOrderLineItem: {
@@ -8591,11 +9202,8 @@ export interface components {
              * @description Technical id of the order line in Chift
              */
             id: string;
-            /**
-             * Variant
-             * @description Product variant
-             */
-            variant?: components['schemas']['OrderLineProductVariantItem'];
+            /** @description Product variant */
+            variant?: components['schemas']['OrderLineProductVariantItem'] | null;
             /** Quantity */
             quantity: number;
             /**
@@ -8621,44 +9229,35 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Start Date
-             * Format: date-time
              * @description Start date of the reservation
              */
-            start_date?: string;
+            start_date?: string | null;
             /**
              * End Date
-             * Format: date-time
              * @description End date of the reservation
              */
-            end_date?: string;
+            end_date?: string | null;
             /**
              * Creation Date
-             * Format: date-time
              * @description Creation date of the reservation
              */
-            creation_date?: string;
-            /**
-             * Resource Id
-             * @description Uniuqe reference to the resource related to the reservation
-             */
-            resource_id?: components['schemas']['ChiftId'];
+            creation_date?: string | null;
+            /** @description Unique reference to the resource related to the reservation */
+            resource_id?: components['schemas']['ChiftId'] | null;
             /**
              * Resource Name
              * @description Name of the resource related to the reservation
              */
-            resource_name?: string;
+            resource_name?: string | null;
             /**
              * Resource Identifier
              * @description Identifier of the resource related to the reservation
              */
-            resource_identifier?: string;
+            resource_identifier?: string | null;
         };
         /** ReturnFeesItem */
         ReturnFeesItem: {
@@ -8667,10 +9266,7 @@ export interface components {
              * @description Technical id of the fee in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             type: components['schemas']['FeesType'];
             /** Untaxed Amount */
@@ -8687,11 +9283,8 @@ export interface components {
              * @description Technical id of the order line in Chift
              */
             id: string;
-            /**
-             * Variant
-             * @description Product variant
-             */
-            variant?: components['schemas']['OrderLineProductVariantItem'];
+            /** @description Product variant */
+            variant?: components['schemas']['OrderLineProductVariantItem'] | null;
             /** Quantity */
             quantity: number;
             /**
@@ -8715,13 +9308,11 @@ export interface components {
             /**
              * Total
              * @description Total amount including tax of the sales
-             * @example 10
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes
-             * @example 1
              */
             tax_amount: number;
             /**
@@ -8729,7 +9320,7 @@ export interface components {
              * @description List of taxes grouped by tax rateapplied to the sales
              * @default []
              */
-            taxes: components['schemas']['TotalTaxItem'][];
+            taxes: components['schemas']['TotalTaxItem'][] | null;
         };
         /** ShippingRefund */
         ShippingRefund: {
@@ -8738,10 +9329,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Untaxed Amount
@@ -8761,239 +9349,250 @@ export interface components {
         };
         /**
          * States
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         States: 'open' | 'closed' | 'all';
+        /**
+         * Status
+         * @enum {string}
+         */
+        Status: 'active' | 'inactive';
         /** SupplierItemIn */
         SupplierItemIn: {
             /** External Reference */
-            external_reference?: string;
+            external_reference?: string | null;
             /**
              * First Name
              * @description Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
              */
-            last_name?: string;
+            last_name?: string | null;
             /** Name */
             name: string;
             /**
              * Function
              * @description Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.
              */
-            function?: string;
+            function?: string | null;
             /**
              * Is Company
              * @description Indicates if the supplier is an individual or a company.
              * @default true
              */
-            is_company: boolean;
+            is_company: boolean | null;
             /**
              * Company Id
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
              */
-            company_id?: string;
+            company_id?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Language
              * @description Format: ISO 639-1 codes.
              */
-            language?: string;
+            language?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /** Website */
-            website?: string;
+            website?: string | null;
             /** Vat */
-            vat?: string;
+            vat?: string | null;
             /**
              * Iban
              * @description IBAN Account number of the supplier.
              */
-            iban?: string;
+            iban?: string | null;
             /**
              * Bank Account
              * @description Bank account number of the supplier.
              */
-            bank_account?: string;
+            bank_account?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the supplier (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
             /** Addresses */
             addresses: components['schemas']['backbone_common__models__common__AddressItemIn'][];
             /** Account Number */
-            account_number?: string;
+            account_number?: string | null;
         };
         /** SupplierItemOut */
         SupplierItemOut: {
             /** External Reference */
-            external_reference?: string;
+            external_reference?: string | null;
             /**
              * First Name
              * @description Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
              */
-            last_name?: string;
+            last_name?: string | null;
             /** Name */
-            name?: string;
+            name?: string | null;
             /**
              * Function
              * @description Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.
              */
-            function?: string;
+            function?: string | null;
             /**
              * Is Company
              * @description Indicates if the supplier is an individual or a company.
              * @default true
              */
-            is_company: boolean;
+            is_company: boolean | null;
             /**
              * Company Id
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
              */
-            company_id?: string;
+            company_id?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Language
              * @description Format: ISO 639-1 codes.
              */
-            language?: string;
+            language?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /** Website */
-            website?: string;
+            website?: string | null;
             /** Vat */
-            vat?: string;
+            vat?: string | null;
             /**
              * Iban
              * @description IBAN Account number of the supplier.
              */
-            iban?: string;
+            iban?: string | null;
             /**
              * Bank Account
              * @description Bank account number of the supplier.
              */
-            bank_account?: string;
+            bank_account?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the supplier (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
+            /** Account Number */
+            account_number?: string | null;
+            /** Company Number */
+            company_number?: string | null;
+            /** Id */
+            id?: string | null;
+            /**
+             * Last Updated On
+             * @description The last time the supplier has been updated.
+             */
+            last_updated_on?: string | null;
             /**
              * Addresses
              * @default []
              */
-            addresses: components['schemas']['backbone_common__models__common__AddressItemOut'][];
-            /** Account Number */
-            account_number?: string;
-            /** Company Number */
-            company_number?: string;
-            /** Id */
-            id?: string;
+            addresses:
+                | components['schemas']['backbone_common__models__common__AddressItemOut'][]
+                | null;
         };
         /** SupplierItemUpdate */
         SupplierItemUpdate: {
             /** External Reference */
-            external_reference?: string;
+            external_reference?: string | null;
             /**
              * First Name
              * @description Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.
              */
-            first_name?: string;
+            first_name?: string | null;
             /**
              * Last Name
              * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
              */
-            last_name?: string;
+            last_name?: string | null;
             /** Name */
-            name?: string;
+            name?: string | null;
             /**
              * Function
              * @description Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.
              */
-            function?: string;
+            function?: string | null;
             /**
              * Is Company
              * @description Indicates if the supplier is an individual or a company.
              * @default true
              */
-            is_company: boolean;
+            is_company: boolean | null;
             /**
              * Company Id
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
              */
-            company_id?: string;
+            company_id?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /**
              * Language
              * @description Format: ISO 639-1 codes.
              */
-            language?: string;
+            language?: string | null;
             /** Internal Notes */
-            internal_notes?: string;
+            internal_notes?: string | null;
             /** Website */
-            website?: string;
+            website?: string | null;
             /** Vat */
-            vat?: string;
+            vat?: string | null;
             /**
              * Iban
              * @description IBAN Account number of the supplier.
              */
-            iban?: string;
+            iban?: string | null;
             /**
              * Bank Account
              * @description Bank account number of the supplier.
              */
-            bank_account?: string;
+            bank_account?: string | null;
             /**
              * Currency
              * @description Indicates the currency of the supplier (e.g. EUR).
              */
-            currency?: string;
+            currency?: string | null;
             /**
              * Active
              * @default true
              */
-            active: boolean;
+            active: boolean | null;
             /**
              * Addresses
              * @default []
              */
-            addresses: components['schemas']['backbone_common__models__common__AddressItemOut'][];
+            addresses: components['schemas']['AddressItemOut-Input'][] | null;
         };
         /** SyncConsumerItem */
         SyncConsumerItem: {
@@ -9016,7 +9615,7 @@ export interface components {
              * Status Details
              * @description Gives additional information if the status is inactive
              */
-            status_details?: string;
+            status_details?: string | null;
             /**
              * Link Createdon
              * Format: date-time
@@ -9027,22 +9626,23 @@ export interface components {
              * Link Mappings
              * @description Values of the mappings requested for the sync for the specific consumer
              */
-            link_mappings?: components['schemas']['ReadSyncMappingItem'][];
+            link_mappings?: components['schemas']['ReadSyncMappingItem'][] | null;
             /**
              * Link Metadata
              * @description Metadata passed during creation
              */
-            link_metadata?: Record<string, never>;
+            link_metadata?: {
+                [key: string]: unknown;
+            } | null;
             /**
              * Enabled Flows
              * @description List of flows that the consumer has enabled
              */
-            enabled_flows?: components['schemas']['ReadFlowConsumerItem'][];
+            enabled_flows?: components['schemas']['ReadFlowConsumerItem'][] | null;
         };
         /**
          * SyncConsumerStatus
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         SyncConsumerStatus: 'active' | 'inactive';
         /** TaxRateItem */
@@ -9052,17 +9652,14 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** Label */
             label: string;
             /** Rate */
             rate: number;
             /** Country */
-            country?: string;
+            country?: string | null;
         };
         /** Token */
         Token: {
@@ -9080,25 +9677,21 @@ export interface components {
             /**
              * Tax Rate
              * @description Tax rate
-             * @example 10
              */
             tax_rate: number;
             /**
              * Tax Amount
              * @description Tax amount
-             * @example 1
              */
             tax_amount: number;
             /**
              * Total
              * @description Total amount including tax
-             * @example 11
              */
             total: number;
         };
         /**
          * TransactionAccountingCategory
-         * @description An enumeration.
          * @enum {string}
          */
         TransactionAccountingCategory:
@@ -9109,10 +9702,11 @@ export interface components {
             | 'payment'
             | 'payment_cancel'
             | 'fee'
-            | 'fee_cancel';
+            | 'fee_cancel'
+            | 'invoice'
+            | 'internal_move';
         /**
          * TransactionFilterDateType
-         * @description An enumeration.
          * @enum {string}
          */
         TransactionFilterDateType: 'value_date' | 'execution_date';
@@ -9123,10 +9717,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Total
@@ -9162,13 +9753,12 @@ export interface components {
             /** @description Accounting category */
             accounting_category: components['schemas']['TransactionAccountingCategory'];
             /** Refund Id */
-            refund_id?: string;
+            refund_id?: string | null;
             /** Payment Id */
-            payment_id?: string;
+            payment_id?: string | null;
         };
         /**
          * TransactionStatus
-         * @description An enumeration.
          * @enum {string}
          */
         TransactionStatus: 'failed' | 'pending' | 'success';
@@ -9179,24 +9769,25 @@ export interface components {
             /** Message */
             message: string;
             /** Data */
-            data?: Record<string, never>;
+            data?: {
+                [key: string]: unknown;
+            } | null;
         };
         /**
          * TriggerType
-         * @description An enumeration.
          * @enum {string}
          */
         TriggerType: 'timer' | 'event';
         /** UpdateConsumerItem */
         UpdateConsumerItem: {
             /** Name */
-            name?: string;
+            name?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /** Internal Reference */
-            internal_reference?: string;
+            internal_reference?: string | null;
             /** Redirect Url */
-            redirect_url?: string;
+            redirect_url?: string | null;
         };
         /** UpdateFlowConsumer */
         UpdateFlowConsumer: {
@@ -9204,22 +9795,23 @@ export interface components {
              * Triggerid
              * @default trigger-1
              */
-            triggerid: string;
+            triggerid: string | null;
             /**
              * Data
              * @description Object containing the configuration of the flow for the consumer
              * @default {}
              */
-            data: Record<string, never>;
+            data: {
+                [key: string]: unknown;
+            } | null;
         };
         /** UpdateOrderItem */
         UpdateOrderItem: {
             /**
              * Customer Id
              * @description Unique identifier of the customer
-             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
-            customer_id?: string;
+            customer_id?: string | null;
         };
         /** ValidationError */
         ValidationError: {
@@ -9251,10 +9843,7 @@ export interface components {
              * @description Technical id in Chift
              */
             id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
+            /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
              * Parent Id
@@ -9264,73 +9853,85 @@ export interface components {
             /** Name */
             name: string;
             /** Description */
-            description?: string;
+            description?: string | null;
             /** Description Html */
-            description_html?: string;
+            description_html?: string | null;
             /**
              * Categories
              * @default []
              */
-            categories: components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
+            categories:
+                | components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][]
+                | null;
+            /** Created On */
+            created_on?: string | null;
             /** Sku */
-            sku?: string;
+            sku?: string | null;
             /** Barcode */
-            barcode?: string;
+            barcode?: string | null;
             /**
              * Available Quantity
              * @default 0
              */
-            available_quantity: number;
+            available_quantity: number | null;
             /**
              * Prices
              * @default []
              */
-            prices: components['schemas']['backbone_common__models__commerce__common__ProductPriceItem'][];
+            prices:
+                | components['schemas']['backbone_common__models__commerce__common__ProductPriceItem'][]
+                | null;
+            unit_cost?: components['schemas']['ProductCostItem'] | null;
             /** Unit Of Measure */
-            unit_of_measure?: string;
+            unit_of_measure?: string | null;
             /**
              * Weight
              * @default 0
              */
-            weight: number;
+            weight: number | null;
             /** Weight Unit */
-            weight_unit?: string;
-            status?: components['schemas']['ProductStatus'];
+            weight_unit?: string | null;
+            status?: components['schemas']['ProductStatus'] | null;
             /**
              * Inventory Details
              * @default []
              */
-            inventory_details: components['schemas']['InventoryDetailsItem'][];
+            inventory_details: components['schemas']['InventoryDetailsItem'][] | null;
             /**
              * Common Attributes
              * @description List of attributes that are shared by all variants of the product.
              * @default []
              */
-            common_attributes: components['schemas']['CommonAttributeItem'][];
+            common_attributes: components['schemas']['CommonAttributeItem'][] | null;
             /**
              * Variant Attributes
              * @description List of attributes that are specific to the variant of the product.
              * @default []
              */
-            variant_attributes: components['schemas']['VariantAttributeItem'][];
+            variant_attributes: components['schemas']['VariantAttributeItem'][] | null;
             /**
              * Common Images
              * @description List of images that are shared by all variants of the product.
              * @default []
              */
-            common_images: components['schemas']['ImageItem'][];
+            common_images: components['schemas']['ImageItem'][] | null;
             /**
              * Variant Images
              * @description List of images that are specific to the variant of the product.
              * @default []
              */
-            variant_images: components['schemas']['ImageItem'][];
+            variant_images: components['schemas']['ImageItem'][] | null;
         };
+        /**
+         * VatCodeScope
+         * @enum {string}
+         */
+        VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
+        /**
+         * VatCodeType
+         * @enum {string}
+         */
+        VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
         /** WebhookInstanceGetItem */
         WebhookInstanceGetItem: {
             /**
@@ -9343,11 +9944,8 @@ export interface components {
              * Format: uuid
              */
             accountid: string;
-            /**
-             * Createdby
-             * Format: uuid
-             */
-            createdby?: string;
+            /** Createdby */
+            createdby?: string | null;
             /**
              * Createdon
              * Format: date-time
@@ -9357,17 +9955,17 @@ export interface components {
             event: string;
             /** Url */
             url: string;
-            status: components['schemas']['backbone_api__app__routers__webhooks__Status'];
+            status: components['schemas']['Status'];
             /** Integrationid */
-            integrationid?: number;
+            integrationid?: number | null;
         };
         /** WebhookInstancePatchItem */
         WebhookInstancePatchItem: {
-            status?: components['schemas']['backbone_api__app__routers__webhooks__Status'];
+            status?: components['schemas']['Status'] | null;
             /** Url */
-            url?: string;
+            url?: string | null;
             /** Signingsecret */
-            signingsecret?: string;
+            signingsecret?: string | null;
         };
         /** WebhookInstancePostItem */
         WebhookInstancePostItem: {
@@ -9376,19 +9974,19 @@ export interface components {
             /** Url */
             url: string;
             /** Signingsecret */
-            signingsecret?: string;
+            signingsecret?: string | null;
             /**
              * Integrationid
              * @description Can be used to specify the integration code of a specific connector. This is mandatory in case you create a webhook related to a specific One API.
              */
-            integrationid?: number;
+            integrationid?: number | null;
         };
         /** WebhookItem */
         WebhookItem: {
             /** Event */
             event: string;
             /** Api */
-            api?: string;
+            api?: string | null;
         };
         /** WebhookLogItem */
         WebhookLogItem: {
@@ -9416,7 +10014,7 @@ export interface components {
             /** Httpstatus */
             httpstatus: number;
             /** Integrationid */
-            integrationid?: number;
+            integrationid?: number | null;
         };
         /** WelfareFund */
         WelfareFund: {
@@ -9431,11 +10029,10 @@ export interface components {
              */
             amount: number;
             /** @description Type */
-            type?: components['schemas']['WelfareFundType'];
+            type?: components['schemas']['WelfareFundType'] | null;
         };
         /**
          * WelfareFundType
-         * @description An enumeration.
          * @enum {string}
          */
         WelfareFundType:
@@ -9474,13 +10071,12 @@ export interface components {
              */
             amount: number;
             /** @description Reason */
-            reason?: components['schemas']['WithholdingTaxReason'];
+            reason?: components['schemas']['WithholdingTaxReason'] | null;
             /** @description Payment reason */
-            payment_reason?: components['schemas']['WithholdingTaxPaymentReason'];
+            payment_reason?: components['schemas']['WithholdingTaxPaymentReason'] | null;
         };
         /**
          * WithholdingTaxPaymentReason
-         * @description An enumeration.
          * @enum {string}
          */
         WithholdingTaxPaymentReason:
@@ -9517,7 +10113,6 @@ export interface components {
             | 'V1';
         /**
          * WithholdingTaxReason
-         * @description An enumeration.
          * @enum {string}
          */
         WithholdingTaxReason: 'RT01' | 'RT02' | 'RT03' | 'RT04' | 'RT05' | 'RT06';
@@ -9537,82 +10132,19 @@ export interface components {
             /** Api */
             api: string;
             /** Data */
-            data?: Record<string, never>;
-            status: components['schemas']['backbone_api__app__routers__connections__Status'];
-            /**
-             * Agent
-             * @description For local agent only. Indicates whether the local agent is up and running
-             */
-            agent?: components['schemas']['LocalAgentInfo'];
+            data?: {
+                [key: string]: unknown;
+            } | null;
+            status: components['schemas']['Status'];
+            /** @description For local agent only. Indicates whether the local agent is up and running */
+            agent?: components['schemas']['LocalAgentInfo'] | null;
         };
-        /** CredentialItem */
-        backbone_api__app__routers__connections__CredentialItem: {
-            /** Key */
-            key: string;
-            /** Value */
-            value: string;
-        };
-        /** PostConnectionItem */
-        backbone_api__app__routers__connections__PostConnectionItem: {
-            /**
-             * Integrationid
-             * @description Can be used to specify the integration code of a specific connector. If specified, the url will will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
-             */
-            integrationid?: number;
-            /**
-             * Name
-             * @description Can be used to specify the name of the connection. Must be used in combination with an integrationid.
-             */
-            name?: string;
-            /**
-             * Credentials
-             * @description Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration
-             */
-            credentials?: components['schemas']['backbone_api__app__routers__connections__CredentialItem'][];
-        };
-        /**
-         * Status
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        backbone_api__app__routers__connections__Status: 'active' | 'inactive';
-        /**
-         * Status
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        backbone_api__app__routers__datastores__Status: 'active' | 'inactive';
-        /** CredentialItem */
-        backbone_api__app__routers__integrations__CredentialItem: {
-            /** Name */
-            name: string;
-            /**
-             * Optional
-             * @default false
-             */
-            optional: boolean;
-        };
-        /** PostConnectionItem */
-        backbone_api__app__routers__integrations__PostConnectionItem: {
-            /** Title */
-            title: string;
-            /** Optional */
-            optional: boolean;
-            /** Resource */
-            resource: string;
-        };
-        /**
-         * Status
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        backbone_api__app__routers__integrations__Status: 'active' | 'inactive';
         /** ConnectionItem */
         backbone_api__app__routers__syncs__ConnectionItem: {
             /** One Api */
-            one_api?: number;
+            one_api?: number | null;
             /** Connection Type */
-            connection_type?: number;
+            connection_type?: number | null;
             /**
              * Display Order
              * @default 0
@@ -9625,14 +10157,7 @@ export interface components {
             display_hidden: boolean;
         };
         /**
-         * Status
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        backbone_api__app__routers__webhooks__Status: 'active' | 'inactive';
-        /**
          * InvoiceType
-         * @description An enumeration.
          * @enum {string}
          */
         backbone_common__models__accounting__common__InvoiceType:
@@ -9640,22 +10165,6 @@ export interface components {
             | 'customer_refund'
             | 'supplier_invoice'
             | 'supplier_refund';
-        /**
-         * VatCodeScope
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_common__models__accounting__common__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
-        /**
-         * VatCodeType
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_common__models__accounting__common__VatCodeType:
-            | 'sale'
-            | 'purchase'
-            | 'both'
-            | 'unknown';
         /** AddressItemIn */
         backbone_common__models__commerce__common__AddressItemIn: {
             /** First Name */
@@ -9667,49 +10176,49 @@ export interface components {
             /** Number */
             number: string;
             /** Box */
-            box?: string;
+            box?: string | null;
             /** City */
             city: string;
             /** Postal Code */
-            postal_code?: string;
+            postal_code?: string | null;
             /**
              * Country
              * @description Format: ISO 3166-1 codes.
              */
             country: string;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
         };
         /** AddressItemOut */
         backbone_common__models__commerce__common__AddressItemOut: {
             address_type: components['schemas']['AddressType'];
             /** Company Name */
-            company_name?: string;
+            company_name?: string | null;
             /** First Name */
-            first_name?: string;
+            first_name?: string | null;
             /** Last Name */
-            last_name?: string;
+            last_name?: string | null;
             /** Street */
-            street?: string;
+            street?: string | null;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Box */
-            box?: string;
+            box?: string | null;
             /** City */
-            city?: string;
+            city?: string | null;
             /** Postal Code */
-            postal_code?: string;
+            postal_code?: string | null;
             /**
              * Country
              * @description Format: ISO 3166-1 codes.
              */
-            country?: string;
+            country?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
         };
         /** DiscountItem */
         backbone_common__models__commerce__common__DiscountItem: {
@@ -9730,58 +10239,6 @@ export interface components {
             /** Name */
             name: string;
         };
-        /** ProductItem */
-        backbone_common__models__commerce__common__ProductItem: {
-            /**
-             * Id
-             * @description Technical id in Chift
-             */
-            id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
-            source_ref: components['schemas']['Ref'];
-            /** Name */
-            name: string;
-            /** Description */
-            description?: string;
-            /** Description Html */
-            description_html?: string;
-            /**
-             * Categories
-             * @default []
-             */
-            categories: components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][];
-            /**
-             * Created On
-             * Format: date-time
-             */
-            created_on?: string;
-            /**
-             * Variants
-             * @default []
-             */
-            variants: components['schemas']['ProductVariantItem'][];
-            status?: components['schemas']['ProductStatus'];
-            /**
-             * Common Attributes
-             * @description List of attributes that are shared by all variants of the product.
-             * @default []
-             */
-            common_attributes: components['schemas']['CommonAttributeItem'][];
-            /**
-             * Variant Attributes Options
-             * @default []
-             */
-            variant_attributes_options: components['schemas']['VariantAttributeOptionItem'][];
-            /**
-             * Common Images
-             * @description List of images that are shared by all variants of the product.
-             * @default []
-             */
-            common_images: components['schemas']['ImageItem'][];
-        };
         /** ProductPriceItem */
         backbone_common__models__commerce__common__ProductPriceItem: {
             /** Currency */
@@ -9790,23 +10247,23 @@ export interface components {
              * Price
              * @default 0
              */
-            price: number;
+            price: number | null;
         };
         /** AddressItemIn */
         backbone_common__models__common__AddressItemIn: {
             address_type: components['schemas']['AddressType'];
             /** Name */
-            name?: string;
+            name?: string | null;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Box */
-            box?: string;
+            box?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /** Street */
             street: string;
             /** City */
@@ -9823,118 +10280,31 @@ export interface components {
         backbone_common__models__common__AddressItemOut: {
             address_type: components['schemas']['AddressType'];
             /** Name */
-            name?: string;
+            name?: string | null;
             /** Number */
-            number?: string;
+            number?: string | null;
             /** Box */
-            box?: string;
+            box?: string | null;
             /** Phone */
-            phone?: string;
+            phone?: string | null;
             /** Mobile */
-            mobile?: string;
+            mobile?: string | null;
             /** Email */
-            email?: string;
+            email?: string | null;
             /** Street */
-            street?: string;
+            street?: string | null;
             /** City */
-            city?: string;
+            city?: string | null;
             /** Postal Code */
-            postal_code?: string;
+            postal_code?: string | null;
             /**
              * Country
              * @description Format: ISO 3166-1 codes.
              */
-            country?: string;
-        };
-        /**
-         * PaymentStatus
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_common__models__common__PaymentStatus: 'all' | 'unpaid' | 'paid';
-        /** InvoiceItem */
-        backbone_common__models__invoicing__common__InvoiceItem: {
-            /**
-             * Currency
-             * @description Currency matching target sofware name
-             */
-            currency: string;
-            /** @description Invoice type */
-            invoice_type: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
-            /** @description Status */
-            status: components['schemas']['InvoiceStatus'];
-            /**
-             * Invoice Date
-             * Format: date
-             * @description Invoicing date
-             */
-            invoice_date: string;
-            /**
-             * Tax Amount
-             * @description Taxes amount
-             */
-            tax_amount: number;
-            /**
-             * Untaxed Amount
-             * @description Untaxed amount
-             */
-            untaxed_amount: number;
-            /**
-             * Total
-             * @description Total amount incl. taxes
-             */
-            total: number;
-            /**
-             * Lines
-             * @description Invoice lines
-             * @default []
-             */
-            lines: components['schemas']['InvoiceLineItem'][];
-            /**
-             * Partner Id
-             * @description Technical id of the vendor/customer in Chift
-             */
-            partner_id?: string;
-            /**
-             * Invoice Number
-             * @description Number/sequence
-             */
-            invoice_number?: string;
-            /**
-             * Due Date
-             * Format: date
-             * @description Due date
-             */
-            due_date?: string;
-            /**
-             * Reference
-             * @description Reference
-             */
-            reference?: string;
-            /**
-             * Payment Communication
-             * @description Payment communication
-             */
-            payment_communication?: string;
-            /**
-             * Customer Memo
-             * @description Customer note/memo
-             */
-            customer_memo?: string;
-            /**
-             * Journal Ref
-             * @description Journal
-             */
-            journal_ref?: components['schemas']['FieldRef'];
-            /**
-             * Italian Specificities
-             * @description Specificities for Italy
-             */
-            italian_specificities?: components['schemas']['ItalianSpecificities'];
+            country?: string | null;
         };
         /**
          * InvoiceType
-         * @description An enumeration.
          * @enum {string}
          */
         backbone_common__models__invoicing__common__InvoiceType:
@@ -9943,179 +10313,75 @@ export interface components {
             | 'supplier_invoice'
             | 'supplier_refund'
             | 'all';
-        /** ProductItem */
-        backbone_common__models__invoicing__common__ProductItem: {
-            /**
-             * Name
-             * @description Name
-             */
-            name: string;
-            /**
-             * Unit Price
-             * @description Unit price
-             */
-            unit_price?: number;
-            /**
-             * Tax Id
-             * @description Technical id of the tax in Chift
-             */
-            tax_id?: string;
-            /**
-             * Code
-             * @description Reference/code
-             */
-            code?: string;
-            /**
-             * Unit
-             * @description Unit of measure matching target sofware name
-             */
-            unit?: string;
-            /**
-             * Category
-             * @description Category matching target sofware name
-             */
-            category?: string;
-            /**
-             * Currency
-             * @description Currency matching target sofware name
-             */
-            currency?: string;
-            /**
-             * Description
-             * @description Description
-             */
-            description?: string;
-        };
-        /**
-         * VatCodeScope
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_common__models__invoicing__common__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
-        /**
-         * VatCodeType
-         * @description An enumeration.
-         * @enum {string}
-         */
-        backbone_common__models__invoicing__common__VatCodeType:
-            | 'sale'
-            | 'purchase'
-            | 'both'
-            | 'unknown';
         /**
          * PaymentStatus
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         backbone_common__models__payment__common__PaymentStatus:
             | 'pending'
             | 'completed'
+            | 'partially_completed'
             | 'canceled'
             | 'failed'
             | 'unknown'
             | 'authorized';
-        /** InvoiceItem */
-        backbone_common__models__pms__common__InvoiceItem: {
-            /**
-             * Id
-             * @description Technical id in Chift
-             */
-            id: string;
-            /**
-             * Source Ref
-             * @description Technical id in the target software
-             */
-            source_ref: components['schemas']['Ref'];
-            /**
-             * Invoice Number
-             * @description Number/sequence
-             */
-            invoice_number?: string;
-            /**
-             * Creation Date
-             * Format: date-time
-             * @description Creation date of the invoice
-             */
-            creation_date?: string;
-            /**
-             * Closing Date
-             * Format: date-time
-             * @description Closing date of the invoice
-             */
-            closing_date?: string;
-            /**
-             * Partners
-             * @description List of partners related to the invoice
-             */
-            partners?: components['schemas']['InvoicePartnerItem'][];
-        };
         /** ProductCategoryItem */
         backbone_common__models__pos__common__ProductCategoryItem: {
             /**
              * Id
              * @description Unique identifier of the category
-             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Name
              * @description Name given to the category
-             * @example Pizza
              */
             name: string;
             /**
              * Description
              * @description Description of the category
-             * @example Delicious pizza
              */
-            description?: string;
+            description?: string | null;
             /**
              * Id Parent
              * @description Indicates if the category belongs to a parent category
-             * @example 371ca583-d218-4900-b236-397532cf0e55
              */
-            id_parent?: string;
+            id_parent?: string | null;
         };
         /** ProductPriceItem */
         backbone_common__models__pos__common__ProductPriceItem: {
             /**
              * Unit Price
              * @description Unit price (without tax) of the product
-             * @example 10
              */
             unit_price: number;
             /**
              * Tax Rate
              * @description Tax rate applied to the product
-             * @example 10
              */
-            tax_rate?: number;
+            tax_rate?: number | null;
         };
         /** DiscountItem */
         backbone_common__models__pos_pms__DiscountItem: {
             /**
              * Name
              * @description Name of the discount
-             * @example Percentage discount
              */
-            name?: string;
+            name?: string | null;
             /**
              * Total
              * @description Total amount of the discount
-             * @example 10
              */
             total: number;
             /**
              * @description Type of the discount
              * @default UNKNOWN
-             * @example offered
              */
             type: components['schemas']['DiscountType'];
         };
         /**
          * PaymentStatus
-         * @description An enumeration.
-         * @enum {unknown}
+         * @enum {string}
          */
         backbone_common__models__pos_pms__PaymentStatus:
             | 'Pending'
@@ -10169,7 +10435,7 @@ export interface operations {
     consumers_get_consumers: {
         parameters: {
             query?: {
-                search?: string;
+                search?: string | null;
             };
             header?: never;
             path?: never;
@@ -10225,6 +10491,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified name is not valid",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10234,6 +10504,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified redirect url is not valid",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10265,6 +10539,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The consumer does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10303,6 +10581,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The consumer does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10347,6 +10629,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The consumer does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10356,6 +10642,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified redirect url is not valid",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10387,6 +10677,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The consumer does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10412,7 +10706,7 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                'application/json': components['schemas']['backbone_api__app__routers__connections__PostConnectionItem'];
+                'application/json': components['schemas']['PostConnectionItem-Input'] | null;
             };
         };
         responses: {
@@ -10440,16 +10734,24 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The consumer does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    /** @example {
+                     *       "message": "Invalid datetime format in key {key}",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -10479,6 +10781,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified connectionid is not valid",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10488,6 +10794,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The connection does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10514,7 +10824,7 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                'application/json': components['schemas']['PatchConnectionItem'];
+                'application/json': components['schemas']['PatchConnectionItem'] | null;
             };
         };
         responses: {
@@ -10542,16 +10852,24 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The connection does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    /** @example {
+                     *       "message": "Invalid datetime format in key {key}",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -10559,7 +10877,7 @@ export interface operations {
     integrations_get_integrations: {
         parameters: {
             query?: {
-                status?: components['schemas']['backbone_api__app__routers__integrations__Status'];
+                status?: components['schemas']['Status'] | null;
             };
             header?: never;
             path?: never;
@@ -10614,6 +10932,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The {image_type} doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10651,7 +10973,7 @@ export interface operations {
     webhooks_get_webhooks: {
         parameters: {
             query?: {
-                status?: components['schemas']['backbone_api__app__routers__webhooks__Status'];
+                status?: components['schemas']['Status'] | null;
             };
             header?: never;
             path?: never;
@@ -10707,6 +11029,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "There is already an existing webhook with the same url and type",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10747,6 +11073,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified webhook could not be found for this account",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10785,6 +11115,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified webhook could not be found for this account",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10829,6 +11163,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified url is not valid",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10838,6 +11176,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified webhook could not be found for this account",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -10878,6 +11220,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The specified webhook could not be found for this account",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11004,6 +11350,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The sync does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11049,6 +11399,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "You cannot force the execution for all consumers",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11058,6 +11412,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The chain does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11067,6 +11425,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while validating context data; the field {field.get('name')} does not seem to be of type {fieldtype}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11075,8 +11437,8 @@ export interface operations {
     syncs_get_consumer_executions: {
         parameters: {
             query?: {
-                date_to?: string;
-                date_from?: string;
+                date_to?: string | null;
+                date_from?: string | null;
             };
             header?: never;
             path: {
@@ -11103,6 +11465,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The flow does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11120,7 +11486,7 @@ export interface operations {
     syncs_get_execution: {
         parameters: {
             query?: {
-                consumerid?: string;
+                consumerid?: string | null;
             };
             header?: never;
             path: {
@@ -11147,6 +11513,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The execution does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11241,6 +11611,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The consumer is not configured for this sync",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11284,6 +11658,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The flow is not yet activated for this consumer",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11293,6 +11671,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The body should be a list",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11330,6 +11712,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Impossible to enable the flow as the flow requires configuration fields",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11339,6 +11725,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The consumer does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11348,6 +11738,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while validating context data; the field {field_name} does not seem to be of type {field_type}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11383,6 +11777,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The flow is not yet activated for this consumer",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11392,6 +11790,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while validating context data; the field {field_name} does not seem to be of type {field_type}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11400,7 +11802,7 @@ export interface operations {
     datastores_get_datastores: {
         parameters: {
             query?: {
-                status?: components['schemas']['backbone_api__app__routers__datastores__Status'];
+                status?: components['schemas']['Status'] | null;
             };
             header?: never;
             path?: never;
@@ -11431,9 +11833,9 @@ export interface operations {
     datastores_get_consumer_and_datastoredata: {
         parameters: {
             query?: {
-                date_to?: string;
-                date_from?: string;
-                executionid?: string;
+                date_to?: string | null;
+                date_from?: string | null;
+                executionid?: string | null;
             };
             header?: never;
             path: {
@@ -11459,6 +11861,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The datastore does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11504,6 +11910,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The datastore does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11513,6 +11923,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The input does not match the definition of the datastore",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11546,6 +11960,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The datastoredata does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11592,6 +12010,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The datastoredata does not exist",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11601,7 +12023,106 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The input does not match the definition of the datastore",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    issues_get_issues: {
+        parameters: {
+            query?: {
+                /** @description The search query to filter issues by creation date. */
+                created_on?: string;
+                /** @description The search query to filter issues by last seen date. */
+                last_seen_on?: string;
+                /** @description The search query to filter issues by error code. */
+                error_code?: string;
+                /** @description The search query to filter issues by issue status. */
+                status?: components['schemas']['IssueStatus'];
+                /** @description The search query to filter issues by issue level. */
+                level?: components['schemas']['IssueLevel'] | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['IssueItem'][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    issues_get_issues_by_consumer_id: {
+        parameters: {
+            query?: {
+                /** @description The search query to filter issues by creation date. */
+                created_on?: string;
+                /** @description The search query to filter issues by last seen date. */
+                last_seen_on?: string;
+                /** @description The search query to filter issues by error code. */
+                error_code?: string;
+                /** @description The search query to filter issues by issue status. */
+                status?: components['schemas']['IssueStatus'];
+                /** @description The search query to filter issues by issue level. */
+                level?: components['schemas']['IssueLevel'] | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['IssueItem'][];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "The consumer does not exist.",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -11632,6 +12153,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11649,9 +12174,11 @@ export interface operations {
     accounting_get_bookyears: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -11676,6 +12203,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11693,9 +12224,11 @@ export interface operations {
     accounting_get_analytic_plans: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -11720,6 +12253,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11737,11 +12274,13 @@ export interface operations {
     accounting_get_clients: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
-                search?: string;
-                updated_after?: string;
+                folder_id?: string | null;
+                search?: string | null;
+                updated_after?: string | null;
             };
             header?: never;
             path: {
@@ -11766,6 +12305,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11783,8 +12326,8 @@ export interface operations {
     accounting_create_client: {
         parameters: {
             query?: {
-                folder_id?: string;
-                force_merge?: string;
+                folder_id?: string | null;
+                force_merge?: string | null;
             };
             header?: never;
             path: {
@@ -11813,6 +12356,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "A client/supplier already exist with the same code/id in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11830,7 +12377,7 @@ export interface operations {
     accounting_get_client: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -11856,6 +12403,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11865,6 +12416,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The client/supplier doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11882,7 +12437,7 @@ export interface operations {
     accounting_update_client: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -11912,6 +12467,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11921,6 +12480,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The client/supplier doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11938,11 +12501,13 @@ export interface operations {
     accounting_get_suppliers: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
-                search?: string;
-                updated_after?: string;
+                folder_id?: string | null;
+                search?: string | null;
+                updated_after?: string | null;
             };
             header?: never;
             path: {
@@ -11967,6 +12532,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -11984,8 +12553,8 @@ export interface operations {
     accounting_create_supplier: {
         parameters: {
             query?: {
-                folder_id?: string;
-                force_merge?: string;
+                folder_id?: string | null;
+                force_merge?: string | null;
             };
             header?: never;
             path: {
@@ -12014,6 +12583,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "A client/supplier already exist with the same code/id in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12031,7 +12604,7 @@ export interface operations {
     accounting_get_supplier: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12057,6 +12630,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12066,6 +12643,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The client/supplier doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12083,7 +12664,7 @@ export interface operations {
     accounting_update_supplier: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12113,6 +12694,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12122,6 +12707,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The client/supplier doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12139,10 +12728,9 @@ export interface operations {
     accounting_create_invoice: {
         parameters: {
             query?: {
-                folder_id?: string;
-                force_financial_period?: string;
-                regroup_lines?: components['schemas']['BoolParam'];
-                force_currency_exchange?: components['schemas']['BoolParam'];
+                folder_id?: string | null;
+                force_financial_period?: string | null;
+                regroup_lines?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -12171,6 +12759,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The document is not a valid base64 string representing a PDF.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12180,6 +12772,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12197,10 +12793,9 @@ export interface operations {
     accounting_create_invoice_multiple_plans: {
         parameters: {
             query?: {
-                folder_id?: string;
-                force_financial_period?: string;
-                regroup_lines?: components['schemas']['BoolParam'];
-                force_currency_exchange?: components['schemas']['BoolParam'];
+                folder_id?: string | null;
+                force_financial_period?: string | null;
+                regroup_lines?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -12229,6 +12824,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The document is not a valid base64 string representing a PDF.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12238,6 +12837,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12255,15 +12858,19 @@ export interface operations {
     accounting_get_invoices_by_type: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
-                date_from?: string;
-                date_to?: string;
-                journal_ids?: string;
-                include_payments?: components['schemas']['BoolParam'];
-                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
-                updated_after?: string;
+                folder_id?: string | null;
+                date_from?: string | null;
+                date_to?: string | null;
+                journal_ids?: string | null;
+                include_payments?: components['schemas']['BoolParam'] | null;
+                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
+                updated_after?: string | null;
+                include_invoice_lines?: components['schemas']['BoolParam'] | null;
+                include_partner_info?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -12289,6 +12896,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "You must provide an invoice type.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12306,15 +12917,19 @@ export interface operations {
     accounting_get_invoices_by_type_multi_analytic_plans: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
-                date_from?: string;
-                date_to?: string;
-                journal_ids?: string;
-                include_payments?: components['schemas']['BoolParam'];
-                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
-                updated_after?: string;
+                folder_id?: string | null;
+                date_from?: string | null;
+                date_to?: string | null;
+                journal_ids?: string | null;
+                include_payments?: components['schemas']['BoolParam'] | null;
+                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
+                updated_after?: string | null;
+                include_invoice_lines?: components['schemas']['BoolParam'] | null;
+                include_partner_info?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -12340,6 +12955,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "You must provide an invoice type.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12357,8 +12976,10 @@ export interface operations {
     accounting_get_invoice: {
         parameters: {
             query?: {
-                folder_id?: string;
-                include_payments?: components['schemas']['BoolParam'];
+                folder_id?: string | null;
+                include_payments?: components['schemas']['BoolParam'] | null;
+                include_invoice_lines?: components['schemas']['BoolParam'] | null;
+                include_partner_info?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -12384,6 +13005,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12393,6 +13018,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The invoice doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12410,8 +13039,10 @@ export interface operations {
     accounting_get_invoice_multi_analytic_plans: {
         parameters: {
             query?: {
-                folder_id?: string;
-                include_payments?: components['schemas']['BoolParam'];
+                folder_id?: string | null;
+                include_payments?: components['schemas']['BoolParam'] | null;
+                include_invoice_lines?: components['schemas']['BoolParam'] | null;
+                include_partner_info?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -12437,6 +13068,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12446,6 +13081,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The invoice doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12463,7 +13102,7 @@ export interface operations {
     accounting_create_ledger_account: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12492,6 +13131,60 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "A ledger account already exists with the same number in the accounting system.",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_create_bank_account: {
+        parameters: {
+            query?: {
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['BankAccountItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BankAccountItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "A bank account/journal already exists with the same code in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12509,9 +13202,11 @@ export interface operations {
     accounting_get_analytic_accounts: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12536,6 +13231,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12553,7 +13252,7 @@ export interface operations {
     accounting_create_analytic_account: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12582,6 +13281,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "An analytic account already exists with the same code in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12599,7 +13302,7 @@ export interface operations {
     accounting_create_analytic_account_multi_plans: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12629,6 +13332,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "An analytic account already exists with the same code in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12646,7 +13353,7 @@ export interface operations {
     accounting_get_analytic_account: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12672,6 +13379,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12681,6 +13392,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The analytic account doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12698,7 +13413,7 @@ export interface operations {
     accounting_update_analytic_account: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12728,6 +13443,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12737,6 +13456,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The analytic account doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12754,7 +13477,7 @@ export interface operations {
     accounting_get_analytic_account_multi_plans: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12781,6 +13504,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12790,6 +13517,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The analytic account doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12807,7 +13538,7 @@ export interface operations {
     accounting_update_analytic_account_multi_plans: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12838,6 +13569,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12847,6 +13582,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The analytic account doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12864,9 +13603,11 @@ export interface operations {
     accounting_get_analytic_accounts_multi_plans: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12891,6 +13632,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12908,15 +13653,17 @@ export interface operations {
     accounting_get_journal_entries: {
         parameters: {
             query: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
                 unposted_allowed: components['schemas']['BoolParam'];
                 journal_id: string;
-                date_from?: string;
-                date_to?: string;
-                updated_after?: string;
-                partner_id?: string;
+                date_from?: string | null;
+                date_to?: string | null;
+                updated_after?: string | null;
+                partner_id?: string | null;
             };
             header?: never;
             path: {
@@ -12941,6 +13688,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "You can retrieve maximum 3 months of data at once. The difference between 'date_from' and 'date_to' is at maximum 3 months when 'updated_after' parameter is not provided.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12958,7 +13709,7 @@ export interface operations {
     accounting_create_journal_entry: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -12987,6 +13738,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "A sale/purchase entry cannot be linked to multiple partner accounts.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -12996,6 +13751,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The currency doesn't exist or is not active in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13005,6 +13764,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Debit and credit cannot be both positive.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13013,15 +13776,17 @@ export interface operations {
     accounting_get_journal_entries_multi_plan: {
         parameters: {
             query: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
                 unposted_allowed: components['schemas']['BoolParam'];
                 journal_id: string;
-                date_from?: string;
-                date_to?: string;
-                updated_after?: string;
-                partner_id?: string;
+                date_from?: string | null;
+                date_to?: string | null;
+                updated_after?: string | null;
+                partner_id?: string | null;
             };
             header?: never;
             path: {
@@ -13046,6 +13811,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "You can retrieve maximum 3 months of data at once. The difference between 'date_from' and 'date_to' is at maximum 3 months when 'updated_after' parameter is not provided.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13063,7 +13832,7 @@ export interface operations {
     accounting_get_journal_entry: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13089,6 +13858,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13098,6 +13871,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The entry doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13115,8 +13892,8 @@ export interface operations {
     accounting_create_generic_journal_entry: {
         parameters: {
             query?: {
-                folder_id?: string;
-                force_currency_exchange?: components['schemas']['BoolParam'];
+                folder_id?: string | null;
+                force_currency_exchange?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -13145,6 +13922,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The entry is not balanced.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13154,6 +13935,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The currency doesn't exist or is not active in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13163,6 +13948,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Debit and credit cannot be both positive.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13171,9 +13960,11 @@ export interface operations {
     accounting_get_payments_by_invoice: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13199,6 +13990,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13208,6 +14003,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The given invoice doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13225,9 +14024,11 @@ export interface operations {
     accounting_get_journals: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13252,6 +14053,73 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_create_journal: {
+        parameters: {
+            query?: {
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['JournalIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Journal'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "A journal already exists with the same code in the accounting system.",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "The counterpart account doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13269,9 +14137,11 @@ export interface operations {
     accounting_get_vat_codes: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13296,6 +14166,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13313,12 +14187,14 @@ export interface operations {
     accounting_get_miscellaneous_operations: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
-                date_from?: string;
-                date_to?: string;
-                journal_ids?: string;
+                folder_id?: string | null;
+                date_from?: string | null;
+                date_to?: string | null;
+                journal_ids?: string | null;
             };
             header?: never;
             path: {
@@ -13343,6 +14219,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13360,7 +14240,7 @@ export interface operations {
     accounting_create_miscellaneous_operation: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13389,6 +14269,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The account 'x' cannot be used for this type of line.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13398,6 +14282,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13415,7 +14303,7 @@ export interface operations {
     accounting_get_miscellaneous_operation: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13441,6 +14329,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13458,7 +14350,7 @@ export interface operations {
     accounting_match_entries: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13487,6 +14379,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Entry 'x' doesn't have the correct status.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13496,6 +14392,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Entry 'x' doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13513,7 +14413,7 @@ export interface operations {
     accounting_match_entries_multiple: {
         parameters: {
             query?: {
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13542,6 +14442,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Entry 'x' doesn't have the correct status.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13551,6 +14455,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Entry 'x' doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13568,8 +14476,8 @@ export interface operations {
     accounting_add_attachment: {
         parameters: {
             query?: {
-                folder_id?: string;
-                overwrite_existing?: components['schemas']['BoolParam'];
+                folder_id?: string | null;
+                overwrite_existing?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -13597,6 +14505,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "An attachment already exists for this invoice.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13606,6 +14518,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The invoice doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13623,10 +14539,12 @@ export interface operations {
     accounting_get_attachments: {
         parameters: {
             query: {
-                folder_id?: string;
+                folder_id?: string | null;
                 type: components['schemas']['DocumentType'];
                 document_id: string;
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -13652,6 +14570,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13669,10 +14591,13 @@ export interface operations {
     accounting_get_chart_of_accounts: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
-                classes?: string;
+                folder_id?: string | null;
+                classes?: string | null;
+                type?: components['schemas']['AccountTypeFilter'] | null;
             };
             header?: never;
             path: {
@@ -13697,6 +14622,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13714,9 +14643,11 @@ export interface operations {
     accounting_get_accounts_balances: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13745,6 +14676,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13762,9 +14697,11 @@ export interface operations {
     accounting_get_employees: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
             };
             header?: never;
             path: {
@@ -13789,6 +14726,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13806,9 +14747,8 @@ export interface operations {
     accounting_create_financial_entry: {
         parameters: {
             query?: {
-                folder_id?: string;
-                financial_counterpart_account?: string;
-                force_currency_exchange?: components['schemas']['BoolParam'];
+                folder_id?: string | null;
+                financial_counterpart_account?: string | null;
             };
             header?: never;
             path: {
@@ -13837,6 +14777,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The account 'x' cannot be used for this type of line.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13846,6 +14790,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13863,9 +14811,8 @@ export interface operations {
     accounting_create_financial_entries: {
         parameters: {
             query?: {
-                folder_id?: string;
-                financial_counterpart_account?: string;
-                force_currency_exchange?: components['schemas']['BoolParam'];
+                folder_id?: string | null;
+                financial_counterpart_account?: string | null;
             };
             header?: never;
             path: {
@@ -13894,6 +14841,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The account 'x' cannot be used for this type of line.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13903,6 +14854,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13920,9 +14875,11 @@ export interface operations {
     accounting_get_outstandings: {
         parameters: {
             query: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                folder_id?: string;
+                folder_id?: string | null;
                 type: components['schemas']['OutstandingType'];
                 unposted_allowed: components['schemas']['BoolParam'];
             };
@@ -13949,6 +14906,58 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_export_fec: {
+        parameters: {
+            query: {
+                folder_id?: string | null;
+                date_from: string;
+                date_to: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['FECItemOut'][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -13965,13 +14974,16 @@ export interface operations {
     };
     pos_get_orders: {
         parameters: {
-            query: {
+            query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                date_from: string;
-                date_to: string;
-                location_id?: string;
+                date_from?: string | null;
+                date_to?: string | null;
+                location_id?: string | null;
                 state?: components['schemas']['States'];
+                closure_id?: string | null;
             };
             header?: never;
             path: {
@@ -13996,6 +15008,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14005,6 +15021,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14023,6 +15043,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14055,6 +15079,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14064,6 +15092,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The order with id {OrderId} could not be found",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14073,6 +15105,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14091,6 +15127,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14127,6 +15167,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14136,6 +15180,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14154,6 +15202,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14162,7 +15214,9 @@ export interface operations {
     pos_get_locations: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -14188,6 +15242,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14197,6 +15255,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14215,6 +15277,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14223,7 +15289,9 @@ export interface operations {
     pos_get_payments: {
         parameters: {
             query: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
                 date_from: string;
                 date_to: string;
@@ -14251,6 +15319,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14260,6 +15332,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14278,6 +15354,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14288,7 +15368,7 @@ export interface operations {
             query: {
                 date_from: string;
                 date_to: string;
-                location_id?: string;
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -14313,6 +15393,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14322,6 +15406,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14340,6 +15428,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14348,9 +15440,11 @@ export interface operations {
     pos_get_payments_methods: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                location_id?: string;
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -14375,6 +15469,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14384,6 +15482,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14402,6 +15504,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14410,11 +15516,13 @@ export interface operations {
     pos_get_customers: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                search?: string;
-                email?: string;
-                phone?: string;
+                search?: string | null;
+                email?: string | null;
+                phone?: string | null;
             };
             header?: never;
             path: {
@@ -14439,6 +15547,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14448,6 +15560,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14466,6 +15582,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14501,6 +15621,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14510,6 +15634,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14528,6 +15656,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14560,6 +15692,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14569,6 +15705,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The customer with id {CustomerId} could not be found",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14578,6 +15718,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14596,6 +15740,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14604,9 +15752,11 @@ export interface operations {
     pos_get_product_categories: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                location_id?: string;
+                location_id?: string | null;
                 only_parents?: components['schemas']['BoolParam'];
             };
             header?: never;
@@ -14632,6 +15782,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14641,6 +15795,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14659,6 +15817,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14667,9 +15829,11 @@ export interface operations {
     pos_get_products: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                location_id?: string;
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -14694,6 +15858,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14703,6 +15871,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14721,6 +15893,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14729,9 +15905,11 @@ export interface operations {
     pos_get_accounting_categories: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                location_id?: string;
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -14756,6 +15934,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14765,6 +15947,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14783,6 +15969,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14791,7 +15981,7 @@ export interface operations {
     pos_get_closure: {
         parameters: {
             query?: {
-                location_id?: string;
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -14817,6 +16007,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14826,6 +16020,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14844,6 +16042,85 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    pos_get_objectives: {
+        parameters: {
+            query: {
+                page?: number;
+                size?: number;
+                date_from: string;
+                date_to: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ObjectivesItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14852,7 +16129,9 @@ export interface operations {
     ecommerce_get_customers: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -14878,6 +16157,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14919,6 +16202,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14928,6 +16215,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The customer doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -14945,7 +16236,9 @@ export interface operations {
     ecommerce_get_products: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -14971,6 +16264,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15003,7 +16300,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['backbone_common__models__commerce__common__ProductItem'];
+                    'application/json': components['schemas']['ProductItem-Output'];
                 };
             };
             /** @description Bad Request */
@@ -15012,6 +16309,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15021,6 +16322,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The product doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15062,6 +16367,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15071,6 +16380,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The variant doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15116,6 +16429,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15125,6 +16442,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The location doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15142,7 +16463,9 @@ export interface operations {
     ecommerce_get_locations: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -15168,6 +16491,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15185,14 +16512,16 @@ export interface operations {
     ecommerce_get_orders: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                date_from?: string;
-                date_to?: string;
-                updated_after?: string;
-                include_detailed_refunds?: components['schemas']['BoolParam'];
-                include_product_categories?: components['schemas']['BoolParam'];
-                include_customer_details?: components['schemas']['BoolParam'];
+                date_from?: string | null;
+                date_to?: string | null;
+                updated_after?: string | null;
+                include_detailed_refunds?: components['schemas']['BoolParam'] | null;
+                include_product_categories?: components['schemas']['BoolParam'] | null;
+                include_customer_details?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -15217,6 +16546,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The date format of the field 'Date To' is not valid. The expected format is the following: YYYY-MM-DD.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15261,6 +16594,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The country format is not correct. Please use the ISO 3166-1 codes.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15270,6 +16607,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The phone number is already used by another client.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15278,9 +16619,7 @@ export interface operations {
     ecommerce_get_order: {
         parameters: {
             query?: {
-                page?: number;
-                size?: number;
-                include_product_categories?: components['schemas']['BoolParam'];
+                include_product_categories?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -15306,6 +16645,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15315,6 +16658,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The order doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15332,7 +16679,9 @@ export interface operations {
     ecommerce_get_payments_methods: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -15358,6 +16707,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15375,7 +16728,9 @@ export interface operations {
     ecommerce_get_product_categories: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
                 only_parents?: components['schemas']['BoolParam'];
             };
@@ -15402,6 +16757,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15419,7 +16778,9 @@ export interface operations {
     ecommerce_get_taxes: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -15445,6 +16806,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15462,7 +16827,9 @@ export interface operations {
     ecommerce_get_countries: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -15488,6 +16855,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15505,14 +16876,18 @@ export interface operations {
     invoicing_get_invoices: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                date_from?: string;
-                date_to?: string;
-                invoice_type?: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
-                payment_status?: components['schemas']['backbone_common__models__common__PaymentStatus'];
-                updated_after?: string;
-                include_invoice_lines?: components['schemas']['BoolParam'];
+                date_from?: string | null;
+                date_to?: string | null;
+                invoice_type?:
+                    | components['schemas']['backbone_common__models__invoicing__common__InvoiceType']
+                    | null;
+                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
+                updated_after?: string | null;
+                include_invoice_lines?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -15537,6 +16912,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "You must provide an invoice type.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15562,7 +16941,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['backbone_common__models__invoicing__common__InvoiceItem'];
+                'application/json': components['schemas']['InvoiceItem-Input'];
             };
         };
         responses: {
@@ -15581,6 +16960,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15598,7 +16981,7 @@ export interface operations {
     invoicing_get_invoice: {
         parameters: {
             query?: {
-                include_pdf?: components['schemas']['BoolParam'];
+                include_pdf?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
             path: {
@@ -15624,6 +17007,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15633,6 +17020,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The invoice doesn't exist in the invoicing system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15650,7 +17041,9 @@ export interface operations {
     invoicing_get_taxes: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -15676,6 +17069,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15717,6 +17114,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15726,6 +17127,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The tax doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15743,7 +17148,9 @@ export interface operations {
     invoicing_get_products: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -15769,6 +17176,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15794,7 +17205,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['backbone_common__models__invoicing__common__ProductItem'];
+                'application/json': components['schemas']['ProductItem-Input'];
             };
         };
         responses: {
@@ -15813,6 +17224,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15854,6 +17269,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15863,6 +17282,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The product doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15880,7 +17303,9 @@ export interface operations {
     invoicing_get_opportunities: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -15906,6 +17331,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15947,6 +17376,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15956,6 +17389,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The opportunity doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15973,7 +17410,9 @@ export interface operations {
     invoicing_get_contacts: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
                 contact_type?: components['schemas']['ContactType'];
             };
@@ -16000,6 +17439,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16044,6 +17487,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16085,6 +17532,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16094,6 +17545,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The contact doesn't exist.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16111,10 +17566,12 @@ export interface operations {
     invoicing_get_payments: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                date_from?: string;
-                date_to?: string;
+                date_from?: string | null;
+                date_to?: string | null;
             };
             header?: never;
             path: {
@@ -16139,6 +17596,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16156,7 +17617,9 @@ export interface operations {
     invoicing_get_payments_methods: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -16182,6 +17645,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16199,7 +17666,9 @@ export interface operations {
     banking_get_financial_institutions: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -16225,6 +17694,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16242,7 +17715,9 @@ export interface operations {
     banking_get_accounts: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -16268,6 +17743,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16285,11 +17764,13 @@ export interface operations {
     banking_get_account_transactions: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                date_from?: string;
-                date_to?: string;
-                date_type?: components['schemas']['TransactionFilterDateType'];
+                date_from?: string | null;
+                date_to?: string | null;
+                date_type?: components['schemas']['TransactionFilterDateType'] | null;
             };
             header?: never;
             path: {
@@ -16315,6 +17796,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16332,11 +17817,13 @@ export interface operations {
     banking_get_account_counterparts: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                account_id?: string;
-                date_from?: string;
-                date_to?: string;
+                account_id?: string | null;
+                date_from?: string | null;
+                date_to?: string | null;
             };
             header?: never;
             path: {
@@ -16361,6 +17848,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16378,7 +17869,9 @@ export interface operations {
     payment_get_balances: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -16404,6 +17897,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16421,13 +17918,15 @@ export interface operations {
     payment_get_transaction: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                accounting_category?: components['schemas']['TransactionAccountingCategory'];
-                starting_from?: string;
-                balance_id?: string;
-                date_from?: string;
-                date_to?: string;
+                accounting_category?: components['schemas']['TransactionAccountingCategory'] | null;
+                starting_from?: string | null;
+                balance_id?: string | null;
+                date_from?: string | null;
+                date_to?: string | null;
             };
             header?: never;
             path: {
@@ -16452,6 +17951,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "You must provide an transaction type.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16469,10 +17972,12 @@ export interface operations {
     payment_get_payments: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                date_from?: string;
-                date_to?: string;
+                date_from?: string | null;
+                date_to?: string | null;
             };
             header?: never;
             path: {
@@ -16497,6 +18002,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16538,6 +18047,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16547,6 +18060,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The payment doesn't exist in the system.",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16564,11 +18081,13 @@ export interface operations {
     payment_get_refunds: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                payment_id?: string;
-                date_from?: string;
-                date_to?: string;
+                payment_id?: string | null;
+                date_from?: string | null;
+                date_to?: string | null;
             };
             header?: never;
             path: {
@@ -16593,6 +18112,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16610,11 +18133,13 @@ export interface operations {
     pms_get_orders: {
         parameters: {
             query: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
                 date_from: string;
                 date_to: string;
-                location_id?: string;
+                location_id?: string | null;
                 state?: components['schemas']['PMSStates'];
             };
             header?: never;
@@ -16640,6 +18165,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16649,6 +18178,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16667,6 +18200,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16675,11 +18212,13 @@ export interface operations {
     pms_get_invoices: {
         parameters: {
             query: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
                 date_from: string;
                 date_to: string;
-                location_id?: string;
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -16704,6 +18243,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16713,6 +18256,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16731,6 +18278,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16739,7 +18290,9 @@ export interface operations {
     pms_get_customers: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -16765,6 +18318,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16774,6 +18331,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16792,6 +18353,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16824,6 +18389,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16833,6 +18402,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The customer with id {CustomerId} could not be found",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16842,6 +18415,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16860,6 +18437,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16868,7 +18449,9 @@ export interface operations {
     pms_get_locations: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -16894,6 +18477,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16903,6 +18490,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16921,6 +18512,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16929,7 +18524,9 @@ export interface operations {
     pms_get_payments: {
         parameters: {
             query: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
                 date_from: string;
                 date_to: string;
@@ -16957,6 +18554,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16966,6 +18567,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16984,6 +18589,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16992,9 +18601,11 @@ export interface operations {
     pms_get_payments_methods: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
-                location_id?: string;
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -17019,6 +18630,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17028,6 +18643,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17046,6 +18665,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17054,7 +18677,9 @@ export interface operations {
     pms_get_accounting_categories: {
         parameters: {
             query?: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
             };
             header?: never;
@@ -17080,6 +18705,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17089,6 +18718,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17107,6 +18740,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17115,7 +18752,7 @@ export interface operations {
     pms_get_closure: {
         parameters: {
             query?: {
-                location_id?: string;
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -17141,6 +18778,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17150,6 +18791,10 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17168,6 +18813,85 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    pms_get_taxes: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PMSTaxRateItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     } */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };

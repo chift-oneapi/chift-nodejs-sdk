@@ -1,5 +1,5 @@
 import { operations, components } from '../types/public-api/schema';
-import { AutoPaginatedParams, RequestData } from '../types/api';
+import { AutoPaginatedParams, RequestData, RawDataOption } from '../types/api';
 
 type GetBalancesParams = AutoPaginatedParams<
     operations['payment_get_balances']['parameters']['query']
@@ -15,43 +15,59 @@ type GetRefundsParams = AutoPaginatedParams<
 >;
 
 const paymentFactory = {
-    getPayments(params: GetPaymentsParams): RequestData<components['schemas']['PaymentItemOut'][]> {
+    getPayments(
+        params: GetPaymentsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['PaymentItemOut'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/payments`,
+            rawData: options?.rawData,
         };
     },
-    getBalances(params: GetBalancesParams): RequestData<components['schemas']['BalanceItemOut'][]> {
+    getBalances(
+        params: GetBalancesParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['BalanceItemOut'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/balances`,
+            rawData: options?.rawData,
         };
     },
     getTransactions(
-        params: GetTransactionsParams
+        params: GetTransactionsParams,
+        options?: RawDataOption
     ): RequestData<components['schemas']['TransactionItemOut'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/transactions`,
+            rawData: options?.rawData,
         };
     },
     getPayment(
-        params: operations['payment_get_payment']['parameters']['path']
+        params: operations['payment_get_payment']['parameters']['path'],
+        options?: RawDataOption
     ): RequestData<components['schemas']['PaymentItemOut']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/payments/{payment_id}`,
+            rawData: options?.rawData,
         };
     },
-    getRefunds(params: GetRefundsParams): RequestData<components['schemas']['RefundItemOut'][]> {
+    getRefunds(
+        params: GetRefundsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['RefundItemOut'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/refunds`,
+            rawData: options?.rawData,
         };
     },
 };

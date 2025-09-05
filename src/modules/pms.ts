@@ -19,70 +19,89 @@ type GetCustomersParams = AutoPaginatedParams<
 type GetInvoicesParams = AutoPaginatedParams<operations['pms_get_invoices']['parameters']['query']>;
 
 const pmsFactory = {
-    getLocations(): RequestData<components['schemas']['PMSLocationItem'][]> {
+    getLocations(rawData?: boolean): RequestData<components['schemas']['PMSLocationItem'][]> {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/pms/locations',
+            rawData,
         };
     },
-    getOrders(params: GetOrdersParams): RequestData<components['schemas']['PMSOrderItem'][]> {
+    getOrders(
+        params: GetOrdersParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['PMSOrderItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/pms/orders',
+            rawData,
         };
     },
     getPaymentMethods(
-        params?: GetPaymentMethodsParams
+        params?: GetPaymentMethodsParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['PMSPaymentMethods'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pms/payment-methods`,
+            rawData,
         };
     },
     getClosure(
         date: string,
-        params?: operations['pms_get_closure']['parameters']['query']
+        params?: operations['pms_get_closure']['parameters']['query'],
+        rawData?: boolean
     ): RequestData<components['schemas']['PMSClosureItem']> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pms/closures/${date}`,
+            rawData,
         };
     },
-    getPayments(params: GetPaymentsParams): RequestData<components['schemas']['PMSPaymentItem'][]> {
+    getPayments(
+        params: GetPaymentsParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['PMSPaymentItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pms/payments`,
+            rawData,
         };
     },
     getAccountingCategories(
-        params?: GetAccountingCategoriesParams
+        params?: GetAccountingCategoriesParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['PMSAccountingCategoryItem'][]> {
         return {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pms/accounting-categories`,
+            rawData,
         };
     },
     getCustomers(
-        params?: GetCustomersParams
+        params?: GetCustomersParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['PMSCustomerItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/pms/customers',
+            rawData,
         };
     },
     getInvoices(
-        params?: GetInvoicesParams
+        params?: GetInvoicesParams,
+        rawData?: boolean
     ): RequestData<components['schemas']['PMSInvoiceFullItem'][]> {
         return {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/pms/invoices',
+            rawData,
         };
     },
 };

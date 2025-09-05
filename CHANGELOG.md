@@ -169,3 +169,14 @@
 -   Add createLedgerAccount
 -   Add getJournalEntry
 -   Improve tests typing
+
+## 1.0.24 - 2025-06-26
+-   Add support for `x-chift-client-requestid` header for idempotency on create/update requests
+-   Add `clientRequestId` parameter to create and update methods across all modules (accounting, ecommerce, invoicing, pos)
+-   Fix `invoicing.getInvoiceById()` return type to include `pdf` field when `include_pdf: 'true'` parameter is used
+-   Add support for `x-chift-raw-data` header to get raw data from the API
+-   Add `rawData` parameter to key methods: `getInvoicesByType()`, `getInvoice()`, `getOrders()`, `getOrder()`, `getAccountTransactions()`
+-   Add banking module with comprehensive operations: getFinancialInstitutions, getAccounts, getAccountTransactions, getAccountCounterparts
+-   Add 2 new create operations: createBankAccount, createJournal
+-   Expand operation mappings from ~20 to 150+ operations
+-   Fix schema type references for updated OpenAPI schema
