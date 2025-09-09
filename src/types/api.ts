@@ -4,6 +4,7 @@ export interface AuthType {
     accountId: string;
     envId?: string;
     baseUrl?: string;
+    marketplaceId?: string;
 }
 
 export interface TokenType {

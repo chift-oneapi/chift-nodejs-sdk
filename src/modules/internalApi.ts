@@ -84,6 +84,9 @@ class InternalAPI {
                 clientSecret: this.auth.clientSecret,
                 accountId: this.auth.accountId,
             };
+            if (this.auth.marketplaceId) {
+                tokenData['marketplaceId'] = this.auth.marketplaceId;
+            }
             if (this.auth.envId) {
                 tokenData['envId'] = this.auth.envId;
             }
