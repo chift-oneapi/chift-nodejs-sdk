@@ -655,9 +655,8 @@ test('createFinancialEntryOld', async () => {
         currency_exchange_rate: 1,
         items: [
             {
-                type: 'customer_account',
-                account_number: clients[0].account_number,
-                partner_id: clients[0].id,
+                account_type: 'customer_account',
+                account: clients[0].account_number,
                 amount: 10,
             },
         ],
@@ -706,6 +705,7 @@ test('createLedgerAccount', async () => {
     const body: components['schemas']['LedgerAccountItemIn'] = {
         name: 'sdk test',
         number: '1324',
+        type: 'other',
     };
     const ledgerAccount = await consumer.accounting.createLedgerAccount(body);
     expect(ledgerAccount).toBeTruthy();
