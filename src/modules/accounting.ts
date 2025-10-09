@@ -533,17 +533,18 @@ const accountingFactory = {
         };
     },
     /**
-     * @deprecated replaced by createFinancialEntry
+     * @deprecated Use createFinancialEntry instead. This method is kept for backward compatibility.
      */
     createFinancialEntryOld(
-        financial_entry: components['schemas']['FinancialEntryItemInOld'],
-        params?: operations['accounting_create_financial_entry']['parameters']['query'],
+        financial_entry: components['schemas']['FinancialEntryItemIn'],
+        params?: operations['accounting_create_financial_entries']['parameters']['query'],
         options?: ClientRequestOption
-    ): RequestData<components['schemas']['FinancialEntryItemOutOld']> {
+    ): RequestData<components['schemas']['FinancialEntryItemOut']> {
+        console.warn('createFinancialEntryOld is deprecated. Use createFinancialEntry instead.');
         return {
             params,
             method: 'post',
-            url: '/consumers/{consumer_id}/accounting/financial-entry',
+            url: '/consumers/{consumer_id}/accounting/financial-entries',
             body: financial_entry,
             clientRequestId: options?.clientRequestId,
         };
@@ -561,13 +562,17 @@ const accountingFactory = {
             clientRequestId: options?.clientRequestId,
         };
     },
+    /**
+     * @deprecated Use createJournalEntry instead. This method is kept for backward compatibility.
+     */
     createJournalEntryOld(
-        journal_entry: components['schemas']['JournalEntryIn'],
+        journal_entry: components['schemas']['GenericJournalEntry'],
         options?: ClientRequestOption
     ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
+        console.warn('createJournalEntryOld is deprecated. Use createJournalEntry instead.');
         return {
             method: 'post',
-            url: '/consumers/{consumer_id}/accounting/journal/entries',
+            url: '/consumers/{consumer_id}/accounting/journal-entries',
             body: journal_entry,
             clientRequestId: options?.clientRequestId,
         };
@@ -605,6 +610,19 @@ const accountingFactory = {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/matching-multiple',
             body,
+        };
+    },
+    createExpense(
+        expense: components['schemas']['ExpenseItemIn'],
+        params?: operations['accounting_create_expense']['parameters']['query'],
+        options?: ClientRequestOption
+    ): RequestData<components['schemas']['ExpenseItemOut']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/expense',
+            body: expense,
+            clientRequestId: options?.clientRequestId,
         };
     },
     getFolders(options?: RawDataOption): RequestData<components['schemas']['FolderItem'][]> {
