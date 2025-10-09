@@ -171,6 +171,7 @@
 -   Improve tests typing
 
 ## 1.0.24 - 2025-06-26
+
 -   Add support for `x-chift-client-requestid` header for idempotency on create/update requests
 -   Add `clientRequestId` parameter to create and update methods across all modules (accounting, ecommerce, invoicing, pos)
 -   Fix `invoicing.getInvoiceById()` return type to include `pdf` field when `include_pdf: 'true'` parameter is used
@@ -180,3 +181,42 @@
 -   Add 2 new create operations: createBankAccount, createJournal
 -   Expand operation mappings from ~20 to 150+ operations
 -   Fix schema type references for updated OpenAPI schema
+
+## 1.0.25 - 2025-01-09
+
+### Security
+
+-   **BREAKING**: Remove `coveralls` dependency to fix critical security vulnerabilities
+-   Fix 4 security vulnerabilities (2 critical, 2 moderate) in dependencies
+
+### Invoicing
+
+-   Add `getBankAccounts()` method to retrieve bank accounts with pagination
+-   Add `getBankTransactions()` method to retrieve bank transactions with filtering by account, date range, and status
+-   Enhanced existing methods with new parameters: `include_invoice_lines`, `include_partner_info`, `include_payments`
+-   Enhanced `getInvoiceById()` with `include_pdf` parameter support
+
+### Accounting
+
+-   Add `createExpense()` method for creating employee expenses
+
+### POS
+
+-   Add `getObjectives()` method to retrieve sales objectives with pagination and date filtering
+
+### Ecommerce
+
+-   Enhanced `getProducts()` method with new parameters: `updated_after`, `sku` for better filtering
+
+### Schema Updates
+
+-   Update to latest OpenAPI schema with comprehensive documentation improvements
+-   Add extensive `@example` annotations for better developer experience
+-   Enhanced field descriptions across all modules
+-   Add new schemas: `InvoicingBankAccountItem`, `InvoicingBankTransactionItem`, `ExpenseItemIn`, `ExpenseItemOut`
+-   Add new endpoints: `invoicing_get_bank_accounts`, `invoicing_get_bank_transactions`, `accounting_create_expense`, `pos_get_objectives`
+
+### Dependencies
+
+-   Remove vulnerable `coveralls@3.1.1` package
+-   All security vulnerabilities resolved (0 vulnerabilities found)
