@@ -126,7 +126,7 @@ class InternalAPI {
             let currentPage = 0;
             while (continuePagination) {
                 currentPage++;
-                let params = requestData.params || {};
+                let params: Record<string, any> = (requestData.params as Record<string, any>) || {};
                 if (requestData.method === 'get') {
                     params = {
                         ...params,
