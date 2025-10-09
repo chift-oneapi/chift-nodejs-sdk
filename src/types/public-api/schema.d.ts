@@ -24,6 +24,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/mcp-token': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get MCP token
+         * @description This endpoint allows you to get an access token for the MCP server. This token is always linked with a consumer_id.
+         */
+        post: operations['generate_mcp_token_mcp_token_post'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers': {
         parameters: {
             query?: never;
@@ -48,7 +68,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumerid}': {
+    '/consumers/{consumer_id}': {
         parameters: {
             query?: never;
             header?: never;
@@ -76,7 +96,7 @@ export interface paths {
         patch: operations['consumers_update_consumer'];
         trace?: never;
     };
-    '/consumers/{consumerid}/connections': {
+    '/consumers/{consumer_id}/connections': {
         parameters: {
             query?: never;
             header?: never;
@@ -100,7 +120,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumerid}/connections/{connectionid}': {
+    '/consumers/{consumer_id}/connections/{connectionid}': {
         parameters: {
             query?: never;
             header?: never;
@@ -274,11 +294,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /**
-         * Update existing sync
-         * @description Update existing sync & related flows and mappings
-         */
-        patch: operations['syncs_update_sync'];
+        patch?: never;
         trace?: never;
     };
     '/syncs/{syncid}': {
@@ -321,7 +337,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/executions': {
+    '/consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/executions': {
         parameters: {
             query?: never;
             header?: never;
@@ -361,7 +377,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumerid}/syncs': {
+    '/consumers/{consumer_id}/syncs': {
         parameters: {
             query?: never;
             header?: never;
@@ -381,7 +397,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumerid}/syncs/{syncid}': {
+    '/consumers/{consumer_id}/syncs/{syncid}': {
         parameters: {
             query?: never;
             header?: never;
@@ -405,7 +421,7 @@ export interface paths {
         patch: operations['syncs_update_synctoconsumer'];
         trace?: never;
     };
-    '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/enable': {
+    '/consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/enable': {
         parameters: {
             query?: never;
             header?: never;
@@ -425,7 +441,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}': {
+    '/consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}': {
         parameters: {
             query?: never;
             header?: never;
@@ -465,7 +481,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumerid}/datastore/{datastoreid}/data': {
+    '/consumers/{consumer_id}/datastore/{datastoreid}/data': {
         parameters: {
             query?: never;
             header?: never;
@@ -489,7 +505,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumerid}/datastore/{datastoreid}/data/{datastoredataid}': {
+    '/consumers/{consumer_id}/datastore/{datastoreid}/data/{datastoredataid}': {
         parameters: {
             query?: never;
             header?: never;
@@ -545,6 +561,26 @@ export interface paths {
          * @description Returns a list of the issues linked to specific consumer. Filters can be used to query specific results. Filters can be combined and are inclusive.
          */
         get: operations['issues_get_issues_by_consumer_id'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/issues/{issue_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get details about one issue
+         * @description Returns one specific issue. This includes as well the list of events for this issue.
+         */
+        get: operations['issues_get_issue'];
         put?: never;
         post?: never;
         delete?: never;
@@ -985,11 +1021,7 @@ export interface paths {
          */
         get: operations['accounting_get_journal_entries'];
         put?: never;
-        /**
-         * Create Journal Entry [Deprecated]
-         * @description Create a new Journal Entry in the accounting system
-         */
-        post: operations['accounting_create_journal_entry'];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1320,26 +1352,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumer_id}/accounting/financial-entry': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Create a financial entry [Deprecated]
-         * @description Create a new financial entry (Bank or Cash operation)
-         */
-        post: operations['accounting_create_financial_entry'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/consumers/{consumer_id}/accounting/financial-entries': {
         parameters: {
             query?: never;
@@ -1354,6 +1366,26 @@ export interface paths {
          * @description Create a new financial entry (Bank or Cash operation)
          */
         post: operations['accounting_create_financial_entries'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/expenses': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create an expense
+         * @description Create a new employee expense
+         */
+        post: operations['accounting_create_expense'];
         delete?: never;
         options?: never;
         head?: never;
@@ -2152,7 +2184,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Retrieve all payments
+         * Retrieve all payments (invoicing)
          * @description Returns a list of payments
          */
         get: operations['invoicing_get_payments'];
@@ -2176,6 +2208,46 @@ export interface paths {
          * @description Returns the list of payment methods
          */
         get: operations['invoicing_get_payments_methods'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/invoicing/bank-accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all Bank Accounts
+         * @description Returns the list of bank accounts
+         */
+        get: operations['invoicing_get_bank_accounts'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/invoicing/bank-transactions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all Bank Transactions
+         * @description Returns the list of bank transactions
+         */
+        get: operations['invoicing_get_bank_transactions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -2272,7 +2344,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Retrieve all Balances
+         * Retrieve all balances
          * @description Returns a list of balances.
          */
         get: operations['payment_get_balances'];
@@ -2292,7 +2364,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Retrieve all Transactions
+         * Retrieve all transactions
          * @description Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date
          */
         get: operations['payment_get_transaction'];
@@ -2312,7 +2384,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Retrieve all Payments
+         * Retrieve all payments
          * @description Returns a list of payments.
          */
         get: operations['payment_get_payments'];
@@ -2332,7 +2404,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get a Payment
+         * Get a payment
          * @description Returns a specific payment.
          */
         get: operations['payment_get_payment'];
@@ -2352,7 +2424,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Retrieve all Refunds
+         * Retrieve all refunds
          * @description Returns a list of refunds.
          */
         get: operations['payment_get_refunds'];
@@ -2572,12 +2644,12 @@ export interface components {
         AccountBalance: {
             /**
              * Account Number
-             * @description Number of the account
+             * @description Ledger account number in the chart of accounts
              */
             account_number: string;
             /**
              * Account Name
-             * @description Display name of the account
+             * @description Display name of the ledger account
              */
             account_name?: string | null;
             /**
@@ -2602,7 +2674,10 @@ export interface components {
              * @description Credit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.
              */
             period_credit: number;
-            /** Period Balance */
+            /**
+             * Period Balance
+             * @description Balance at end date beginning from the given start date.
+             */
             period_balance: number;
         };
         /** AccountBalanceFilter */
@@ -2614,26 +2689,34 @@ export interface components {
             accounts: string[];
             /**
              * Start
-             * @description Start month (included, e.g. 202302 for february 2023)
+             * @description Start month (inclusive). Format: YYYYMM (e.g., 202502 for February 2025).
              */
             start?: string | null;
             /**
              * End
-             * @description End month (included, e.g. 202312 for december 2023)
+             * @description End month (inclusive). Format: YYYYMM (e.g., 202512 for December 2025).
              */
             end: string;
         };
         /** AccountItem */
         AccountItem: {
-            /** Number */
+            /**
+             * Number
+             * @description The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général).
+             */
             number: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name or label of the account as it appears in the accounting system. This is typically used for internal referencing and identification of the account.
+             */
             name: string;
             /**
              * Active
+             * @description Flag indicating whether the account is active. If True, the account is active and can be used in transactions. If False, the account is inactive and cannot be used for transactions.
              * @default true
              */
             active: boolean | null;
+            /** @description Represents the functional type of the ledger account, used to support common accounting operations such as payments, invoicing, tax handling, and reporting. The type here is more operational and aligned with how accounts are actually used in day-to-day processes (e.g., tracking receivables, recording VAT, handling bank transactions)  */
             type?: components['schemas']['AccountItemType'] | null;
         };
         /**
@@ -2667,92 +2750,133 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the accounting category
+             * @example 371ca583-d218-4900-b236-397532cf0e2
              */
             id: string;
             /**
              * Name
              * @description Name given to the accounting category
+             * @example Beverages
              */
             name: string;
             /**
              * Code
              * @description Code assigned to the category
+             * @example 123456
              */
             code?: string | null;
             /**
              * Ledger Account Code
              * @description Ledger account code assigned to the category
+             * @example 123456
              */
             ledger_account_code?: string | null;
             /**
              * Posting Account Code
              * @description Posting account code assigned to the category
+             * @example 123456
              */
             posting_account_code?: string | null;
         };
         /** AccountingVatCode */
         AccountingVatCode: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the VAT Code instance in the accounting system.
+             */
             id: string;
-            /** Code */
+            /**
+             * Code
+             * @description Short code (sometimes also used as id) for the VAT code, as defined in the accounting system. This code is typically used for internal referencing, mapping, or selection of VAT codes
+             */
             code?: string | null;
-            /** Label */
+            /**
+             * Label
+             * @description Label of the VAT code as it appears in the accounting system. This is the human-readable name used to identify the VAT code.
+             */
             label: string;
-            /** @default unknown */
+            /**
+             * @description Scope of the VAT code, indicating its applicability. Use 'nat' for VAT codes that apply to local/domestic sales or purchases, 'eu' for cross-border transactions within the EU, and 'int' for transactions with countries outside the EU.
+             * @default unknown
+             */
             scope: components['schemas']['VatCodeScope'] | null;
-            /** Rate */
+            /**
+             * Rate
+             * @description VAT rate associated with the VAT code. This is the percentage rate applied to the amount when this VAT code is used.
+             */
             rate: number;
+            /** @description Type of the VAT code, indicating whether it is a sales tax or purchase tax. This helps in understanding how the VAT code is applied in transactions. */
             type: components['schemas']['VatCodeType'];
-            /** Deductible Account */
+            /**
+             * Deductible Account
+             * @description Ledger account number used for the deductible part of the VAT code. This is typically used for purchase transactions where VAT can be deducted.
+             */
             deductible_account?: string | null;
-            /** Payable Account */
+            /**
+             * Payable Account
+             * @description Ledger account number used for the payable part of the VAT code. This is typically used for sales transactions where VAT is collected from customers.
+             */
             payable_account?: string | null;
             /**
              * Reversed
+             * @description Indicates whether the VAT code is reversed. A reversed VAT code is used in specific scenarios, such as reverse charge mechanisms, where the responsibility for reporting VAT shifts from the seller to the buyer.
              * @default false
              */
             reversed: boolean | null;
+            /**
+             * Country
+             * @description Country of the VAT code. This is the ISO 3166-1 code of the country.
+             */
+            country?: string | null;
         };
         /** AddressItem */
         AddressItem: {
             /**
              * Address Type
              * @description Type of the address
+             * @example home
              */
             address_type?: string | null;
             /**
              * Name
              * @description Name given to the address (e.g. 'home')
+             * @example Home
              */
             name?: string | null;
             /**
              * Street
              * @description Street name
+             * @example Main Street
              */
             street?: string | null;
             /**
              * Number
              * @description Number of the address
+             * @example 123
              */
             number?: string | null;
             /**
              * Box
              * @description Box of the address
+             * @example A
              */
             box?: string | null;
             /**
              * City
              * @description City name
+             * @example Paris
              */
             city?: string | null;
             /**
              * Postal Code
              * @description Postal code of the address
+             * @example 75000
              */
             postal_code?: string | null;
             /**
              * Country
              * @description Country, format: ISO 3166-1 codes.
+             * @example FR
              */
             country?: string | null;
         };
@@ -2851,32 +2975,51 @@ export interface components {
         AnalyticAccountItemIn: {
             /**
              * Active
+             * @description Flag indicating whether the analytic account is active.
              * @default true
              */
             active: boolean | null;
-            /** Code */
+            /**
+             * Code
+             * @description Short code for the analytic account. Often used for internal referencing. May be required to be unique
+             */
             code: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name or label of the analytic account as it appears in the accounting system.
+             */
             name: string;
             /**
              * Currency
-             * @description Indicates the currency of the analytic account (e.g. EUR).
+             * @description Indicates the currency of the analytic account (e.g., EUR, USD).
              */
             currency: string;
         };
         /** AnalyticAccountItemOut */
         AnalyticAccountItemOut: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the analytic account in the accounting system.
+             */
             id: string;
-            /** Active */
+            /**
+             * Active
+             * @description Flag indicating whether the analytic account is active.
+             */
             active: boolean;
-            /** Code */
+            /**
+             * Code
+             * @description Short code for the analytic account. Often used for internal referencing. For some integrations, it may be required to be unique.
+             */
             code?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Name or label of the analytic account as it appears in the accounting system.
+             */
             name: string;
             /**
              * Currency
-             * @description Indicates the currency of the analytic account (e.g. EUR).
+             * @description Indicates the currency of the analytic account (e.g., EUR, USD).
              */
             currency?: string | null;
             /**
@@ -2897,17 +3040,29 @@ export interface components {
         };
         /** AnalyticAccountItemOutMultiAnalyticPlans */
         AnalyticAccountItemOutMultiAnalyticPlans: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the analytic account in the accounting system.
+             */
             id: string;
-            /** Active */
+            /**
+             * Active
+             * @description Flag indicating whether the analytic account is active.
+             */
             active: boolean;
-            /** Code */
+            /**
+             * Code
+             * @description Short code for the analytic account. Often used for internal referencing. For some integrations, it may be required to be unique.
+             */
             code?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Name or label of the analytic account as it appears in the accounting system.
+             */
             name: string;
             /**
              * Currency
-             * @description Indicates the currency of the analytic account (e.g. EUR).
+             * @description Indicates the currency of the analytic account (e.g., EUR, USD).
              */
             currency?: string | null;
             /**
@@ -2932,24 +3087,37 @@ export interface components {
         AnalyticAccountItemUpdate: {
             /**
              * Active
+             * @description Flag indicating whether the analytic account is active.
              * @default true
              */
             active: boolean | null;
-            /** Code */
+            /**
+             * Code
+             * @description Short code for the analytic account. Often used for internal referencing. May be required to be unique
+             */
             code?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Name or label of the analytic account as it appears in the accounting system.
+             */
             name?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the analytic account (e.g. EUR).
+             * @description Indicates the currency of the analytic account (e.g., EUR, USD).
              */
             currency?: string | null;
         };
         /** AnalyticDistribution */
         AnalyticDistribution: {
-            /** Analytic Plan */
+            /**
+             * Analytic Plan
+             * @description Id of the analytic plan to which the distribution applies.
+             */
             analytic_plan: string;
-            /** Analytic Accounts */
+            /**
+             * Analytic Accounts
+             * @description List of analytic accounts and their respective percentages for the distribution.
+             */
             analytic_accounts: components['schemas']['AnalyticDistributionDetail'][];
         };
         /** AnalyticDistributionDetail */
@@ -2958,22 +3126,32 @@ export interface components {
             analytic_account: string;
             /**
              * Percentage
-             * @description Indicates the percentage of the untaxed amount to attribute to the given analytic account (Only percentages without decimals are allowed).
+             * @description Percentage of the untaxed amount attributed to this analytic account. Only whole numbers (no decimals) are allowed. The total across the analytic distribution (all accounts in a given analytic plan) must equal 100%.
              */
             percentage: number;
         };
         /** AnalyticPlanItem */
         AnalyticPlanItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the analytic plan instance in the accounting system.
+             */
             id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name of the analytic plan as it appears in the accounting system.
+             */
             name: string;
             /**
              * Active
+             * @description Indicates if the analytic plan is active.
              * @default true
              */
             active: boolean | null;
-            /** Parent Id */
+            /**
+             * Parent Id
+             * @description Id of the parent analytic plan, if any. This is used to create a hierarchy of analytic plans when that is supported.
+             */
             parent_id?: string | null;
         };
         /**
@@ -3051,7 +3229,7 @@ export interface components {
             code: string;
             /**
              * Currency
-             * @description Currency of the bank account.
+             * @description Currency of the bank account (e.g., EUR, USD).
              */
             currency: string;
             /**
@@ -3086,7 +3264,7 @@ export interface components {
             code?: string | null;
             /**
              * Currency
-             * @description Currency of the bank account.
+             * @description Currency of the bank account (e.g., EUR, USD).
              */
             currency?: string | null;
             /**
@@ -3119,57 +3297,77 @@ export interface components {
              * @description Indicates the ledger account used in the accounting system to represent the bank account. The ledger account is used in all the transactions related to this specific bank account. This ledger account is used to track the balance of the bank account.
              */
             ledger_account?: string | null;
+            /**
+             * Unallocated Account
+             * @description Unallocated ledger account used to book entries when the final ledger account / client / supplier / employee is not yet known (specific to bank and cash journals)
+             */
+            unallocated_account?: string | null;
         };
+        /**
+         * BankTransactionStatus
+         * @enum {string}
+         */
+        BankTransactionStatus: 'draft' | 'done';
         /** BankingAccountItem */
         BankingAccountItem: {
             /**
              * Id
              * @description Unique identifier of the account
+             * @example account-123
              */
             id: string;
             /**
              * Currency
              * @description Currency of the account
+             * @example EUR
              */
             currency: string;
             /**
              * Current Balance
              * @description Current balance of the account
+             * @example 1000
              */
             current_balance: number;
             /**
              * Current Balance Last Update Date
              * @description Last update date of the current balance
+             * @example 2025-01-01T00:00:00Z
              */
             current_balance_last_update_date?: string | null;
             /**
              * Available Balance
              * @description Available balance of the account
+             * @example 1000
              */
             available_balance: number;
             /**
              * Available Balance Last Update Date
              * @description Last update date of the available balance
+             * @example 2025-01-01T00:00:00Z
              */
             available_balance_last_update_date?: string | null;
             /**
              * Description
              * @description Description of the account
+             * @example Chift account
              */
             description: string;
             /**
              * Reference
              * @description Reference of the account
+             * @example FR76300040123456789012345678
              */
             reference: string;
             /**
              * Reference Type
              * @description Type of the reference
+             * @example IBAN
              */
             reference_type: string;
             /**
              * Holder Name
              * @description Name of the account holder
+             * @example John Doe
              */
             holder_name?: string | null;
         };
@@ -3178,16 +3376,19 @@ export interface components {
             /**
              * Name
              * @description Name of the counterpart
+             * @example John Doe
              */
             name?: string | null;
             /**
              * Reference
              * @description Reference of the counterpart
+             * @example FR76300040123456789012345678
              */
             reference?: string | null;
             /**
              * Details
              * @description Details of the counterpart
+             * @example Chift counterpart
              */
             details?: string | null;
         };
@@ -3196,21 +3397,25 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the financial institution
+             * @example financial-institution-123
              */
             id: string;
             /**
              * Bic
              * @description BIC of the financial institution
+             * @example GEBABEBBXXX
              */
             bic?: string | null;
             /**
              * Country
              * @description Country of the financial institution, format: ISO 3166-1 codes.
+             * @example FR
              */
             country?: string | null;
             /**
              * Name
              * @description Name of the financial institution
+             * @example BNP
              */
             name: string;
         };
@@ -3219,77 +3424,96 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the transaction
+             * @example transaction-123
              */
             id: string;
             /**
              * Amount
              * @description Amount of the transaction
+             * @example 1000
              */
             amount: number;
             /**
              * Currency
              * @description Currency of the transaction
+             * @example EUR
              */
             currency: string;
             /**
              * Description
              * @description Description of the transaction
+             * @example Chift transaction
              */
             description?: string | null;
             /**
              * Additional Information
              * @description Additional information of the transaction
+             * @example Chift transaction
              */
             additional_information?: string | null;
             /**
              * Counterpart Name
              * @description Name of the counterpart
+             * @example John Doe
              */
             counterpart_name?: string | null;
             /**
              * Counterpart Reference
              * @description Reference of the counterpart
+             * @example FR76300040123456789012345678
              */
             counterpart_reference?: string | null;
             /**
              * Remittance Information
              * @description Remittance information of the transaction
+             * @example Chift transaction
              */
             remittance_information?: string | null;
             /**
              * Creation Date
              * Format: date-time
              * @description Creation date of the transaction
+             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Value Date
              * Format: date-time
              * @description Value date of the transaction
+             * @example 2025-01-01T00:00:00Z
              */
             value_date: string;
             /**
              * Execution Date
              * Format: date-time
              * @description Execution date of the transaction
+             * @example 2025-01-01T00:00:00Z
              */
             execution_date: string;
         };
         /** BookYear */
         BookYear: {
-            /** Name */
+            /**
+             * Name
+             * @description Name of the book year, typically in the format 'YYYY'.
+             */
             name: string;
             /**
              * Start
              * Format: date
+             * @description Start date of the book year (format: YYYY-MM-DD). This is the date when the book year begins.
              */
             start: string;
             /**
              * End
              * Format: date
+             * @description End date of the book year (format: YYYY-MM-DD). This is the date when the book year ends.
              */
             end: string;
-            /** Closed */
+            /**
+             * Closed
+             * @description Indicates whether the book year is closed. A closed book year normally cannot be modified or have new entries added to it.
+             */
             closed: boolean;
         };
         /**
@@ -3358,7 +3582,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AccountBalance'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3369,7 +3593,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AccountItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3380,7 +3604,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AccountingCategoryItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3391,7 +3615,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AccountingVatCode'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3402,7 +3626,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AnalyticAccountItemOutMultiAnalyticPlans'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3413,7 +3637,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AnalyticAccountItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3424,7 +3648,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AnalyticPlanItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3435,7 +3659,7 @@ export interface components {
             /** Items */
             items: components['schemas']['AttachmentItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3446,7 +3670,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BalanceItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3457,7 +3681,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BankingAccountItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3468,7 +3692,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BankingCounterPartItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3479,7 +3703,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BankingFinancialInstitutionItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3490,7 +3714,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BankingTransactionItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3501,7 +3725,7 @@ export interface components {
             /** Items */
             items: components['schemas']['BookYear'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3512,7 +3736,7 @@ export interface components {
             /** Items */
             items: components['schemas']['CategoryItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3523,7 +3747,7 @@ export interface components {
             /** Items */
             items: components['schemas']['ClientItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3534,7 +3758,7 @@ export interface components {
             /** Items */
             items: components['schemas']['CommerceCustomerItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3545,7 +3769,7 @@ export interface components {
             /** Items */
             items: components['schemas']['CommerceLocationItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3556,7 +3780,7 @@ export interface components {
             /** Items */
             items: components['schemas']['ContactItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3567,7 +3791,7 @@ export interface components {
             /** Items */
             items: components['schemas']['CountryItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3578,7 +3802,7 @@ export interface components {
             /** Items */
             items: components['schemas']['EmployeeItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3589,7 +3813,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoiceItemOutMonoAnalyticPlan'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3600,7 +3824,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoiceItemOutMultiAnalyticPlans'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3611,7 +3835,29 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoiceItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[InvoicingBankAccountItem] */
+        ChiftPage_InvoicingBankAccountItem_: {
+            /** Items */
+            items: components['schemas']['InvoicingBankAccountItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[InvoicingBankTransactionItem] */
+        ChiftPage_InvoicingBankTransactionItem_: {
+            /** Items */
+            items: components['schemas']['InvoicingBankTransactionItem'][];
+            /** Total */
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3622,7 +3868,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoicingPaymentItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3633,7 +3879,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoicingPaymentMethodItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3644,7 +3890,7 @@ export interface components {
             /** Items */
             items: components['schemas']['InvoicingVatCode'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3655,7 +3901,7 @@ export interface components {
             /** Items */
             items: components['schemas']['JournalEntryMonoAnalyticPlan'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3666,7 +3912,7 @@ export interface components {
             /** Items */
             items: components['schemas']['JournalEntryMultiAnalyticPlan'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3677,7 +3923,7 @@ export interface components {
             /** Items */
             items: components['schemas']['Journal'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3688,7 +3934,18 @@ export interface components {
             /** Items */
             items: components['schemas']['MiscellaneousOperationOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[ObjectivesItem] */
+        ChiftPage_ObjectivesItem_: {
+            /** Items */
+            items: components['schemas']['ObjectivesItem'][];
+            /** Total */
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3699,7 +3956,7 @@ export interface components {
             /** Items */
             items: components['schemas']['OpportunityItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3710,7 +3967,7 @@ export interface components {
             /** Items */
             items: components['schemas']['OrderItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3721,7 +3978,7 @@ export interface components {
             /** Items */
             items: components['schemas']['OutstandingItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3732,7 +3989,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSAccountingCategoryItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3743,7 +4000,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSCustomerItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3754,7 +4011,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSInvoiceFullItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3765,7 +4022,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSLocationItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3776,7 +4033,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSOrderItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3787,7 +4044,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSPaymentItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3798,7 +4055,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSPaymentMethods'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3809,7 +4066,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PMSTaxRateItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3820,7 +4077,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSCustomerItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3831,7 +4088,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSLocationItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3842,7 +4099,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSOrderItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3853,7 +4110,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSPaymentItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3864,7 +4121,7 @@ export interface components {
             /** Items */
             items: components['schemas']['POSProductItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3875,7 +4132,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PaymentItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3886,7 +4143,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PaymentMethodItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3897,7 +4154,7 @@ export interface components {
             /** Items */
             items: components['schemas']['PaymentMethods'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3908,7 +4165,7 @@ export interface components {
             /** Items */
             items: components['schemas']['Payment'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3919,7 +4176,7 @@ export interface components {
             /** Items */
             items: components['schemas']['backbone_common__models__pos__common__ProductCategoryItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3930,7 +4187,7 @@ export interface components {
             /** Items */
             items: components['schemas']['ProductItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3941,7 +4198,7 @@ export interface components {
             /** Items */
             items: components['schemas']['ProductItem-Output'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3952,7 +4209,7 @@ export interface components {
             /** Items */
             items: components['schemas']['RefundItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3963,7 +4220,7 @@ export interface components {
             /** Items */
             items: components['schemas']['SupplierItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3974,7 +4231,7 @@ export interface components {
             /** Items */
             items: components['schemas']['TaxRateItem'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3985,7 +4242,7 @@ export interface components {
             /** Items */
             items: components['schemas']['TransactionItemOut'][];
             /** Total */
-            total?: number | null;
+            total: number;
             /** Page */
             page: number;
             /** Size */
@@ -3993,7 +4250,10 @@ export interface components {
         };
         /** ClientItemIn */
         ClientItemIn: {
-            /** External Reference */
+            /**
+             * External Reference
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             */
             external_reference?: string | null;
             /**
              * First Name
@@ -4005,7 +4265,10 @@ export interface components {
              * @description Only used when the client is an individual (is_company=false). Indicates the last name of the client.
              */
             last_name?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Full name or legal name of the client (individual or company). This is the name that will be displayed in the accounting software.
+             */
             name: string;
             /**
              * Function
@@ -4023,26 +4286,44 @@ export interface components {
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
              */
             company_id?: string | null;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the client.
+             */
             phone?: string | null;
-            /** Mobile */
+            /**
+             * Mobile
+             * @description Mobile phone number of the client.
+             */
             mobile?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the client.
+             */
             email?: string | null;
             /**
              * Language
-             * @description Format: ISO 639-1 codes.
+             * @description Language of the client. Format: ISO 639-1 codes.
              */
             language?: string | null;
-            /** Internal Notes */
+            /**
+             * Internal Notes
+             * @description Internal notes about the client.
+             */
             internal_notes?: string | null;
-            /** Website */
+            /**
+             * Website
+             * @description Website of the client.
+             */
             website?: string | null;
-            /** Vat */
+            /**
+             * Vat
+             * @description VAT number of the client, used for tax compliance and invoicing. This value is unique per company and can be used as a reliable identifier to match clients between systems.
+             */
             vat?: string | null;
             /**
              * Iban
-             * @description IBAN Account number of the client.
+             * @description IBAN account number of the client.
              */
             iban?: string | null;
             /**
@@ -4052,22 +4333,32 @@ export interface components {
             bank_account?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the client (e.g. EUR).
+             * @description Indicates the currency of the client (e.g., EUR).
              */
             currency?: string | null;
             /**
              * Active
+             * @description Indicates if the client is active.
              * @default true
              */
             active: boolean | null;
-            /** Addresses */
+            /**
+             * Addresses
+             * @description List of addresses associated with the client.
+             */
             addresses: components['schemas']['backbone_common__models__common__AddressItemIn'][];
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Number of ledger account assigned to the client in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is typically the ledger account used for posting receivables. In some systems, each customer has a dedicated account; in others, a shared control account is used and customer balances are tracked in a subledger.
+             */
             account_number?: string | null;
         };
         /** ClientItemOut */
         ClientItemOut: {
-            /** External Reference */
+            /**
+             * External Reference
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             */
             external_reference?: string | null;
             /**
              * First Name
@@ -4079,7 +4370,10 @@ export interface components {
              * @description Only used when the client is an individual (is_company=false). Indicates the last name of the client.
              */
             last_name?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Full name or legal name of the client (individual or company). This is the name displayed in the accounting software.
+             */
             name?: string | null;
             /**
              * Function
@@ -4097,26 +4391,44 @@ export interface components {
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
              */
             company_id?: string | null;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the client.
+             */
             phone?: string | null;
-            /** Mobile */
+            /**
+             * Mobile
+             * @description Mobile phone number of the client.
+             */
             mobile?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the client.
+             */
             email?: string | null;
             /**
              * Language
-             * @description Format: ISO 639-1 codes.
+             * @description Language of the client. Format: ISO 639-1 codes.
              */
             language?: string | null;
-            /** Internal Notes */
+            /**
+             * Internal Notes
+             * @description Internal notes about the client.
+             */
             internal_notes?: string | null;
-            /** Website */
+            /**
+             * Website
+             * @description Website of the client.
+             */
             website?: string | null;
-            /** Vat */
+            /**
+             * Vat
+             * @description VAT number of the client.
+             */
             vat?: string | null;
             /**
              * Iban
-             * @description IBAN Account number of the client.
+             * @description IBAN account number of the client.
              */
             iban?: string | null;
             /**
@@ -4126,19 +4438,29 @@ export interface components {
             bank_account?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the client (e.g. EUR).
+             * @description Indicates the currency of the client (e.g., EUR).
              */
             currency?: string | null;
             /**
              * Active
+             * @description Indicates if the client is active.
              * @default true
              */
             active: boolean | null;
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Ledger account number assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
+             */
             account_number?: string | null;
-            /** Company Number */
+            /**
+             * Company Number
+             * @description Id of the associated company, used when the record is a contact person linked to a company.
+             */
             company_number?: string | null;
-            /** Id */
+            /**
+             * Id
+             * @description Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.
+             */
             id?: string | null;
             /**
              * Last Updated On
@@ -4147,6 +4469,7 @@ export interface components {
             last_updated_on?: string | null;
             /**
              * Addresses
+             * @description List of addresses associated with the client.
              * @default []
              */
             addresses:
@@ -4155,7 +4478,10 @@ export interface components {
         };
         /** ClientItemUpdate */
         ClientItemUpdate: {
-            /** External Reference */
+            /**
+             * External Reference
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             */
             external_reference?: string | null;
             /**
              * First Name
@@ -4167,7 +4493,10 @@ export interface components {
              * @description Only used when the client is an individual (is_company=false). Indicates the last name of the client.
              */
             last_name?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Full name or legal name of the client (individual or company). This is the name that will be displayed in the accounting software.
+             */
             name?: string | null;
             /**
              * Function
@@ -4185,26 +4514,44 @@ export interface components {
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
              */
             company_id?: string | null;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the client.
+             */
             phone?: string | null;
-            /** Mobile */
+            /**
+             * Mobile
+             * @description Mobile phone number of the client.
+             */
             mobile?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the client.
+             */
             email?: string | null;
             /**
              * Language
-             * @description Format: ISO 639-1 codes.
+             * @description Language of the client. Format: ISO 639-1 codes.
              */
             language?: string | null;
-            /** Internal Notes */
+            /**
+             * Internal Notes
+             * @description Internal notes about the client.
+             */
             internal_notes?: string | null;
-            /** Website */
+            /**
+             * Website
+             * @description Website of the client.
+             */
             website?: string | null;
-            /** Vat */
+            /**
+             * Vat
+             * @description VAT number of the client, used for tax compliance and invoicing. This value is unique per company and can be used as a reliable identifier to match clients between systems.
+             */
             vat?: string | null;
             /**
              * Iban
-             * @description IBAN Account number of the client.
+             * @description IBAN account number of the client.
              */
             iban?: string | null;
             /**
@@ -4214,16 +4561,18 @@ export interface components {
             bank_account?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the client (e.g. EUR).
+             * @description Indicates the currency of the client (e.g., EUR).
              */
             currency?: string | null;
             /**
              * Active
+             * @description Indicates if the client is active.
              * @default true
              */
             active: boolean | null;
             /**
              * Addresses
+             * @description List of addresses associated with the client.
              * @default []
              */
             addresses: components['schemas']['AddressItemOut-Input'][] | null;
@@ -4234,9 +4583,13 @@ export interface components {
              * Date
              * Format: date
              * @description Date of the closure
+             * @example 2025-01-01
              */
             date: string;
-            /** @description Status of the closure */
+            /**
+             * @description Status of the closure
+             * @example closed
+             */
             status: components['schemas']['ClosureStates'];
             /**
              * Closures
@@ -4250,16 +4603,26 @@ export interface components {
             /**
              * Payment Method Id
              * @description Unique identifier of the payment method used for the payment
+             * @example payment_method-1
              */
             payment_method_id?: string | null;
             /**
              * Payment Method Name
              * @description Chift's name of the payment method used for the payment
+             * @example Cash
              */
             payment_method_name?: string | null;
             /**
+             * Tip
+             * @description Total amount of the tips of the payment. Tips are not part of the total of the payment
+             * @default 0
+             * @example 1
+             */
+            tip: number | null;
+            /**
              * Total
              * @description Total amount including tax
+             * @example 11
              */
             total: number;
         };
@@ -4358,15 +4721,28 @@ export interface components {
             /**
              * Consumerid
              * Format: uuid
+             * @description Unique id of the consumer in Chift
              */
             consumerid: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name of the consumer as it will appear in your Chift platform. This name may be used for automated communications, such as automatic mailings if you enable this feature
+             */
             name: string;
-            /** Email */
+            /**
+             * Email
+             * @description Optional - Email address of the consumer. It can be used for sending automated reminders (if the feature is enabled) and deployment by mail of local agent (when on-premise connector).
+             */
             email?: string | null;
-            /** Internal Reference */
+            /**
+             * Internal Reference
+             * @description Your internal reference for the client (e.g., customer ID or unique identifier in your system).
+             */
             internal_reference?: string | null;
-            /** Redirect Url */
+            /**
+             * Redirect Url
+             * @description URL to redirect the user after completing the activation via our link. Useful for directing customers to a dynamic or personalized url. You can also set up a default static URL in Chift's back office for all consumers.
+             */
             redirect_url?: string | null;
         };
         /**
@@ -4654,6 +5030,12 @@ export interface components {
         CreateSyncItem: {
             /** Name */
             name: string;
+            /** Config */
+            config?: {
+                [key: string]: {
+                    [key: string]: unknown;
+                }[];
+            } | null;
             /** Connections */
             connections: components['schemas']['ConnectionItem-Input'][];
             /**
@@ -4680,6 +5062,12 @@ export interface components {
             display_order: number;
             /** Challenge Question */
             challenge_question?: string | null;
+            /** Conditions */
+            conditions?: {
+                [key: string]: {
+                    [key: string]: unknown;
+                };
+            } | null;
             /**
              * Sub Mappings
              * @default []
@@ -4699,6 +5087,12 @@ export interface components {
             display_order: number;
             /** Challenge Question */
             challenge_question?: string | null;
+            /** Conditions */
+            conditions?: {
+                [key: string]: {
+                    [key: string]: unknown;
+                };
+            } | null;
             /**
              * Sub Mappings
              * @default []
@@ -4718,6 +5112,12 @@ export interface components {
             display_order: number;
             /** Challenge Question */
             challenge_question?: string | null;
+            /** Conditions */
+            conditions?: {
+                [key: string]: {
+                    [key: string]: unknown;
+                };
+            } | null;
             source_field: components['schemas']['FieldItem'];
             target_field: components['schemas']['FieldItem'];
             /**
@@ -4743,6 +5143,12 @@ export interface components {
             display_order: number;
             /** Challenge Question */
             challenge_question?: string | null;
+            /** Conditions */
+            conditions?: {
+                [key: string]: {
+                    [key: string]: unknown;
+                };
+            } | null;
             source_field: components['schemas']['FieldItem'];
             target_field: components['schemas']['FieldItem'];
             /**
@@ -4839,30 +5245,61 @@ export interface components {
         DocumentType: 'invoice' | 'entry';
         /** EmployeeItem */
         EmployeeItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the employee in the accounting system.
+             */
             id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Full name or legal name of the employee as it appears in the accounting system.
+             */
             name: string;
-            /** First Name */
+            /**
+             * First Name
+             * @description First name of the employee.
+             */
             first_name?: string | null;
-            /** Last Name */
+            /**
+             * Last Name
+             * @description Last name of the employee.
+             */
             last_name?: string | null;
-            /** Function */
+            /**
+             * Function
+             * @description Job title or function of the employee.
+             */
             function?: string | null;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the employee.
+             */
             phone?: string | null;
-            /** Mobile */
+            /**
+             * Mobile
+             * @description Mobile phone number of the employee.
+             */
             mobile?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the employee.
+             */
             email?: string | null;
             /**
              * Active
+             * @description Indicates if the employee is active.
              * @default true
              */
             active: boolean | null;
-            /** Reference */
+            /**
+             * Reference
+             * @description External reference or identifier for the employee.
+             */
             reference?: string | null;
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Ledger account number assigned to the employee in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.)
+             */
             account_number?: string | null;
         };
         /** EnableFlowConsumer */
@@ -4914,6 +5351,206 @@ export interface components {
          * @enum {string}
          */
         ExecutionType: 'code' | 'module';
+        /** ExpenseItemIn */
+        ExpenseItemIn: {
+            /**
+             * Employee Id
+             * @description Employee identifier in the accounting system.
+             */
+            employee_id: string;
+            /**
+             * Total
+             * @description Total amount including taxes for the expense.
+             */
+            total: number;
+            /**
+             * Untaxed Amount
+             * @description Total untaxed amount for the expense.
+             */
+            untaxed_amount: number;
+            /**
+             * Tax Amount
+             * @description Total tax amount for the expense.
+             */
+            tax_amount: number;
+            /**
+             * Reference
+             * @description External reference.
+             */
+            reference?: string | null;
+            /**
+             * Number
+             * @description Unique number for idempotency in the accounting system.
+             */
+            number?: string | null;
+            /**
+             * Currency
+             * @description Currency of the expense (e.g., EUR, USD).
+             */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Exchange rate at expense date if currency differs from folder currency. Must be positive if provided.
+             * @default 1
+             */
+            currency_exchange_rate: number | null;
+            /**
+             * Date
+             * Format: date
+             * @description Expense date.
+             */
+            date: string;
+            /**
+             * Pdf
+             * @description Base64 PDF attachment of the expense document.
+             */
+            pdf?: string | null;
+            /**
+             * Lines
+             * @description Expense lines.
+             */
+            lines: components['schemas']['ExpenseLineItem'][];
+        };
+        /** ExpenseItemOut */
+        ExpenseItemOut: {
+            /**
+             * Employee Id
+             * @description Employee identifier in the accounting system.
+             */
+            employee_id: string;
+            /**
+             * Total
+             * @description Total amount including taxes for the expense.
+             */
+            total: number;
+            /**
+             * Untaxed Amount
+             * @description Total untaxed amount for the expense.
+             */
+            untaxed_amount: number;
+            /**
+             * Tax Amount
+             * @description Total tax amount for the expense.
+             */
+            tax_amount: number;
+            /**
+             * Reference
+             * @description External reference.
+             */
+            reference?: string | null;
+            /**
+             * Number
+             * @description Unique number for idempotency in the accounting system.
+             */
+            number?: string | null;
+            /**
+             * Currency
+             * @description Currency of the expense (e.g., EUR, USD).
+             */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Exchange rate at expense date if currency differs from folder currency. Must be positive if provided.
+             * @default 1
+             */
+            currency_exchange_rate: number | null;
+            /**
+             * Date
+             * Format: date
+             * @description Expense date.
+             */
+            date: string;
+            /**
+             * Pdf
+             * @description Base64 PDF attachment of the expense document.
+             */
+            pdf?: string | null;
+            /**
+             * Lines
+             * @description Expense lines.
+             */
+            lines: components['schemas']['ExpenseLineItem'][];
+            /**
+             * Id
+             * @description Unique id of the expense in the accounting system.
+             */
+            id: string;
+        };
+        /** ExpenseLineItem */
+        ExpenseLineItem: {
+            /**
+             * Total
+             * @description Total amount for the line including taxes.
+             */
+            total: number;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount for the line.
+             */
+            untaxed_amount: number;
+            /**
+             * Tax Amount
+             * @description Tax amount for the line.
+             */
+            tax_amount: number;
+            /**
+             * Description
+             * @description Line description
+             */
+            description?: string | null;
+            /**
+             * Account Number
+             * @description General ledger account number to book the expense.
+             */
+            account_number: string;
+            /**
+             * Tax Rate
+             * @description Tax rate (e.g., 21.0 for 21%).
+             */
+            tax_rate: number;
+            /**
+             * Tax Id
+             * @description Tax identifier to validate against the provided tax_rate.
+             */
+            tax_id: string;
+        };
+        /** ExtendedIssueItem */
+        ExtendedIssueItem: {
+            /** Id */
+            id: string;
+            /** Consumer Id */
+            consumer_id: string;
+            /** Connection Id */
+            connection_id: string;
+            /** Integration Id */
+            integration_id: number;
+            /** Integration Name */
+            integration_name: string;
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on: string;
+            /**
+             * Updated On
+             * Format: date-time
+             */
+            updated_on: string;
+            /**
+             * Last Seen
+             * Format: date-time
+             */
+            last_seen: string;
+            error: components['schemas']['ErrorInfo'];
+            /** Occurrences */
+            occurrences: number;
+            level: components['schemas']['IssueLevel'];
+            /**
+             * Events
+             * @default []
+             */
+            events: components['schemas']['IssueEvent'][];
+        };
         /** FECItemOut */
         FECItemOut: {
             /** Journalcode */
@@ -5055,65 +5692,37 @@ export interface components {
             /**
              * Date
              * Format: date
+             * @description Accounting date of the financial entry (format: YYYY-MM-DD). This is the date when the financial entry is recorded in the accounting system.
              */
             date: string;
             /**
              * Journal Id
-             * @description Indicates the journal used in for the operation.
+             * @description Id of the journal instance in the accounting system in which the financial entry is recorded.
              */
             journal_id: string;
             /**
              * Currency
-             * @description Indicates the currency of the operation (e.g. EUR).
+             * @description Indicates the currency of the operation (e.g., EUR, USD).
              */
             currency: string;
             /**
              * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field that can be used for lettering by storing an external or contextual identifier related to the entry . For example, it can be used to store a reference number, such as the invoice number associated with the payment.
+             */
             reference?: string | null;
-            /** Number */
+            /**
+             * Number
+             * @description Unique 'number' of the financial entry in the accounting software. This is an internal number or identifier assigned to the financial entry. It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details.
+             */
             number?: string | null;
             /** Items */
             items: components['schemas']['FinancialEntryLineItem'][];
-            /**
-             * Pdf
-             * @description Base 64 string representing the PDF attached to the sale/purchase entry.
-             */
-            pdf?: string | null;
-        };
-        /** FinancialEntryItemInOld */
-        FinancialEntryItemInOld: {
-            /**
-             * Date
-             * Format: date
-             */
-            date: string;
-            /**
-             * Journal Id
-             * @description Indicates the journal used in for the operation.
-             */
-            journal_id: string;
-            /**
-             * Currency
-             * @description Indicates the currency of the operation (e.g. EUR).
-             */
-            currency: string;
-            /**
-             * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
-             * @default 1
-             */
-            currency_exchange_rate: number | null;
-            /** Reference */
-            reference?: string | null;
-            /** Number */
-            number?: string | null;
-            /** Items */
-            items: components['schemas']['FinancialEntryLineItemOld'][];
             /**
              * Pdf
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
@@ -5125,127 +5734,81 @@ export interface components {
             /**
              * Date
              * Format: date
+             * @description Accounting date of the financial entry (format: YYYY-MM-DD). This is the date when the financial entry is recorded in the accounting system.
              */
             date: string;
             /**
              * Journal Id
-             * @description Indicates the journal used in for the operation.
+             * @description Id of the journal instance in the accounting system in which the financial entry is recorded.
              */
             journal_id: string;
             /**
              * Currency
-             * @description Indicates the currency of the operation (e.g. EUR).
+             * @description Indicates the currency of the operation (e.g., EUR, USD).
              */
             currency: string;
             /**
              * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field that can be used for lettering by storing an external or contextual identifier related to the entry . For example, it can be used to store a reference number, such as the invoice number associated with the payment.
+             */
             reference?: string | null;
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the financial entry instance in the accounting system.
+             */
             id: string;
-            /** Number */
+            /**
+             * Number
+             * @description Unique 'number' of the financial entry in the accounting software. This is an internal number or identifier assigned to the financial entry. It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details.
+             */
             number: string;
             /** Items */
             items: components['schemas']['FinancialEntryLineItemOut'][];
         };
-        /** FinancialEntryItemOutOld */
-        FinancialEntryItemOutOld: {
-            /**
-             * Date
-             * Format: date
-             */
-            date: string;
-            /**
-             * Journal Id
-             * @description Indicates the journal used in for the operation.
-             */
-            journal_id: string;
-            /**
-             * Currency
-             * @description Indicates the currency of the operation (e.g. EUR).
-             */
-            currency: string;
-            /**
-             * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
-             * @default 1
-             */
-            currency_exchange_rate: number | null;
-            /** Reference */
-            reference?: string | null;
-            /** Id */
-            id: string;
-            /** Number */
-            number: string;
-            /** Items */
-            items: components['schemas']['FinancialEntryLineItemOutOld'][];
-        };
         /** FinancialEntryLineItem */
         FinancialEntryLineItem: {
+            /** @description account_type can be either general ('general_account') or thirdparty ('customer', 'supplier' or 'employee') */
             account_type: components['schemas']['EntryLineType'];
-            /** Account */
+            /**
+             * Account
+             * @description Depending on account_type, if the account_type is 'general_account', this is the general ledger account number used to book the journal item against. If the account_type is 'customer_account', 'supplier_account' or 'employee_account', this is the thirdparty_id (id of the customer, supplier or employee in the accounting system).
+             */
             account: string;
             /**
              * Amount
-             * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
+             * @description A positive value represents funds received in the bank or cash account (i.e., the bank/cash account is debited and the specified account_number is credited). A negative value represents funds leaving the bank/cash account.
              */
             amount: number;
-            /** Description */
-            description?: string | null;
-        };
-        /** FinancialEntryLineItemOld */
-        FinancialEntryLineItemOld: {
-            type: components['schemas']['EntryLineType'];
-            /** Account Number */
-            account_number: string;
             /**
-             * Partner Id
-             * @description Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type.
+             * Description
+             * @description Text description for this line item. This is typically used to provide additional context or information.
              */
-            partner_id?: string | null;
-            /**
-             * Amount
-             * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
-             */
-            amount: number;
-            /** Description */
             description?: string | null;
         };
         /** FinancialEntryLineItemOut */
         FinancialEntryLineItemOut: {
+            /** @description account_type can be either general ('general_account') or thirdparty ('customer', 'supplier' or 'employee') */
             account_type: components['schemas']['EntryLineType'];
-            /** Account */
+            /**
+             * Account
+             * @description Depending on account_type, if the account_type is 'general_account', this is the general ledger account number used to book the journal item against. If the account_type is 'customer_account', 'supplier_account' or 'employee_account', this is the thirdparty_id (id of the customer, supplier or employee in the accounting system).
+             */
             account: string;
             /**
              * Amount
-             * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
+             * @description A positive value represents funds received in the bank or cash account (i.e., the bank/cash account is debited and the specified account_number is credited). A negative value represents funds leaving the bank/cash account.
              */
             amount: number;
-            /** Description */
-            description?: string | null;
-            /** Counterpart Account */
-            counterpart_account: string;
-        };
-        /** FinancialEntryLineItemOutOld */
-        FinancialEntryLineItemOutOld: {
-            type: components['schemas']['EntryLineType'];
-            /** Account Number */
-            account_number: string;
             /**
-             * Partner Id
-             * @description Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type.
+             * Description
+             * @description Text description for this line item. This is typically used to provide additional context or information.
              */
-            partner_id?: string | null;
-            /**
-             * Amount
-             * @description A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.
-             */
-            amount: number;
-            /** Description */
             description?: string | null;
             /** Counterpart Account */
             counterpart_account: string;
@@ -5363,6 +5926,23 @@ export interface components {
             options?: {
                 [key: string]: unknown;
             } | null;
+            /** @default NORMAL */
+            priority: components['schemas']['TriggerPriority'];
+        };
+        /** FolderAddressItem */
+        FolderAddressItem: {
+            /** Street */
+            street?: string | null;
+            /** Number */
+            number?: string | null;
+            /** Box */
+            box?: string | null;
+            /** Postal Code */
+            postal_code?: string | null;
+            /** City */
+            city?: string | null;
+            /** Country */
+            country?: string | null;
         };
         /** FolderItem */
         FolderItem: {
@@ -5379,30 +5959,54 @@ export interface components {
             vat?: string | null;
             /** Company Number */
             company_number?: string | null;
+            /** Main Currency */
+            main_currency?: string | null;
+            /** Addresses */
+            addresses?: components['schemas']['FolderAddressItem'][] | null;
         };
         /** GenericJournalEntry */
         GenericJournalEntry: {
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the entry. For example, it can be used to store a reference number, the invoice number issued by the suppllier or any other relevant information.
+             */
             reference?: string | null;
-            /** Due Date */
+            /**
+             * Due Date
+             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             */
             due_date?: string | null;
-            /** Journal Id */
+            /**
+             * Journal Id
+             * @description Id of the journal instance in the accounting system in which the journal entry is recorded.
+             */
             journal_id: string;
-            /** Number */
+            /**
+             * Number
+             * @description Unique 'number' of the journal entry in the accounting software. This is an internal number or ID assigned to the journal entry, not necessarily the label or number visible on an invoice. It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details.
+             */
             number: string;
-            /** Currency */
+            /**
+             * Currency
+             * @description Indicates the currency of the journal entry (e.g., EUR, USD).
+             */
             currency: string;
             /**
              * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the journal entry. Must be filled in when creating the entry in another currency from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
             /**
              * Date
              * Format: date
+             * @description Accounting date of the journal entry (format: YYYY-MM-DD). This is the date when the journal entry is recorded in the accounting system.
              */
             date: string;
-            /** Items */
+            /**
+             * Items
+             * @description List of journal items that make up the journal entry. Each item represents a line in the journal entry, and the sum of debits must equal the sum of credits to ensure the entry is balanced. There must always be at least 2 lines/items.
+             */
             items: components['schemas']['GenericJournalItem'][];
             /**
              * Pdf
@@ -5411,49 +6015,68 @@ export interface components {
             pdf?: string | null;
             /**
              * Posted
+             * @description Indicates if the journal entry has been posted (finalized) in the accounting system. If not provided, it defaults to True.
              * @default true
              */
             posted: boolean | null;
-            /** Start Date */
+            /**
+             * Start Date
+             * @description Start date of the period covered by the journal entry (format: YYYY-MM-DD). This field should be used when the entry relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period begins.
+             */
             start_date?: string | null;
-            /** End Date */
+            /**
+             * End Date
+             * @description End date of the period covered by the journal entry (format: YYYY-MM-DD). This field should be used when the entry relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period ends.
+             */
             end_date?: string | null;
         };
         /** GenericJournalItem */
         GenericJournalItem: {
+            /** @description account_type can be either general ('general_account') or thirdparty ('customer', 'supplier' or 'employee') */
             account_type: components['schemas']['EntryLineType'];
-            /** Account */
-            account: string;
+            /**
+             * Account
+             * @description Depending on account_type, if the account_type is 'general_account', this is the general ledger account number used to book the journal item against. If the account_type is 'customer_account', 'supplier_account' or 'employee_account', this is the thirdparty_id (id of the customer, supplier or employee in the accounting system).
+             */
+            account?: string | null;
             /**
              * Force General Account
-             * @description For customer/supplier/employee accounts we determine the general account based on the configurations in the accounting system. The general account can also be forced by specifying the value in this field.
+             * @description Overrides the default general account for customer, supplier, or employee accounts. If provided, this value will be used as the general account instead of the one determined by the accounting system's configuration.
              */
             force_general_account?: string | null;
             /**
              * Prioritise Thirdparty Account
-             * @description Indicate if we need to prioritise the information from thirdparty accounts when forcing the general account in a software where only 1 account is accepted.
+             * @description If True, prioritize using the third-party account information when a general account is forced in accounting software that only allows one account. Recommended to set it to True
              * @default false
              */
             prioritise_thirdparty_account: boolean | null;
-            /** Description */
+            /**
+             * Description
+             * @description Text description for this journal item. This is typically used to provide additional context or information.
+             */
             description?: string | null;
-            /** Debit */
+            /**
+             * Debit
+             * @description Amount to debit on the account. Must be 0 if credit line is not 0
+             */
             debit: number;
-            /** Credit */
+            /**
+             * Credit
+             * @description Amount to credit on the account. Must be 0 if debit line is not 0
+             */
             credit: number;
             /**
              * Analytic Distribution
+             * @description List of analytic distributions for the journal item. Each distribution specifies an analytic plan and the allocation of the journal entry item's amount across analytic accounts using percentages.
              * @default []
              */
             analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
             /**
              * Tax Code
-             * @description Indicates the tax code used for the entry item. This is the ID of the Tax Code in the accounting software.
+             * @description Indicates the Tax Code used for the entry item. This is the Id of the Tax Code instance in the accounting software.
              */
             tax_code?: string | null;
-            /** Country */
-            country?: string | null;
-            /** @description Information about the thirdparty account that must be created. In some tools we cannot create a thirdparty account (=client/supplier) by API. Missing thirdparty accounts must be explicitly provided during the entry creation and will be automatically created by the accounting software. This is for example the case for Tiime. */
+            /** @description (For certain specific connectors only) Details of the third-party account (client/supplier) to be created if it does not already exist in the accounting system. Some softwares do not support creating third-party accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime). */
             account_info?: components['schemas']['AccountToCreate'] | null;
         };
         /** Validation Error */
@@ -5488,6 +6111,12 @@ export interface components {
          * @enum {string}
          */
         ImageType: 'icon' | 'logo';
+        /**
+         * ImportMode
+         * @description Enumeration of import modes for flow execution.
+         * @enum {string}
+         */
+        ImportMode: 'IMPORT_ONLY_MISSING_DAYS' | 'REIMPORT_ENTIRE_PERIOD';
         /** IntegrationItem */
         IntegrationItem: {
             /** Integrationid */
@@ -5515,8 +6144,17 @@ export interface components {
             /**
              * Supported Countries
              * @description Country codes (ISO 3166-1 alpha-2) where this integration is supported. If not defined, the integration is supported globally.
+             * @example BE
+             * @example FR
+             * @example ES
              */
             supported_countries?: string[] | null;
+            /**
+             * Local Agent
+             * @description This field indicate if the integration is a local agent.
+             * @default false
+             */
+            local_agent: boolean;
         };
         /** InventoryDetailsItem */
         InventoryDetailsItem: {
@@ -5536,13 +6174,25 @@ export interface components {
         };
         /** InvoiceCorrection */
         InvoiceCorrection: {
-            /** Sale Invoice Correction Tax Code */
+            /**
+             * Sale Invoice Correction Tax Code
+             * @description Tax code to apply on the correction line when the invoice is a sale (customer invoice). Required only when invoice_correction is used for a sale invoice or refund.
+             */
             sale_invoice_correction_tax_code?: string | null;
-            /** Purchase Invoice Correction Tax Code */
+            /**
+             * Purchase Invoice Correction Tax Code
+             * @description Tax code to apply on the correction line when the invoice is a purchase (supplier invoice). Required only when invoice_correction is used for a purchase invoice or refund.
+             */
             purchase_invoice_correction_tax_code?: string | null;
-            /** Invoice Correction Credit Account Number */
+            /**
+             * Invoice Correction Credit Account Number
+             * @description Account number to use for the correction line on a sale (customer invoice).
+             */
             invoice_correction_credit_account_number?: string | null;
-            /** Invoice Correction Debit Account Number */
+            /**
+             * Invoice Correction Debit Account Number
+             * @description Account number to use for the correction line on a purchase (supplier invoice).
+             */
             invoice_correction_debit_account_number?: string | null;
         };
         /** InvoiceItem */
@@ -5630,16 +6280,19 @@ export interface components {
             /**
              * Invoice Number
              * @description Number/sequence
+             * @example INV-12345
              */
             invoice_number: string | null;
             /**
              * Creation Date
              * @description Creation date of the invoice
+             * @example 2023-10-01T12:00:00
              */
             creation_date?: string | null;
             /**
              * Closing Date
              * @description Closing date of the invoice
+             * @example 2023-10-10T12:00:00
              */
             closing_date?: string | null;
             /**
@@ -5648,65 +6301,115 @@ export interface components {
              */
             partners?: components['schemas']['InvoicePartnerItem'][] | null;
         };
+        /** InvoiceItemDueDatesOut */
+        InvoiceItemDueDatesOut: {
+            /**
+             * Due Date
+             * Format: date
+             * @description Due date of the item.
+             */
+            due_date: string;
+            /**
+             * Payment Method
+             * @description Payment method used to pay the invoice on that due date.
+             */
+            payment_method?: string | null;
+            /**
+             * Amount
+             * @description Amount due for the invoice on that due date. A positive amount represents debit on customer invoices and supplier refunds or credit on supplier invoices and customer refunds. A negative amount represents credit on customer invoices and supplier refunds or debit on supplier invoices and customer refunds.
+             */
+            amount: number;
+        };
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
+            /** @description Specifies the type of invoice */
             invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation. In some accounting software the invoice number is a required field (see connector's limitations).
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
              */
             invoice_number?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * @description Code (e.g., USD, EUR) of the currency used for invoice amounts.
              */
             currency: string;
-            /** Untaxed Amount */
+            /**
+             * Untaxed Amount
+             * @description Total amount of the invoice excluding taxes.
+             */
             untaxed_amount: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of tax applied to the invoice
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount of the invoice, including taxes (untaxed_amount + tax_amount).
+             */
             total: number;
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the entry. For purchase invoices, it typically contains the invoice number issued by the supplier. For sales invoices, it may reference a quote number or any other relevant document. Unlike number, this field is not subject to specific format or character restrictions and can hold free-form text.
+             */
             reference?: string | null;
-            /** Payment Communication */
+            /**
+             * Payment Communication
+             * @description Field containing the payment reference or communication associated with the invoice (e.g., bank transfer reference, SEPA remittance message). Often used for reconciliation purposes.
+             */
             payment_communication?: string | null;
-            /** Customer Memo */
+            /**
+             * Customer Memo
+             * @description Internal or external note associated with the invoice, typically intended for the customer. Can include additional context, comments, or special instructions related to the transaction.
+             */
             customer_memo?: string | null;
             /**
              * Invoice Date
              * Format: date
+             * @description Accounting date of the invoice (format: YYYY-MM-DD).
              */
             invoice_date: string;
             /**
              * Due Date
              * Format: date
+             * @description Due date for payment or settlement (format: YYYY-MM-DD).
              */
             due_date: string;
-            /** Partner Id */
-            partner_id: string;
+            /**
+             * Partner Id
+             * @description Id of the related third party (supplier or customer) in the accounting software. Used to link the invoice to the corresponding client or supplier record in the accounting system.
+             */
+            partner_id?: string | null;
             /**
              * Journal Id
-             * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
+             * @description Identifier of the journal for the invoice. If not provided, the journal will be set automatically if only one exists; otherwise, an error will be thrown.
              */
             journal_id?: string | null;
-            /** @default posted */
+            /**
+             * @description string indicating if invoice has been posted (finalized) in the accounting system.
+             * @default posted
+             */
             status: components['schemas']['InvoiceStatusIn'] | null;
             /**
              * Pdf
-             * @description Base 64 string representing the PDF attached to the sale/purchase entry.
+             * @description Base 64 string representing the PDF attached to the invoice.
              */
             pdf?: string | null;
             /**
              * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.
+             * @description Exchange rate applicable at the date of the invoice. Required when the invoice currency is different from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
             /** @description Information used to add a correction line when roundings have an impact on the total amount of the invoice. */
             invoice_correction?: components['schemas']['InvoiceCorrection'] | null;
+            /** @description NL only - For Dutch split payment compliance (G/N-rekening): use to specify how invoice amounts are divided between a blocked (G) and normal (N) account in high-risk sectors (e.g., construction, staffing). */
             nl_payment_terms_split?: components['schemas']['NlPaymentTermsSplit'] | null;
-            /** Shipping Country */
+            /**
+             * Shipping Country
+             * @description Format: ISO 3166-1 codes.
+             */
             shipping_country?: string | null;
             /** @description Information about the client/supplier that must be created. In some tools we cannot create a client/supplier by API. Missing clients/suppliers must be explicitly provided during the invoice creation and will be automatically created by the accounting software. This is for example the case for Tiime. */
             partner_info?: components['schemas']['AccountToCreate'] | null;
@@ -5715,63 +6418,94 @@ export interface components {
         };
         /** InvoiceItemInMultiAnalyticPlans */
         InvoiceItemInMultiAnalyticPlans: {
+            /** @description Specifies the type of invoice */
             invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation. In some accounting software the invoice number is a required field (see connector's limitations).
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
              */
             invoice_number?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * @description Code (e.g., USD, EUR) of the currency used for invoice amounts.
              */
             currency: string;
-            /** Untaxed Amount */
+            /**
+             * Untaxed Amount
+             * @description Total amount of the invoice excluding taxes.
+             */
             untaxed_amount: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of tax applied to the invoice
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount of the invoice, including taxes (untaxed_amount + tax_amount).
+             */
             total: number;
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the entry. For purchase invoices, it typically contains the invoice number issued by the supplier. For sales invoices, it may reference a quote number or any other relevant document. Unlike number, this field is not subject to specific format or character restrictions and can hold free-form text.
+             */
             reference?: string | null;
-            /** Payment Communication */
+            /**
+             * Payment Communication
+             * @description Field containing the payment reference or communication associated with the invoice (e.g., bank transfer reference, SEPA remittance message). Often used for reconciliation purposes.
+             */
             payment_communication?: string | null;
-            /** Customer Memo */
+            /**
+             * Customer Memo
+             * @description Internal or external note associated with the invoice, typically intended for the customer. Can include additional context, comments, or special instructions related to the transaction.
+             */
             customer_memo?: string | null;
             /**
              * Invoice Date
              * Format: date
+             * @description Accounting date of the invoice (format: YYYY-MM-DD).
              */
             invoice_date: string;
             /**
              * Due Date
              * Format: date
+             * @description Due date for payment or settlement (format: YYYY-MM-DD).
              */
             due_date: string;
-            /** Partner Id */
-            partner_id: string;
+            /**
+             * Partner Id
+             * @description Id of the related third party (supplier or customer) in the accounting software. Used to link the invoice to the corresponding client or supplier record in the accounting system.
+             */
+            partner_id?: string | null;
             /**
              * Journal Id
-             * @description Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.
+             * @description Identifier of the journal for the invoice. If not provided, the journal will be set automatically if only one exists; otherwise, an error will be thrown.
              */
             journal_id?: string | null;
-            /** @default posted */
+            /**
+             * @description string indicating if invoice has been posted (finalized) in the accounting system.
+             * @default posted
+             */
             status: components['schemas']['InvoiceStatusIn'] | null;
             /**
              * Pdf
-             * @description Base 64 string representing the PDF attached to the sale/purchase entry.
+             * @description Base 64 string representing the PDF attached to the invoice.
              */
             pdf?: string | null;
             /**
              * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.
+             * @description Exchange rate applicable at the date of the invoice. Required when the invoice currency is different from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
             /** @description Information used to add a correction line when roundings have an impact on the total amount of the invoice. */
             invoice_correction?: components['schemas']['InvoiceCorrection'] | null;
+            /** @description NL only - For Dutch split payment compliance (G/N-rekening): use to specify how invoice amounts are divided between a blocked (G) and normal (N) account in high-risk sectors (e.g., construction, staffing). */
             nl_payment_terms_split?: components['schemas']['NlPaymentTermsSplit'] | null;
-            /** Shipping Country */
+            /**
+             * Shipping Country
+             * @description Format: ISO 3166-1 codes.
+             */
             shipping_country?: string | null;
             /** @description Information about the client/supplier that must be created. In some tools we cannot create a client/supplier by API. Missing clients/suppliers must be explicitly provided during the invoice creation and will be automatically created by the accounting software. This is for example the case for Tiime. */
             partner_info?: components['schemas']['AccountToCreate'] | null;
@@ -5865,6 +6599,11 @@ export interface components {
              */
             outstanding_amount?: number | null;
             /**
+             * Last Payment Date
+             * @description Date of the last payment linked to the invoice
+             */
+            last_payment_date?: string | null;
+            /**
              * Accounting Date
              * @description Accounting date
              */
@@ -5883,28 +6622,47 @@ export interface components {
         };
         /** InvoiceItemOutMonoAnalyticPlan */
         InvoiceItemOutMonoAnalyticPlan: {
+            /** @description Specifies the type of invoice */
             invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation. In some accounting software the invoice number is a required field (see connector's limitations).
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
              */
             invoice_number?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * @description Code (e.g., USD, EUR) of the currency used for invoice amounts.
              */
             currency: string;
-            /** Untaxed Amount */
+            /**
+             * Untaxed Amount
+             * @description Total amount of the invoice excluding taxes.
+             */
             untaxed_amount: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of tax applied to the invoice
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount of the invoice, including taxes (untaxed_amount + tax_amount).
+             */
             total: number;
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the entry. For purchase invoices, it typically contains the invoice number issued by the supplier. For sales invoices, it may reference a quote number or any other relevant document. Unlike number, this field is not subject to specific format or character restrictions and can hold free-form text.
+             */
             reference?: string | null;
-            /** Payment Communication */
+            /**
+             * Payment Communication
+             * @description Field containing the payment reference or communication associated with the invoice (e.g., bank transfer reference, SEPA remittance message). Often used for reconciliation purposes.
+             */
             payment_communication?: string | null;
-            /** Customer Memo */
+            /**
+             * Customer Memo
+             * @description Internal or external note associated with the invoice, typically intended for the customer. Can include additional context, comments, or special instructions related to the transaction.
+             */
             customer_memo?: string | null;
             /** Id */
             id?: string | null;
@@ -5917,7 +6675,7 @@ export interface components {
             /**
              * Due Date
              * Format: date
-             * @description Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.
+             * @description Last Due date of the invoice. The invoice date is used when this information is not given by the software.
              */
             due_date: string;
             /** Partner Id */
@@ -5938,33 +6696,58 @@ export interface components {
             last_updated_on?: string | null;
             /** @description Extra information about the partner (client/supplier) linked to the invoice. To ensure this information is returned, you need to use the include_partner_info query parameter. */
             partner?: components['schemas']['Partner'] | null;
+            /**
+             * Due Dates
+             * @description List of all due dates of the invoice.
+             * @default []
+             */
+            due_dates: components['schemas']['InvoiceItemDueDatesOut'][] | null;
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMonoAnalyticPlan'][];
         };
         /** InvoiceItemOutMultiAnalyticPlans */
         InvoiceItemOutMultiAnalyticPlans: {
+            /** @description Specifies the type of invoice */
             invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
             /**
              * Invoice Number
-             * @description Number of the invoice. If left empty, will be automatically generated by the accounting system at creation. In some accounting software the invoice number is a required field (see connector's limitations).
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
              */
             invoice_number?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the invoice (e.g. EUR).
+             * @description Code (e.g., USD, EUR) of the currency used for invoice amounts.
              */
             currency: string;
-            /** Untaxed Amount */
+            /**
+             * Untaxed Amount
+             * @description Total amount of the invoice excluding taxes.
+             */
             untaxed_amount: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Total amount of tax applied to the invoice
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount of the invoice, including taxes (untaxed_amount + tax_amount).
+             */
             total: number;
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the entry. For purchase invoices, it typically contains the invoice number issued by the supplier. For sales invoices, it may reference a quote number or any other relevant document. Unlike number, this field is not subject to specific format or character restrictions and can hold free-form text.
+             */
             reference?: string | null;
-            /** Payment Communication */
+            /**
+             * Payment Communication
+             * @description Field containing the payment reference or communication associated with the invoice (e.g., bank transfer reference, SEPA remittance message). Often used for reconciliation purposes.
+             */
             payment_communication?: string | null;
-            /** Customer Memo */
+            /**
+             * Customer Memo
+             * @description Internal or external note associated with the invoice, typically intended for the customer. Can include additional context, comments, or special instructions related to the transaction.
+             */
             customer_memo?: string | null;
             /** Id */
             id?: string | null;
@@ -5977,7 +6760,7 @@ export interface components {
             /**
              * Due Date
              * Format: date
-             * @description Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.
+             * @description Last Due date of the invoice. The invoice date is used when this information is not given by the software.
              */
             due_date: string;
             /** Partner Id */
@@ -5998,6 +6781,12 @@ export interface components {
             last_updated_on?: string | null;
             /** @description Extra information about the partner (client/supplier) linked to the invoice. To ensure this information is returned, you need to use the include_partner_info query parameter. */
             partner?: components['schemas']['Partner'] | null;
+            /**
+             * Due Dates
+             * @description List of all due dates of the invoice.
+             * @default []
+             */
+            due_dates: components['schemas']['InvoiceItemDueDatesOut'][] | null;
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMultiAnalyticPlans'][];
         };
@@ -6090,6 +6879,11 @@ export interface components {
              * @description Amount left to be paid
              */
             outstanding_amount?: number | null;
+            /**
+             * Last Payment Date
+             * @description Date of the last payment linked to the invoice
+             */
+            last_payment_date?: string | null;
             /**
              * Accounting Date
              * @description Accounting date
@@ -6195,82 +6989,125 @@ export interface components {
         InvoiceLineItemInMonoAnalyticPlan: {
             /**
              * Line Number
+             * @description Optional line sequence number used to preserve the order of invoice items.
              * @default 1
              */
             line_number: number | null;
-            /** Unit Price */
+            /**
+             * Unit Price
+             * @description Unit price of the item, before tax.
+             */
             unit_price: number;
             /**
              * Unit Of Measure
              * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
              */
             unit_of_measure?: string | null;
-            /** Quantity */
+            /**
+             * Quantity
+             * @description Quantity of items. This is the amount of units sold or purchased.
+             */
             quantity: number;
-            /** Untaxed Amount */
+            /**
+             * Untaxed Amount
+             * @description Amount excluding tax for the line item (i.e., unit_price × quantity).
+             */
             untaxed_amount: number;
             /**
              * Tax Rate
-             * @description Indicates the tax rate used for the line (e.g. 21.0).
+             * @description Tax rate used for the line (e.g., 21.0).
              */
             tax_rate: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Tax amount calculated for the line (i.e. untaxed_amount * tax_rate).
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount for the item, including tax (untaxed_amount + tax_amount).
+             */
             total: number;
             /**
              * Account Number
-             * @description Indicates the number of the account used for the line (e.g. 701000).
+             * @description Ledger account number (of type general) used for the line (e.g., 701000).
              */
             account_number: string;
             /**
              * Tax Code
-             * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.
+             * @description Indicates the tax code used for the line. This is the Id of the Tax Code in the accounting software.
              */
             tax_code: string;
-            /** Description */
+            /**
+             * Description
+             * @description Text description for this line item.
+             * @default
+             */
             description: string;
-            /** Analytic Account */
+            /**
+             * Analytic Account
+             * @description Analytic account in the default analytic plan.
+             */
             analytic_account?: string | null;
         };
         /** InvoiceLineItemInMultiAnalyticPlans */
         InvoiceLineItemInMultiAnalyticPlans: {
             /**
              * Line Number
+             * @description Optional line sequence number used to preserve the order of invoice items.
              * @default 1
              */
             line_number: number | null;
-            /** Unit Price */
+            /**
+             * Unit Price
+             * @description Unit price of the item, before tax.
+             */
             unit_price: number;
             /**
              * Unit Of Measure
              * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
              */
             unit_of_measure?: string | null;
-            /** Quantity */
+            /**
+             * Quantity
+             * @description Quantity of items. This is the amount of units sold or purchased.
+             */
             quantity: number;
-            /** Untaxed Amount */
+            /**
+             * Untaxed Amount
+             * @description Amount excluding tax for the line item (i.e., unit_price × quantity).
+             */
             untaxed_amount: number;
             /**
              * Tax Rate
-             * @description Indicates the tax rate used for the line (e.g. 21.0).
+             * @description Tax rate used for the line (e.g., 21.0).
              */
             tax_rate: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Tax amount calculated for the line (i.e. untaxed_amount * tax_rate).
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount for the item, including tax (untaxed_amount + tax_amount).
+             */
             total: number;
             /**
              * Account Number
-             * @description Indicates the number of the account used for the line (e.g. 701000).
+             * @description Ledger account number (of type general) used for the line (e.g., 701000).
              */
             account_number: string;
             /**
              * Tax Code
-             * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.
+             * @description Indicates the tax code used for the line. This is the Id of the Tax Code in the accounting software.
              */
             tax_code: string;
-            /** Description */
+            /**
+             * Description
+             * @description Text description for this line item.
+             * @default
+             */
             description: string;
             /**
              * Analytic Distribution
@@ -6282,91 +7119,129 @@ export interface components {
         InvoiceLineItemOutMonoAnalyticPlan: {
             /**
              * Line Number
+             * @description Optional line sequence number used to preserve the order of invoice items.
              * @default 1
              */
             line_number: number | null;
-            /** Unit Price */
+            /**
+             * Unit Price
+             * @description Unit price of the item, before tax.
+             */
             unit_price: number;
             /**
              * Unit Of Measure
              * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
              */
             unit_of_measure?: string | null;
-            /** Quantity */
+            /**
+             * Quantity
+             * @description Quantity of items. This is the amount of units sold or purchased.
+             */
             quantity: number;
-            /** Untaxed Amount */
+            /**
+             * Untaxed Amount
+             * @description Amount excluding tax for the line item (i.e., unit_price × quantity).
+             */
             untaxed_amount: number;
             /**
              * Tax Rate
-             * @description Indicates the tax rate used for the line (e.g. 21.0).
+             * @description Tax rate used for the line (e.g., 21.0).
              */
             tax_rate: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Tax amount calculated for the line (i.e. untaxed_amount * tax_rate).
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount for the item, including tax (untaxed_amount + tax_amount).
+             */
             total: number;
             /**
              * Account Number
-             * @description Indicates the number of the account used for the line (e.g. 701000).
+             * @description Ledger account number (of type general) used for the line (e.g., 701000).
              */
             account_number?: string | null;
             /**
              * Tax Code
-             * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.
+             * @description Indicates the tax code used for the line. This is the Id of the Tax Code in the accounting software.
              */
             tax_code?: string | null;
             /**
              * Description
+             * @description Text description for this line.
              * @default
              */
             description: string | null;
-            /** Analytic Account */
+            /**
+             * Analytic Account
+             * @description Analytic account in the default analytic plan.
+             */
             analytic_account?: string | null;
         };
         /** InvoiceLineItemOutMultiAnalyticPlans */
         InvoiceLineItemOutMultiAnalyticPlans: {
             /**
              * Line Number
+             * @description Optional line sequence number used to preserve the order of invoice items.
              * @default 1
              */
             line_number: number | null;
-            /** Unit Price */
+            /**
+             * Unit Price
+             * @description Unit price of the item, before tax.
+             */
             unit_price: number;
             /**
              * Unit Of Measure
              * @description A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.
              */
             unit_of_measure?: string | null;
-            /** Quantity */
+            /**
+             * Quantity
+             * @description Quantity of items. This is the amount of units sold or purchased.
+             */
             quantity: number;
-            /** Untaxed Amount */
+            /**
+             * Untaxed Amount
+             * @description Amount excluding tax for the line item (i.e., unit_price × quantity).
+             */
             untaxed_amount: number;
             /**
              * Tax Rate
-             * @description Indicates the tax rate used for the line (e.g. 21.0).
+             * @description Tax rate used for the line (e.g., 21.0).
              */
             tax_rate: number;
-            /** Tax Amount */
+            /**
+             * Tax Amount
+             * @description Tax amount calculated for the line (i.e. untaxed_amount * tax_rate).
+             */
             tax_amount: number;
-            /** Total */
+            /**
+             * Total
+             * @description Total amount for the item, including tax (untaxed_amount + tax_amount).
+             */
             total: number;
             /**
              * Account Number
-             * @description Indicates the number of the account used for the line (e.g. 701000).
+             * @description Ledger account number (of type general) used for the line (e.g., 701000).
              */
             account_number?: string | null;
             /**
              * Tax Code
-             * @description Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.
+             * @description Indicates the tax code used for the line. This is the Id of the Tax Code in the accounting software.
              */
             tax_code?: string | null;
             /**
              * Description
+             * @description Text description for this line.
              * @default
              */
             description: string | null;
             /**
              * Analytic Distribution
+             * @description List of analytic distributions for the line item. Each distribution specifies an analytic plan and the associated analytic accounts with their percentages.
              * @default []
              */
             analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
@@ -6380,23 +7255,29 @@ export interface components {
             id: string;
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
-            /** @description Type of the partner */
+            /**
+             * @description Type of the partner
+             * @example account
+             */
             type: components['schemas']['PartnerType'];
             /** @description Address of the partner */
             address?: components['schemas']['AddressItem'] | null;
             /**
              * First Name
              * @description First name of the partner. In case the partner is an individual.
+             * @example John
              */
             first_name?: string | null;
             /**
              * Last Name
              * @description Last name of the partner. In case the partner is an individual.
+             * @example Doe
              */
             last_name?: string | null;
             /**
              * Company Name
              * @description Company name of the partner. In case the partner is a company.
+             * @example Acme Corp
              */
             company_name?: string | null;
         };
@@ -6415,6 +7296,91 @@ export interface components {
          * @enum {string}
          */
         InvoiceStatusOut: 'cancelled' | 'draft' | 'posted' | 'paid';
+        /** InvoicingBankAccountItem */
+        InvoicingBankAccountItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Name
+             * @description Bank account name
+             */
+            name: string;
+            /**
+             * Iban
+             * @description IBAN
+             */
+            iban?: string | null;
+            /**
+             * Currency
+             * @description Currency of the bank account
+             */
+            currency?: string | null;
+            /**
+             * Balance
+             * @description Current balance of the bank account
+             */
+            balance?: number | null;
+        };
+        /** InvoicingBankTransactionItem */
+        InvoicingBankTransactionItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /** @description Status of the bank transaction */
+            status: components['schemas']['BankTransactionStatus'];
+            /**
+             * Bank Account Id
+             * @description Technical id of the bank account in Chift
+             */
+            bank_account_id: string;
+            /**
+             * Amount
+             * @description Transaction amount
+             */
+            amount: number;
+            /**
+             * Date
+             * Format: date
+             * @description Transaction date
+             */
+            date: string;
+            /**
+             * Description
+             * @description Transaction description
+             */
+            description?: string | null;
+            /**
+             * Currency
+             * @description Currency of the transaction
+             */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Exchange rate at the date of the transaction
+             * @default 1
+             */
+            currency_exchange_rate: number | null;
+            /**
+             * Accounting Code
+             * @description Accounting code
+             */
+            accounting_code?: string | null;
+            /**
+             * Linked Documents
+             * @description List of linked documents
+             * @default []
+             */
+            linked_documents: components['schemas']['LinkedDocument'][] | null;
+        };
         /** InvoicingPaymentItem */
         InvoicingPaymentItem: {
             /**
@@ -6526,6 +7492,24 @@ export interface components {
              */
             active: boolean | null;
         };
+        /** IssueEvent */
+        IssueEvent: {
+            /** Id */
+            id: string;
+            /** Execution Id */
+            execution_id: string;
+            /**
+             * Created On
+             * Format: date-time
+             */
+            created_on: string;
+            /** Context */
+            context?: {
+                [key: string]: unknown;
+            } | null;
+            /** Message */
+            message?: string | null;
+        };
         /** IssueItem */
         IssueItem: {
             /** Id */
@@ -6605,8 +7589,16 @@ export interface components {
             /** Name */
             name: string;
             journal_type: components['schemas']['JournalType'];
-            /** Counterpart Account */
+            /**
+             * Counterpart Account
+             * @description When journal is of type bank or cash, this is account number of the counterpart account used for the journal.
+             */
             counterpart_account?: string | null;
+            /**
+             * Unallocated Account
+             * @description Unallocated ledger account used to book entries when the final ledger account / client / supplier / employee is not yet known (specific to bank and cash journals)
+             */
+            unallocated_account?: string | null;
             /**
              * Next Document Numbers
              * @default []
@@ -6614,49 +7606,50 @@ export interface components {
             next_document_numbers: components['schemas']['NextDocumentNumber'][] | null;
             /**
              * Iban
-             * @description IBAN of the bank account linked to the journal.
+             * @description When the journal is of type bank, IBAN of the bank account linked to the journal
              */
             iban?: string | null;
             /**
              * Currency
-             * @description Currency of the journal. If empty, the journal follows the currency of the accounting folder.
+             * @description Currency of the journal (e.g., EUR). If empty, the journal follows the currency of the accounting folder.
              */
             currency?: string | null;
-        };
-        /** JournalEntryIn */
-        JournalEntryIn: {
-            /** Reference */
-            reference?: string | null;
-            /** Due Date */
-            due_date?: string | null;
-            /** Journal Id */
-            journal_id: string;
-            /** Name */
-            name: string;
             /**
-             * Date
-             * Format: date
+             * Other Currencies Allowed
+             * @description Indicates if the journal allows other currencies. If it doesn't allow other currencies an exchange rate must be provided for Chift to convert the amounts to the journal currency. This only applicable if the journal currency is the same as the accounting folder currency.
+             * @default true
              */
-            date: string;
-            /** Items */
-            items: components['schemas']['JournalItemIn'][];
+            other_currencies_allowed: boolean | null;
             /**
-             * Pdf
-             * @description Base 64 string representing the PDF attached to the item.
+             * Blocked
+             * @description Indicates if the journal is blocked for creating entries.
+             * @default false
              */
-            pdf?: string | null;
+            blocked: boolean | null;
         };
         /** JournalEntryMonoAnalyticPlan */
         JournalEntryMonoAnalyticPlan: {
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the entry. For example, it can be used to store a reference number, the invoice number issued by the suppllier or any other relevant information.
+             */
             reference?: string | null;
-            /** Due Date */
+            /**
+             * Due Date
+             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             */
             due_date?: string | null;
-            /** Journal Id */
+            /**
+             * Journal Id
+             * @description Id of the journal instance in the accounting system in which the journal entry is recorded.
+             */
             journal_id: string;
             /** Name */
             name?: string | null;
-            /** Journal Name */
+            /**
+             * Journal Name
+             * @description Name of the journal in which the journal entry is recorded.
+             */
             journal_name?: string | null;
             /**
              * Date
@@ -6666,28 +7659,51 @@ export interface components {
             date: string | null;
             /**
              * Posted
+             * @description Indicates if the journal entry has been posted (finalized) in the accounting system.
              * @default false
              */
             posted: boolean | null;
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the journal entry instance in the accounting system.
+             */
             id: string;
             /**
+             * Due Dates
+             * @description List of all due dates of a journal entry.
+             * @default []
+             */
+            due_dates: components['schemas']['JournalItemDueDatesOut'][] | null;
+            /**
              * Items
+             * @description List of journal items that make up the journal entry. Each item represents a line in the journal entry, and the sum of debits must equal the sum of credits to ensure the entry is balanced.
              * @default []
              */
             items: components['schemas']['JournalItemMonoAnalyticPlan'][] | null;
         };
         /** JournalEntryMultiAnalyticPlan */
         JournalEntryMultiAnalyticPlan: {
-            /** Reference */
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the entry. For example, it can be used to store a reference number, the invoice number issued by the suppllier or any other relevant information.
+             */
             reference?: string | null;
-            /** Due Date */
+            /**
+             * Due Date
+             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             */
             due_date?: string | null;
-            /** Journal Id */
+            /**
+             * Journal Id
+             * @description Id of the journal instance in the accounting system in which the journal entry is recorded.
+             */
             journal_id: string;
             /** Name */
             name?: string | null;
-            /** Journal Name */
+            /**
+             * Journal Name
+             * @description Name of the journal in which the journal entry is recorded.
+             */
             journal_name?: string | null;
             /**
              * Date
@@ -6697,25 +7713,46 @@ export interface components {
             date: string | null;
             /**
              * Posted
+             * @description Indicates if the journal entry has been posted (finalized) in the accounting system.
              * @default false
              */
             posted: boolean | null;
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the journal entry instance in the accounting system.
+             */
             id: string;
             /**
+             * Due Dates
+             * @description List of all due dates of a journal entry.
+             * @default []
+             */
+            due_dates: components['schemas']['JournalItemDueDatesOut'][] | null;
+            /**
              * Items
+             * @description List of journal items that make up the journal entry. Each item represents a line in the journal entry, and the sum of debits must equal the sum of credits to ensure the entry is balanced.
              * @default []
              */
             items: components['schemas']['JournalItemMultiAnalyticPlan'][] | null;
         };
         /** JournalIn */
         JournalIn: {
-            /** Code */
+            /**
+             * Code
+             * @description Short code or identifier of the journal (e.g., 'BNK', 'INV').
+             */
             code: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name or label of the journal as it appears in the accounting system.
+             */
             name: string;
+            /** @description Type of journal.  */
             journal_type: components['schemas']['JournalInType'];
-            /** Counterpart Account */
+            /**
+             * Counterpart Account
+             * @description When journal is of type bank or cash, this is account number of the counterpart account used for the journal.
+             */
             counterpart_account?: string | null;
         };
         /**
@@ -6730,98 +7767,164 @@ export interface components {
             | 'bank'
             | 'cash'
             | 'miscellaneous_operation';
-        /** JournalItemIn */
-        JournalItemIn: {
-            /** Account Number */
-            account_number: string;
-            /** Partner Id */
-            partner_id?: string | null;
-            /** Description */
-            description?: string | null;
-            /** Debit */
-            debit: number;
-            /** Credit */
-            credit: number;
-            /** Currency */
-            currency: string;
+        /** JournalItemDueDatesOut */
+        JournalItemDueDatesOut: {
             /**
-             * Currency Exchange Rate
-             * @default 1
+             * Due Date
+             * Format: date
+             * @description Due date of the item.
              */
-            currency_exchange_rate: number | null;
+            due_date: string;
             /**
-             * Analytic Distribution
-             * @default []
+             * Payment Method
+             * @description Payment method used to pay the entry on that due date.
              */
-            analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
+            payment_method?: string | null;
+            /**
+             * Debit
+             * @description Debit of the item on this due date.
+             * @default 0
+             */
+            debit: number | null;
+            /**
+             * Credit
+             * @description Credit of the item on this due date.
+             * @default 0
+             */
+            credit: number | null;
         };
         /** JournalItemMonoAnalyticPlan */
         JournalItemMonoAnalyticPlan: {
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Depending on account_type, if the account_type is 'general_account', this is the general ledger account number used to book the journal item against. If the account_type is 'customer_account', 'supplier_account' or 'employee_account', this is the thirdparty_id (id of the customer, supplier or employee in the accounting system).
+             */
             account_number: string;
-            /** Partner Id */
+            /**
+             * Partner Id
+             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice).
+             */
             partner_id?: string | null;
-            /** Description */
+            /**
+             * Description
+             * @description Text description for this journal item. This is typically used to provide additional context or information.
+             */
             description?: string | null;
-            /** Debit */
+            /**
+             * Debit
+             * @description Amount to debit on the account. Must be 0 if credit field is not 0
+             */
             debit: number;
-            /** Credit */
+            /**
+             * Credit
+             * @description Amount to credit on the account. Must be 0 if debit field is not 0
+             */
             credit: number;
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency code (e.g., USD, EUR) used for the journal item amounts.
+             */
             currency: string;
             /**
              * Currency Exchange Rate
+             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the journal item instance in the accounting system.
+             */
             id: string;
-            /** Partner Name */
+            /**
+             * Partner Name
+             * @description Name of the thirdparty (customer, supplier or employee) linked to the journal item if journal item relates to a thirdparty (e.g., an invoice).
+             */
             partner_name?: string | null;
-            /** Account Name */
+            /**
+             * Account Name
+             * @description Name or label of the ledger account used to book the journal item against.
+             */
             account_name: string;
             /**
              * Matching Numbers
+             * @description List of matching numbers used to link this journal item to other entries in the accounting system. This is used for reconciliation/lettering purposes.
              * @default []
              */
             matching_numbers: string[] | null;
-            /** Analytic Account */
+            /**
+             * Analytic Account
+             * @description Analytic account in the default analytic plan.
+             */
             analytic_account?: string | null;
-            /** Analytic Account Name */
+            /**
+             * Analytic Account Name
+             * @description Name of the analytic account in the default analytic plan.
+             */
             analytic_account_name?: string | null;
         };
         /** JournalItemMultiAnalyticPlan */
         JournalItemMultiAnalyticPlan: {
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Depending on account_type, if the account_type is 'general_account', this is the general ledger account number used to book the journal item against. If the account_type is 'customer_account', 'supplier_account' or 'employee_account', this is the thirdparty_id (id of the customer, supplier or employee in the accounting system).
+             */
             account_number: string;
-            /** Partner Id */
+            /**
+             * Partner Id
+             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice).
+             */
             partner_id?: string | null;
-            /** Description */
+            /**
+             * Description
+             * @description Text description for this journal item. This is typically used to provide additional context or information.
+             */
             description?: string | null;
-            /** Debit */
+            /**
+             * Debit
+             * @description Amount to debit on the account. Must be 0 if credit field is not 0
+             */
             debit: number;
-            /** Credit */
+            /**
+             * Credit
+             * @description Amount to credit on the account. Must be 0 if debit field is not 0
+             */
             credit: number;
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency code (e.g., USD, EUR) used for the journal item amounts.
+             */
             currency: string;
             /**
              * Currency Exchange Rate
+             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the journal item instance in the accounting system.
+             */
             id: string;
-            /** Partner Name */
+            /**
+             * Partner Name
+             * @description Name of the thirdparty (customer, supplier or employee) linked to the journal item if journal item relates to a thirdparty (e.g., an invoice).
+             */
             partner_name?: string | null;
-            /** Account Name */
+            /**
+             * Account Name
+             * @description Name or label of the ledger account used to book the journal item against.
+             */
             account_name: string;
             /**
              * Matching Numbers
+             * @description List of matching numbers used to link this journal item to other entries in the accounting system. This is used for reconciliation/lettering purposes.
              * @default []
              */
             matching_numbers: string[] | null;
             /**
              * Analytic Distribution
+             * @description List of analytic distributions for the journal item. Each distribution specifies an analytic plan and the allocation of the journal entry item's amount across analytic accounts using percentages.
              * @default []
              */
             analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
@@ -6840,10 +7943,18 @@ export interface components {
             | 'unknown';
         /** LedgerAccountItemIn */
         LedgerAccountItemIn: {
-            /** Name */
+            /**
+             * Name
+             * @description Name or label of the ledger account as it appears in the accounting system.
+             */
             name: string;
-            /** Number */
+            /**
+             * Number
+             * @description The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général).
+             */
             number: string;
+            /** @default other */
+            type: components['schemas']['AccountItemType'] | null;
         };
         /** LinkItem */
         LinkItem: {
@@ -6855,6 +7966,28 @@ export interface components {
             /** Url */
             url: string;
         };
+        /** LinkedDocument */
+        LinkedDocument: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Amount
+             * @description Amount linked to the document
+             */
+            amount: number;
+            /** @description Type of linked document */
+            type: components['schemas']['LinkedDocumentType'];
+        };
+        /**
+         * LinkedDocumentType
+         * @enum {string}
+         */
+        LinkedDocumentType: 'invoice' | 'other';
         /** LocalAgentInfo */
         LocalAgentInfo: {
             status: components['schemas']['LocalAgentStatus'];
@@ -6871,18 +8004,51 @@ export interface components {
             /** Data */
             data: string;
         };
+        /** MCPAuthItem */
+        MCPAuthItem: {
+            /** Clientid */
+            clientId: string;
+            /** Clientsecret */
+            clientSecret: string;
+            /**
+             * Accountid
+             * Format: uuid
+             */
+            accountId: string;
+            /** Envid */
+            envId?: string | null;
+            /** Marketplaceid */
+            marketplaceId?: string | null;
+            /**
+             * Consumerid
+             * Format: uuid
+             */
+            consumerId: string;
+        };
         /** MatchingIn */
         MatchingIn: {
-            /** Entries */
+            /**
+             * Entries
+             * @description List of entries to match. Must contain at least 2 entries. Entries are typically journal entry id, invoice id or financial entry id.
+             */
             entries: string[];
-            /** Partner Id */
+            /**
+             * Partner Id
+             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system . All entries are must be linked to one same partner.
+             */
             partner_id: string;
         };
         /** MatchingOut */
         MatchingOut: {
-            /** Matching Number */
+            /**
+             * Matching Number
+             * @description Unique 'number' of the matching operation in the accounting system.
+             */
             matching_number: string;
-            /** Balance */
+            /**
+             * Balance
+             * @description Balance of the matching operation. This is the sum of all entries in the matching operation. It should be zero if the matching is complete.
+             */
             balance: number;
         };
         /** MiscellaneousOperationIn */
@@ -6891,12 +8057,12 @@ export interface components {
             operation_number?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the operation (e.g. EUR).
+             * @description Indicates the currency of the operation (e.g., EUR, USD).
              */
             currency: string;
             /**
              * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
@@ -6919,10 +8085,14 @@ export interface components {
         MiscellaneousOperationLine: {
             /**
              * Line Number
+             * @description Line number of the operation line. This is used to order the lines in the operation. It is automatically set to 1 if not provided.
              * @default 1
              */
             line_number: number | null;
-            /** Description */
+            /**
+             * Description
+             * @description Text description used to provide additional context or information about the operation line.
+             */
             description?: string | null;
             /**
              * Amount
@@ -6930,14 +8100,20 @@ export interface components {
              */
             amount: number;
             type: components['schemas']['MiscellaneousOperationLineType'];
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Indicates the account number used in the operation line. This is the ledger account number in the chart of accounts.
+             */
             account_number: string;
             /**
              * Partner Id
-             * @description Must be filled in it is a 'customer_account' or 'supplier_account' line type.
+             * @description Must be filled in if it is a 'customer_account' or 'supplier_account' line type.
              */
             partner_id?: string | null;
-            /** Analytic Account */
+            /**
+             * Analytic Account
+             * @description Analytic account used in the operation line. This is the id of a analytic account - no distribution possible. It is used to track the operation line in the analytic accounting system.
+             */
             analytic_account?: string | null;
         };
         /**
@@ -6951,12 +8127,12 @@ export interface components {
             operation_number?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the operation (e.g. EUR).
+             * @description Indicates the currency of the operation (e.g., EUR, USD).
              */
             currency: string;
             /**
              * Currency Exchange Rate
-             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.
+             * @description Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the folder's default currency.
              * @default 1
              */
             currency_exchange_rate: number | null;
@@ -7016,7 +8192,9 @@ export interface components {
         };
         /** NlPaymentTermsSplit */
         NlPaymentTermsSplit: {
+            /** @description This is the 'Geblokkeerde rekening' in Dutch. It is a blocked bank account used only for tax-related payments, such as VAT and payroll tax. */
             g_account: components['schemas']['PaymentTermAccountInfo'];
+            /** @description This is the 'Normale rekening' in Dutch. It is a regular bank account used for standard business operations and unrestricted funds. The non-tax portion of the invoice is paid here. */
             n_account: components['schemas']['PaymentTermAccountInfo'];
         };
         /** ObjectivesItem */
@@ -7024,13 +8202,22 @@ export interface components {
             /**
              * Total
              * @description Total amount including tax of the sales
+             * @example 10
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes
+             * @example 1
              */
             tax_amount: number;
+            /**
+             * Date
+             * Format: date
+             * @description Date of the objective
+             * @example 2025-01-01
+             */
+            date: string;
         };
         /** OpportunityItem */
         OpportunityItem: {
@@ -7374,6 +8561,11 @@ export interface components {
              * @default false
              */
             gift_card: boolean | null;
+            /**
+             * Is Gift
+             * @default false
+             */
+            is_gift: boolean | null;
         };
         /** OrderLineProductVariantItem */
         OrderLineProductVariantItem: {
@@ -7511,59 +8703,121 @@ export interface components {
         };
         /** OriginalOutstandingItem */
         OriginalOutstandingItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the original outstanding item in the accounting system.
+             */
             id?: string | null;
-            /** Number */
+            /**
+             * Number
+             * @description Number of the original outstanding item.
+             */
             number?: string | null;
-            /** Journal Id */
+            /**
+             * Journal Id
+             * @description Id of the journal associated with the original outstanding item.
+             */
             journal_id?: string | null;
+            /** @description Type of the journal associated with the original outstanding item. */
             journal_type?: components['schemas']['JournalType'] | null;
-            /** Date */
+            /**
+             * Date
+             * @description Date of the original outstanding item.
+             */
             date?: string | null;
-            /** Due Date */
+            /**
+             * Due Date
+             * @description Due date of the original outstanding item.
+             */
             due_date?: string | null;
-            /** Reference */
+            /**
+             * Reference
+             * @description Reference of the original outstanding item.
+             */
             reference?: string | null;
         };
         /** OutstandingItem */
         OutstandingItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Unique id of the outstanding item instance in the accounting system.
+             */
             id: string;
-            /** Number */
+            /**
+             * Number
+             * @description Invoice, Journal entry or Financial entry number of the outstanding item.
+             */
             number?: string | null;
-            /** Journal Id */
+            /**
+             * Journal Id
+             * @description Id of the journal instance associated with the outstanding item.
+             */
             journal_id: string;
+            /** @description Type of the journal associated with the outstanding item. This indicates the type of journal in which the outstanding item is recorded, such as 'sales', 'purchases', 'bank', etc. It helps in categorizing the outstanding item based on the nature of the transaction. */
             journal_type: components['schemas']['JournalType'];
             /**
              * Date
              * Format: date
+             * @description Accounting date of the outstanding item.
              */
             date: string;
-            /** Due Date */
+            /**
+             * Due Date
+             * @description Due date of the outstanding item.
+             */
             due_date?: string | null;
-            /** Currency */
+            /**
+             * Currency
+             * @description Currency of the outstanding item (e.g., EUR, USD).
+             */
             currency: string;
-            /** Currency Exchange Rate */
+            /**
+             * Currency Exchange Rate
+             * @description Exchange rate applicable at the date of the outstanding item if currency different from folder's default currency.
+             */
             currency_exchange_rate: number;
-            /** Amount */
+            /**
+             * Amount
+             * @description Total amount
+             */
             amount: number;
-            /** Open Amount */
+            /**
+             * Open Amount
+             * @description Open amount.
+             */
             open_amount: number;
-            /** Partner Id */
+            /**
+             * Partner Id
+             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system linked to the outstanding item. This is used to identify the entity associated with the outstanding item.
+             */
             partner_id: string;
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Account number in the chart of accounts associated with the outstanding item. This is typically used to book the outstanding item against a specific ledger account.
+             */
             account_number: string;
-            /** Reference */
+            /**
+             * Reference
+             * @description Reference of the outstanding item. This is an optional field that can be used to store additional information or context related to the outstanding item, such as an invoice number or a transaction reference.
+             */
             reference?: string | null;
             /**
              * Matching Numbers
+             * @description List of matching numbers associated with the outstanding item. This is used to track any matching operations that have been performed on the outstanding item, such as payments or adjustments.
              * @default []
              */
             matching_numbers: string[] | null;
-            /** Payment Communication */
+            /**
+             * Payment Communication
+             * @description Payment communication associated with the outstanding item. This is an optional field that can be used to store additional information related to the payment
+             */
             payment_communication?: string | null;
-            /** Posted */
+            /**
+             * Posted
+             * @description Indicates if the outstanding item has been posted (finalized) in the accounting system. If not provided, it defaults to True.
+             */
             posted: boolean;
+            /** @description Details of the original document associated with the outstanding item. This is used to link the outstanding item to its original source when oustanding item was initially posted in previous bookyear. */
             original_document?: components['schemas']['OriginalOutstandingItem'] | null;
         };
         /**
@@ -7576,6 +8830,7 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the accounting category
+             * @example 371ca583-d218-4900-b236-397532cf0e2
              */
             id: string;
             /** @description Technical id in the target software */
@@ -7583,21 +8838,25 @@ export interface components {
             /**
              * Name
              * @description Name given to the accounting category
+             * @example Beverages
              */
             name: string;
             /**
              * Code
              * @description Code assigned to the category
+             * @example 123456
              */
             code?: string | null;
             /**
              * Ledger Account Code
              * @description Ledger account code assigned to the category
+             * @example 123456
              */
             ledger_account_code?: string | null;
             /**
              * Posting Account Code
              * @description Posting account code assigned to the category
+             * @example 123456
              */
             posting_account_code?: string | null;
         };
@@ -7607,9 +8866,13 @@ export interface components {
              * Date
              * Format: date
              * @description Date of the closure
+             * @example 2025-01-01
              */
             date: string;
-            /** @description Status of the closure */
+            /**
+             * @description Status of the closure
+             * @example closed
+             */
             status: components['schemas']['ClosureStates'];
             /**
              * Closures
@@ -7630,36 +8893,43 @@ export interface components {
             /**
              * First Name
              * @description First name of the customer. In case the customer is an individual.
+             * @example John
              */
             first_name?: string | null;
             /**
              * Last Name
              * @description Last name of the customer. In case the customer is an individual.
+             * @example Doe
              */
             last_name?: string | null;
             /**
              * Company Name
              * @description Company name of the customer. In case the customer is a company.
+             * @example Acme Corp
              */
             company_name?: string | null;
             /**
              * Phone
              * @description Phone number of the customer
+             * @example +1234567890
              */
             phone?: string | null;
             /**
              * Email
              * @description Email address of the customer
+             * @example john.doe@example.com
              */
             email?: string | null;
             /**
              * Account Number
              * @description Number of the accounting account used (e.g. 701000)
+             * @example 701000
              */
             account_number?: string | null;
             /**
              * Created On
              * @description Creation date of the customer
+             * @example 2023-09-25T12:00:00
              */
             created_on?: string | null;
             /**
@@ -7680,16 +8950,19 @@ export interface components {
             /**
              * Invoice Number
              * @description Number/sequence
+             * @example INV-12345
              */
             invoice_number: string | null;
             /**
              * Creation Date
              * @description Creation date of the invoice
+             * @example 2023-10-01T12:00:00
              */
             creation_date?: string | null;
             /**
              * Closing Date
              * @description Closing date of the invoice
+             * @example 2023-10-10T12:00:00
              */
             closing_date?: string | null;
             /**
@@ -7717,16 +8990,19 @@ export interface components {
             /**
              * Tax Amount
              * @description Taxes amount
+             * @example 21
              */
             tax_amount: number;
             /**
              * Untaxed Amount
              * @description Untaxed amount
+             * @example 100
              */
             untaxed_amount: number;
             /**
              * Total
              * @description Total amount incl. taxes
+             * @example 121
              */
             total: number;
         };
@@ -7735,16 +9011,19 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the location
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Name
              * @description Name given to the location
+             * @example Restaurant de la Paix
              */
             name: string;
             /**
              * Timezone
              * @description Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .
+             * @example Europe/Paris
              */
             timezone?: string | null;
             /** @description Address of the location */
@@ -7755,6 +9034,7 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the order
+             * @example 123
              */
             id: string;
             /** @description Technical id in the target software */
@@ -7762,86 +9042,102 @@ export interface components {
             /**
              * Order Number
              * @description Order number (often unique reference during the day)
+             * @example 1
              */
             order_number?: string | null;
             /**
              * Creation Date
              * Format: date-time
              * @description Creation date of the order
+             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Closing Date
              * @description Closing date of the order
+             * @example 2025-01-01T00:00:00Z
              */
             closing_date?: string | null;
             /**
              * Service Date
              * @description Indicates the date of the service to which the order belongs (can be used to group orders by closure date)
+             * @example 2025-01-01T00:00:00Z
              */
             service_date?: string | null;
             /**
              * Device Id
              * @description ID of device that created the order
+             * @example device-123
              */
             device_id?: string | null;
             /**
              * Total
              * @description Total amount including tax of the order
+             * @example 11
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes of the order
+             * @example 1
              */
             tax_amount: number;
             /**
              * Total Discount
              * @description Total amount of the discounts of the order
              * @default 0
+             * @example 10
              */
             total_discount: number | null;
             /**
              * Total Refund
              * @description Total amount of the refunds of the order
              * @default 0
+             * @example 5
              */
             total_refund: number | null;
             /**
              * Total Tip
              * @description Total amount of the tips of the order. Tips are not part of the total of the order
              * @default 0
+             * @example 1
              */
             total_tip: number | null;
             /**
              * Delivery Fee
              * @description Total amount of the delivery fees of the order
              * @default 0
+             * @example 1
              */
             delivery_fee: number | null;
             /**
              * Currency
              * @description Currency of the order
+             * @example EUR
              */
             currency?: string | null;
             /**
              * Country
              * @description Country of the order, format: ISO 3166-1 codes.
+             * @example FR
              */
             country?: string | null;
             /**
              * Loyalty
              * @description Loyalty points of the order
+             * @example 100
              */
             loyalty?: number | null;
             /**
              * Customer Id
              * @description Unique identifier of the customer
+             * @example customer-123
              */
             customer_id?: string | null;
             /**
              * Location Id
              * @description Unique identifier of the location
+             * @example location-123
              */
             location_id?: string | null;
             /**
@@ -7853,6 +9149,7 @@ export interface components {
             /**
              * Guests
              * @description Number of guests linked to the order
+             * @example 1
              */
             guests?: number | null;
             /**
@@ -7878,51 +9175,63 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the order line item
+             * @example 123
              */
             id: string;
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
-            /** @description Type of the order line item */
+            /**
+             * @description Type of the order line item
+             * @example product
+             */
             type?: components['schemas']['POSLineItemType'] | null;
             /**
              * Menu Id
              * @description Unique identifier of the menu
+             * @example 456
              */
             menu_id?: string | null;
             /**
              * Quantity
              * @description Quantity of the order line item
+             * @example 1
              */
             quantity: number;
             /**
              * Unit Price
              * @description Unit price (without tax) of the order line item
+             * @example 10
              */
             unit_price: number;
             /**
              * Total
              * @description Total amount including tax of the order line item
+             * @example 11
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes of the order line item
+             * @example 1
              */
             tax_amount: number;
             /**
              * Tax Rate
              * @description Tax rate of the order line item
+             * @example 10
              */
             tax_rate?: number | null;
             /**
              * Description
              * @description Description of the order line item
+             * @example Pizza
              */
             description?: string | null;
             /**
              * Discounts
              * @description List of discounts of the order line item. Discounts of items are always part of the total discount of the order
              * @default []
+             * @example []
              */
             discounts:
                 | components['schemas']['backbone_common__models__pos_pms__DiscountItem'][]
@@ -7930,11 +9239,13 @@ export interface components {
             /**
              * Product Id
              * @description Reference to the product related to this item
+             * @example 789
              */
             product_id?: string | null;
             /**
              * Accounting Category Id
              * @description Sometimes used by a POS to give a specific accounting category to an order item
+             * @example 123
              */
             accounting_category_id?: string | null;
         };
@@ -7943,6 +9254,7 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the payment
+             * @example payment-123
              */
             id?: string | null;
             /** @description Technical id in the target software */
@@ -7950,47 +9262,61 @@ export interface components {
             /**
              * Payment Method Id
              * @description Unique identifier of the payment method used for the payment
+             * @example payment-method-123
              */
             payment_method_id?: string | null;
             /**
              * Payment Method Name
              * @description Chift's name of the payment method used for the payment
+             * @example Cash
              */
             payment_method_name?: string | null;
             /**
              * Total
              * @description Total amount of the payment
+             * @example 11
              */
             total: number;
             /**
              * Tip
              * @description Total amount of the tips of the payment. Tips are not part of the total of the payment
              * @default 0
+             * @example 1
              */
             tip: number | null;
             /**
              * @description Status of the payment
              * @default Unknown
+             * @example Completed
              */
             status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'] | null;
             /**
              * Currency
              * @description Currency of the payment
+             * @example EUR
              */
             currency?: string | null;
             /**
              * Date
              * @description Date of the payment
+             * @example 2025-01-01T00:00:00Z
              */
             date?: string | null;
             /** @description Reference to the customer related to this payment */
             partner_id?: components['schemas']['ChiftId'] | null;
+            /**
+             * Description
+             * @description Description of the payment
+             * @example Payment for invoice INV-12345
+             */
+            description?: string | null;
         };
         /** PMSPaymentMethods */
         PMSPaymentMethods: {
             /**
              * Id
              * @description Unique identifier of the payment method
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /** @description Technical id in the target software */
@@ -7998,16 +9324,19 @@ export interface components {
             /**
              * Name
              * @description Chift's name of the payment method (e.g. 'Cash', 'Card', 'Transfer', ...)
+             * @example Cash
              */
             name: string;
             /**
              * Extra
              * @description Original name of the payment method
+             * @example Espèces
              */
             extra?: string | null;
             /**
              * Ledger Account Code
              * @description Ledger account code assigned to the category
+             * @example 4000
              */
             ledger_account_code?: string | null;
         };
@@ -8028,11 +9357,13 @@ export interface components {
             /**
              * Label
              * @description Label of the tax rate
+             * @example VAT 21%
              */
             label?: string | null;
             /**
              * Rate
              * @description Percentage of the tax rate
+             * @example 21
              */
             rate?: number | null;
         };
@@ -8068,21 +9399,25 @@ export interface components {
             /**
              * First Name
              * @description First name of the customer
+             * @example John
              */
             first_name: string;
             /**
              * Last Name
              * @description Last name of the customer
+             * @example Doe
              */
             last_name: string;
             /**
              * Phone
              * @description Phone number (mobile, home, work, ...) of the customer
+             * @example +32475123456
              */
             phone?: string | null;
             /**
              * Email
              * @description Email address of the customer
+             * @example john.doe@gmail.com
              */
             email?: string | null;
             /** @description Address of the customer */
@@ -8093,36 +9428,43 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the customer
+             * @example 371ca583-d218-8000-b236-397532cf0e52
              */
             id: string;
             /**
              * First Name
              * @description First name of the customer
+             * @example John
              */
             first_name?: string | null;
             /**
              * Last Name
              * @description Last name of the customer
+             * @example Doe
              */
             last_name?: string | null;
             /**
              * Name
              * @description Name (first name + last name) of the customer
+             * @example John Doe
              */
             name: string;
             /**
              * Phone
              * @description Phone number (mobile, home, work, ...) of the customer
+             * @example +32475123456
              */
             phone?: string | null;
             /**
              * Email
              * @description Email address of the customer
+             * @example john.doe@gmail.com
              */
             email?: string | null;
             /**
              * Created On
              * @description Date and time when the customer was created
+             * @example 2025-01-01T00:00:00Z
              */
             created_on?: string | null;
             /**
@@ -8134,11 +9476,13 @@ export interface components {
             /**
              * Loyalty
              * @description Loyalty points of the customer
+             * @example 100
              */
             loyalty?: number | null;
             /**
              * Birthdate
              * @description Birthdate of the customer
+             * @example 1990-01-01
              */
             birthdate?: string | null;
         };
@@ -8147,49 +9491,61 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the order line item
+             * @example 123
              */
             id: string;
-            /** @description Type of the order line item */
+            /**
+             * @description Type of the order line item
+             * @example product
+             */
             type?: components['schemas']['POSLineItemType'] | null;
             /**
              * Menu Id
              * @description Unique identifier of the menu
+             * @example 456
              */
             menu_id?: string | null;
             /**
              * Quantity
              * @description Quantity of the order line item
+             * @example 1
              */
             quantity: number;
             /**
              * Unit Price
              * @description Unit price (without tax) of the order line item
+             * @example 10
              */
             unit_price: number;
             /**
              * Total
              * @description Total amount including tax of the order line item
+             * @example 11
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes of the order line item
+             * @example 1
              */
             tax_amount: number;
             /**
              * Tax Rate
              * @description Tax rate of the order line item
+             * @example 10
              */
             tax_rate?: number | null;
             /**
              * Description
              * @description Description of the order line item
+             * @example Pizza
              */
             description?: string | null;
             /**
              * Discounts
              * @description List of discounts of the order line item. Discounts of items are always part of the total discount of the order
              * @default []
+             * @example []
              */
             discounts:
                 | components['schemas']['backbone_common__models__pos_pms__DiscountItem'][]
@@ -8197,11 +9553,13 @@ export interface components {
             /**
              * Product Id
              * @description Reference to the product related to this item
+             * @example 789
              */
             product_id?: string | null;
             /**
              * Accounting Category Id
              * @description Sometimes used by a POS to give a specific accounting category to an order item
+             * @example 123
              */
             accounting_category_id?: string | null;
         };
@@ -8209,22 +9567,25 @@ export interface components {
          * POSLineItemType
          * @enum {string}
          */
-        POSLineItemType: 'menu' | 'product' | 'general_discount';
+        POSLineItemType: 'menu' | 'product' | 'service' | 'general_discount';
         /** POSLocationItem */
         POSLocationItem: {
             /**
              * Id
              * @description Unique identifier of the location
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Name
              * @description Name given to the location
+             * @example Restaurant de la Paix
              */
             name: string;
             /**
              * Timezone
              * @description Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .
+             * @example Europe/Paris
              */
             timezone?: string | null;
             /** @description Address of the location */
@@ -8235,91 +9596,108 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the order
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Order Number
              * @description Order number (often unique reference during the day)
+             * @example 1
              */
             order_number?: string | null;
             /**
              * Creation Date
              * Format: date-time
              * @description Creation date of the order
+             * @example 2025-01-01T00:00:00Z
              */
             creation_date: string;
             /**
              * Closing Date
              * @description Closing date of the order
+             * @example 2025-01-01T00:00:00Z
              */
             closing_date?: string | null;
             /**
              * Service Date
              * @description Indicates the date of the service to which the order belongs (can be used to group orders by closure date)
+             * @example 2025-01-01T00:00:00Z
              */
             service_date?: string | null;
             /**
              * Device Id
              * @description ID of device that created the order
+             * @example device-123
              */
             device_id?: string | null;
             /**
              * Total
              * @description Total amount including tax of the order
+             * @example 11
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes of the order
+             * @example 1
              */
             tax_amount: number;
             /**
              * Total Discount
              * @description Total amount of the discounts of the order
              * @default 0
+             * @example 10
              */
             total_discount: number | null;
             /**
              * Total Refund
              * @description Total amount of the refunds of the order
              * @default 0
+             * @example 5
              */
             total_refund: number | null;
             /**
              * Total Tip
              * @description Total amount of the tips of the order. Tips are not part of the total of the order
              * @default 0
+             * @example 1
              */
             total_tip: number | null;
             /**
              * Delivery Fee
              * @description Total amount of the delivery fees of the order
              * @default 0
+             * @example 1
              */
             delivery_fee: number | null;
             /**
              * Currency
              * @description Currency of the order
+             * @example EUR
              */
             currency?: string | null;
             /**
              * Country
              * @description Country of the order, format: ISO 3166-1 codes.
+             * @example FR
              */
             country?: string | null;
             /**
              * Loyalty
              * @description Loyalty points of the order
+             * @example 100
              */
             loyalty?: number | null;
             /**
              * Customer Id
              * @description Unique identifier of the customer
+             * @example customer-123
              */
             customer_id?: string | null;
             /**
              * Location Id
              * @description Unique identifier of the location
+             * @example location-123
              */
             location_id?: string | null;
             /**
@@ -8331,6 +9709,7 @@ export interface components {
             /**
              * Guests
              * @description Number of guests linked to the order
+             * @example 1
              */
             guests?: number | null;
             /**
@@ -8349,42 +9728,50 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the payment
+             * @example payment-123
              */
             id?: string | null;
             /**
              * Payment Method Id
              * @description Unique identifier of the payment method used for the payment
+             * @example payment-method-123
              */
             payment_method_id?: string | null;
             /**
              * Payment Method Name
              * @description Chift's name of the payment method used for the payment
+             * @example Cash
              */
             payment_method_name?: string | null;
             /**
              * Total
              * @description Total amount of the payment
+             * @example 11
              */
             total: number;
             /**
              * Tip
              * @description Total amount of the tips of the payment. Tips are not part of the total of the payment
              * @default 0
+             * @example 1
              */
             tip: number | null;
             /**
              * @description Status of the payment
              * @default Unknown
+             * @example Completed
              */
             status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'] | null;
             /**
              * Currency
              * @description Currency of the payment
+             * @example EUR
              */
             currency?: string | null;
             /**
              * Date
              * @description Date of the payment
+             * @example 2025-01-01T00:00:00Z
              */
             date?: string | null;
         };
@@ -8393,22 +9780,26 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the product
+             * @example 371ca583-d218-4900-b236-397532cf0e39
              */
             id: string;
             /**
              * Categories
              * @description List of categories the product belongs to
              * @default []
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             categories: string[] | null;
             /**
              * Name
              * @description Name ofthe product
+             * @example Pizza margheritta
              */
             name: string;
             /**
              * Description
              * @description Description of the product
+             * @example Pizza margheritta
              */
             description?: string | null;
             /**
@@ -8419,12 +9810,16 @@ export interface components {
             /**
              * Accounting Category Ids
              * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
+             * @example 371ca583-d218-4900-b236-397532cf0e2
              */
             accounting_category_ids?: string[] | null;
         };
         /** Partner */
         Partner: {
-            /** External Reference */
+            /**
+             * External Reference
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             */
             external_reference?: string | null;
             /**
              * First Name
@@ -8436,7 +9831,10 @@ export interface components {
              * @description Only used when the client is an individual (is_company=false). Indicates the last name of the client.
              */
             last_name?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Full name or legal name of the client (individual or company). This is the name displayed in the accounting software.
+             */
             name?: string | null;
             /**
              * Function
@@ -8454,26 +9852,44 @@ export interface components {
              * @description Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.
              */
             company_id?: string | null;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the client.
+             */
             phone?: string | null;
-            /** Mobile */
+            /**
+             * Mobile
+             * @description Mobile phone number of the client.
+             */
             mobile?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the client.
+             */
             email?: string | null;
             /**
              * Language
-             * @description Format: ISO 639-1 codes.
+             * @description Language of the client. Format: ISO 639-1 codes.
              */
             language?: string | null;
-            /** Internal Notes */
+            /**
+             * Internal Notes
+             * @description Internal notes about the client.
+             */
             internal_notes?: string | null;
-            /** Website */
+            /**
+             * Website
+             * @description Website of the client.
+             */
             website?: string | null;
-            /** Vat */
+            /**
+             * Vat
+             * @description VAT number of the client.
+             */
             vat?: string | null;
             /**
              * Iban
-             * @description IBAN Account number of the client.
+             * @description IBAN account number of the client.
              */
             iban?: string | null;
             /**
@@ -8483,19 +9899,29 @@ export interface components {
             bank_account?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the client (e.g. EUR).
+             * @description Indicates the currency of the client (e.g., EUR).
              */
             currency?: string | null;
             /**
              * Active
+             * @description Indicates if the client is active.
              * @default true
              */
             active: boolean | null;
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Ledger account number assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
+             */
             account_number?: string | null;
-            /** Company Number */
+            /**
+             * Company Number
+             * @description Id of the associated company, used when the record is a contact person linked to a company.
+             */
             company_number?: string | null;
-            /** Id */
+            /**
+             * Id
+             * @description Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.
+             */
             id?: string | null;
             /**
              * Last Updated On
@@ -8504,6 +9930,7 @@ export interface components {
             last_updated_on?: string | null;
             /**
              * Addresses
+             * @description List of addresses associated with the client.
              * @default []
              */
             addresses:
@@ -8549,7 +9976,7 @@ export interface components {
             amount: number;
             /**
              * Dedicated Amount
-             * @description Amount of the payment dedicated to the invoice. Zero the accounting software doesn't provide the information.
+             * @description Amount of the payment dedicated to the invoice.
              * @default 0
              */
             dedicated_amount: number;
@@ -8630,16 +10057,19 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the payment method
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Name
              * @description Chift's name of the payment method (e.g. 'Cash', 'Card', 'Transfer', ...)
+             * @example Cash
              */
             name: string;
             /**
              * Extra
              * @description Original name of the payment method
+             * @example Espèces
              */
             extra?: string | null;
         };
@@ -8690,9 +10120,15 @@ export interface components {
         'PaymentStatus-Input': 'all' | 'unpaid' | 'paid';
         /** PaymentTermAccountInfo */
         PaymentTermAccountInfo: {
-            /** Amount */
+            /**
+             * Amount
+             * @description Amount to be paid to the G or N account
+             */
             amount: number;
-            /** Iban */
+            /**
+             * Iban
+             * @description IBAN of the G or R account
+             */
             iban: string;
         };
         /** PostAddressItem */
@@ -8700,36 +10136,43 @@ export interface components {
             /**
              * Name
              * @description Name given to the address (e.g. 'home')
+             * @example home
              */
             name: string;
             /**
              * Street
              * @description Street name
+             * @example Avenue de la République
              */
             street?: string | null;
             /**
              * Number
              * @description Number of the address
+             * @example 123
              */
             number?: string | null;
             /**
              * Box
              * @description Box of the address
+             * @example A
              */
             box?: string | null;
             /**
              * City
              * @description City name
+             * @example Paris
              */
             city: string;
             /**
              * Postal Code
              * @description Postal code of the address
+             * @example 75000
              */
             postal_code: string;
             /**
              * Country
              * @description Country, format: ISO 3166-1 codes.
+             * @example FR
              */
             country?: string | null;
         };
@@ -8737,7 +10180,7 @@ export interface components {
         'PostConnectionItem-Input': {
             /**
              * Integrationid
-             * @description Can be used to specify the integration code of a specific connector. If specified, the url will will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
+             * @description Can be used to specify the integration code of a specific connector. If specified, the url will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
              */
             integrationid?: number | null;
             /**
@@ -8769,29 +10212,60 @@ export interface components {
         };
         /** PostConsumerItem */
         PostConsumerItem: {
-            /** Name */
+            /**
+             * Name
+             * @description Name of the consumer as it will appear in your Chift platform. This name may be used for automated communications, such as automatic mailings if you enable this feature.
+             */
             name: string;
-            /** Email */
+            /**
+             * Email
+             * @description Optional - Email address of the consumer. It can be used for sending automated reminders (if feature enabled) and deployment by mail of local agent (when on-premise connector).
+             */
             email?: string | null;
-            /** Internal Reference */
+            /**
+             * Internal Reference
+             * @description Your internal reference for the client (e.g., customer ID or unique identifier in your system).
+             */
             internal_reference?: string | null;
-            /** Redirect Url */
+            /**
+             * Redirect Url
+             * @description URL to redirect the user after completing the activation via our link. Useful for directing customers to a dynamic or personalized url. You can also set up a default static URL in Chift's back office for all consumers.
+             */
             redirect_url?: string | null;
         };
         /** PostSyncFlowEvent */
         PostSyncFlowEvent: {
+            /** Consumers */
+            consumers?: string[];
+            data?: components['schemas']['PostSyncFlowEventData'];
+        };
+        /** PostSyncFlowEventData */
+        PostSyncFlowEventData: {
             /**
-             * Consumers
-             * @default []
+             * Force Restart
+             * @description Whether to force restart the sync from the specified dates
+             * @default false
              */
-            consumers: string[] | null;
+            force_restart: boolean;
             /**
-             * Data
-             * @default {}
+             * Start Date
+             * @description Start date for sync range
              */
-            data: {
-                [key: string]: unknown;
-            } | null;
+            start_date?: string | null;
+            /**
+             * End Date
+             * @description End date for sync range
+             */
+            end_date?: string | null;
+            /**
+             * Force From Date
+             * @description Force sync from this specific date, overriding flow configuration
+             */
+            force_from_date?: string | null;
+            /** @description Import mode: reimport all data or only missing days */
+            import_mode?: components['schemas']['ImportMode'] | null;
+        } & {
+            [key: string]: unknown;
         };
         /** ProductCostItem */
         ProductCostItem: {
@@ -8873,12 +10347,16 @@ export interface components {
                 | null;
             /** Created On */
             created_on?: string | null;
+            /** Last Updated On */
+            last_updated_on?: string | null;
             /**
              * Variants
              * @default []
              */
             variants: components['schemas']['ProductVariantItem'][] | null;
             status?: components['schemas']['ProductStatus'] | null;
+            /** Sku */
+            sku?: string | null;
             /**
              * Common Attributes
              * @description List of attributes that are shared by all variants of the product.
@@ -9090,6 +10568,12 @@ export interface components {
         ReadSyncItem: {
             /** Name */
             name: string;
+            /** Config */
+            config?: {
+                [key: string]: {
+                    [key: string]: unknown;
+                }[];
+            } | null;
             /** Connections */
             connections: components['schemas']['backbone_api__app__routers__syncs__ConnectionItem'][];
             /**
@@ -9120,6 +10604,12 @@ export interface components {
             display_order: number;
             /** Challenge Question */
             challenge_question?: string | null;
+            /** Conditions */
+            conditions?: {
+                [key: string]: {
+                    [key: string]: unknown;
+                };
+            } | null;
             /** Values */
             values: components['schemas']['ReadMappingItem'][];
             /** Sub Mapping Name */
@@ -9234,16 +10724,19 @@ export interface components {
             /**
              * Start Date
              * @description Start date of the reservation
+             * @example 2024-10-01T12:00:00
              */
             start_date?: string | null;
             /**
              * End Date
              * @description End date of the reservation
+             * @example 2024-10-10T12:00:00
              */
             end_date?: string | null;
             /**
              * Creation Date
              * @description Creation date of the reservation
+             * @example 2024-09-25T12:00:00
              */
             creation_date?: string | null;
             /** @description Unique reference to the resource related to the reservation */
@@ -9251,11 +10744,13 @@ export interface components {
             /**
              * Resource Name
              * @description Name of the resource related to the reservation
+             * @example Room 101
              */
             resource_name?: string | null;
             /**
              * Resource Identifier
              * @description Identifier of the resource related to the reservation
+             * @example R101
              */
             resource_identifier?: string | null;
         };
@@ -9308,11 +10803,13 @@ export interface components {
             /**
              * Total
              * @description Total amount including tax of the sales
+             * @example 10
              */
             total: number;
             /**
              * Tax Amount
              * @description Total amount of the taxes
+             * @example 1
              */
             tax_amount: number;
             /**
@@ -9359,7 +10856,10 @@ export interface components {
         Status: 'active' | 'inactive';
         /** SupplierItemIn */
         SupplierItemIn: {
-            /** External Reference */
+            /**
+             * External Reference
+             * @description External identifier used to link the supplier in the accounting system with the corresponding supplier reference in your own system.
+             */
             external_reference?: string | null;
             /**
              * First Name
@@ -9371,7 +10871,10 @@ export interface components {
              * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
              */
             last_name?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Full name or legal name of the supplier (individual or company). This is the name that will be displayed in the accounting software.
+             */
             name: string;
             /**
              * Function
@@ -9389,26 +10892,44 @@ export interface components {
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
              */
             company_id?: string | null;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the supplier.
+             */
             phone?: string | null;
-            /** Mobile */
+            /**
+             * Mobile
+             * @description Mobile phone number of the supplier.
+             */
             mobile?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the supplier.
+             */
             email?: string | null;
             /**
              * Language
-             * @description Format: ISO 639-1 codes.
+             * @description Language of the supplier. Format: ISO 639-1 codes.
              */
             language?: string | null;
-            /** Internal Notes */
+            /**
+             * Internal Notes
+             * @description Internal notes about the supplier.
+             */
             internal_notes?: string | null;
-            /** Website */
+            /**
+             * Website
+             * @description Website of the supplier.
+             */
             website?: string | null;
-            /** Vat */
+            /**
+             * Vat
+             * @description VAT number of the supplier.
+             */
             vat?: string | null;
             /**
              * Iban
-             * @description IBAN Account number of the supplier.
+             * @description IBAN account number of the supplier.
              */
             iban?: string | null;
             /**
@@ -9418,22 +10939,32 @@ export interface components {
             bank_account?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the supplier (e.g. EUR).
+             * @description Indicates the currency of the supplier (e.g., EUR).
              */
             currency?: string | null;
             /**
              * Active
+             * @description Indicates if the supplier is active.
              * @default true
              */
             active: boolean | null;
-            /** Addresses */
+            /**
+             * Addresses
+             * @description List of addresses associated with the supplier.
+             */
             addresses: components['schemas']['backbone_common__models__common__AddressItemIn'][];
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Number of ledger account assigned to the supplier in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is typically the ledger account used for posting payables. In some systems, each supplier has a dedicated account; in others, a shared control account is used and supplier balances are tracked in a subledger.
+             */
             account_number?: string | null;
         };
         /** SupplierItemOut */
         SupplierItemOut: {
-            /** External Reference */
+            /**
+             * External Reference
+             * @description External identifier used to link the supplier in the accounting system with the corresponding supplier reference in your own system.
+             */
             external_reference?: string | null;
             /**
              * First Name
@@ -9445,7 +10976,10 @@ export interface components {
              * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
              */
             last_name?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Full name or legal name of the supplier (individual or company). This is the name displayed in the accounting software.
+             */
             name?: string | null;
             /**
              * Function
@@ -9463,26 +10997,44 @@ export interface components {
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
              */
             company_id?: string | null;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the supplier.
+             */
             phone?: string | null;
-            /** Mobile */
+            /**
+             * Mobile
+             * @description Mobile phone number of the supplier.
+             */
             mobile?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the supplier.
+             */
             email?: string | null;
             /**
              * Language
-             * @description Format: ISO 639-1 codes.
+             * @description Language of the supplier. Format: ISO 639-1 codes.
              */
             language?: string | null;
-            /** Internal Notes */
+            /**
+             * Internal Notes
+             * @description Internal notes about the supplier.
+             */
             internal_notes?: string | null;
-            /** Website */
+            /**
+             * Website
+             * @description Website of the supplier.
+             */
             website?: string | null;
-            /** Vat */
+            /**
+             * Vat
+             * @description VAT number of the supplier.
+             */
             vat?: string | null;
             /**
              * Iban
-             * @description IBAN Account number of the supplier.
+             * @description IBAN account number of the supplier.
              */
             iban?: string | null;
             /**
@@ -9492,19 +11044,29 @@ export interface components {
             bank_account?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the supplier (e.g. EUR).
+             * @description Indicates the currency of the supplier (e.g., EUR).
              */
             currency?: string | null;
             /**
              * Active
+             * @description Indicates if the supplier is active.
              * @default true
              */
             active: boolean | null;
-            /** Account Number */
+            /**
+             * Account Number
+             * @description Ledger account number assigned to the supplier in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
+             */
             account_number?: string | null;
-            /** Company Number */
+            /**
+             * Company Number
+             * @description Id of the associated company, used when the record is a contact person linked to a company.
+             */
             company_number?: string | null;
-            /** Id */
+            /**
+             * Id
+             * @description Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system.
+             */
             id?: string | null;
             /**
              * Last Updated On
@@ -9513,6 +11075,7 @@ export interface components {
             last_updated_on?: string | null;
             /**
              * Addresses
+             * @description List of addresses associated with the supplier.
              * @default []
              */
             addresses:
@@ -9521,7 +11084,10 @@ export interface components {
         };
         /** SupplierItemUpdate */
         SupplierItemUpdate: {
-            /** External Reference */
+            /**
+             * External Reference
+             * @description External identifier used to link the supplier in the accounting system with the corresponding supplier reference in your own system.
+             */
             external_reference?: string | null;
             /**
              * First Name
@@ -9533,7 +11099,10 @@ export interface components {
              * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
              */
             last_name?: string | null;
-            /** Name */
+            /**
+             * Name
+             * @description Full name or legal name of the supplier (individual or company). This is the name that will be displayed in the accounting software.
+             */
             name?: string | null;
             /**
              * Function
@@ -9551,26 +11120,44 @@ export interface components {
              * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
              */
             company_id?: string | null;
-            /** Phone */
+            /**
+             * Phone
+             * @description Phone number of the supplier.
+             */
             phone?: string | null;
-            /** Mobile */
+            /**
+             * Mobile
+             * @description Mobile phone number of the supplier.
+             */
             mobile?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Email address of the supplier.
+             */
             email?: string | null;
             /**
              * Language
-             * @description Format: ISO 639-1 codes.
+             * @description Language of the supplier. Format: ISO 639-1 codes.
              */
             language?: string | null;
-            /** Internal Notes */
+            /**
+             * Internal Notes
+             * @description Internal notes about the supplier.
+             */
             internal_notes?: string | null;
-            /** Website */
+            /**
+             * Website
+             * @description Website of the supplier.
+             */
             website?: string | null;
-            /** Vat */
+            /**
+             * Vat
+             * @description VAT number of the supplier.
+             */
             vat?: string | null;
             /**
              * Iban
-             * @description IBAN Account number of the supplier.
+             * @description IBAN account number of the supplier.
              */
             iban?: string | null;
             /**
@@ -9580,16 +11167,18 @@ export interface components {
             bank_account?: string | null;
             /**
              * Currency
-             * @description Indicates the currency of the supplier (e.g. EUR).
+             * @description Indicates the currency of the supplier (e.g., EUR).
              */
             currency?: string | null;
             /**
              * Active
+             * @description Indicates if the supplier is active.
              * @default true
              */
             active: boolean | null;
             /**
              * Addresses
+             * @description List of addresses associated with the supplier.
              * @default []
              */
             addresses: components['schemas']['AddressItemOut-Input'][] | null;
@@ -9635,6 +11224,13 @@ export interface components {
                 [key: string]: unknown;
             } | null;
             /**
+             * Link Presync
+             * @description Values of the presync configuration for the sync for the specific consumer
+             */
+            link_presync?: {
+                [key: string]: unknown;
+            } | null;
+            /**
              * Enabled Flows
              * @description List of flows that the consumer has enabled
              */
@@ -9677,16 +11273,19 @@ export interface components {
             /**
              * Tax Rate
              * @description Tax rate
+             * @example 10
              */
             tax_rate: number;
             /**
              * Tax Amount
              * @description Tax amount
+             * @example 1
              */
             tax_amount: number;
             /**
              * Total
              * @description Total amount including tax
+             * @example 11
              */
             total: number;
         };
@@ -9720,10 +11319,10 @@ export interface components {
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /**
-             * Total
+             * Amount
              * @description Total amount incl. fee
              */
-            total: number;
+            amount: number;
             /**
              * Fee
              * @description Total fee
@@ -9762,6 +11361,11 @@ export interface components {
          * @enum {string}
          */
         TransactionStatus: 'failed' | 'pending' | 'success';
+        /**
+         * TriggerPriority
+         * @enum {string}
+         */
+        TriggerPriority: 'NORMAL' | 'MEDIUM' | 'HIGH';
         /** TriggerResponse */
         TriggerResponse: {
             /** Status */
@@ -9780,13 +11384,25 @@ export interface components {
         TriggerType: 'timer' | 'event';
         /** UpdateConsumerItem */
         UpdateConsumerItem: {
-            /** Name */
+            /**
+             * Name
+             * @description Name of the consumer as it will appear in your Chift platform. This name may be used for automated communications, such as automatic mailings if you enable this feature.
+             */
             name?: string | null;
-            /** Email */
+            /**
+             * Email
+             * @description Optional - Email address of the consumer. It can be used for sending automated reminders (if feature enabled) and deployment by mail of local agent (when on-premise connector).
+             */
             email?: string | null;
-            /** Internal Reference */
+            /**
+             * Internal Reference
+             * @description Your internal reference for the client (e.g., customer ID or unique identifier in your system).
+             */
             internal_reference?: string | null;
-            /** Redirect Url */
+            /**
+             * Redirect Url
+             * @description URL to redirect the user after completing the activation via our link. Useful for directing customers to a dynamic or personalized url. You can also set up a default static URL in Chift's back office for all consumers.
+             */
             redirect_url?: string | null;
         };
         /** UpdateFlowConsumer */
@@ -9810,6 +11426,7 @@ export interface components {
             /**
              * Customer Id
              * @description Unique identifier of the customer
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             customer_id?: string | null;
         };
@@ -10330,21 +11947,25 @@ export interface components {
             /**
              * Id
              * @description Unique identifier of the category
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
             /**
              * Name
              * @description Name given to the category
+             * @example Pizza
              */
             name: string;
             /**
              * Description
              * @description Description of the category
+             * @example Delicious pizza
              */
             description?: string | null;
             /**
              * Id Parent
              * @description Indicates if the category belongs to a parent category
+             * @example 371ca583-d218-4900-b236-397532cf0e55
              */
             id_parent?: string | null;
         };
@@ -10353,11 +11974,13 @@ export interface components {
             /**
              * Unit Price
              * @description Unit price (without tax) of the product
+             * @example 10
              */
             unit_price: number;
             /**
              * Tax Rate
              * @description Tax rate applied to the product
+             * @example 10
              */
             tax_rate?: number | null;
         };
@@ -10366,16 +11989,19 @@ export interface components {
             /**
              * Name
              * @description Name of the discount
+             * @example Percentage discount
              */
             name?: string | null;
             /**
              * Total
              * @description Total amount of the discount
+             * @example 10
              */
             total: number;
             /**
              * @description Type of the discount
              * @default UNKNOWN
+             * @example offered
              */
             type: components['schemas']['DiscountType'];
         };
@@ -10409,6 +12035,39 @@ export interface operations {
         requestBody: {
             content: {
                 'application/json': components['schemas']['AuthItem'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Token'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    generate_mcp_token_mcp_token_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['MCPAuthItem'];
             };
         };
         responses: {
@@ -10518,7 +12177,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -10562,7 +12221,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -10604,7 +12263,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -10656,7 +12315,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -10700,7 +12359,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -10761,7 +12420,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
                 connectionid: string;
             };
             cookie?: never;
@@ -10817,7 +12476,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
                 connectionid: string;
             };
             cookie?: never;
@@ -11291,39 +12950,6 @@ export interface operations {
             };
         };
     };
-    syncs_update_sync: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['CreateSyncItem'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ReadSyncItem'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
     syncs_get_sync: {
         parameters: {
             query?: never;
@@ -11400,7 +13026,7 @@ export interface operations {
                 };
                 content: {
                     /** @example {
-                     *       "message": "You cannot force the execution for all consumers",
+                     *       "message": "No consumers found",
                      *       "status": "error"
                      *     } */
                     'application/json': components['schemas']['ChiftError'];
@@ -11442,7 +13068,7 @@ export interface operations {
             };
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
                 syncid: string;
                 flowid: string;
             };
@@ -11536,7 +13162,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -11589,7 +13215,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
                 syncid: string;
             };
             cookie?: never;
@@ -11635,7 +13261,7 @@ export interface operations {
             header?: never;
             path: {
                 syncid: string;
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -11687,7 +13313,7 @@ export interface operations {
             path: {
                 syncid: string;
                 flowid: string;
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -11754,7 +13380,7 @@ export interface operations {
             path: {
                 syncid: string;
                 flowid: string;
-                consumerid: string;
+                consumer_id: string;
             };
             cookie?: never;
         };
@@ -11839,7 +13465,7 @@ export interface operations {
             };
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
                 datastoreid: string;
             };
             cookie?: never;
@@ -11884,7 +13510,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
                 datastoreid: string;
             };
             cookie?: never;
@@ -11937,7 +13563,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
                 datastoreid: string;
                 datastoredataid: string;
             };
@@ -11983,7 +13609,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                consumerid: string;
+                consumer_id: string;
                 datastoreid: string;
                 datastoredataid: string;
             };
@@ -12127,6 +13753,53 @@ export interface operations {
             };
         };
     };
+    issues_get_issue: {
+        parameters: {
+            query?: {
+                /** @description If true, only the events related to the last execution will be returned in the list of events. */
+                last_execution_only?: boolean;
+            };
+            header?: never;
+            path: {
+                issue_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ExtendedIssueItem'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "The issue does not exist.",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_get_folders: {
         parameters: {
             query?: never;
@@ -12178,6 +13851,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -12228,6 +13902,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -12278,8 +13953,11 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Filter based on the following fields: name, email, first_name, last_name, external_reference, vat and company_number */
                 search?: string | null;
+                /** @description Retrieve clients created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
             };
             header?: never;
@@ -12326,7 +14004,9 @@ export interface operations {
     accounting_create_client: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Indicate the ID of the corresponding supplier in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing supplier with the new client/customer (if the parameter is filled in with the ID of an existing supplier). */
                 force_merge?: string | null;
             };
             header?: never;
@@ -12377,6 +14057,7 @@ export interface operations {
     accounting_get_client: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -12437,6 +14118,7 @@ export interface operations {
     accounting_update_client: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -12505,8 +14187,11 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Filter based on the following fields: name, email, first_name, last_name, external_reference, vat and company_number */
                 search?: string | null;
+                /** @description Retrieve suppliers created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
             };
             header?: never;
@@ -12553,7 +14238,9 @@ export interface operations {
     accounting_create_supplier: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Indicate the ID of the corresponding client/customer in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing client/customer with the new supplier (if the parameter is filled in with the ID of an existing client/customer). */
                 force_merge?: string | null;
             };
             header?: never;
@@ -12604,6 +14291,7 @@ export interface operations {
     accounting_get_supplier: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -12664,6 +14352,7 @@ export interface operations {
     accounting_update_supplier: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -12728,8 +14417,11 @@ export interface operations {
     accounting_create_invoice: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Forces financial period in which the invoice must be created. This will create the invoice in the forced financial period rather than the current period. The format is: mmYYYY. */
                 force_financial_period?: string | null;
+                /** @description Allow to regroup invoice lines by account number, tax code and analytic account in the accounting system. */
                 regroup_lines?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -12793,8 +14485,11 @@ export interface operations {
     accounting_create_invoice_multiple_plans: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Forces financial period in which the invoice must be created. This will create the invoice in the forced financial period rather than the current period. The format is: mmYYYY. */
                 force_financial_period?: string | null;
+                /** @description Regroup lines by account number, tax code and analytic distribution in the accounting system. */
                 regroup_lines?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -12862,14 +14557,21 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Journal Ids used to filter the invoices. The Ids are separated by ',' */
                 journal_ids?: string | null;
+                /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
+                /** @description Extra filter to retrieve invoices with a specific payment status. */
                 payment_status?: components['schemas']['PaymentStatus-Input'] | null;
+                /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
+                /** @description Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API. */
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
+                /** @description Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved. */
                 include_partner_info?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -12921,14 +14623,21 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Journal Ids used to filter the invoices. The Ids are separated by ',' */
                 journal_ids?: string | null;
+                /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
+                /** @description Extra filter to retrieve invoices with a specific payment status. */
                 payment_status?: components['schemas']['PaymentStatus-Input'] | null;
+                /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
+                /** @description Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API. */
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
+                /** @description Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved. */
                 include_partner_info?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -12976,9 +14685,13 @@ export interface operations {
     accounting_get_invoice: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
+                /** @description Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API. */
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
+                /** @description Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved. */
                 include_partner_info?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -13039,9 +14752,13 @@ export interface operations {
     accounting_get_invoice_multi_analytic_plans: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
+                /** @description Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API. */
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
+                /** @description Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved. */
                 include_partner_info?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -13102,6 +14819,7 @@ export interface operations {
     accounting_create_ledger_account: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13152,6 +14870,7 @@ export interface operations {
     accounting_create_bank_account: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13206,6 +14925,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13252,6 +14972,7 @@ export interface operations {
     accounting_create_analytic_account: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13302,6 +15023,7 @@ export interface operations {
     accounting_create_analytic_account_multi_plans: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13353,6 +15075,7 @@ export interface operations {
     accounting_get_analytic_account: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13413,6 +15136,7 @@ export interface operations {
     accounting_update_analytic_account: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13477,6 +15201,7 @@ export interface operations {
     accounting_get_analytic_account_multi_plans: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13538,6 +15263,7 @@ export interface operations {
     accounting_update_analytic_account_multi_plans: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13607,6 +15333,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13657,11 +15384,15 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
                 unposted_allowed: components['schemas']['BoolParam'];
                 journal_id: string;
+                /** @description Accounting date from which the journal entries will be retrieved (this date will be included in the response). This parameter is mandatory if the 'updated_after' parameter is not provided. */
                 date_from?: string | null;
+                /** @description Accounting date until which the journal entries will be retrieved (this date will be included in the response). This parameter is mandatory if the 'updated_after' parameter is not provided. */
                 date_to?: string | null;
+                /** @description When provided only journal entries modified or created after this datetime will be retrieved (this datetime will NOT be included in the response). E.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC, UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
                 partner_id?: string | null;
             };
@@ -13706,73 +15437,6 @@ export interface operations {
             };
         };
     };
-    accounting_create_journal_entry: {
-        parameters: {
-            query?: {
-                folder_id?: string | null;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['JournalEntryIn'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['JournalEntryMultiAnalyticPlan'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /** @example {
-                     *       "message": "A sale/purchase entry cannot be linked to multiple partner accounts.",
-                     *       "status": "error"
-                     *     } */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /** @example {
-                     *       "message": "The currency doesn't exist or is not active in the accounting system.",
-                     *       "status": "error"
-                     *     } */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /** @example {
-                     *       "message": "Debit and credit cannot be both positive.",
-                     *       "status": "error"
-                     *     } */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-        };
-    };
     accounting_get_journal_entries_multi_plan: {
         parameters: {
             query: {
@@ -13780,11 +15444,15 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
                 unposted_allowed: components['schemas']['BoolParam'];
                 journal_id: string;
+                /** @description Accounting date from which the journal entries will be retrieved (this date will be included in the response). This parameter is mandatory if the 'updated_after' parameter is not provided. */
                 date_from?: string | null;
+                /** @description Accounting date until which the journal entries will be retrieved (this date will be included in the response).This parameter is mandatory if the 'updated_after' parameter is not provided. */
                 date_to?: string | null;
+                /** @description When provided only journal entries modified or created after this datetime will be retrieved (this datetime will NOT be included in the response). E.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC, UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
                 partner_id?: string | null;
             };
@@ -13832,6 +15500,7 @@ export interface operations {
     accounting_get_journal_entry: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -13892,7 +15561,9 @@ export interface operations {
     accounting_create_generic_journal_entry: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software.  */
                 force_currency_exchange?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -13964,6 +15635,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14028,6 +15700,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14074,6 +15747,7 @@ export interface operations {
     accounting_create_journal: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14141,6 +15815,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14191,9 +15866,11 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Journal Ids used to filter the invoices. The Ids are separed by ',' */
                 journal_ids?: string | null;
             };
             header?: never;
@@ -14240,6 +15917,7 @@ export interface operations {
     accounting_create_miscellaneous_operation: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14303,6 +15981,7 @@ export interface operations {
     accounting_get_miscellaneous_operation: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14350,6 +16029,7 @@ export interface operations {
     accounting_match_entries: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14413,6 +16093,7 @@ export interface operations {
     accounting_match_entries_multiple: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14476,7 +16157,9 @@ export interface operations {
     accounting_add_attachment: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Indicate what to do if a document is already attched to the invoice. */
                 overwrite_existing?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -14539,6 +16222,7 @@ export interface operations {
     accounting_get_attachments: {
         parameters: {
             query: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
                 type: components['schemas']['DocumentType'];
                 document_id: string;
@@ -14595,8 +16279,11 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Filter based on the class of the account (e.g. 6,7 to retrieve 6 and 7 account classes). The classes are separated by ','. */
                 classes?: string | null;
+                /** @description Filter based on the type of the account (e.g. bank, cash, income, expense, vat). */
                 type?: components['schemas']['AccountTypeFilter'] | null;
             };
             header?: never;
@@ -14647,6 +16334,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14701,6 +16389,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
             header?: never;
@@ -14744,74 +16433,12 @@ export interface operations {
             };
         };
     };
-    accounting_create_financial_entry: {
-        parameters: {
-            query?: {
-                folder_id?: string | null;
-                financial_counterpart_account?: string | null;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['FinancialEntryItemInOld'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['FinancialEntryItemOutOld'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /** @example {
-                     *       "message": "The account 'x' cannot be used for this type of line.",
-                     *       "status": "error"
-                     *     } */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /** @example {
-                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     } */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
     accounting_create_financial_entries: {
         parameters: {
             query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Number of ledger account representing bank account in accounting. Required in cases where the connector does not allow direct linking of the ledger account representing the bank account and the journal representing the bank account, making it necessary to specify it here. */
                 financial_counterpart_account?: string | null;
             };
             header?: never;
@@ -14872,6 +16499,57 @@ export interface operations {
             };
         };
     };
+    accounting_create_expense: {
+        parameters: {
+            query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['ExpenseItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ExpenseItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_get_outstandings: {
         parameters: {
             query: {
@@ -14879,6 +16557,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
                 type: components['schemas']['OutstandingType'];
                 unposted_allowed: components['schemas']['BoolParam'];
@@ -14927,8 +16606,11 @@ export interface operations {
     accounting_export_fec: {
         parameters: {
             query: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
+                /** @description Start date for the FEC export. */
                 date_from: string;
+                /** @description End date for the FEC export. */
                 date_to: string;
             };
             header?: never;
@@ -14979,10 +16661,15 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Start date (inclusive) of the period to get orders from */
                 date_from?: string | null;
+                /** @description End date (inclusive) of the period to get orders from */
                 date_to?: string | null;
+                /** @description Unique identifier of the location. If none passed, orders from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
+                /** @description State of the orders to get */
                 state?: components['schemas']['States'];
+                /** @description Unique identifier of the closure. If none passed, orders from all closures will be selected. */
                 closure_id?: string | null;
             };
             header?: never;
@@ -15058,6 +16745,7 @@ export interface operations {
             header?: never;
             path: {
                 consumer_id: string;
+                /** @description Unique identifier of the order */
                 order_id: string;
             };
             cookie?: never;
@@ -15142,6 +16830,7 @@ export interface operations {
             header?: never;
             path: {
                 consumer_id: string;
+                /** @description Unique identifier of the order */
                 order_id: string;
             };
             cookie?: never;
@@ -15293,7 +16982,9 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Start date (inclusive) of the period to get payments from */
                 date_from: string;
+                /** @description End date (inclusive) of the period to get payments from */
                 date_to: string;
             };
             header?: never;
@@ -15366,8 +17057,11 @@ export interface operations {
     pos_get_sales: {
         parameters: {
             query: {
+                /** @description Start date (inclusive) of the period to get sales from */
                 date_from: string;
+                /** @description End date (inclusive) of the period to get sales from */
                 date_to: string;
+                /** @description Unique identifier of the location. If none passed, sales from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
             };
             header?: never;
@@ -15444,6 +17138,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Unique identifier of the location If none passed, payment methods from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
             };
             header?: never;
@@ -15520,8 +17215,11 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Filter based on other parameters than the email/phone, e.g. firstname, lastname */
                 search?: string | null;
+                /** @description Filter based on email of customer */
                 email?: string | null;
+                /** @description Filter based on phone of customer */
                 phone?: string | null;
             };
             header?: never;
@@ -15671,6 +17369,7 @@ export interface operations {
             header?: never;
             path: {
                 consumer_id: string;
+                /** @description Unique identifier of the customer */
                 customer_id: string;
             };
             cookie?: never;
@@ -15756,7 +17455,9 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Unique identifier of the location. If none passed, product categories from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
+                /** @description If true, only parent categories will be returned */
                 only_parents?: components['schemas']['BoolParam'];
             };
             header?: never;
@@ -15833,6 +17534,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Unique identifier of the location. If none passed, products from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
             };
             header?: never;
@@ -15909,6 +17611,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Unique identifier of the location. If none passed, accounting categories from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
             };
             header?: never;
@@ -15981,11 +17684,13 @@ export interface operations {
     pos_get_closure: {
         parameters: {
             query?: {
+                /** @description Unique identifier of the location. If none passed, closures from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
             };
             header?: never;
             path: {
                 consumer_id: string;
+                /** @description Filter based on the date of the closure */
                 date: string;
             };
             cookie?: never;
@@ -16054,10 +17759,16 @@ export interface operations {
     pos_get_objectives: {
         parameters: {
             query: {
+                /** @description Page number */
                 page?: number;
+                /** @description Page size */
                 size?: number;
+                /** @description Start date (inclusive) of the period to get payments from */
                 date_from: string;
+                /** @description End date (inclusive) of the period to get payments from */
                 date_to: string;
+                /** @description Unique identifier of the location. If none passed, objectives from all locations will be returned unless the location was selected by the end-user */
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -16073,7 +17784,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['ObjectivesItem'];
+                    'application/json': components['schemas']['ChiftPage_ObjectivesItem_'];
                 };
             };
             /** @description Bad Request */
@@ -16240,6 +17951,10 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Retrieve products updated after a specific datetime (e.g. 2025-01-31T15:00:00 for 31 of January 2025 at 3PM UTC). UTC is the only format that is supported on all connectors. */
+                updated_after?: string | null;
+                /** @description SKU of the product. Supports multiple values separated by comma */
+                sku?: string | null;
             };
             header?: never;
             path: {
@@ -16516,11 +18231,17 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Filter orders created at or after this date (e.g. 2023-01-31) */
                 date_from?: string | null;
+                /** @description Filter orders created at or before this date (e.g. 2023-01-31) */
                 date_to?: string | null;
+                /** @description Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
+                /** @description Include detailed information concerning refunds */
                 include_detailed_refunds?: components['schemas']['BoolParam'] | null;
+                /** @description Include detailed information about categories */
                 include_product_categories?: components['schemas']['BoolParam'] | null;
+                /** @description Include detailed information about customer */
                 include_customer_details?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -16619,6 +18340,7 @@ export interface operations {
     ecommerce_get_order: {
         parameters: {
             query?: {
+                /** @description Include detailed information about categories */
                 include_product_categories?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -16887,6 +18609,7 @@ export interface operations {
                     | null;
                 payment_status?: components['schemas']['PaymentStatus-Input'] | null;
                 updated_after?: string | null;
+                /** @description Include the invoice lines in the response. By default, invoice lines are included when no extra request is needed to fetch them. If you want to include them explicitly, set this parameter to true. */
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -16981,6 +18704,7 @@ export interface operations {
     invoicing_get_invoice: {
         parameters: {
             query?: {
+                /** @description Include the invoice PDF as a base64 encoded string in the response */
                 include_pdf?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -17663,6 +19387,112 @@ export interface operations {
             };
         };
     };
+    invoicing_get_bank_accounts: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_InvoicingBankAccountItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_get_bank_transactions: {
+        parameters: {
+            query: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description The start date (inclusive) for filtering bank transactions. If provided, only transactions on or after this date will be returned. */
+                date_from?: string | null;
+                /** @description The end date (inclusive) for filtering bank transactions. If provided, only transactions on or before this date will be returned. */
+                date_to?: string | null;
+                /** @description The unique identifier of the bank account to filter transactions for. If omitted, transactions from all accessible accounts will be included. */
+                bank_account_id: string;
+                /** @description Filter transactions by their status. */
+                status?: components['schemas']['BankTransactionStatus'] | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_InvoicingBankTransactionItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     banking_get_financial_institutions: {
         parameters: {
             query?: {
@@ -17922,8 +19752,11 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Filter based on the type of the transaction. */
                 accounting_category?: components['schemas']['TransactionAccountingCategory'] | null;
+                /** @description Get all transactions more recent than this one excluded */
                 starting_from?: string | null;
+                /** @description Get all transactions for a specific balance */
                 balance_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
@@ -18085,6 +19918,7 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Optional payment ID, to retrieve all refunds associated with that payment. */
                 payment_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
