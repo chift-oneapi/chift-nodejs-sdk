@@ -182,7 +182,7 @@
 -   Expand operation mappings from ~20 to 150+ operations
 -   Fix schema type references for updated OpenAPI schema
 
-## 1.0.25 - 2025-01-09
+## 1.0.25 - 2025-10-09
 
 ### Security
 
