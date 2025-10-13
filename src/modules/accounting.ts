@@ -681,6 +681,30 @@ const accountingFactory = {
             rawData: options?.rawData,
         };
     },
+
+    getPaymentMethods(
+        params?: operations['accounting_get_payment_methods']['parameters']['query'],
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_AccountingPaymentMethod_']> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/payment-methods`,
+            rawData: options?.rawData,
+        };
+    },
+
+    createInvoicePayment(
+        body: components['schemas']['AccountingInvoicePaymentIn'],
+        params?: operations['accounting_create_invoice_payment']['parameters']['query']
+    ): RequestData<operations['accounting_create_invoice_payment']['responses'][204]> {
+        return {
+            params,
+            method: 'post',
+            url: `/consumers/{consumer_id}/accounting/invoices/payments`,
+            body,
+        };
+    },
 };
 
 export { accountingFactory };
