@@ -1108,6 +1108,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/accounting/payment-methods': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get payment methods
+         * @description Get payment methods
+         */
+        get: operations['accounting_get_payment_methods'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/invoices/payments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create an invoice payment
+         * @description Create invoice payment
+         */
+        post: operations['accounting_create_invoice_payment'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/accounting/journals': {
         parameters: {
             query?: never;
@@ -2256,6 +2296,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/invoicing/upload-document': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upload a document (PDF)
+         * @description Upload a document (PDF)
+         */
+        post: operations['invoicing_upload_document'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/banking/financial-institutions': {
         parameters: {
             query?: never;
@@ -2778,6 +2838,72 @@ export interface components {
              */
             posting_account_code?: string | null;
         };
+        /** AccountingInvoicePaymentIn */
+        AccountingInvoicePaymentIn: {
+            /**
+             * Date
+             * Format: date
+             * @description The date of the payment
+             */
+            date: string;
+            /**
+             * Payment Method Id
+             * @description Technical ID of the payment method in the accounting system.
+             */
+            payment_method_id: string;
+            /**
+             * Currency
+             * @description Payment currency
+             */
+            currency: string;
+            /**
+             * Currency Exchange Rate
+             * @description Exchange rate applicable at the payment date. Required when the currency is different from the system's currency.
+             * @default 1
+             */
+            currency_exchange_rate: number | null;
+            /**
+             * Reference
+             * @description External reference of the payment.
+             */
+            reference?: string | null;
+            /**
+             * Number
+             * @description Unique Payment number (if managed by the software).
+             */
+            number?: string | null;
+            /**
+             * Items
+             * @description Payment's repartition
+             */
+            items: components['schemas']['AccountingInvoicePaymentItemIn'][];
+        };
+        /** AccountingInvoicePaymentItemIn */
+        AccountingInvoicePaymentItemIn: {
+            /**
+             * Invoice Id
+             * @description Technical ID of the invoice in the accounting system.
+             */
+            invoice_id: string;
+            /**
+             * Amount
+             * @description Paid amount dedicated to the invoice. The amount must be positive and follows the sign of the linked invoice.
+             */
+            amount: number;
+        };
+        /** AccountingPaymentMethod */
+        AccountingPaymentMethod: {
+            /**
+             * Id
+             * @description Technical ID of the payment method in the accounting system.
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name of the payment method
+             */
+            name?: string | null;
+        };
         /** AccountingVatCode */
         AccountingVatCode: {
             /**
@@ -3172,6 +3298,12 @@ export interface components {
         AttachmentItem: {
             /** Base64 String */
             base64_string: string;
+        };
+        /** AttachmentItemIn */
+        AttachmentItemIn: {
+            /** Base64 String */
+            base64_string: string;
+            document_type: components['schemas']['backbone_common__models__invoicing__common__DocumentType'];
         };
         /** AttachmentItemOut */
         AttachmentItemOut: {
@@ -3603,6 +3735,17 @@ export interface components {
         ChiftPage_AccountingCategoryItem_: {
             /** Items */
             items: components['schemas']['AccountingCategoryItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[AccountingPaymentMethod] */
+        ChiftPage_AccountingPaymentMethod_: {
+            /** Items */
+            items: components['schemas']['AccountingPaymentMethod'][];
             /** Total */
             total: number;
             /** Page */
@@ -5238,11 +5381,6 @@ export interface components {
          * @enum {string}
          */
         DiscountType: 'OFFERED' | 'UNKNOWN' | 'LOSS';
-        /**
-         * DocumentType
-         * @enum {string}
-         */
-        DocumentType: 'invoice' | 'entry';
         /** EmployeeItem */
         EmployeeItem: {
             /**
@@ -11430,6 +11568,115 @@ export interface components {
              */
             customer_id?: string | null;
         };
+        /** UploadDocumentItemOut */
+        UploadDocumentItemOut: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Currency
+             * @description Currency of the uploaded document
+             */
+            currency?: string | null;
+            /** @description Invoice type of the uploaded document */
+            invoice_type?:
+                | components['schemas']['backbone_common__models__invoicing__common__InvoiceType']
+                | null;
+            /** @description Status of the uploaded document */
+            status?: components['schemas']['InvoiceStatus'] | null;
+            /**
+             * Invoice Date
+             * @description Invoicing date
+             */
+            invoice_date?: string | null;
+            /**
+             * Tax Amount
+             * @description Taxes amount
+             */
+            tax_amount?: number | null;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount
+             */
+            untaxed_amount?: number | null;
+            /**
+             * Total
+             * @description Total amount incl. taxes
+             */
+            total?: number | null;
+            /**
+             * Lines
+             * @description Invoice lines
+             * @default []
+             */
+            lines: components['schemas']['InvoiceLineItem'][] | null;
+            /**
+             * Partner Id
+             * @description Technical id of the vendor/customer in Chift
+             */
+            partner_id?: string | null;
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             */
+            invoice_number?: string | null;
+            /**
+             * Due Date
+             * @description Due date
+             */
+            due_date?: string | null;
+            /**
+             * Reference
+             * @description Reference
+             */
+            reference?: string | null;
+            /**
+             * Payment Communication
+             * @description Payment communication
+             */
+            payment_communication?: string | null;
+            /**
+             * Customer Memo
+             * @description Customer note/memo
+             */
+            customer_memo?: string | null;
+            /** @description Journal */
+            journal_ref?: components['schemas']['FieldRef'] | null;
+            /** @description Specificities for Italy */
+            italian_specificities?: components['schemas']['ItalianSpecificities-Output'] | null;
+            /** Last Updated On */
+            last_updated_on?: string | null;
+            /**
+             * Outstanding Amount
+             * @description Amount left to be paid
+             */
+            outstanding_amount?: number | null;
+            /**
+             * Last Payment Date
+             * @description Date of the last payment linked to the invoice
+             */
+            last_payment_date?: string | null;
+            /**
+             * Accounting Date
+             * @description Accounting date
+             */
+            accounting_date?: string | null;
+            /**
+             * Payment Method Id
+             * @description Technical id of the payment method in Chift
+             */
+            payment_method_id?: string | null;
+            /**
+             * Currency Exchange Rate
+             * @description Indicates the exchange rate at the date of the invoice.
+             * @default 1
+             */
+            currency_exchange_rate: number | null;
+        };
         /** ValidationError */
         ValidationError: {
             /** Location */
@@ -11774,6 +12021,11 @@ export interface components {
             display_hidden: boolean;
         };
         /**
+         * DocumentType
+         * @enum {string}
+         */
+        backbone_common__models__accounting__common__DocumentType: 'invoice' | 'entry';
+        /**
          * InvoiceType
          * @enum {string}
          */
@@ -11920,6 +12172,14 @@ export interface components {
              */
             country?: string | null;
         };
+        /**
+         * DocumentType
+         * @enum {string}
+         */
+        backbone_common__models__invoicing__common__DocumentType:
+            | 'customer_document'
+            | 'supplier_document'
+            | 'employee_expense';
         /**
          * InvoiceType
          * @enum {string}
@@ -15693,6 +15953,106 @@ export interface operations {
             };
         };
     };
+    accounting_get_payment_methods: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_AccountingPaymentMethod_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_create_invoice_payment: {
+        parameters: {
+            query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AccountingInvoicePaymentIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_get_journals: {
         parameters: {
             query?: {
@@ -16224,7 +16584,7 @@ export interface operations {
             query: {
                 /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
-                type: components['schemas']['DocumentType'];
+                type: components['schemas']['backbone_common__models__accounting__common__DocumentType'];
                 document_id: string;
                 /** @description Page number */
                 page?: number;
@@ -19477,6 +19837,54 @@ export interface operations {
                 content: {
                     /** @example {
                      *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     } */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_upload_document: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AttachmentItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UploadDocumentItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /** @example {
+                     *       "message": "The document is not a valid base64 string representing a PDF.",
                      *       "status": "error"
                      *     } */
                     'application/json': components['schemas']['ChiftError'];
