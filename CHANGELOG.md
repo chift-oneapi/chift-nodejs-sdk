@@ -193,12 +193,16 @@
 
 -   Add `getBankAccounts()` method to retrieve bank accounts with pagination
 -   Add `getBankTransactions()` method to retrieve bank transactions with filtering by account, date range, and status
+-   Add `uploadDocument()` method to upload invoice documents
 -   Enhanced existing methods with new parameters: `include_invoice_lines`, `include_partner_info`, `include_payments`
 -   Enhanced `getInvoiceById()` with `include_pdf` parameter support
 
 ### Accounting
 
 -   Add `createExpense()` method for creating employee expenses
+-   Add `getPaymentMethods()` method to retrieve accounting payment methods
+-   Add `createInvoicePayment()` method to post invoice payments
+-   Update `createJournal()` to align with new endpoint path
 
 ### POS
 
@@ -214,7 +218,7 @@
 -   Add extensive `@example` annotations for better developer experience
 -   Enhanced field descriptions across all modules
 -   Add new schemas: `InvoicingBankAccountItem`, `InvoicingBankTransactionItem`, `ExpenseItemIn`, `ExpenseItemOut`
--   Add new endpoints: `invoicing_get_bank_accounts`, `invoicing_get_bank_transactions`, `accounting_create_expense`, `pos_get_objectives`
+-   Add new endpoints: `invoicing_get_bank_accounts`, `invoicing_get_bank_transactions`, `invoicing_upload_document`, `accounting_create_expense`, `accounting_get_payment_methods`, `accounting_create_invoice_payment`, `pos_get_objectives`
 
 ### Dependencies
 
