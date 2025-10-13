@@ -188,6 +188,17 @@ const invoicingFactory = {
             rawData: options?.rawData,
         };
     },
+    uploadDocument(
+        document: components['schemas']['AttachmentItemIn'],
+        options?: ClientRequestOption
+    ): RequestData<components['schemas']['UploadDocumentItemOut']> {
+        return {
+            method: 'post',
+            url: `/consumers/{consumer_id}/invoicing/upload-document`,
+            body: document,
+            clientRequestId: options?.clientRequestId,
+        };
+    },
 };
 
 export { invoicingFactory };
