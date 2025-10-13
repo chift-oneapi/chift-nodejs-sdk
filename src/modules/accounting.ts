@@ -413,7 +413,7 @@ const accountingFactory = {
         return {
             params,
             method: 'post',
-            url: '/consumers/{consumer_id}/accounting/journals',
+            url: '/consumers/{consumer_id}/accounting/journal',
             body: journal,
             clientRequestId: options?.clientRequestId,
         };
