@@ -633,38 +633,6 @@ test('createFinancialEntry', async () => {
     expect(financialEntry).toHaveProperty('journal_id', journal.id);
 });
 
-/**
- * @deprecated replaced by createFinancialEntry
- */
-test('createFinancialEntryOld', async () => {
-    const journal = journals.find((journal) => journal.journal_type === 'financial_operation');
-    if (!journal) {
-        throw new Error(
-            'No journal with type "financial_operation" found to create financial entry'
-        );
-    }
-
-    if (!clients?.[0]?.account_number) {
-        throw new Error('[DEPRECATED] No client account_number found to create financial entry');
-    }
-
-    const financialEntry = await consumer.accounting.createFinancialEntryOld({
-        date: '2022-01-01',
-        journal_id: journal.id,
-        currency: 'EUR',
-        currency_exchange_rate: 1,
-        items: [
-            {
-                account_type: 'customer_account',
-                account: clients[0].account_number,
-                amount: 10,
-            },
-        ],
-    });
-    expect(financialEntry).toBeTruthy();
-    expect(financialEntry).toHaveProperty('journal_id', journal.id);
-});
-
 let folders: components['schemas']['FolderItem'][] = [];
 test('getFolders', async () => {
     folders = await consumer.accounting.getFolders();

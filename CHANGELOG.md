@@ -186,7 +186,7 @@
 
 ### Security
 
--   **BREAKING**: Remove `coveralls` dependency to fix critical security vulnerabilities
+-   Remove `coveralls` dependency to fix critical security vulnerabilities
 -   Fix 4 security vulnerabilities (2 critical, 2 moderate) in dependencies
 
 ### Invoicing
@@ -199,6 +199,7 @@
 
 ### Accounting
 
+-   **BREAKING**: Removed `createFinancialEntryOld` and `createJournalEntryOld` methods, use `createFinancialEntry` and `createJournalEntry` instead
 -   Add `createExpense()` method for creating employee expenses
 -   Add `getPaymentMethods()` method to retrieve accounting payment methods
 -   Add `createInvoicePayment()` method to post invoice payments
