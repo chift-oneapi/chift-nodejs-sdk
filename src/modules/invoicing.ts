@@ -9,6 +9,14 @@ type GetContactsParams = AutoPaginatedParams<
     operations['invoicing_get_contacts']['parameters']['query']
 >;
 
+type GetBankAccountsParams = AutoPaginatedParams<
+    operations['invoicing_get_bank_accounts']['parameters']['query']
+>;
+
+type GetBankTransactionsParams = AutoPaginatedParams<
+    operations['invoicing_get_bank_transactions']['parameters']['query']
+>;
+
 const invoicingFactory = {
     getInvoices(
         params?: GetInvoicesParams,
@@ -156,6 +164,39 @@ const invoicingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/invoicing/payment-methods`,
             rawData: options?.rawData,
+        };
+    },
+    getBankAccounts(
+        params?: GetBankAccountsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_InvoicingBankAccountItem_']> {
+        return {
+            method: 'get',
+            url: `/consumers/{consumer_id}/invoicing/bank-accounts`,
+            params: params,
+            rawData: options?.rawData,
+        };
+    },
+    getBankTransactions(
+        params: GetBankTransactionsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_InvoicingBankTransactionItem_']> {
+        return {
+            method: 'get',
+            url: `/consumers/{consumer_id}/invoicing/bank-transactions`,
+            params: params,
+            rawData: options?.rawData,
+        };
+    },
+    uploadDocument(
+        document: components['schemas']['AttachmentItemIn'],
+        options?: ClientRequestOption
+    ): RequestData<components['schemas']['UploadDocumentItemOut']> {
+        return {
+            method: 'post',
+            url: `/consumers/{consumer_id}/invoicing/upload-document`,
+            body: document,
+            clientRequestId: options?.clientRequestId,
         };
     },
 };

@@ -413,7 +413,7 @@ const accountingFactory = {
         return {
             params,
             method: 'post',
-            url: '/consumers/{consumer_id}/accounting/journals',
+            url: '/consumers/{consumer_id}/accounting/journal',
             body: journal,
             clientRequestId: options?.clientRequestId,
         };
@@ -532,22 +532,6 @@ const accountingFactory = {
             rawData: options?.rawData,
         };
     },
-    /**
-     * @deprecated replaced by createFinancialEntry
-     */
-    createFinancialEntryOld(
-        financial_entry: components['schemas']['FinancialEntryItemInOld'],
-        params?: operations['accounting_create_financial_entry']['parameters']['query'],
-        options?: ClientRequestOption
-    ): RequestData<components['schemas']['FinancialEntryItemOutOld']> {
-        return {
-            params,
-            method: 'post',
-            url: '/consumers/{consumer_id}/accounting/financial-entry',
-            body: financial_entry,
-            clientRequestId: options?.clientRequestId,
-        };
-    },
     createFinancialEntry(
         financial_entry: components['schemas']['FinancialEntryItemIn'],
         params?: operations['accounting_create_financial_entries']['parameters']['query'],
@@ -558,17 +542,6 @@ const accountingFactory = {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/financial-entries',
             body: financial_entry,
-            clientRequestId: options?.clientRequestId,
-        };
-    },
-    createJournalEntryOld(
-        journal_entry: components['schemas']['JournalEntryIn'],
-        options?: ClientRequestOption
-    ): RequestData<components['schemas']['JournalEntryMultiAnalyticPlan']> {
-        return {
-            method: 'post',
-            url: '/consumers/{consumer_id}/accounting/journal/entries',
-            body: journal_entry,
             clientRequestId: options?.clientRequestId,
         };
     },
@@ -605,6 +578,19 @@ const accountingFactory = {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/matching-multiple',
             body,
+        };
+    },
+    createExpense(
+        expense: components['schemas']['ExpenseItemIn'],
+        params?: operations['accounting_create_expense']['parameters']['query'],
+        options?: ClientRequestOption
+    ): RequestData<components['schemas']['ExpenseItemOut']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/expenses',
+            body: expense,
+            clientRequestId: options?.clientRequestId,
         };
     },
     getFolders(options?: RawDataOption): RequestData<components['schemas']['FolderItem'][]> {
@@ -661,6 +647,30 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries/${journalEntryId}`,
             rawData: options?.rawData,
+        };
+    },
+
+    getPaymentMethods(
+        params?: operations['accounting_get_payment_methods']['parameters']['query'],
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_AccountingPaymentMethod_']> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/payment-methods`,
+            rawData: options?.rawData,
+        };
+    },
+
+    createInvoicePayment(
+        body: components['schemas']['AccountingInvoicePaymentIn'],
+        params?: operations['accounting_create_invoice_payment']['parameters']['query']
+    ): RequestData<operations['accounting_create_invoice_payment']['responses'][204]> {
+        return {
+            params,
+            method: 'post',
+            url: `/consumers/{consumer_id}/accounting/invoices/payments`,
+            body,
         };
     },
 };

@@ -176,6 +176,17 @@ const posFactory = {
             rawData: options?.rawData,
         };
     },
+    getObjectives(
+        params: operations['pos_get_objectives']['parameters']['query'],
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_ObjectivesItem_']> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/pos/objectives`,
+            rawData: options?.rawData,
+        };
+    },
 };
 
 export { posFactory };
