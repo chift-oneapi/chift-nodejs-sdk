@@ -588,7 +588,7 @@ const accountingFactory = {
         return {
             params,
             method: 'post',
-            url: '/consumers/{consumer_id}/accounting/expense',
+            url: '/consumers/{consumer_id}/accounting/expenses',
             body: expense,
             clientRequestId: options?.clientRequestId,
         };
