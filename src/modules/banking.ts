@@ -17,6 +17,10 @@ type GetAccountCounterpartsParams = AutoPaginatedParams<
     operations['banking_get_account_counterparts']['parameters']['query']
 >;
 
+type GetBankingAttachmentsParams = AutoPaginatedParams<
+    operations['banking_get_attachments']['parameters']['query']
+>;
+
 const bankingFactory = {
     getFinancialInstitutions(
         params?: GetFinancialInstitutionsParams,
@@ -60,6 +64,18 @@ const bankingFactory = {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/banking/counterparts',
+            rawData: options?.rawData,
+        };
+    },
+
+    getBankingAttachments(
+        params?: GetBankingAttachmentsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['AttachmentItemOut'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/banking/attachments',
             rawData: options?.rawData,
         };
     },

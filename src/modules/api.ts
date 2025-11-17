@@ -5,6 +5,8 @@ import { Syncs, SyncsAPI } from './syncs';
 import { Integrations } from './integrations';
 import { Webhooks } from './webhooks';
 import { DataStores } from './datastores';
+import { Issues } from './issues';
+import { operations, components } from '../types/public-api/schema';
 
 export class API {
     auth: AuthType;
@@ -15,6 +17,7 @@ export class API {
     Integrations;
     Webhooks;
     DataStores;
+    Issues;
 
     constructor(auth: AuthType) {
         this.auth = auth;
@@ -24,6 +27,7 @@ export class API {
         this.Integrations = Integrations(this.internalApi);
         this.Webhooks = Webhooks(this.internalApi);
         this.DataStores = DataStores(this.internalApi);
+        this.Issues = Issues(this.internalApi);
     }
 
     private _setup = async () => {
@@ -32,4 +36,19 @@ export class API {
         }
         this.internalApi = new InternalAPI(this.auth);
     };
+
+    static async generateMCPToken(
+        body: components['schemas']['MCPAuthItem'],
+        baseUrl?: string
+    ): Promise<operations['generate_mcp_token_mcp_token_post']['responses'][200]['content']['application/json']> {
+        const axios = (await import('axios')).default;
+        const Settings = (await import('../helpers/settings')).default;
+
+        const response = await axios.post(
+            `${baseUrl || Settings.BASE_URL}/mcp-token`,
+            body
+        );
+
+        return response.data;
+    }
 }

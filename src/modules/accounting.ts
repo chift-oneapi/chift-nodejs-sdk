@@ -73,6 +73,14 @@ type GetBookyearsParams = AutoPaginatedParams<
     operations['accounting_get_bookyears']['parameters']['query']
 >;
 
+type GetSchemesParams = AutoPaginatedParams<
+    operations['accounting_get_schemes']['parameters']['query']
+>;
+
+type GetBankAccountsParams = AutoPaginatedParams<
+    operations['accounting_get_bank_accounts']['parameters']['query']
+>;
+
 const accountingFactory = {
     getAnalyticPlans(
         params?: GetAnalyticPlansParams,
@@ -671,6 +679,54 @@ const accountingFactory = {
             method: 'post',
             url: `/consumers/{consumer_id}/accounting/invoices/payments`,
             body,
+        };
+    },
+
+    getSchemes(
+        params?: GetSchemesParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['SchemeItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/schemes',
+            rawData: options?.rawData,
+        };
+    },
+
+    getBankAccounts(
+        params?: GetBankAccountsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['BankAccountItemOut'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/bank-accounts',
+            rawData: options?.rawData,
+        };
+    },
+
+    createBankTransactions(
+        body: components['schemas']['BankTransactionItemIn'][],
+        params?: operations['accounting_create_bank_transactions']['parameters']['query'],
+        options?: ClientRequestOption
+    ): RequestData<operations['accounting_create_bank_transactions']['responses'][200]> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/bank-transactions',
+            body,
+            clientRequestId: options?.clientRequestId,
+        };
+    },
+
+    exportFEC(
+        params?: operations['accounting_export_fec']['parameters']['query']
+    ): RequestData<operations['accounting_export_fec']['responses'][200]['content']['application/json']> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/export-fec',
         };
     },
 };

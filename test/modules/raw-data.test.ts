@@ -52,7 +52,7 @@ test('banking factory methods support rawData parameter', () => {
     // Test that getAccountTransactions supports rawData parameter
     const getTransactionsRequest = bankingFactory.getAccountTransactions(
         'test-account-id',
-        {},
+        { account_id: 'test-account-id' },
         { rawData: true }
     );
     expect(getTransactionsRequest).toHaveProperty('rawData', true);
@@ -89,7 +89,7 @@ test('rawData parameter can be explicitly set to false', () => {
 
     const getTransactionsRequest = bankingFactory.getAccountTransactions(
         'test-account-id',
-        {},
+        { account_id: 'test-account-id' },
         { rawData: false }
     );
     expect(getTransactionsRequest).toHaveProperty('rawData', false);

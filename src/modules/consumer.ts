@@ -80,6 +80,22 @@ const Consumer = (
         return data;
     };
 
+    const getTransactionByClientRequestId = async (
+        connectionId: string,
+        clientRequestId: string
+    ) => {
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getTransactionByClientRequestId']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get(`/consumers/${consumerId}/connections/${connectionId}/transactions`, {
+            params: {
+                client_request_id: clientRequestId,
+            },
+        });
+        return data;
+    };
+
     const getSyncUrl = async (body: components['schemas']['CreateConsumerSyncItem']) => {
         const { data }: { data: components['schemas']['LinkSyncItem'] } = await _internalApi.post(
             `/consumers/${consumerId}/syncs`,
@@ -232,6 +248,7 @@ const Consumer = (
         logData,
         setConnectionId,
         setIntegrationId,
+        getTransactionByClientRequestId,
         updateConsumer,
         updateFlowConfig,
     };

@@ -31,7 +31,7 @@ beforeAll(async () => {
 });
 
 test('createConnection', async () => {
-    const body = { integrationid: 1000, name: 'odoo test sdk' };
+    const body = { integrationid: 1000, name: 'odoo test sdk', redirect: true };
     const result = await consumer.createConnection(body);
     expect(result).toHaveProperty('url', expect.any(String));
 });

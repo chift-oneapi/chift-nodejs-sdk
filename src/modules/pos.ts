@@ -23,6 +23,8 @@ type GetAccountingCategoriesParams = AutoPaginatedParams<
 
 type GetOrdersParams = AutoPaginatedParams<operations['pos_get_orders']['parameters']['query']>;
 
+type GetObjectivesParams = AutoPaginatedParams<operations['pos_get_objectives']['parameters']['query']>;
+
 const posFactory = {
     getLocations(options?: RawDataOption): RequestData<components['schemas']['POSLocationItem'][]> {
         return {
@@ -177,7 +179,7 @@ const posFactory = {
         };
     },
     getObjectives(
-        params: operations['pos_get_objectives']['parameters']['query'],
+        params?: GetObjectivesParams,
         options?: RawDataOption
     ): RequestData<components['schemas']['ChiftPage_ObjectivesItem_']> {
         return {
