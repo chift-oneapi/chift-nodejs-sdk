@@ -227,4 +227,49 @@
 -   All security vulnerabilities resolved (0 vulnerabilities found)
 
 ## 1.0.26 - 2025-10-10
-- Support marketplaceId in token
+
+-   Support marketplaceId in token
+
+## 1.0.27 - 2025-11-17
+
+### Schema Synchronization
+
+-   Updated SDK to match latest OpenAPI schema with comprehensive API coverage
+
+### New Features
+
+-   **MCP Token Generation**: Added static `generateMCPToken()` method for MCP authentication
+-   **Issues Module**: New complete issue management system with global and consumer-specific operations
+-   **Transaction Lookup**: Added `getTransactionByClientRequestId()` for transaction queries by client request ID
+
+### Accounting Enhancements
+
+-   Add `getSchemes()` - Retrieve accounting schemes with pagination
+-   Add `getBankAccounts()` - Get bank account information
+-   Add `createBankTransactions()` - Create bank transactions in bulk
+-   Add `exportFEC()` - Export FEC (French accounting standard) files
+-   Add `createExpense()` - Create employee expenses
+-   Add `createInvoicePayment()` - Post invoice payments
+-   Add `getAccountingPaymentMethods()` - Retrieve accounting payment methods
+
+### Banking Module
+
+-   Add `getBankingAttachments()` - Retrieve banking attachment files
+
+### Invoicing Enhancements
+
+-   Add `getInvoicingBankAccounts()` - Retrieve invoicing bank accounts with pagination
+-   Add `getInvoicingBankTransactions()` - Retrieve invoicing bank transactions with filtering
+-   Add `uploadDocument()` - Upload invoice documents
+
+### PMS Module
+
+-   Add `getTaxes()` - Retrieve PMS tax rates
+
+### POS Module
+
+-   Add `getObjectives()` - Retrieve sales objectives with pagination and date filtering
+
+### Connection Management
+
+-   Add `getTransactionByClientRequestId()` - Lookup transactions by client request ID
