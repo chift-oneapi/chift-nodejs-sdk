@@ -673,6 +673,18 @@ const accountingFactory = {
             body,
         };
     },
+
+    exportFEC(
+        params?: operations['accounting_export_fec']['parameters']['query'],
+        options?: RawDataOption
+    ): RequestData<components['schemas']['FECItemOut'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/export-fec`,
+            rawData: options?.rawData,
+        };
+    },
 };
 
 export { accountingFactory };

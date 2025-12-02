@@ -228,3 +228,6 @@
 
 ## 1.0.26 - 2025-10-10
 - Support marketplaceId in token
+
+## 1.0.27 - 2025-12-02
+- Support export fec in accounting
