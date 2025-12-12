@@ -136,7 +136,12 @@ class InternalAPI {
                         ...this.getPaginationParams(currentPage),
                     };
                 }
-                const headers: any = {};
+                const headers: Record<string, string> = {
+                    'Accept': 'application/json',
+                    'User-Agent': 'chift-node-sdk library',
+                    'Accept-Encoding': 'gzip',
+                };
+
                 if (requestData.rawData) {
                     headers['x-chift-raw-data'] = 'true';
                 }
