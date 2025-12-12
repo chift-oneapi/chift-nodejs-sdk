@@ -228,3 +228,11 @@
 
 ## 1.0.26 - 2025-10-10
 - Support marketplaceId in token
+
+## 1.1.0 - 2025-12-12
+
+### Headers
+
+- Accept gzip compressed responses
+- Set agent header to `chift-node-sdk library`
+- Explicitely set accepted response to be `application/json`
