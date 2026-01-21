@@ -50,7 +50,9 @@ test('getAccountTransactions', async () => {
         throw new Error('No accounts found to test getAccountTransactions');
     }
 
-    transactions = await consumer.banking.getAccountTransactions(accounts[0].id);
+    transactions = await consumer.banking.getAccountTransactions({
+        account_id: accounts[0].id,
+    });
     expect(transactions).toBeInstanceOf(Array);
     if (transactions.length > 0) {
         expect(transactions[0]).toHaveProperty('id', expect.any(String));

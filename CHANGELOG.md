@@ -228,3 +228,32 @@
 
 ## 1.0.26 - 2025-10-10
 - Support marketplaceId in token
+
+## 1.0.27 - 2026-01-21
+### Breaking Changes
+
+-   Update banking `getAccountTransactions` signature to use query params (account_id, filters)
+-   Require `redirect` in connection creation payloads
+-   Update ecommerce/invoicing schema type names to `backbone_common__models__*`
+
+### Platform
+
+-   Add Issues API (list/account/consumer detail)
+-   Add transaction lookup by `client_request_id` on consumer connections
+
+### Accounting
+
+-   Add bank accounts listing, bank transactions creation, payment terms, schemes, and FEC export
+
+### Banking
+
+-   Add attachments retrieval with pagination
+
+### PMS
+
+-   Add taxes listing
+-   Add getCustomer
+
+### Syncs
+
+-   Remove deprecated update sync endpoint

@@ -8,9 +8,6 @@ export type SyncsAPI = {
     ) => Promise<ReturnType<typeof Sync>>;
     getSyncs: () => Promise<ReturnType<typeof Sync>[]>;
     getSyncById: (syncid: string) => Promise<ReturnType<typeof Sync>>;
-    updateSync: (
-        body?: components['schemas']['CreateSyncItem']
-    ) => Promise<ReturnType<typeof Sync>>;
     sendCustomEvent: (
         syncid: string,
         flowid: string,
@@ -54,15 +51,6 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         return Sync(_internalApi, data);
     };
 
-    const updateSync = async (body?: components['schemas']['CreateSyncItem']) => {
-        const {
-            data,
-        }: {
-            data: components['schemas']['ReadSyncItem'];
-        } = await _internalApi.patch('/syncs', body);
-        return Sync(_internalApi, data);
-    };
-
     const sendCustomEvent = async (
         syncid: string,
         flowid: string,
@@ -91,7 +79,6 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         createSync,
         getSyncs,
         getSyncById,
-        updateSync,
         sendCustomEvent,
         getConsumerExecutions,
         getExecution,
