@@ -49,7 +49,11 @@ const Consumer = (
         return data;
     };
 
-    const createConnection = async (body?: components['schemas']['PostConnectionItem-Input']) => {
+    const createConnection = async (
+        body?:
+            | components['schemas']['backbone_api__app__routers__connections__PostConnectionItem']
+            | null
+    ) => {
         const {
             data,
         }: {
@@ -77,6 +81,21 @@ const Consumer = (
             data,
         }: { data: operations[chiftOperations['deleteConnectionById']]['responses'][204] } =
             await _internalApi.delete(`/consumers/${consumerId}/connections/${connectionId}`);
+        return data;
+    };
+
+    const getTransactionByClientRequestId = async (
+        connectionId: string,
+        params: operations[chiftOperations['getTransactionByClientRequestId']]['parameters']['query']
+    ) => {
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getTransactionByClientRequestId']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get(
+            `/consumers/${consumerId}/connections/${connectionId}/transactions`,
+            { params }
+        );
         return data;
     };
 
@@ -209,6 +228,7 @@ const Consumer = (
         createConnection,
         updateConnection,
         deleteConnection,
+        getTransactionByClientRequestId,
         enableFlow,
         getSyncUrl,
         name,

@@ -17,6 +17,10 @@ type GetAccountCounterpartsParams = AutoPaginatedParams<
     operations['banking_get_account_counterparts']['parameters']['query']
 >;
 
+type GetAttachmentsParams = AutoPaginatedParams<
+    operations['banking_get_attachments']['parameters']['query']
+>;
+
 const bankingFactory = {
     getFinancialInstitutions(
         params?: GetFinancialInstitutionsParams,
@@ -41,14 +45,13 @@ const bankingFactory = {
         };
     },
     getAccountTransactions(
-        accountId: string,
-        params?: GetAccountTransactionsParams,
+        params: GetAccountTransactionsParams,
         options?: RawDataOption
     ): RequestData<components['schemas']['BankingTransactionItem'][]> {
         return {
             params,
             method: 'get',
-            url: `/consumers/{consumer_id}/banking/${accountId}/transactions`,
+            url: `/consumers/{consumer_id}/banking/transactions`,
             rawData: options?.rawData,
         };
     },
@@ -60,6 +63,17 @@ const bankingFactory = {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/banking/counterparts',
+            rawData: options?.rawData,
+        };
+    },
+    getAttachments(
+        params: GetAttachmentsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_AttachmentItemOut_']> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/banking/attachments',
             rawData: options?.rawData,
         };
     },

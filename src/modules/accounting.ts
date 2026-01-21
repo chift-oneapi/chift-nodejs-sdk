@@ -73,6 +73,18 @@ type GetBookyearsParams = AutoPaginatedParams<
     operations['accounting_get_bookyears']['parameters']['query']
 >;
 
+type GetBankAccountsParams = AutoPaginatedParams<
+    operations['accounting_get_bank_accounts']['parameters']['query']
+>;
+
+type GetPaymentTermsParams = AutoPaginatedParams<
+    operations['accounting_get_payment_terms']['parameters']['query']
+>;
+
+type GetSchemesParams = AutoPaginatedParams<
+    operations['accounting_get_schemes']['parameters']['query']
+>;
+
 const accountingFactory = {
     getAnalyticPlans(
         params?: GetAnalyticPlansParams,
@@ -624,6 +636,17 @@ const accountingFactory = {
             clientRequestId: options?.clientRequestId,
         };
     },
+    getBankAccounts(
+        params?: GetBankAccountsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_BankAccountItemOut_']> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/bank-accounts',
+            rawData: options?.rawData,
+        };
+    },
     createBankAccount(
         bankAccount: components['schemas']['BankAccountItemIn'],
         params?: operations['accounting_create_bank_account']['parameters']['query'],
@@ -634,6 +657,19 @@ const accountingFactory = {
             method: 'post',
             url: '/consumers/{consumer_id}/accounting/bank-accounts',
             body: bankAccount,
+            clientRequestId: options?.clientRequestId,
+        };
+    },
+    createBankTransactions(
+        bankStatement: components['schemas']['BankStatementItemIn'],
+        params?: operations['accounting_create_bank_transactions']['parameters']['query'],
+        options?: ClientRequestOption
+    ): RequestData<components['schemas']['BankStatementItemOut']> {
+        return {
+            params,
+            method: 'post',
+            url: '/consumers/{consumer_id}/accounting/bank-transactions',
+            body: bankStatement,
             clientRequestId: options?.clientRequestId,
         };
     },
@@ -661,6 +697,28 @@ const accountingFactory = {
             rawData: options?.rawData,
         };
     },
+    getPaymentTerms(
+        params?: GetPaymentTermsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_AccountingPaymentTerms_']> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/payment-terms`,
+            rawData: options?.rawData,
+        };
+    },
+    getSchemes(
+        params?: GetSchemesParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ChiftPage_SchemeItem_']> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/schemes`,
+            rawData: options?.rawData,
+        };
+    },
 
     createInvoicePayment(
         body: components['schemas']['AccountingInvoicePaymentIn'],
@@ -671,6 +729,17 @@ const accountingFactory = {
             method: 'post',
             url: `/consumers/{consumer_id}/accounting/invoices/payments`,
             body,
+        };
+    },
+    exportFec(
+        params: operations['accounting_export_fec']['parameters']['query'],
+        options?: RawDataOption
+    ): RequestData<components['schemas']['FECItemOut'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/export-fec`,
+            rawData: options?.rawData,
         };
     },
 };
