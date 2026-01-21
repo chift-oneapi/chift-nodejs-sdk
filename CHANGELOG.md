@@ -230,6 +230,12 @@
 - Support marketplaceId in token
 
 ## 1.0.27 - 2026-01-21
+### Breaking Changes
+
+-   Update banking `getAccountTransactions` signature to use query params (account_id, filters)
+-   Require `redirect` in connection creation payloads
+-   Update ecommerce/invoicing schema type names to `backbone_common__models__*`
+
 ### Platform
 
 -   Add MCP token generation (`getMcpToken`) and Issues API (list/account/consumer detail)
