@@ -238,7 +238,7 @@
 
 ### Platform
 
--   Add MCP token generation (`getMcpToken`) and Issues API (list/account/consumer detail)
+-   Add Issues API (list/account/consumer detail)
 -   Add transaction lookup by `client_request_id` on consumer connections
 
 ### Accounting
