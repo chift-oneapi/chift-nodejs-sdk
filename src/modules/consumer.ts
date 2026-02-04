@@ -50,9 +50,7 @@ const Consumer = (
     };
 
     const createConnection = async (
-        body?:
-            | components['schemas']['backbone_api__app__routers__connections__PostConnectionItem']
-            | null
+        body?: components['schemas']['PostConnectionItem-Input'] | null
     ) => {
         const {
             data,

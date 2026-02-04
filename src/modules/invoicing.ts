@@ -42,7 +42,7 @@ const invoicingFactory = {
         };
     },
     createInvoice(
-        invoice: components['schemas']['backbone_common__models__invoicing__common__InvoiceItem'],
+        invoice: components['schemas']['InvoiceItem-Input'],
         options?: ClientRequestOption
     ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
@@ -70,7 +70,7 @@ const invoicingFactory = {
         };
     },
     createProduct(
-        product: components['schemas']['backbone_common__models__invoicing__common__ProductItem'],
+        product: components['schemas']['ProductItem-Input'],
         options?: ClientRequestOption
     ): RequestData<components['schemas']['ProductItemOut']> {
         return {

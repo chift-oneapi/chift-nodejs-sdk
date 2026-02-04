@@ -46,9 +46,7 @@ const ecommerceFactory = {
     getProducts(
         params?: GetProductsParams,
         options?: RawDataOption
-    ): RequestData<
-        components['schemas']['backbone_common__models__commerce__common__ProductItem'][]
-    > {
+    ): RequestData<components['schemas']['ProductItem-Output'][]> {
         return {
             params,
             method: 'get',
@@ -69,9 +67,7 @@ const ecommerceFactory = {
     getProduct(
         productId: string,
         options?: RawDataOption
-    ): RequestData<
-        components['schemas']['backbone_common__models__commerce__common__ProductItem']
-    > {
+    ): RequestData<components['schemas']['ProductItem-Output']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/products/${productId}`,
