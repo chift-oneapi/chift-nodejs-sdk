@@ -3087,16 +3087,14 @@ export interface components {
              * @description Scope of the VAT code, indicating its applicability. Use 'nat' for VAT codes that apply to local/domestic sales or purchases, 'eu' for cross-border transactions within the EU, and 'int' for transactions with countries outside the EU.
              * @default unknown
              */
-            scope:
-                | components['schemas']['backbone_common__models__accounting__common__VatCodeScope']
-                | null;
+            scope: components['schemas']['VatCodeScope'] | null;
             /**
              * Rate
              * @description VAT rate associated with the VAT code. This is the percentage rate applied to the amount when this VAT code is used.
              */
             rate: number;
             /** @description Type of the VAT code, indicating whether it is a sales tax or purchase tax. This helps in understanding how the VAT code is applied in transactions. */
-            type: components['schemas']['backbone_common__models__accounting__common__VatCodeType'];
+            type: components['schemas']['VatCodeType'];
             /**
              * Deductible Account
              * @description Ledger account number used for the deductible part of the VAT code. This is typically used for purchase transactions where VAT can be deducted.
@@ -3176,6 +3174,33 @@ export interface components {
              */
             country?: string | null;
         };
+        /** AddressItemIn */
+        AddressItemIn: {
+            address_type: components['schemas']['AddressType'];
+            /** Name */
+            name?: string | null;
+            /** Number */
+            number?: string | null;
+            /** Box */
+            box?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Mobile */
+            mobile?: string | null;
+            /** Email */
+            email?: string | null;
+            /** Street */
+            street: string;
+            /** City */
+            city: string;
+            /** Postal Code */
+            postal_code: string;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
+            country: string;
+        };
         /** AddressItemInInvoicing */
         AddressItemInInvoicing: {
             address_type: components['schemas']['AddressTypeInvoicing'];
@@ -3202,6 +3227,62 @@ export interface components {
              * @description Format: ISO 3166-1 codes.
              */
             country: string;
+        };
+        /** AddressItemOut */
+        AddressItemOut: {
+            address_type: components['schemas']['AddressType'];
+            /** Company Name */
+            company_name?: string | null;
+            /** First Name */
+            first_name?: string | null;
+            /** Last Name */
+            last_name?: string | null;
+            /** Street */
+            street?: string | null;
+            /** Number */
+            number?: string | null;
+            /** Box */
+            box?: string | null;
+            /** City */
+            city?: string | null;
+            /** Postal Code */
+            postal_code?: string | null;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
+            country?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Email */
+            email?: string | null;
+        };
+        /** AddressItemOut */
+        'AddressItemOut-Input': {
+            address_type: components['schemas']['AddressType'];
+            /** Name */
+            name?: string | null;
+            /** Number */
+            number?: string | null;
+            /** Box */
+            box?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Mobile */
+            mobile?: string | null;
+            /** Email */
+            email?: string | null;
+            /** Street */
+            street?: string | null;
+            /** City */
+            city?: string | null;
+            /** Postal Code */
+            postal_code?: string | null;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
+            country?: string | null;
         };
         /** AddressItemOutInvoicing */
         AddressItemOutInvoicing: {
@@ -3510,7 +3591,7 @@ export interface components {
         AttachmentItemIn: {
             /** Base64 String */
             base64_string: string;
-            document_type: components['schemas']['backbone_common__models__invoicing__common__DocumentType'];
+            document_type: components['schemas']['DocumentType'];
         };
         /** AttachmentItemOut */
         AttachmentItemOut: {
@@ -4050,9 +4131,7 @@ export interface components {
              * @description Status of the transaction
              * @example pending
              */
-            status?:
-                | components['schemas']['backbone_common__models__banking__common__TransactionStatus']
-                | null;
+            status?: components['schemas']['TransactionStatus'] | null;
             /** @description Extra information about the attachments linked to the invoice. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
         };
@@ -4794,7 +4873,7 @@ export interface components {
         /** ChiftPage[ProductItem] */
         ChiftPage_ProductItem_: {
             /** Items */
-            items: components['schemas']['backbone_common__models__commerce__common__ProductItem'][];
+            items: components['schemas']['ProductItem-Output'][];
             /** Total */
             total: number;
             /** Page */
@@ -4955,7 +5034,7 @@ export interface components {
              * Addresses
              * @description List of addresses associated with the client.
              */
-            addresses: components['schemas']['backbone_common__models__common__AddressItemIn'][];
+            addresses: components['schemas']['AddressItemIn'][];
             /**
              * Account Number
              * @description Number of ledger account assigned to the client in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is typically the ledger account used for posting receivables. In some systems, each customer has a dedicated account; in others, a shared control account is used and customer balances are tracked in a subledger.
@@ -5084,6 +5163,11 @@ export interface components {
             addresses:
                 | components['schemas']['backbone_common__models__common__AddressItemOut'][]
                 | null;
+            /**
+             * Third Party Account
+             * @description Third party account number/code representing the client in the accounting software.
+             */
+            third_party_account?: string | null;
         };
         /** ClientItemUpdate */
         ClientItemUpdate: {
@@ -5184,9 +5268,7 @@ export interface components {
              * @description List of addresses associated with the client.
              * @default []
              */
-            addresses:
-                | components['schemas']['backbone_common__models__common__AddressItemOut'][]
-                | null;
+            addresses: components['schemas']['AddressItemOut-Input'][] | null;
         };
         /** ClosureItem */
         ClosureItem: {
@@ -5275,9 +5357,7 @@ export interface components {
              * Addresses
              * @default []
              */
-            addresses:
-                | components['schemas']['backbone_common__models__commerce__common__AddressItemOut'][]
-                | null;
+            addresses: components['schemas']['AddressItemOut'][] | null;
             /** Created On */
             created_on?: string | null;
         };
@@ -5309,6 +5389,40 @@ export interface components {
             name: string;
             /** Values */
             values: string[];
+        };
+        /** ConnectionItem */
+        ConnectionItem: {
+            /** One Api */
+            one_api?: number | null;
+            /** Connection Type */
+            connection_type?: number | null;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order: number;
+            /**
+             * Display Hidden
+             * @default false
+             */
+            display_hidden: boolean;
+        };
+        /** ConnectionItem */
+        'ConnectionItem-Input': {
+            /** One Api */
+            one_api?: number | null;
+            /** Connection Type */
+            connection_type?: number | null;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order: number;
+            /**
+             * Display Hidden
+             * @default false
+             */
+            display_hidden: boolean;
         };
         /** ConsumerItem */
         ConsumerItem: {
@@ -5644,7 +5758,7 @@ export interface components {
                 }[];
             } | null;
             /** Connections */
-            connections: components['schemas']['backbone_api__app__routers__syncs__ConnectionItem'][];
+            connections: components['schemas']['ConnectionItem-Input'][];
             /**
              * Mappings
              * @default []
@@ -5768,6 +5882,23 @@ export interface components {
                 [key: string]: unknown;
             } | null;
         };
+        /** CredentialItem */
+        'CredentialItem-Input': {
+            /** Key */
+            key: string;
+            /** Value */
+            value: string;
+        };
+        /** CredentialItem */
+        'CredentialItem-Output': {
+            /** Name */
+            name: string;
+            /**
+             * Optional
+             * @default false
+             */
+            optional: boolean;
+        };
         /** DataItem */
         DataItem: {
             /** Data */
@@ -5796,9 +5927,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status:
-                | components['schemas']['backbone_api__app__routers__integrations__Status']
-                | null;
+            status: components['schemas']['Status'] | null;
             definition: components['schemas']['DatastoreDef'];
         };
         /** DatastoreColumn */
@@ -5825,11 +5954,25 @@ export interface components {
              */
             search_column?: string | null;
         };
+        /** DiscountItem */
+        DiscountItem: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Amount */
+            amount: number;
+        };
         /**
          * DiscountType
          * @enum {string}
          */
         DiscountType: 'OFFERED' | 'UNKNOWN' | 'LOSS';
+        /**
+         * DocumentType
+         * @enum {string}
+         */
+        DocumentType: 'customer_document' | 'supplier_document' | 'employee_expense';
         /** EmployeeItem */
         EmployeeItem: {
             /**
@@ -6210,9 +6353,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts:
-                | components['schemas']['backbone_common__models__commerce__common__DiscountItem'][]
-                | null;
+            discounts: components['schemas']['DiscountItem'][] | null;
             /** Untaxed Amount */
             untaxed_amount: number;
             /** Tax Amount */
@@ -6469,9 +6610,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status:
-                | components['schemas']['backbone_api__app__routers__integrations__Status']
-                | null;
+            status: components['schemas']['Status'] | null;
             definition: components['schemas']['DatastoreDef'];
         };
         /** FlowDataStoreItem */
@@ -6481,9 +6620,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status:
-                | components['schemas']['backbone_api__app__routers__integrations__Status']
-                | null;
+            status: components['schemas']['Status'] | null;
             definition: components['schemas']['DatastoreDef'];
         };
         /** FlowExecution */
@@ -6739,7 +6876,7 @@ export interface components {
             name: string;
             /** Description */
             description?: string | null;
-            status: components['schemas']['backbone_api__app__routers__integrations__Status'];
+            status: components['schemas']['Status'];
             api: components['schemas']['Api'];
             /** Logo Url */
             logo_url: string;
@@ -6750,9 +6887,7 @@ export interface components {
              * @description List of post-connections that can be activated for this integration.
              * @default []
              */
-            post_connections:
-                | components['schemas']['backbone_api__app__routers__integrations__PostConnectionItem'][]
-                | null;
+            post_connections: components['schemas']['PostConnectionItem-Output'][] | null;
             /**
              * Operations Coverage
              * @description List of operations coverage for this integration.
@@ -6764,9 +6899,7 @@ export interface components {
              * @description List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.
              * @default []
              */
-            credentials:
-                | components['schemas']['backbone_api__app__routers__integrations__CredentialItem'][]
-                | null;
+            credentials: components['schemas']['CredentialItem-Output'][] | null;
             /**
              * Supported Countries
              * @description Country codes (ISO 3166-1 alpha-2) where this integration is supported. If not defined, the integration is supported globally.
@@ -6820,6 +6953,112 @@ export interface components {
              * @description Account number to use for the correction line on a purchase (supplier invoice).
              */
             invoice_correction_debit_account_number?: string | null;
+        };
+        /** InvoiceItem */
+        'InvoiceItem-Input': {
+            /**
+             * Currency
+             * @description Currency matching target sofware name
+             */
+            currency: string;
+            /** @description Invoice type */
+            invoice_type: components['schemas']['InvoiceType'];
+            /** @description Status */
+            status: components['schemas']['InvoiceStatus'];
+            /**
+             * Invoice Date
+             * Format: date
+             * @description Invoicing date
+             */
+            invoice_date: string;
+            /**
+             * Tax Amount
+             * @description Taxes amount
+             */
+            tax_amount: number;
+            /**
+             * Untaxed Amount
+             * @description Untaxed amount
+             */
+            untaxed_amount: number;
+            /**
+             * Total
+             * @description Total amount incl. taxes
+             */
+            total: number;
+            /**
+             * Lines
+             * @description Invoice lines
+             * @default []
+             */
+            lines: components['schemas']['InvoiceLineItem'][];
+            /**
+             * Partner Id
+             * @description Technical id of the vendor/customer in Chift
+             */
+            partner_id?: string | null;
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             */
+            invoice_number?: string | null;
+            /**
+             * Due Date
+             * @description Due date
+             */
+            due_date?: string | null;
+            /**
+             * Reference
+             * @description Reference
+             */
+            reference?: string | null;
+            /**
+             * Payment Communication
+             * @description Payment communication
+             */
+            payment_communication?: string | null;
+            /**
+             * Customer Memo
+             * @description Customer note/memo
+             */
+            customer_memo?: string | null;
+            /** @description Journal */
+            journal_ref?: components['schemas']['FieldRef'] | null;
+            /** @description Specificities for Italy */
+            italian_specificities?: components['schemas']['ItalianSpecificities-Input'] | null;
+        };
+        /** InvoiceItem */
+        'InvoiceItem-Output': {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             * @example INV-12345
+             */
+            invoice_number: string | null;
+            /**
+             * Creation Date
+             * @description Creation date of the invoice
+             * @example 2023-10-01T12:00:00
+             */
+            creation_date?: string | null;
+            /**
+             * Closing Date
+             * @description Closing date of the invoice
+             * @example 2023-10-10T12:00:00
+             */
+            closing_date?: string | null;
+            /**
+             * Partners
+             * @description List of partners related to the invoice
+             */
+            partners?: components['schemas']['InvoicePartnerItem'][] | null;
         };
         /** InvoiceItemDueDatesOut */
         InvoiceItemDueDatesOut: {
@@ -6895,9 +7134,7 @@ export interface components {
              */
             payment_term_id?: string | null;
             /** @description Withholding tax information for the invoice. */
-            withholding_tax?:
-                | components['schemas']['backbone_common__models__accounting__common__WithholdingTax']
-                | null;
+            withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /**
              * Invoice Date
              * Format: date
@@ -7015,9 +7252,7 @@ export interface components {
              */
             payment_term_id?: string | null;
             /** @description Withholding tax information for the invoice. */
-            withholding_tax?:
-                | components['schemas']['backbone_common__models__accounting__common__WithholdingTax']
-                | null;
+            withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /**
              * Invoice Date
              * Format: date
@@ -7100,7 +7335,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
+            invoice_type: components['schemas']['InvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -7243,9 +7478,7 @@ export interface components {
              */
             payment_term_id?: string | null;
             /** @description Withholding tax information for the invoice. */
-            withholding_tax?:
-                | components['schemas']['backbone_common__models__accounting__common__WithholdingTax']
-                | null;
+            withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /** Id */
             id?: string | null;
             /**
@@ -7346,9 +7579,7 @@ export interface components {
              */
             payment_term_id?: string | null;
             /** @description Withholding tax information for the invoice. */
-            withholding_tax?:
-                | components['schemas']['backbone_common__models__accounting__common__WithholdingTax']
-                | null;
+            withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /** Id */
             id?: string | null;
             /**
@@ -7417,7 +7648,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
+            invoice_type: components['schemas']['InvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -7990,6 +8221,16 @@ export interface components {
          * @enum {string}
          */
         InvoiceStatusOut: 'cancelled' | 'draft' | 'posted' | 'paid';
+        /**
+         * InvoiceType
+         * @enum {string}
+         */
+        InvoiceType:
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund'
+            | 'all';
         /** InvoicingBankAccountItem */
         InvoicingBankAccountItem: {
             /**
@@ -8085,7 +8326,7 @@ export interface components {
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
-            status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
+            status: components['schemas']['PaymentStatus'];
             /**
              * Description
              * @description Description
@@ -8168,7 +8409,7 @@ export interface components {
              */
             rate: number;
             /** @description Type */
-            type: components['schemas']['backbone_common__models__accounting__common__VatCodeType'];
+            type: components['schemas']['VatCodeType'];
             /**
              * Code
              * @description Code
@@ -8178,9 +8419,7 @@ export interface components {
              * @description Scope
              * @default unknown
              */
-            scope:
-                | components['schemas']['backbone_common__models__accounting__common__VatCodeScope']
-                | null;
+            scope: components['schemas']['VatCodeScope'] | null;
             /**
              * Active
              * @description Is the tax active?
@@ -8900,6 +9139,11 @@ export interface components {
          * @enum {string}
          */
         MiscellaneousOperationStatusOut: 'cancelled' | 'draft' | 'posted' | 'matched';
+        /**
+         * Mode
+         * @enum {string}
+         */
+        Mode: 'EAT_IN' | 'TAKEAWAY' | 'DELIVERY';
         /** MultipleMatchingIn */
         MultipleMatchingIn: {
             /** Matchings */
@@ -9121,12 +9365,8 @@ export interface components {
             /** Order Number */
             order_number?: string | null;
             customer?: components['schemas']['OrderCustomerItemOut'] | null;
-            billing_address?:
-                | components['schemas']['backbone_common__models__commerce__common__AddressItemOut']
-                | null;
-            shipping_address?:
-                | components['schemas']['backbone_common__models__commerce__common__AddressItemOut']
-                | null;
+            billing_address?: components['schemas']['AddressItemOut'] | null;
+            shipping_address?: components['schemas']['AddressItemOut'] | null;
             /** Created On */
             created_on?: string | null;
             /** Last Updated On */
@@ -9308,9 +9548,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts:
-                | components['schemas']['backbone_common__models__commerce__common__DiscountItem'][]
-                | null;
+            discounts: components['schemas']['DiscountItem'][] | null;
             /**
              * Gift Card
              * @default false
@@ -9337,9 +9575,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories:
-                | components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][]
-                | null;
+            categories: components['schemas']['ProductCategoryItem'][] | null;
         };
         /** OrderPaymentMethods */
         OrderPaymentMethods: {
@@ -9866,6 +10102,11 @@ export interface components {
              */
             delivery_fee: number | null;
             /**
+             * @description Delivery Mode
+             * @example eat_in
+             */
+            mode?: components['schemas']['Mode'] | null;
+            /**
              * Currency
              * @description Currency of the order
              * @example EUR
@@ -9923,9 +10164,7 @@ export interface components {
              * Bills
              * @description Reference to the bills related to this order
              */
-            bills?:
-                | components['schemas']['backbone_common__models__pms__common__InvoiceItem'][]
-                | null;
+            bills?: components['schemas']['InvoiceItem-Output'][] | null;
         };
         /** PMSOrderLineItem */
         PMSOrderLineItem: {
@@ -10428,6 +10667,11 @@ export interface components {
              */
             delivery_fee: number | null;
             /**
+             * @description Delivery Mode
+             * @example eat_in
+             */
+            mode?: components['schemas']['Mode'] | null;
+            /**
              * Currency
              * @description Currency of the order
              * @example EUR
@@ -10563,7 +10807,7 @@ export interface components {
              * Prices
              * @description List of prices for the product
              */
-            prices: components['schemas']['backbone_common__models__pos__common__ProductPriceItem'][];
+            prices: components['schemas']['ProductPriceItem'][];
             /**
              * Accounting Category Ids
              * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
@@ -10693,6 +10937,11 @@ export interface components {
             addresses:
                 | components['schemas']['backbone_common__models__common__AddressItemOut'][]
                 | null;
+            /**
+             * Third Party Account
+             * @description Third party account number/code representing the client in the accounting software.
+             */
+            third_party_account?: string | null;
         };
         /**
          * PartnerType
@@ -10716,9 +10965,7 @@ export interface components {
              * Credentials
              * @description Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration
              */
-            credentials?:
-                | components['schemas']['backbone_api__app__routers__connections__CredentialItem'][]
-                | null;
+            credentials?: components['schemas']['CredentialItem-Input'][] | null;
         };
         /** Payment */
         Payment: {
@@ -10769,7 +11016,7 @@ export interface components {
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
-            status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
+            status: components['schemas']['PaymentStatus'];
             /**
              * Description
              * @description Description
@@ -10872,6 +11119,23 @@ export interface components {
             | 'MP21'
             | 'MP22'
             | 'MP23';
+        /**
+         * PaymentStatus
+         * @enum {string}
+         */
+        PaymentStatus:
+            | 'pending'
+            | 'completed'
+            | 'partially_completed'
+            | 'canceled'
+            | 'failed'
+            | 'unknown'
+            | 'authorized';
+        /**
+         * PaymentStatus
+         * @enum {string}
+         */
+        'PaymentStatus-Input': 'all' | 'unpaid' | 'paid';
         /** PaymentTermAccountInfo */
         PaymentTermAccountInfo: {
             /**
@@ -10929,6 +11193,46 @@ export interface components {
              * @example FR
              */
             country?: string | null;
+        };
+        /** PostConnectionItem */
+        'PostConnectionItem-Input': {
+            /**
+             * Integrationid
+             * @description Can be used to specify the integration code of a specific connector. If specified, the url will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
+             */
+            integrationid?: number | null;
+            /**
+             * Name
+             * @description Can be used to specify the name of the connection. Must be used in combination with an integrationid.
+             */
+            name?: string | null;
+            /**
+             * Credentials
+             * @description Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration
+             */
+            credentials?: components['schemas']['CredentialItem-Input'][] | null;
+            /**
+             * Country
+             * @description ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided.
+             */
+            country?: string | null;
+            /**
+             * Redirect
+             * @description Indicates whether you want to return to the consumer's redirectUrl after creation (true) or whether you want to stay on the connection selection page (false)(This field is ignored if integrationid is provided)
+             * @default false
+             */
+            redirect: boolean | null;
+        };
+        /** PostConnectionItem */
+        'PostConnectionItem-Output': {
+            /** Id */
+            id: string;
+            /** Title */
+            title: string;
+            /** Optional */
+            optional: boolean;
+            /** Resource */
+            resource: string;
         };
         /** PostConsumerItem */
         PostConsumerItem: {
@@ -10993,12 +11297,123 @@ export interface components {
         } & {
             [key: string]: unknown;
         };
+        /** ProductCategoryItem */
+        ProductCategoryItem: {
+            /**
+             * Id
+             * @description Technical id of the category in Chift
+             */
+            id: string;
+            /** Name */
+            name: string;
+        };
         /** ProductCostItem */
         ProductCostItem: {
             /** Amount */
             amount: number;
             /** Currency */
             currency: string;
+        };
+        /** ProductItem */
+        'ProductItem-Input': {
+            /**
+             * Name
+             * @description Name
+             */
+            name: string;
+            /**
+             * Unit Price
+             * @description Unit price
+             */
+            unit_price?: number | null;
+            /**
+             * Tax Id
+             * @description Technical id of the tax in Chift
+             */
+            tax_id?: string | null;
+            /**
+             * Code
+             * @description Reference/code
+             */
+            code?: string | null;
+            /**
+             * Unit
+             * @description Unit of measure matching target software name
+             */
+            unit?: string | null;
+            /**
+             * Category
+             * @description Category matching target software name
+             */
+            category?: string | null;
+            /**
+             * Currency
+             * @description Currency matching target software name
+             */
+            currency?: string | null;
+            /**
+             * Description
+             * @description Description
+             */
+            description?: string | null;
+            /**
+             * Cost
+             * @description Cost of the product
+             * @default 0
+             */
+            cost: number | null;
+        };
+        /** ProductItem */
+        'ProductItem-Output': {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /** Description Html */
+            description_html?: string | null;
+            /**
+             * Categories
+             * @default []
+             */
+            categories: components['schemas']['ProductCategoryItem'][] | null;
+            /** Created On */
+            created_on?: string | null;
+            /** Last Updated On */
+            last_updated_on?: string | null;
+            /**
+             * Variants
+             * @default []
+             */
+            variants: components['schemas']['ProductVariantItem'][] | null;
+            status?: components['schemas']['ProductStatus'] | null;
+            /** Sku */
+            sku?: string | null;
+            /**
+             * Common Attributes
+             * @description List of attributes that are shared by all variants of the product.
+             * @default []
+             */
+            common_attributes: components['schemas']['CommonAttributeItem'][] | null;
+            /**
+             * Variant Attributes Options
+             * @default []
+             */
+            variant_attributes_options:
+                | components['schemas']['VariantAttributeOptionItem'][]
+                | null;
+            /**
+             * Common Images
+             * @description List of images that are shared by all variants of the product.
+             * @default []
+             */
+            common_images: components['schemas']['ImageItem'][] | null;
         };
         /** ProductItemOut */
         ProductItemOut: {
@@ -11062,6 +11477,21 @@ export interface components {
              */
             available_quantity: number | null;
         };
+        /** ProductPriceItem */
+        ProductPriceItem: {
+            /**
+             * Unit Price
+             * @description Unit price (without tax) of the product
+             * @example 10
+             */
+            unit_price: number;
+            /**
+             * Tax Rate
+             * @description Tax rate applied to the product
+             * @example 10
+             */
+            tax_rate?: number | null;
+        };
         /**
          * ProductStatus
          * @enum {string}
@@ -11091,9 +11521,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories:
-                | components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][]
-                | null;
+            categories: components['schemas']['ProductCategoryItem'][] | null;
             /** Created On */
             created_on?: string | null;
             /** Sku */
@@ -11200,7 +11628,7 @@ export interface components {
                 }[];
             } | null;
             /** Connections */
-            connections: components['schemas']['backbone_api__app__routers__syncs__ConnectionItem'][];
+            connections: components['schemas']['ConnectionItem'][];
             /**
              * Mappings
              * @default []
@@ -11284,7 +11712,7 @@ export interface components {
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
-            status: components['schemas']['backbone_common__models__payment__common__PaymentStatus'];
+            status: components['schemas']['PaymentStatus'];
             /**
              * Description
              * @description Description
@@ -11494,6 +11922,11 @@ export interface components {
          * @enum {string}
          */
         States: 'open' | 'closed' | 'all';
+        /**
+         * Status
+         * @enum {string}
+         */
+        Status: 'active' | 'inactive';
         /** SupplierItemIn */
         SupplierItemIn: {
             /**
@@ -11592,7 +12025,7 @@ export interface components {
              * Addresses
              * @description List of addresses associated with the supplier.
              */
-            addresses: components['schemas']['backbone_common__models__common__AddressItemIn'][];
+            addresses: components['schemas']['AddressItemIn'][];
             /**
              * Account Number
              * @description Number of ledger account assigned to the supplier in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is typically the ledger account used for posting payables. In some systems, each supplier has a dedicated account; in others, a shared control account is used and supplier balances are tracked in a subledger.
@@ -11721,6 +12154,11 @@ export interface components {
             addresses:
                 | components['schemas']['backbone_common__models__common__AddressItemOut'][]
                 | null;
+            /**
+             * Third Party Account
+             * @description Third party account number/code representing the client in the accounting software.
+             */
+            third_party_account?: string | null;
         };
         /** SupplierItemUpdate */
         SupplierItemUpdate: {
@@ -11821,9 +12259,7 @@ export interface components {
              * @description List of addresses associated with the supplier.
              * @default []
              */
-            addresses:
-                | components['schemas']['backbone_common__models__common__AddressItemOut'][]
-                | null;
+            addresses: components['schemas']['AddressItemOut-Input'][] | null;
         };
         /** SyncConsumerItem */
         SyncConsumerItem: {
@@ -11897,12 +12333,12 @@ export interface components {
             tax_amount: number;
             /**
              * Vat Account
-             * @description VAT account of the tax line. This is the account number used to book the tax amount. The account is mandatory if tax amount is different from 0 and will be used when we need to pass this information to the accounting software.
+             * @description VAT ledger account of the tax line. This is the ledger account number used to book the tax amount. The account is mandatory if tax amount is different from 0. The ledger account will ONLY be used when it is mandatory to pass this information to the accounting software.
              */
             vat_account?: string | null;
             /**
              * Reversed Vat Account
-             * @description Reversed VAT account of the tax line. This is the account number used to book the reversed tax amount. The account is mandatory if you are using a reversed VAT code.
+             * @description Reversed VAT ledger account of the tax line. This is the ledger account number used to book the reversed tax amount. The account is mandatory if you are using a reversed VAT code. The ledger account will ONLY be used when it is mandatory to pass this information to the accounting software.
              */
             reversed_vat_account?: string | null;
             /**
@@ -12027,6 +12463,11 @@ export interface components {
             payment_id?: string | null;
         };
         /**
+         * TransactionStatus
+         * @enum {string}
+         */
+        TransactionStatus: 'pending' | 'declined' | 'completed';
+        /**
          * TriggerPriority
          * @enum {string}
          */
@@ -12110,9 +12551,7 @@ export interface components {
              */
             currency?: string | null;
             /** @description Invoice type of the uploaded document */
-            invoice_type?:
-                | components['schemas']['backbone_common__models__invoicing__common__InvoiceType']
-                | null;
+            invoice_type?: components['schemas']['InvoiceType'] | null;
             /** @description Status of the uploaded document */
             status?: components['schemas']['InvoiceStatus'] | null;
             /**
@@ -12251,9 +12690,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories:
-                | components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][]
-                | null;
+            categories: components['schemas']['ProductCategoryItem'][] | null;
             /** Created On */
             created_on?: string | null;
             /** Sku */
@@ -12313,6 +12750,16 @@ export interface components {
              */
             variant_images: components['schemas']['ImageItem'][] | null;
         };
+        /**
+         * VatCodeScope
+         * @enum {string}
+         */
+        VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
+        /**
+         * VatCodeType
+         * @enum {string}
+         */
+        VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
         /** WebhookInstanceGetItem */
         WebhookInstanceGetItem: {
             /**
@@ -12336,15 +12783,13 @@ export interface components {
             event: string;
             /** Url */
             url: string;
-            status: components['schemas']['backbone_api__app__routers__integrations__Status'];
+            status: components['schemas']['Status'];
             /** Integrationid */
             integrationid?: number | null;
         };
         /** WebhookInstancePatchItem */
         WebhookInstancePatchItem: {
-            status?:
-                | components['schemas']['backbone_api__app__routers__integrations__Status']
-                | null;
+            status?: components['schemas']['Status'] | null;
             /** Url */
             url?: string | null;
             /** Signingsecret */
@@ -12441,6 +12886,24 @@ export interface components {
             | 'TC20'
             | 'TC21'
             | 'TC22';
+        /** WithholdingTax */
+        WithholdingTax: {
+            /**
+             * Tax Rate
+             * @description Rate of the withholding tax. Normal withholding tax should have a negative tax rate.
+             */
+            tax_rate: number;
+            /**
+             * Tax Code
+             * @description Tax code of the withholding tax. This is the Id of the Tax Code in the accounting software.
+             */
+            tax_code: string;
+            /**
+             * Tax Amount
+             * @description Amount of the withholding tax. This is the amount of the withholding tax that will be applied to the invoice. It should be negative for normal withholding tax.
+             */
+            tax_amount: number;
+        };
         /**
          * WithholdingTaxPaymentReason
          * @enum {string}
@@ -12501,90 +12964,9 @@ export interface components {
             data?: {
                 [key: string]: unknown;
             } | null;
-            status: components['schemas']['backbone_api__app__routers__integrations__Status'];
+            status: components['schemas']['Status'];
             /** @description For local agent only. Indicates whether the local agent is up and running */
             agent?: components['schemas']['LocalAgentInfo'] | null;
-        };
-        /** CredentialItem */
-        backbone_api__app__routers__connections__CredentialItem: {
-            /** Key */
-            key: string;
-            /** Value */
-            value: string;
-        };
-        /** PostConnectionItem */
-        backbone_api__app__routers__connections__PostConnectionItem: {
-            /**
-             * Integrationid
-             * @description Can be used to specify the integration code of a specific connector. If specified, the url will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
-             */
-            integrationid?: number | null;
-            /**
-             * Name
-             * @description Can be used to specify the name of the connection. Must be used in combination with an integrationid.
-             */
-            name?: string | null;
-            /**
-             * Credentials
-             * @description Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration
-             */
-            credentials?:
-                | components['schemas']['backbone_api__app__routers__connections__CredentialItem'][]
-                | null;
-            /**
-             * Country
-             * @description ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided.
-             */
-            country?: string | null;
-            /**
-             * Redirect
-             * @description Indicates whether you want to return to the consumer's redirectUrl after creation (true) or whether you want to stay on the connection selection page (false)(This field is ignored if integrationid is provided)
-             * @default false
-             */
-            redirect: boolean | null;
-        };
-        /** CredentialItem */
-        backbone_api__app__routers__integrations__CredentialItem: {
-            /** Name */
-            name: string;
-            /**
-             * Optional
-             * @default false
-             */
-            optional: boolean;
-        };
-        /** PostConnectionItem */
-        backbone_api__app__routers__integrations__PostConnectionItem: {
-            /** Id */
-            id: string;
-            /** Title */
-            title: string;
-            /** Optional */
-            optional: boolean;
-            /** Resource */
-            resource: string;
-        };
-        /**
-         * Status
-         * @enum {string}
-         */
-        backbone_api__app__routers__integrations__Status: 'active' | 'inactive';
-        /** ConnectionItem */
-        backbone_api__app__routers__syncs__ConnectionItem: {
-            /** One Api */
-            one_api?: number | null;
-            /** Connection Type */
-            connection_type?: number | null;
-            /**
-             * Display Order
-             * @default 0
-             */
-            display_order: number;
-            /**
-             * Display Hidden
-             * @default false
-             */
-            display_hidden: boolean;
         };
         /**
          * DocumentType
@@ -12600,46 +12982,6 @@ export interface components {
             | 'customer_refund'
             | 'supplier_invoice'
             | 'supplier_refund';
-        /**
-         * VatCodeScope
-         * @enum {string}
-         */
-        backbone_common__models__accounting__common__VatCodeScope: 'nat' | 'eu' | 'int' | 'unknown';
-        /**
-         * VatCodeType
-         * @enum {string}
-         */
-        backbone_common__models__accounting__common__VatCodeType:
-            | 'sale'
-            | 'purchase'
-            | 'both'
-            | 'unknown';
-        /** WithholdingTax */
-        backbone_common__models__accounting__common__WithholdingTax: {
-            /**
-             * Tax Rate
-             * @description Rate of the withholding tax. Normal withholding tax should have a negative tax rate.
-             */
-            tax_rate: number;
-            /**
-             * Tax Code
-             * @description Tax code of the withholding tax. This is the Id of the Tax Code in the accounting software.
-             */
-            tax_code: string;
-            /**
-             * Tax Amount
-             * @description Amount of the withholding tax. This is the amount of the withholding tax that will be applied to the invoice. It should be negative for normal withholding tax.
-             */
-            tax_amount: number;
-        };
-        /**
-         * TransactionStatus
-         * @enum {string}
-         */
-        backbone_common__models__banking__common__TransactionStatus:
-            | 'pending'
-            | 'declined'
-            | 'completed';
         /** AddressItemIn */
         backbone_common__models__commerce__common__AddressItemIn: {
             /** First Name */
@@ -12666,108 +13008,6 @@ export interface components {
             /** Email */
             email?: string | null;
         };
-        /** AddressItemOut */
-        backbone_common__models__commerce__common__AddressItemOut: {
-            address_type: components['schemas']['AddressType'];
-            /** Company Name */
-            company_name?: string | null;
-            /** First Name */
-            first_name?: string | null;
-            /** Last Name */
-            last_name?: string | null;
-            /** Street */
-            street?: string | null;
-            /** Number */
-            number?: string | null;
-            /** Box */
-            box?: string | null;
-            /** City */
-            city?: string | null;
-            /** Postal Code */
-            postal_code?: string | null;
-            /**
-             * Country
-             * @description Format: ISO 3166-1 codes.
-             */
-            country?: string | null;
-            /** Phone */
-            phone?: string | null;
-            /** Email */
-            email?: string | null;
-        };
-        /** DiscountItem */
-        backbone_common__models__commerce__common__DiscountItem: {
-            /** Name */
-            name: string;
-            /** Description */
-            description: string;
-            /** Amount */
-            amount: number;
-        };
-        /** ProductCategoryItem */
-        backbone_common__models__commerce__common__ProductCategoryItem: {
-            /**
-             * Id
-             * @description Technical id of the category in Chift
-             */
-            id: string;
-            /** Name */
-            name: string;
-        };
-        /** ProductItem */
-        backbone_common__models__commerce__common__ProductItem: {
-            /**
-             * Id
-             * @description Technical id in Chift
-             */
-            id: string;
-            /** @description Technical id in the target software */
-            source_ref: components['schemas']['Ref'];
-            /** Name */
-            name: string;
-            /** Description */
-            description?: string | null;
-            /** Description Html */
-            description_html?: string | null;
-            /**
-             * Categories
-             * @default []
-             */
-            categories:
-                | components['schemas']['backbone_common__models__commerce__common__ProductCategoryItem'][]
-                | null;
-            /** Created On */
-            created_on?: string | null;
-            /** Last Updated On */
-            last_updated_on?: string | null;
-            /**
-             * Variants
-             * @default []
-             */
-            variants: components['schemas']['ProductVariantItem'][] | null;
-            status?: components['schemas']['ProductStatus'] | null;
-            /** Sku */
-            sku?: string | null;
-            /**
-             * Common Attributes
-             * @description List of attributes that are shared by all variants of the product.
-             * @default []
-             */
-            common_attributes: components['schemas']['CommonAttributeItem'][] | null;
-            /**
-             * Variant Attributes Options
-             * @default []
-             */
-            variant_attributes_options:
-                | components['schemas']['VariantAttributeOptionItem'][]
-                | null;
-            /**
-             * Common Images
-             * @description List of images that are shared by all variants of the product.
-             * @default []
-             */
-            common_images: components['schemas']['ImageItem'][] | null;
-        };
         /** ProductPriceItem */
         backbone_common__models__commerce__common__ProductPriceItem: {
             /** Currency */
@@ -12786,33 +13026,6 @@ export interface components {
             | 'failed'
             | 'pending'
             | 'success';
-        /** AddressItemIn */
-        backbone_common__models__common__AddressItemIn: {
-            address_type: components['schemas']['AddressType'];
-            /** Name */
-            name?: string | null;
-            /** Number */
-            number?: string | null;
-            /** Box */
-            box?: string | null;
-            /** Phone */
-            phone?: string | null;
-            /** Mobile */
-            mobile?: string | null;
-            /** Email */
-            email?: string | null;
-            /** Street */
-            street: string;
-            /** City */
-            city: string;
-            /** Postal Code */
-            postal_code: string;
-            /**
-             * Country
-             * @description Format: ISO 3166-1 codes.
-             */
-            country: string;
-        };
         /** AddressItemOut */
         backbone_common__models__common__AddressItemOut: {
             address_type: components['schemas']['AddressType'];
@@ -12840,151 +13053,6 @@ export interface components {
              */
             country?: string | null;
         };
-        /**
-         * PaymentStatus
-         * @enum {string}
-         */
-        backbone_common__models__common__PaymentStatus: 'all' | 'unpaid' | 'paid';
-        /**
-         * DocumentType
-         * @enum {string}
-         */
-        backbone_common__models__invoicing__common__DocumentType:
-            | 'customer_document'
-            | 'supplier_document'
-            | 'employee_expense';
-        /** InvoiceItem */
-        backbone_common__models__invoicing__common__InvoiceItem: {
-            /**
-             * Currency
-             * @description Currency matching target sofware name
-             */
-            currency: string;
-            /** @description Invoice type */
-            invoice_type: components['schemas']['backbone_common__models__invoicing__common__InvoiceType'];
-            /** @description Status */
-            status: components['schemas']['InvoiceStatus'];
-            /**
-             * Invoice Date
-             * Format: date
-             * @description Invoicing date
-             */
-            invoice_date: string;
-            /**
-             * Tax Amount
-             * @description Taxes amount
-             */
-            tax_amount: number;
-            /**
-             * Untaxed Amount
-             * @description Untaxed amount
-             */
-            untaxed_amount: number;
-            /**
-             * Total
-             * @description Total amount incl. taxes
-             */
-            total: number;
-            /**
-             * Lines
-             * @description Invoice lines
-             * @default []
-             */
-            lines: components['schemas']['InvoiceLineItem'][];
-            /**
-             * Partner Id
-             * @description Technical id of the vendor/customer in Chift
-             */
-            partner_id?: string | null;
-            /**
-             * Invoice Number
-             * @description Number/sequence
-             */
-            invoice_number?: string | null;
-            /**
-             * Due Date
-             * @description Due date
-             */
-            due_date?: string | null;
-            /**
-             * Reference
-             * @description Reference
-             */
-            reference?: string | null;
-            /**
-             * Payment Communication
-             * @description Payment communication
-             */
-            payment_communication?: string | null;
-            /**
-             * Customer Memo
-             * @description Customer note/memo
-             */
-            customer_memo?: string | null;
-            /** @description Journal */
-            journal_ref?: components['schemas']['FieldRef'] | null;
-            /** @description Specificities for Italy */
-            italian_specificities?: components['schemas']['ItalianSpecificities-Input'] | null;
-        };
-        /**
-         * InvoiceType
-         * @enum {string}
-         */
-        backbone_common__models__invoicing__common__InvoiceType:
-            | 'customer_invoice'
-            | 'customer_refund'
-            | 'supplier_invoice'
-            | 'supplier_refund'
-            | 'all';
-        /** ProductItem */
-        backbone_common__models__invoicing__common__ProductItem: {
-            /**
-             * Name
-             * @description Name
-             */
-            name: string;
-            /**
-             * Unit Price
-             * @description Unit price
-             */
-            unit_price?: number | null;
-            /**
-             * Tax Id
-             * @description Technical id of the tax in Chift
-             */
-            tax_id?: string | null;
-            /**
-             * Code
-             * @description Reference/code
-             */
-            code?: string | null;
-            /**
-             * Unit
-             * @description Unit of measure matching target software name
-             */
-            unit?: string | null;
-            /**
-             * Category
-             * @description Category matching target software name
-             */
-            category?: string | null;
-            /**
-             * Currency
-             * @description Currency matching target software name
-             */
-            currency?: string | null;
-            /**
-             * Description
-             * @description Description
-             */
-            description?: string | null;
-            /**
-             * Cost
-             * @description Cost of the product
-             * @default 0
-             */
-            cost: number | null;
-        };
         /** WithholdingTax */
         backbone_common__models__invoicing__common__WithholdingTax: {
             /**
@@ -13001,51 +13069,6 @@ export interface components {
             reason?: components['schemas']['WithholdingTaxReason'] | null;
             /** @description Payment reason */
             payment_reason?: components['schemas']['WithholdingTaxPaymentReason'] | null;
-        };
-        /**
-         * PaymentStatus
-         * @enum {string}
-         */
-        backbone_common__models__payment__common__PaymentStatus:
-            | 'pending'
-            | 'completed'
-            | 'partially_completed'
-            | 'canceled'
-            | 'failed'
-            | 'unknown'
-            | 'authorized';
-        /** InvoiceItem */
-        backbone_common__models__pms__common__InvoiceItem: {
-            /**
-             * Id
-             * @description Technical id in Chift
-             */
-            id: string;
-            /** @description Technical id in the target software */
-            source_ref: components['schemas']['Ref'];
-            /**
-             * Invoice Number
-             * @description Number/sequence
-             * @example INV-12345
-             */
-            invoice_number: string | null;
-            /**
-             * Creation Date
-             * @description Creation date of the invoice
-             * @example 2023-10-01T12:00:00
-             */
-            creation_date?: string | null;
-            /**
-             * Closing Date
-             * @description Closing date of the invoice
-             * @example 2023-10-10T12:00:00
-             */
-            closing_date?: string | null;
-            /**
-             * Partners
-             * @description List of partners related to the invoice
-             */
-            partners?: components['schemas']['InvoicePartnerItem'][] | null;
         };
         /** ProductCategoryItem */
         backbone_common__models__pos__common__ProductCategoryItem: {
@@ -13073,21 +13096,6 @@ export interface components {
              * @example 371ca583-d218-4900-b236-397532cf0e55
              */
             id_parent?: string | null;
-        };
-        /** ProductPriceItem */
-        backbone_common__models__pos__common__ProductPriceItem: {
-            /**
-             * Unit Price
-             * @description Unit price (without tax) of the product
-             * @example 10
-             */
-            unit_price: number;
-            /**
-             * Tax Rate
-             * @description Tax rate applied to the product
-             * @example 10
-             */
-            tax_rate?: number | null;
         };
         /** DiscountItem */
         backbone_common__models__pos_pms__DiscountItem: {
@@ -13485,9 +13493,7 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                'application/json':
-                    | components['schemas']['backbone_api__app__routers__connections__PostConnectionItem']
-                    | null;
+                'application/json': components['schemas']['PostConnectionItem-Input'] | null;
             };
         };
         responses: {
@@ -13719,9 +13725,7 @@ export interface operations {
     integrations_get_integrations: {
         parameters: {
             query?: {
-                status?:
-                    | components['schemas']['backbone_api__app__routers__integrations__Status']
-                    | null;
+                status?: components['schemas']['Status'] | null;
                 include_coverage?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -13820,9 +13824,7 @@ export interface operations {
     webhooks_get_webhooks: {
         parameters: {
             query?: {
-                status?:
-                    | components['schemas']['backbone_api__app__routers__integrations__Status']
-                    | null;
+                status?: components['schemas']['Status'] | null;
             };
             header?: never;
             path?: never;
@@ -14660,9 +14662,7 @@ export interface operations {
     datastores_get_datastores: {
         parameters: {
             query?: {
-                status?:
-                    | components['schemas']['backbone_api__app__routers__integrations__Status']
-                    | null;
+                status?: components['schemas']['Status'] | null;
             };
             header?: never;
             path?: never;
@@ -15758,6 +15758,8 @@ export interface operations {
                 regroup_lines?: components['schemas']['BoolParam'] | null;
                 /** @description If set to true, Chift will not wait for the invoice to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call. */
                 ignore_accounting_id?: boolean;
+                /** @description Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. */
+                force_currency_exchange?: boolean | null;
             };
             header?: never;
             path: {
@@ -15832,6 +15834,8 @@ export interface operations {
                 regroup_lines?: components['schemas']['BoolParam'] | null;
                 /** @description If set to true, Chift will not wait for the invoice to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call. */
                 ignore_accounting_id?: boolean;
+                /** @description Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. */
+                force_currency_exchange?: boolean | null;
             };
             header?: never;
             path: {
@@ -15911,9 +15915,7 @@ export interface operations {
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?:
-                    | components['schemas']['backbone_common__models__common__PaymentStatus']
-                    | null;
+                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
                 /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
                 /** @description Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API. */
@@ -15981,9 +15983,7 @@ export interface operations {
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?:
-                    | components['schemas']['backbone_common__models__common__PaymentStatus']
-                    | null;
+                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
                 /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
                 /** @description Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API. */
@@ -18097,6 +18097,8 @@ export interface operations {
                 folder_id?: string | null;
                 /** @description Number of ledger account representing bank account in accounting. Required in cases where the connector does not allow direct linking of the ledger account representing the bank account and the journal representing the bank account, making it necessary to specify it here. */
                 financial_counterpart_account?: string | null;
+                /** @description Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. */
+                force_currency_exchange?: boolean | null;
             };
             header?: never;
             path: {
@@ -19837,7 +19839,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['backbone_common__models__commerce__common__ProductItem'];
+                    'application/json': components['schemas']['ProductItem-Output'];
                 };
             };
             /** @description Bad Request */
@@ -20458,12 +20460,8 @@ export interface operations {
                 size?: number;
                 date_from?: string | null;
                 date_to?: string | null;
-                invoice_type?:
-                    | components['schemas']['backbone_common__models__invoicing__common__InvoiceType']
-                    | null;
-                payment_status?:
-                    | components['schemas']['backbone_common__models__common__PaymentStatus']
-                    | null;
+                invoice_type?: components['schemas']['InvoiceType'] | null;
+                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
                 updated_after?: string | null;
                 /** @description Include the invoice lines in the response. By default, invoice lines are included when no extra request is needed to fetch them. If you want to include them explicitly, set this parameter to true. */
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
@@ -20524,7 +20522,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['backbone_common__models__invoicing__common__InvoiceItem'];
+                'application/json': components['schemas']['InvoiceItem-Input'];
             };
         };
         responses: {
@@ -20805,7 +20803,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['backbone_common__models__invoicing__common__ProductItem'];
+                'application/json': components['schemas']['ProductItem-Input'];
             };
         };
         responses: {

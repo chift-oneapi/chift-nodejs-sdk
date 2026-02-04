@@ -257,3 +257,7 @@
 ### Syncs
 
 -   Remove deprecated update sync endpoint
+
+## 1.0.28 - 2026-02-04
+
+-   Update module type references to match latest schema (invoicing, ecommerce, pos, consumer)
