@@ -98,7 +98,9 @@ const posFactory = {
     getProductCategories(
         params?: GetProductCategoriesParams,
         options?: RawDataOption
-    ): RequestData<components['schemas']['ProductCategoryItem'][]> {
+    ): RequestData<
+        components['schemas']['backbone_common__models__pos__common__ProductCategoryItem'][]
+    > {
         return {
             params,
             method: 'get',
