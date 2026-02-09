@@ -10,7 +10,10 @@ on:
 
 permissions: read-all
 
-network: defaults
+network:
+    allowed:
+        - defaults
+        - api.chift.eu
 
 tools:
     github:
