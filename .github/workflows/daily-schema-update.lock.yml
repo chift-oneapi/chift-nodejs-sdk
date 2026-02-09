@@ -22,7 +22,7 @@
 # This workflow acts as an autonomous engineer responsible for keeping
 # the OpenAPI schemas and modules up to date.
 #
-# frontmatter-hash: fe48fb790c30cb090477908d5d469f58c98796c146dba24e4c7f28930d4c89d4
+# frontmatter-hash: a8109a3448c0dce48a63d0096262d003400e8cc68511ccbae9dc28752158cbed
 #
 # Effective stop-time: 2026-02-23 14:37:04
 
@@ -102,6 +102,9 @@ jobs:
           persist-credentials: false
       - name: Create gh-aw temp directory
         run: bash /opt/gh-aw/actions/create_gh_aw_tmp_dir.sh
+      - name: Expand sparse checkout for schema and module updates
+        run: git sparse-checkout add src test package.json package-lock.json tsconfig.json CHANGELOG.md
+
       - name: Configure Git credentials
         env:
           REPO_NAME: ${{ github.repository }}
