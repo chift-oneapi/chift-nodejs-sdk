@@ -49,6 +49,22 @@ test('getConsumers', async () => {
     expect(consumers).toBeInstanceOf(Array);
 });
 
+test('getConsumers with search param', async () => {
+    const withSearch = await client.Consumers.getConsumers({ search: consumerName });
+    expect(withSearch).toBeInstanceOf(Array);
+});
+
+test('getConsumers with internal_reference param', async () => {
+    const internalRef = 'test-internal-ref';
+    const withInternalRef = await client.Consumers.getConsumers({
+        internal_reference: internalRef,
+    });
+    expect(withInternalRef).toBeInstanceOf(Array);
+    const found = withInternalRef[0];
+    expect(found).toBeDefined();
+    expect(found.internal_reference).toBe(internalRef);
+});
+
 test('getConsumersByName', async () => {
     const consumersWithName = await client.Consumers.getConsumersByName(consumerName);
     expect(consumersWithName).toBeInstanceOf(Array);

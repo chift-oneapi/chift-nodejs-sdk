@@ -227,9 +227,11 @@
 -   All security vulnerabilities resolved (0 vulnerabilities found)
 
 ## 1.0.26 - 2025-10-10
-- Support marketplaceId in token
+
+-   Support marketplaceId in token
 
 ## 1.0.27 - 2026-01-21
+
 ### Breaking Changes
 
 -   Update banking `getAccountTransactions` signature to use query params (account_id, filters)
@@ -261,3 +263,7 @@
 ## 1.0.28 - 2026-02-04
 
 -   Update module type references to match latest schema (invoicing, ecommerce, pos, consumer)
+
+## 1.0.29 - 2026-02-10
+
+-   [CONSUMERS] Add optional query params to getConsumers: `search` and `internal_reference`

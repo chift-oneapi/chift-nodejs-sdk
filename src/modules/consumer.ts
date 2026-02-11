@@ -23,6 +23,7 @@ const Consumer = (
     const name = data.name;
     const redirect_url = data.redirect_url;
     const email = data.email;
+    const internal_reference = data.internal_reference;
     const pos = createApiFor(posFactory, _internalApi, data.name, consumerId);
     const pms = createApiFor(pmsFactory, _internalApi, data.name, consumerId);
     const payment = createApiFor(paymentFactory, _internalApi, data.name, consumerId);
@@ -232,6 +233,7 @@ const Consumer = (
         name,
         redirect_url,
         email,
+        internal_reference,
         pos,
         pms,
         payment,
