@@ -16,6 +16,7 @@ const client = new chift.API({
 const consumerName = 'test consumer';
 const email = 'support@chift.eu';
 const redirect_url = 'https://chift.eu';
+const internalReference = 'test-internal-ref';
 
 let consumer: ReturnType<typeof Consumer>;
 
@@ -24,6 +25,7 @@ beforeAll(async () => {
         email,
         redirect_url,
         name: consumerName,
+        internal_reference: internalReference,
     });
 });
 
@@ -47,6 +49,20 @@ test('createConsumer', async () => {
 test('getConsumers', async () => {
     const consumers = await client.Consumers.getConsumers();
     expect(consumers).toBeInstanceOf(Array);
+});
+
+test('getConsumers with search param', async () => {
+    const withSearch = await client.Consumers.getConsumers({ search: consumerName });
+    expect(withSearch).toBeInstanceOf(Array);
+});
+
+test('getConsumers with internal_reference param', async () => {
+    const withInternalRef = await client.Consumers.getConsumers({
+        internal_reference: internalReference,
+    });
+    expect(withInternalRef).toBeInstanceOf(Array);
+    expect(withInternalRef.length).toBeGreaterThanOrEqual(1);
+    expect(withInternalRef[0].internal_reference).toBe(internalReference);
 });
 
 test('getConsumersByName', async () => {

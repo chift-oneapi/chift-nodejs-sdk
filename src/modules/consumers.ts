@@ -6,12 +6,14 @@ import { chiftOperations } from '../types/public-api/mappings';
 const Consumers = (internalApi: InternalAPI) => {
     const _internalApi: InternalAPI = internalApi;
 
-    const getConsumers = async () => {
+    const getConsumers = async (
+        params?: operations['consumers_get_consumers']['parameters']['query']
+    ) => {
         const {
             data,
         }: {
             data: operations[chiftOperations['getConsumers']]['responses'][200]['content']['application/json'];
-        } = await _internalApi.get('/consumers');
+        } = await _internalApi.get('/consumers', { params });
         return data.map((consumer) => Consumer(_internalApi, consumer));
     };
 
