@@ -43,11 +43,20 @@ class InternalAPI {
                     }
 
                     if (this.token) {
-                        if (this.token?.expires_on < new Date().getTime()) {
+                        const now = new Date().getTime();
+                        const bufferMs = 30 * 1000;
+                        // API returns expires_on in seconds; refresh when expired or within buffer
+                        if (this.token.expires_on * 1000 < now + bufferMs) {
                             return this.getToken()
                                 .then(() => {
+                                    if (!this.token?.access_token) {
+                                        return reject(
+                                            new Error('Token refresh did not return a valid token')
+                                        );
+                                    }
+
                                     config.headers['Authorization'] =
-                                        'Bearer ' + this.token?.access_token;
+                                        'Bearer ' + this.token.access_token;
                                     return resolve(config);
                                 })
                                 .catch((err) => {
@@ -60,8 +69,14 @@ class InternalAPI {
                     } else {
                         return this.getToken()
                             .then(() => {
+                                if (!this.token?.access_token) {
+                                    return reject(
+                                        new Error('Token fetch did not return a valid token')
+                                    );
+                                }
+
                                 config.headers['Authorization'] =
-                                    'Bearer ' + this.token?.access_token;
+                                    'Bearer ' + this.token.access_token;
                                 return resolve(config);
                             })
                             .catch((err) => {
