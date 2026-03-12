@@ -267,3 +267,8 @@
 ## 1.0.29 - 2026-02-10
 
 -   [CONSUMERS] Add optional query params to getConsumers: `search` and `internal_reference`
+
+## 1.0.30 - 2026-03-12
+
+-   [AUTH] fix: convert token expires_on to ms and add buffer
+-   [AUTH] feat: add token refresh retry
