@@ -119,16 +119,15 @@ class InternalAPI {
                 return;
             } catch (err: any) {
                 lastErr = err;
-                // token refresh failed, retrying 3 times
+                if (axios.isAxiosError(err) && err.response?.status === 401) {
+                    throw new Error('The provided credentials are not correct');
+                }
+
                 if (attempt < maxRetries) {
                     const delayMs = baseDelayMs * attempt;
                     await sleep(delayMs);
                 }
             }
-        }
-
-        if (axios.isAxiosError(lastErr) && lastErr.response?.status === 401) {
-            throw new Error('The provided credentials are not correct');
         }
 
         throw lastErr || new Error('Token refresh failed');
