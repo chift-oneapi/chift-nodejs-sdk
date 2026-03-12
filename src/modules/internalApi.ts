@@ -2,6 +2,8 @@ import axios, { AxiosInstance } from 'axios';
 import { AuthType, TokenType, RequestData } from '../types/api';
 import Settings from '../helpers/settings';
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 class InternalAPI {
     instance: AxiosInstance;
     auth: AuthType;
@@ -86,39 +88,50 @@ class InternalAPI {
                 });
             },
             function (error) {
-                // Do something with request error
                 return Promise.reject(error);
             }
         );
     }
 
     getToken = async () => {
-        try {
-            const tokenData: AuthType = {
-                clientId: this.auth.clientId,
-                clientSecret: this.auth.clientSecret,
-                accountId: this.auth.accountId,
-            };
-            if (this.auth.marketplaceId) {
-                tokenData['marketplaceId'] = this.auth.marketplaceId;
-            }
-            if (this.auth.envId) {
-                tokenData['envId'] = this.auth.envId;
-            }
-            const res = await axios.post(
-                `${this.auth.baseUrl || Settings.BASE_URL}/token`,
-                tokenData
-            );
-            this.token = res.data;
-        } catch (err: any) {
-            if (axios.isAxiosError(err)) {
-                if (err.response) {
-                    if (err.response.status === 401) {
-                        throw new Error('The provided credentials are not correct');
-                    }
+        const maxRetries = 3;
+        const baseDelayMs = 1500;
+        let lastErr: any;
+
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                const tokenData: AuthType = {
+                    clientId: this.auth.clientId,
+                    clientSecret: this.auth.clientSecret,
+                    accountId: this.auth.accountId,
+                };
+                if (this.auth.marketplaceId) {
+                    tokenData['marketplaceId'] = this.auth.marketplaceId;
+                }
+                if (this.auth.envId) {
+                    tokenData['envId'] = this.auth.envId;
+                }
+                const res = await axios.post(
+                    `${this.auth.baseUrl || Settings.BASE_URL}/token`,
+                    tokenData
+                );
+                this.token = res.data;
+                return;
+            } catch (err: any) {
+                lastErr = err;
+                // token refresh failed, retrying 3 times
+                if (attempt < maxRetries) {
+                    const delayMs = baseDelayMs * attempt;
+                    await sleep(delayMs);
                 }
             }
         }
+
+        if (axios.isAxiosError(lastErr) && lastErr.response?.status === 401) {
+            throw new Error('The provided credentials are not correct');
+        }
+
+        throw lastErr || new Error('Token refresh failed');
     };
 
     getPaginationParams = (currPage: number) => {
