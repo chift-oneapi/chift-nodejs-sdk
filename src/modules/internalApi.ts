@@ -22,6 +22,9 @@ class InternalAPI {
         this.auth = auth;
         this.instance = axios.create({
             baseURL: this.auth.baseUrl || Settings.BASE_URL,
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
         this.get = this.instance.get;
         this.post = this.instance.post;
@@ -113,7 +116,12 @@ class InternalAPI {
                 }
                 const res = await axios.post(
                     `${this.auth.baseUrl || Settings.BASE_URL}/token`,
-                    tokenData
+                    tokenData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
                 );
                 this.token = res.data;
                 return;

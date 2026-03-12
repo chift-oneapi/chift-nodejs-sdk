@@ -272,3 +272,7 @@
 
 -   [AUTH] fix: convert token expires_on to ms and add buffer
 -   [AUTH] feat: add token refresh retry
+
+## 1.0.31 - 2026-03-12
+
+-   [AUTH] fix: set `Content-Type: application/json` on token and internal API requests for Axios version compatibility
