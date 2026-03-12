@@ -2,6 +2,8 @@ import axios, { AxiosInstance } from 'axios';
 import { AuthType, TokenType, RequestData } from '../types/api';
 import Settings from '../helpers/settings';
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 class InternalAPI {
     instance: AxiosInstance;
     auth: AuthType;
@@ -43,11 +45,20 @@ class InternalAPI {
                     }
 
                     if (this.token) {
-                        if (this.token?.expires_on < new Date().getTime()) {
+                        const now = new Date().getTime();
+                        const bufferMs = 30 * 1000;
+                        // API returns expires_on in seconds; refresh when expired or within buffer
+                        if (this.token.expires_on * 1000 < now + bufferMs) {
                             return this.getToken()
                                 .then(() => {
+                                    if (!this.token?.access_token) {
+                                        return reject(
+                                            new Error('Token refresh did not return a valid token')
+                                        );
+                                    }
+
                                     config.headers['Authorization'] =
-                                        'Bearer ' + this.token?.access_token;
+                                        'Bearer ' + this.token.access_token;
                                     return resolve(config);
                                 })
                                 .catch((err) => {
@@ -60,8 +71,14 @@ class InternalAPI {
                     } else {
                         return this.getToken()
                             .then(() => {
+                                if (!this.token?.access_token) {
+                                    return reject(
+                                        new Error('Token fetch did not return a valid token')
+                                    );
+                                }
+
                                 config.headers['Authorization'] =
-                                    'Bearer ' + this.token?.access_token;
+                                    'Bearer ' + this.token.access_token;
                                 return resolve(config);
                             })
                             .catch((err) => {
@@ -71,39 +88,49 @@ class InternalAPI {
                 });
             },
             function (error) {
-                // Do something with request error
                 return Promise.reject(error);
             }
         );
     }
 
     getToken = async () => {
-        try {
-            const tokenData: AuthType = {
-                clientId: this.auth.clientId,
-                clientSecret: this.auth.clientSecret,
-                accountId: this.auth.accountId,
-            };
-            if (this.auth.marketplaceId) {
-                tokenData['marketplaceId'] = this.auth.marketplaceId;
-            }
-            if (this.auth.envId) {
-                tokenData['envId'] = this.auth.envId;
-            }
-            const res = await axios.post(
-                `${this.auth.baseUrl || Settings.BASE_URL}/token`,
-                tokenData
-            );
-            this.token = res.data;
-        } catch (err: any) {
-            if (axios.isAxiosError(err)) {
-                if (err.response) {
-                    if (err.response.status === 401) {
-                        throw new Error('The provided credentials are not correct');
-                    }
+        const maxRetries = 3;
+        const baseDelayMs = 1500;
+        let lastErr: any;
+
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                const tokenData: AuthType = {
+                    clientId: this.auth.clientId,
+                    clientSecret: this.auth.clientSecret,
+                    accountId: this.auth.accountId,
+                };
+                if (this.auth.marketplaceId) {
+                    tokenData['marketplaceId'] = this.auth.marketplaceId;
+                }
+                if (this.auth.envId) {
+                    tokenData['envId'] = this.auth.envId;
+                }
+                const res = await axios.post(
+                    `${this.auth.baseUrl || Settings.BASE_URL}/token`,
+                    tokenData
+                );
+                this.token = res.data;
+                return;
+            } catch (err: any) {
+                lastErr = err;
+                if (axios.isAxiosError(err) && err.response?.status === 401) {
+                    throw new Error('The provided credentials are not correct');
+                }
+
+                if (attempt < maxRetries) {
+                    const delayMs = baseDelayMs * attempt;
+                    await sleep(delayMs);
                 }
             }
         }
+
+        throw lastErr || new Error('Token refresh failed');
     };
 
     getPaginationParams = (currPage: number) => {
