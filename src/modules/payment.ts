@@ -8,7 +8,7 @@ type GetPaymentsParams = AutoPaginatedParams<
     operations['payment_get_payments']['parameters']['query']
 >;
 type GetTransactionsParams = AutoPaginatedParams<
-    operations['payment_get_transaction']['parameters']['query']
+    operations['payment_get_transactions']['parameters']['query']
 >;
 type GetRefundsParams = AutoPaginatedParams<
     operations['payment_get_refunds']['parameters']['query']

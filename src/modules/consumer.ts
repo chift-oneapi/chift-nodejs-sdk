@@ -50,9 +50,7 @@ const Consumer = (
         return data;
     };
 
-    const createConnection = async (
-        body?: components['schemas']['PostConnectionItem-Input'] | null
-    ) => {
+    const createConnection = async (body?: components['schemas']['PostConnectionItem'] | null) => {
         const {
             data,
         }: {

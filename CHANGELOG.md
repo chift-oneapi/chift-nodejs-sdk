@@ -276,3 +276,7 @@
 ## 1.0.31 - 2026-03-12
 
 -   [AUTH] fix: set `Content-Type: application/json` on token and internal API requests for Axios version compatibility
+
+## 1.0.32 - 2026-03-17
+
+-   Update model (e.g. incldue 'apis' when creating a connection)

@@ -70,7 +70,7 @@ const invoicingFactory = {
         };
     },
     createProduct(
-        product: components['schemas']['ProductItem-Input'],
+        product: components['schemas']['ProductItem'],
         options?: ClientRequestOption
     ): RequestData<components['schemas']['ProductItemOut']> {
         return {
