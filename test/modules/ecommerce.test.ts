@@ -27,7 +27,7 @@ test('getCustomers', async () => {
     expect(customers[0]).toHaveProperty('id', expect.any(String));
 });
 
-let products: components['schemas']['ProductItem-Output'][];
+let products: components['schemas']['CommerceProductItem'][];
 test('getProducts', async () => {
     products = await consumer.ecommerce.getProducts();
     expect(products).toBeInstanceOf(Array);

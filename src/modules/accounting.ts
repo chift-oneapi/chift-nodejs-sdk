@@ -224,7 +224,7 @@ const accountingFactory = {
         };
     },
     getInvoicesByType(
-        invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'],
+        invoice_type: components['schemas']['InvoiceType'],
         params?: GetInvoicesByTypeParams,
         options?: RawDataOption
     ): RequestData<components['schemas']['InvoiceItemOutMonoAnalyticPlan'][]> {
@@ -260,7 +260,7 @@ const accountingFactory = {
         };
     },
     getInvoicesByTypeWithMultiplePlans(
-        invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'],
+        invoice_type: components['schemas']['InvoiceType'],
         params?: GetInvoicesByTypeWithMultiplePlansParams,
         options?: RawDataOption
     ): RequestData<components['schemas']['InvoiceItemOutMultiAnalyticPlans'][]> {

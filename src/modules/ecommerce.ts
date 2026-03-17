@@ -46,7 +46,7 @@ const ecommerceFactory = {
     getProducts(
         params?: GetProductsParams,
         options?: RawDataOption
-    ): RequestData<components['schemas']['ProductItem-Output'][]> {
+    ): RequestData<components['schemas']['CommerceProductItem'][]> {
         return {
             params,
             method: 'get',
@@ -67,7 +67,7 @@ const ecommerceFactory = {
     getProduct(
         productId: string,
         options?: RawDataOption
-    ): RequestData<components['schemas']['ProductItem-Output']> {
+    ): RequestData<components['schemas']['CommerceProductItem']> {
         return {
             method: 'get',
             url: `/consumers/{consumer_id}/commerce/products/${productId}`,

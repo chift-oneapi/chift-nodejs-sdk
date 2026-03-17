@@ -896,50 +896,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumer_id}/accounting/accounts': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Create ledger account
-         * @description Create a new ledger account in the chart of accounts
-         */
-        post: operations['accounting_create_ledger_account'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/accounting/bank-accounts': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get bank accounts
-         * @description Returns a list of bank accounts in the accounting system
-         */
-        get: operations['accounting_get_bank_accounts'];
-        put?: never;
-        /**
-         * Create bank account
-         * @description Create a new bank account in the accounting system
-         */
-        post: operations['accounting_create_bank_account'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/consumers/{consumer_id}/accounting/analytic-accounts': {
         parameters: {
             query?: never;
@@ -1172,26 +1128,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumer_id}/accounting/payment-terms': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get payment terms
-         * @description Get payment terms
-         */
-        get: operations['accounting_get_payment_terms'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/consumers/{consumer_id}/accounting/invoices/payments': {
         parameters: {
             query?: never;
@@ -1206,6 +1142,26 @@ export interface paths {
          * @description Create invoice payment
          */
         post: operations['accounting_create_invoice_payment'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/payment-terms': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get payment terms
+         * @description Get payment terms
+         */
+        get: operations['accounting_get_payment_terms'];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1356,26 +1312,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumer_id}/accounting/invoices/pdf/{invoice_id}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Attach a document (PDF)
-         * @description Attach a document (PDF) to the invoice entry
-         */
-        post: operations['accounting_add_attachment'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/consumers/{consumer_id}/accounting/attachments': {
         parameters: {
             query?: never;
@@ -1390,6 +1326,26 @@ export interface paths {
         get: operations['accounting_get_attachments'];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/invoices/pdf/{invoice_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Attach a document (PDF)
+         * @description Attach a document (PDF) to the invoice entry
+         */
+        post: operations['accounting_add_attachment'];
         delete?: never;
         options?: never;
         head?: never;
@@ -1430,6 +1386,50 @@ export interface paths {
          * @description Get the balance of accounts in the accounting plan (chart of accounts) between specific months
          */
         post: operations['accounting_get_accounts_balances'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/bank-accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get bank accounts
+         * @description Returns a list of bank accounts in the accounting system
+         */
+        get: operations['accounting_get_bank_accounts'];
+        put?: never;
+        /**
+         * Create bank account
+         * @description Create a new bank account in the accounting system
+         */
+        post: operations['accounting_create_bank_account'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/bank-transactions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create bank transactions
+         * @description Create new bank transactions
+         */
+        post: operations['accounting_create_bank_transactions'];
         delete?: never;
         options?: never;
         head?: never;
@@ -1516,6 +1516,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/accounting/accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create ledger account
+         * @description Create a new ledger account in the chart of accounts
+         */
+        post: operations['accounting_create_ledger_account'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/accounting/export-fec': {
         parameters: {
             query?: never;
@@ -1530,26 +1550,6 @@ export interface paths {
         get: operations['accounting_export_fec'];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/accounting/bank-transactions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Create bank transactions
-         * @description Create new bank transactions
-         */
-        post: operations['accounting_create_bank_transactions'];
         delete?: never;
         options?: never;
         head?: never;
@@ -1824,6 +1824,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/pos/report': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get report for a specific date (E-reporting)
+         * @description The endpoints returns the report for a specific date containing the required data for e-reporting
+         */
+        get: operations['pos_get_report'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/commerce/customers': {
         parameters: {
             query?: never;
@@ -2088,7 +2108,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumer_id}/invoicing/invoices': {
+    '/consumers/{consumer_id}/invoicing/contacts': {
         parameters: {
             query?: never;
             header?: never;
@@ -2096,23 +2116,23 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Retrieve all invoices
-         * @description Returns a list of invoices. Optionally invoice type and dates can be defined to retrieve invoices of a certain type from a certain date to another date
+         * Retrieve all contacts
+         * @description Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.
          */
-        get: operations['invoicing_get_invoices'];
+        get: operations['invoicing_get_contacts'];
         put?: never;
         /**
-         * Create an invoice
-         * @description Create a new invoice.
+         * Create a contact
+         * @description Create a new contact.
          */
-        post: operations['invoicing_post_invoices'];
+        post: operations['invoicing_post_contacts'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumer_id}/invoicing/invoices/{invoice_id}': {
+    '/consumers/{consumer_id}/invoicing/contacts/{contact_id}': {
         parameters: {
             query?: never;
             header?: never;
@@ -2120,50 +2140,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Retrieve one invoice
-         * @description Returns a invoice
+         * Retrieve one contact
+         * @description Returns a contact
          */
-        get: operations['invoicing_get_invoice'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/invoicing/taxes': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieve all taxes
-         * @description Returns a list of all the taxes
-         */
-        get: operations['invoicing_get_taxes'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/invoicing/taxes/{tax_id}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieve one tax
-         * @description Returns a tax
-         */
-        get: operations['invoicing_get_tax'];
+        get: operations['invoicing_get_contact'];
         put?: never;
         post?: never;
         delete?: never;
@@ -2216,6 +2196,110 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/invoicing/taxes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all taxes
+         * @description Returns a list of all the taxes
+         */
+        get: operations['invoicing_get_taxes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/invoicing/taxes/{tax_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve one tax
+         * @description Returns a tax
+         */
+        get: operations['invoicing_get_tax'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/invoicing/invoices': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all invoices
+         * @description Returns a list of invoices. Optionally invoice type and dates can be defined to retrieve invoices of a certain type from a certain date to another date
+         */
+        get: operations['invoicing_get_invoices'];
+        put?: never;
+        /**
+         * Create an invoice
+         * @description Create a new invoice.
+         */
+        post: operations['invoicing_post_invoices'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/invoicing/invoices/{invoice_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve one invoice
+         * @description Returns a invoice
+         */
+        get: operations['invoicing_get_invoice'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/invoicing/upload-document': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upload a document (PDF)
+         * @description Upload a document (PDF)
+         */
+        post: operations['invoicing_upload_document'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/invoicing/opportunities': {
         parameters: {
             query?: never;
@@ -2256,50 +2340,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumer_id}/invoicing/contacts': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieve all contacts
-         * @description Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.
-         */
-        get: operations['invoicing_get_contacts'];
-        put?: never;
-        /**
-         * Create a contact
-         * @description Create a new contact.
-         */
-        post: operations['invoicing_post_contacts'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/invoicing/contacts/{contact_id}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieve one contact
-         * @description Returns a contact
-         */
-        get: operations['invoicing_get_contact'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/consumers/{consumer_id}/invoicing/payments': {
         parameters: {
             query?: never;
@@ -2313,11 +2353,35 @@ export interface paths {
          */
         get: operations['invoicing_get_payments'];
         put?: never;
-        post?: never;
+        /**
+         * Create a payment (invoicing)
+         * @description Create a payment (invoicing)
+         */
+        post: operations['invoicing_create_payment'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/invoicing/payments/{payment_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update a payment (invoicing)
+         * @description Update a payment (invoicing)
+         */
+        patch: operations['invoicing_update_payment'];
         trace?: never;
     };
     '/consumers/{consumer_id}/invoicing/payment-methods': {
@@ -2374,26 +2438,6 @@ export interface paths {
         get: operations['invoicing_get_bank_transactions'];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/invoicing/upload-document': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Upload a document (PDF)
-         * @description Upload a document (PDF)
-         */
-        post: operations['invoicing_upload_document'];
         delete?: never;
         options?: never;
         head?: never;
@@ -2531,7 +2575,7 @@ export interface paths {
          * Retrieve all transactions
          * @description Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date
          */
-        get: operations['payment_get_transaction'];
+        get: operations['payment_get_transactions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -3231,35 +3275,6 @@ export interface components {
         /** AddressItemOut */
         AddressItemOut: {
             address_type: components['schemas']['AddressType'];
-            /** Company Name */
-            company_name?: string | null;
-            /** First Name */
-            first_name?: string | null;
-            /** Last Name */
-            last_name?: string | null;
-            /** Street */
-            street?: string | null;
-            /** Number */
-            number?: string | null;
-            /** Box */
-            box?: string | null;
-            /** City */
-            city?: string | null;
-            /** Postal Code */
-            postal_code?: string | null;
-            /**
-             * Country
-             * @description Format: ISO 3166-1 codes.
-             */
-            country?: string | null;
-            /** Phone */
-            phone?: string | null;
-            /** Email */
-            email?: string | null;
-        };
-        /** AddressItemOut */
-        'AddressItemOut-Input': {
-            address_type: components['schemas']['AddressType'];
             /** Name */
             name?: string | null;
             /** Number */
@@ -3591,7 +3606,7 @@ export interface components {
         AttachmentItemIn: {
             /** Base64 String */
             base64_string: string;
-            document_type: components['schemas']['DocumentType'];
+            document_type: components['schemas']['InvoicingDocumentType'];
         };
         /** AttachmentItemOut */
         AttachmentItemOut: {
@@ -3737,8 +3752,13 @@ export interface components {
              */
             bank_account_id: string;
             /**
+             * Currency
+             * @description Currency of the bank statement. This must be the same as the currency of the bank account.
+             */
+            currency: string;
+            /**
              * External Bank Statement Id
-             * @description External bank statement ID
+             * @description External bank statement ID. To be compatible with all software, we recommend to use only digits.
              */
             external_bank_statement_id: string;
             /**
@@ -3771,6 +3791,11 @@ export interface components {
              */
             bank_account_id: string;
             /**
+             * Currency
+             * @description Currency of the bank statement. This must be the same as the currency of the bank account.
+             */
+            currency: string;
+            /**
              * Id
              * @description Internal bank statement ID generated by the accounting system
              */
@@ -3786,24 +3811,46 @@ export interface components {
              */
             items: components['schemas']['BankTransactionItemOut'][];
         };
+        /** BankTransactionCounterpartItem */
+        BankTransactionCounterpartItem: {
+            /** @description Type of the counterpart */
+            counterpart_type?: components['schemas']['BankTransactionCounterpartType'] | null;
+            /**
+             * Id
+             * @description ID of the counterpart in the accounting system
+             */
+            id?: string | null;
+            /**
+             * Name
+             * @description Name of the counterpart
+             * @example John Doe
+             */
+            name?: string | null;
+            /**
+             * Iban
+             * @description IBAN of the counterpart
+             * @example BE61310126985517
+             */
+            iban?: string | null;
+            /**
+             * Bank Account
+             * @description Bank account number of the counterpart
+             * @example 310126985517
+             */
+            bank_account?: string | null;
+        };
         /**
-         * BankTransactionItemAccountType
+         * BankTransactionCounterpartType
          * @enum {string}
          */
-        BankTransactionItemAccountType:
-            | 'customer_account'
-            | 'supplier_account'
-            | 'employee_account'
-            | 'general_account';
+        BankTransactionCounterpartType: 'customer' | 'supplier' | 'employee';
         /** BankTransactionItemIn */
         BankTransactionItemIn: {
-            /** @description Account type; mandatory if account is provided */
-            account_type?: components['schemas']['BankTransactionItemAccountType'] | null;
             /**
-             * Account
-             * @description Account identifier
+             * General Ledger Account
+             * @description Number of the general ledger account to book the transaction against.
              */
-            account?: string | null;
+            general_ledger_account?: string | null;
             /**
              * Description
              * @description Transaction description
@@ -3814,12 +3861,6 @@ export interface components {
              * @description External transaction ID
              */
             external_transaction_id?: string | null;
-            /**
-             * Date
-             * Format: date
-             * @description Transaction date
-             */
-            date: string;
             /**
              * Amount
              * @description Total amount including fee and tax
@@ -3838,26 +3879,21 @@ export interface components {
              */
             tax_amount: number | null;
             /**
-             * Currency
-             * @description Transaction currency
-             */
-            currency: string;
-            /**
              * Currency Exchange Rate
              * @description Exchange rate applicable at the transaction date
              * @default 1
              */
             currency_exchange_rate: number | null;
+            /** @description Counterpart of the transaction */
+            counterpart?: components['schemas']['BankTransactionCounterpartItem'] | null;
         };
         /** BankTransactionItemOut */
         BankTransactionItemOut: {
-            /** @description Account type; mandatory if account is provided */
-            account_type?: components['schemas']['BankTransactionItemAccountType'] | null;
             /**
-             * Account
-             * @description Account identifier
+             * General Ledger Account
+             * @description Number of the general ledger account to book the transaction against.
              */
-            account?: string | null;
+            general_ledger_account?: string | null;
             /**
              * Description
              * @description Transaction description
@@ -3868,12 +3904,6 @@ export interface components {
              * @description External transaction ID
              */
             external_transaction_id?: string | null;
-            /**
-             * Date
-             * Format: date
-             * @description Transaction date
-             */
-            date: string;
             /**
              * Amount
              * @description Total amount including fee and tax
@@ -3892,16 +3922,13 @@ export interface components {
              */
             tax_amount: number | null;
             /**
-             * Currency
-             * @description Transaction currency
-             */
-            currency: string;
-            /**
              * Currency Exchange Rate
              * @description Exchange rate applicable at the transaction date
              * @default 1
              */
             currency_exchange_rate: number | null;
+            /** @description Counterpart of the transaction */
+            counterpart?: components['schemas']['BankTransactionCounterpartItem'] | null;
             /**
              * Id
              * @description Internal transaction ID generated by the accounting system
@@ -4131,10 +4158,15 @@ export interface components {
              * @description Status of the transaction
              * @example pending
              */
-            status?: components['schemas']['TransactionStatus'] | null;
+            status?: components['schemas']['BankingTransactionStatus'] | null;
             /** @description Extra information about the attachments linked to the invoice. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
         };
+        /**
+         * BankingTransactionStatus
+         * @enum {string}
+         */
+        BankingTransactionStatus: 'pending' | 'declined' | 'completed';
         /** BookYear */
         BookYear: {
             /**
@@ -4445,6 +4477,17 @@ export interface components {
         ChiftPage_CommerceLocationItemOut_: {
             /** Items */
             items: components['schemas']['CommerceLocationItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[CommerceProductItem] */
+        ChiftPage_CommerceProductItem_: {
+            /** Items */
+            items: components['schemas']['CommerceProductItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4851,7 +4894,7 @@ export interface components {
         /** ChiftPage[ProductCategoryItem] */
         ChiftPage_ProductCategoryItem_: {
             /** Items */
-            items: components['schemas']['backbone_common__models__pos__common__ProductCategoryItem'][];
+            items: components['schemas']['ProductCategoryItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4863,17 +4906,6 @@ export interface components {
         ChiftPage_ProductItemOut_: {
             /** Items */
             items: components['schemas']['ProductItemOut'][];
-            /** Total */
-            total: number;
-            /** Page */
-            page: number;
-            /** Size */
-            size: number;
-        };
-        /** ChiftPage[ProductItem] */
-        ChiftPage_ProductItem_: {
-            /** Items */
-            items: components['schemas']['ProductItem-Output'][];
             /** Total */
             total: number;
             /** Page */
@@ -5160,9 +5192,7 @@ export interface components {
              * @description List of addresses associated with the client.
              * @default []
              */
-            addresses:
-                | components['schemas']['backbone_common__models__common__AddressItemOut'][]
-                | null;
+            addresses: components['schemas']['AddressItemOut'][] | null;
             /**
              * Third Party Account
              * @description Third party account number/code representing the client in the accounting software.
@@ -5268,7 +5298,7 @@ export interface components {
              * @description List of addresses associated with the client.
              * @default []
              */
-            addresses: components['schemas']['AddressItemOut-Input'][] | null;
+            addresses: components['schemas']['AddressItemOut'][] | null;
         };
         /** ClosureItem */
         ClosureItem: {
@@ -5324,6 +5354,61 @@ export interface components {
          * @enum {string}
          */
         ClosureStates: 'open' | 'closed';
+        /** CommerceAddressItemIn */
+        CommerceAddressItemIn: {
+            /** First Name */
+            first_name: string;
+            /** Last Name */
+            last_name: string;
+            /** Street */
+            street: string;
+            /** Number */
+            number: string;
+            /** Box */
+            box?: string | null;
+            /** City */
+            city: string;
+            /** Postal Code */
+            postal_code?: string | null;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
+            country: string;
+            /** Phone */
+            phone?: string | null;
+            /** Email */
+            email?: string | null;
+        };
+        /** CommerceAddressItemOut */
+        CommerceAddressItemOut: {
+            address_type: components['schemas']['AddressType'];
+            /** Company Name */
+            company_name?: string | null;
+            /** First Name */
+            first_name?: string | null;
+            /** Last Name */
+            last_name?: string | null;
+            /** Street */
+            street?: string | null;
+            /** Number */
+            number?: string | null;
+            /** Box */
+            box?: string | null;
+            /** City */
+            city?: string | null;
+            /** Postal Code */
+            postal_code?: string | null;
+            /**
+             * Country
+             * @description Format: ISO 3166-1 codes.
+             */
+            country?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Email */
+            email?: string | null;
+        };
         /** CommerceCustomerItem */
         CommerceCustomerItem: {
             /**
@@ -5357,9 +5442,18 @@ export interface components {
              * Addresses
              * @default []
              */
-            addresses: components['schemas']['AddressItemOut'][] | null;
+            addresses: components['schemas']['CommerceAddressItemOut'][] | null;
             /** Created On */
             created_on?: string | null;
+        };
+        /** CommerceDiscountItem */
+        CommerceDiscountItem: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Amount */
+            amount: number;
         };
         /** CommerceLocationItem */
         CommerceLocationItem: {
@@ -5383,6 +5477,83 @@ export interface components {
             /** @description Technical id of the location in the target software */
             source_ref?: components['schemas']['Ref'] | null;
         };
+        /** CommerceProductCategoryItem */
+        CommerceProductCategoryItem: {
+            /**
+             * Id
+             * @description Technical id of the category in Chift
+             */
+            id: string;
+            /** Name */
+            name: string;
+        };
+        /** CommerceProductItem */
+        CommerceProductItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /** Description Html */
+            description_html?: string | null;
+            /**
+             * Categories
+             * @default []
+             */
+            categories: components['schemas']['CommerceProductCategoryItem'][] | null;
+            /** Created On */
+            created_on?: string | null;
+            /** Last Updated On */
+            last_updated_on?: string | null;
+            /**
+             * Variants
+             * @default []
+             */
+            variants: components['schemas']['ProductVariantItem'][] | null;
+            status?: components['schemas']['ProductStatus'] | null;
+            /** Sku */
+            sku?: string | null;
+            /**
+             * Common Attributes
+             * @description List of attributes that are shared by all variants of the product.
+             * @default []
+             */
+            common_attributes: components['schemas']['CommonAttributeItem'][] | null;
+            /**
+             * Variant Attributes Options
+             * @default []
+             */
+            variant_attributes_options:
+                | components['schemas']['VariantAttributeOptionItem'][]
+                | null;
+            /**
+             * Common Images
+             * @description List of images that are shared by all variants of the product.
+             * @default []
+             */
+            common_images: components['schemas']['ImageItem'][] | null;
+        };
+        /** CommerceProductPriceItem */
+        CommerceProductPriceItem: {
+            /** Currency */
+            currency: string;
+            /**
+             * Price
+             * @default 0
+             */
+            price: number | null;
+        };
+        /**
+         * CommerceTransactionStatus
+         * @enum {string}
+         */
+        CommerceTransactionStatus: 'failed' | 'pending' | 'success';
         /** CommonAttributeItem */
         CommonAttributeItem: {
             /** Name */
@@ -5392,38 +5563,32 @@ export interface components {
         };
         /** ConnectionItem */
         ConnectionItem: {
-            /** One Api */
-            one_api?: number | null;
-            /** Connection Type */
-            connection_type?: number | null;
             /**
-             * Display Order
-             * @default 0
+             * Connectionid
+             * Format: uuid
              */
-            display_order: number;
-            /**
-             * Display Hidden
-             * @default false
-             */
-            display_hidden: boolean;
+            connectionid: string;
+            /** Name */
+            name: string;
+            /** Integration */
+            integration: string;
+            /** Integrationid */
+            integrationid: number;
+            /** Api */
+            api: string;
+            /** Data */
+            data?: {
+                [key: string]: unknown;
+            } | null;
+            status: components['schemas']['ConnectionStatus'];
+            /** @description For local agent only. Indicates whether the local agent is up and running */
+            agent?: components['schemas']['LocalAgentInfo'] | null;
         };
-        /** ConnectionItem */
-        'ConnectionItem-Input': {
-            /** One Api */
-            one_api?: number | null;
-            /** Connection Type */
-            connection_type?: number | null;
-            /**
-             * Display Order
-             * @default 0
-             */
-            display_order: number;
-            /**
-             * Display Hidden
-             * @default false
-             */
-            display_hidden: boolean;
-        };
+        /**
+         * ConnectionStatus
+         * @enum {string}
+         */
+        ConnectionStatus: 'active' | 'inactive';
         /** ConsumerItem */
         ConsumerItem: {
             /**
@@ -5758,7 +5923,7 @@ export interface components {
                 }[];
             } | null;
             /** Connections */
-            connections: components['schemas']['ConnectionItem-Input'][];
+            connections: components['schemas']['SyncsConnectionItem'][];
             /**
              * Mappings
              * @default []
@@ -5883,21 +6048,11 @@ export interface components {
             } | null;
         };
         /** CredentialItem */
-        'CredentialItem-Input': {
+        CredentialItem: {
             /** Key */
             key: string;
             /** Value */
             value: string;
-        };
-        /** CredentialItem */
-        'CredentialItem-Output': {
-            /** Name */
-            name: string;
-            /**
-             * Optional
-             * @default false
-             */
-            optional: boolean;
         };
         /** DataItem */
         DataItem: {
@@ -5919,6 +6074,11 @@ export interface components {
              * Format: date-time
              */
             created_on: string;
+            /**
+             * Modified On
+             * Format: date-time
+             */
+            modified_on: string;
         };
         /** DataStoreItem */
         DataStoreItem: {
@@ -5927,7 +6087,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status: components['schemas']['Status'] | null;
+            status: components['schemas']['DatastoreStatus'] | null;
             definition: components['schemas']['DatastoreDef'];
         };
         /** DatastoreColumn */
@@ -5954,14 +6114,31 @@ export interface components {
              */
             search_column?: string | null;
         };
+        /**
+         * DatastoreStatus
+         * @enum {string}
+         */
+        DatastoreStatus: 'active' | 'inactive';
         /** DiscountItem */
         DiscountItem: {
-            /** Name */
-            name: string;
-            /** Description */
-            description: string;
-            /** Amount */
-            amount: number;
+            /**
+             * Name
+             * @description Name of the discount
+             * @example Percentage discount
+             */
+            name?: string | null;
+            /**
+             * Total
+             * @description Total amount of the discount
+             * @example 10
+             */
+            total: number;
+            /**
+             * @description Type of the discount
+             * @default UNKNOWN
+             * @example offered
+             */
+            type: components['schemas']['DiscountType'];
         };
         /**
          * DiscountType
@@ -5972,7 +6149,7 @@ export interface components {
          * DocumentType
          * @enum {string}
          */
-        DocumentType: 'customer_document' | 'supplier_document' | 'employee_expense';
+        DocumentType: 'invoice' | 'entry';
         /** EmployeeItem */
         EmployeeItem: {
             /**
@@ -6353,7 +6530,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts: components['schemas']['DiscountItem'][] | null;
+            discounts: components['schemas']['CommerceDiscountItem'][] | null;
             /** Untaxed Amount */
             untaxed_amount: number;
             /** Tax Amount */
@@ -6518,6 +6695,8 @@ export interface components {
              * @description Text description for this line item. This is typically used to provide additional context or information.
              */
             description?: string | null;
+            /** @description Tax information related to the financial entry line item. The provided tax amount is added to the amount of the line item. This is only supported for general accounts. */
+            tax_info?: components['schemas']['TaxInfo'] | null;
             /**
              * Automated Matching Number
              * @description Automated matching number of the financial entry line item. This is used to let the accounting system do an automated matching based on this value. This is not supported on all accounting systems.
@@ -6543,6 +6722,8 @@ export interface components {
              * @description Text description for this line item. This is typically used to provide additional context or information.
              */
             description?: string | null;
+            /** @description Tax information related to the financial entry line item. The provided tax amount is added to the amount of the line item. This is only supported for general accounts. */
+            tax_info?: components['schemas']['TaxInfo'] | null;
             /**
              * Automated Matching Number
              * @description Automated matching number of the financial entry line item. This is used to let the accounting system do an automated matching based on this value. This is not supported on all accounting systems.
@@ -6610,7 +6791,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status: components['schemas']['Status'] | null;
+            status: components['schemas']['DatastoreStatus'] | null;
             definition: components['schemas']['DatastoreDef'];
         };
         /** FlowDataStoreItem */
@@ -6620,7 +6801,7 @@ export interface components {
             /** Name */
             name: string;
             /** @default active */
-            status: components['schemas']['Status'] | null;
+            status: components['schemas']['DatastoreStatus'] | null;
             definition: components['schemas']['DatastoreDef'];
         };
         /** FlowExecution */
@@ -6868,6 +7049,11 @@ export interface components {
          * @enum {string}
          */
         ImportMode: 'IMPORT_ONLY_MISSING_DAYS' | 'REIMPORT_ENTIRE_PERIOD';
+        /**
+         * IntegationStatus
+         * @enum {string}
+         */
+        IntegationStatus: 'active' | 'inactive';
         /** IntegrationItem */
         IntegrationItem: {
             /** Integrationid */
@@ -6876,7 +7062,7 @@ export interface components {
             name: string;
             /** Description */
             description?: string | null;
-            status: components['schemas']['Status'];
+            status: components['schemas']['IntegationStatus'];
             api: components['schemas']['Api'];
             /** Logo Url */
             logo_url: string;
@@ -6887,7 +7073,7 @@ export interface components {
              * @description List of post-connections that can be activated for this integration.
              * @default []
              */
-            post_connections: components['schemas']['PostConnectionItem-Output'][] | null;
+            post_connections: components['schemas']['IntegrationsPostConnectionItem'][] | null;
             /**
              * Operations Coverage
              * @description List of operations coverage for this integration.
@@ -6899,7 +7085,7 @@ export interface components {
              * @description List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.
              * @default []
              */
-            credentials: components['schemas']['CredentialItem-Output'][] | null;
+            credentials: components['schemas']['IntegrationsCredentialItem'][] | null;
             /**
              * Supported Countries
              * @description Country codes (ISO 3166-1 alpha-2) where this integration is supported. If not defined, the integration is supported globally.
@@ -6914,6 +7100,45 @@ export interface components {
              * @default false
              */
             local_agent: boolean;
+        };
+        /** IntegrationsCredentialItem */
+        IntegrationsCredentialItem: {
+            /** Name */
+            name: string;
+            /**
+             * Optional
+             * @default false
+             */
+            optional: boolean;
+        };
+        /** IntegrationsPostConnectionItem */
+        IntegrationsPostConnectionItem: {
+            /** Id */
+            id: string;
+            /** Title */
+            title: string;
+            /** Optional */
+            optional: boolean;
+            /** Resource */
+            resource: string;
+            /**
+             * @description Dict of enabled post-connections on this integration.
+             * @default {}
+             */
+            config: components['schemas']['IntegrationsPostConnectionItemConfig'];
+        };
+        /** IntegrationsPostConnectionItemConfig */
+        IntegrationsPostConnectionItemConfig: {
+            /**
+             * Enabled
+             * @default false
+             */
+            enabled: boolean;
+            /**
+             * Allow Multiple
+             * @default false
+             */
+            allow_multiple: boolean;
         };
         /** InventoryDetailsItem */
         InventoryDetailsItem: {
@@ -6962,7 +7187,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['InvoiceType'];
+            invoice_type: components['schemas']['InvoicingInvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -7087,7 +7312,7 @@ export interface components {
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
             /** @description Specifies the type of invoice */
-            invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
+            invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
              * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
@@ -7205,7 +7430,7 @@ export interface components {
         /** InvoiceItemInMultiAnalyticPlans */
         InvoiceItemInMultiAnalyticPlans: {
             /** @description Specifies the type of invoice */
-            invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
+            invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
              * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
@@ -7335,7 +7560,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['InvoiceType'];
+            invoice_type: components['schemas']['InvoicingInvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -7431,7 +7656,7 @@ export interface components {
         /** InvoiceItemOutMonoAnalyticPlan */
         InvoiceItemOutMonoAnalyticPlan: {
             /** @description Specifies the type of invoice */
-            invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
+            invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
              * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
@@ -7532,7 +7757,7 @@ export interface components {
         /** InvoiceItemOutMultiAnalyticPlans */
         InvoiceItemOutMultiAnalyticPlans: {
             /** @description Specifies the type of invoice */
-            invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
+            invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
              * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
@@ -7648,7 +7873,7 @@ export interface components {
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['InvoiceType'];
+            invoice_type: components['schemas']['InvoicingInvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -8229,8 +8454,7 @@ export interface components {
             | 'customer_invoice'
             | 'customer_refund'
             | 'supplier_invoice'
-            | 'supplier_refund'
-            | 'all';
+            | 'supplier_refund';
         /** InvoicingBankAccountItem */
         InvoicingBankAccountItem: {
             /**
@@ -8316,6 +8540,21 @@ export interface components {
              */
             linked_documents: components['schemas']['LinkedDocument'][] | null;
         };
+        /**
+         * InvoicingDocumentType
+         * @enum {string}
+         */
+        InvoicingDocumentType: 'customer_document' | 'supplier_document' | 'employee_expense';
+        /**
+         * InvoicingInvoiceType
+         * @enum {string}
+         */
+        InvoicingInvoiceType:
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund'
+            | 'all';
         /** InvoicingPaymentItem */
         InvoicingPaymentItem: {
             /**
@@ -8326,7 +8565,7 @@ export interface components {
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
-            status: components['schemas']['PaymentStatus'];
+            status: components['schemas']['PaymentPaymentStatus'];
             /**
              * Description
              * @description Description
@@ -8373,6 +8612,63 @@ export interface components {
              * @description Invoice number
              */
             invoice_number?: string | null;
+        };
+        /** InvoicingPaymentItemIn */
+        InvoicingPaymentItemIn: {
+            /**
+             * Amount
+             * @description Payment amount
+             */
+            amount: number;
+            /**
+             * Payment Method Id
+             * @description The technical ID of the payment method in the invoicing system
+             */
+            payment_method_id?: string | null;
+            /**
+             * Invoice Id
+             * @description The technical ID of the invoice in the invoicing system to which the payment will be linked
+             */
+            invoice_id: string;
+            /**
+             * Date
+             * Format: date
+             * @description The date of the payment
+             */
+            date: string;
+            /**
+             * Description
+             * @description Description of the payment
+             */
+            description?: string | null;
+            /**
+             * Currency
+             * @description Currency of the payment
+             */
+            currency: string;
+        };
+        /** InvoicingPaymentItemUpdate */
+        InvoicingPaymentItemUpdate: {
+            /**
+             * Amount
+             * @description Payment amount
+             */
+            amount?: number | null;
+            /**
+             * Payment Method Id
+             * @description The technical ID of the payment method in the invoicing system
+             */
+            payment_method_id?: string | null;
+            /**
+             * Date
+             * @description The date of the payment
+             */
+            date?: string | null;
+            /**
+             * Description
+             * @description Description of the payment
+             */
+            description?: string | null;
         };
         /** InvoicingPaymentMethodItem */
         InvoicingPaymentMethodItem: {
@@ -8426,6 +8722,23 @@ export interface components {
              * @default true
              */
             active: boolean | null;
+        };
+        /** InvoicingWithholdingTax */
+        InvoicingWithholdingTax: {
+            /**
+             * Rate
+             * @description Rate
+             */
+            rate: number;
+            /**
+             * Amount
+             * @description Amount
+             */
+            amount: number;
+            /** @description Reason */
+            reason?: components['schemas']['WithholdingTaxReason'] | null;
+            /** @description Payment reason */
+            payment_reason?: components['schemas']['WithholdingTaxPaymentReason'] | null;
         };
         /** IssueEvent */
         IssueEvent: {
@@ -8495,9 +8808,7 @@ export interface components {
              */
             stamp_duty_amount?: number | null;
             /** @description Withholding tax (specific to Italy) */
-            withholding_tax?:
-                | components['schemas']['backbone_common__models__invoicing__common__WithholdingTax']
-                | null;
+            withholding_tax?: components['schemas']['InvoicingWithholdingTax'] | null;
             /** @description Welfare fund (specific to Italy) */
             welfare_fund?: components['schemas']['WelfareFund'] | null;
             /** @description Payment reporting (specific to Italy) */
@@ -8511,9 +8822,7 @@ export interface components {
              */
             stamp_duty_amount?: number | null;
             /** @description Withholding tax (specific to Italy) */
-            withholding_tax?:
-                | components['schemas']['backbone_common__models__invoicing__common__WithholdingTax']
-                | null;
+            withholding_tax?: components['schemas']['InvoicingWithholdingTax'] | null;
             /** @description Welfare fund (specific to Italy) */
             welfare_fund?: components['schemas']['WelfareFund'] | null;
             /** @description Payment reporting (specific to Italy) */
@@ -9143,7 +9452,7 @@ export interface components {
          * Mode
          * @enum {string}
          */
-        Mode: 'EAT_IN' | 'TAKEAWAY' | 'DELIVERY';
+        Mode: 'EAT_IN' | 'TAKEAWAY' | 'DELIVERY' | 'UNKNOWN';
         /** MultipleMatchingIn */
         MultipleMatchingIn: {
             /** Matchings */
@@ -9336,8 +9645,8 @@ export interface components {
         /** OrderItemIn */
         OrderItemIn: {
             customer: components['schemas']['OrderCustomerItem'];
-            billing_address: components['schemas']['backbone_common__models__commerce__common__AddressItemIn'];
-            shipping_address: components['schemas']['backbone_common__models__commerce__common__AddressItemIn'];
+            billing_address: components['schemas']['CommerceAddressItemIn'];
+            shipping_address: components['schemas']['CommerceAddressItemIn'];
             /**
              * Currency
              * @description Indicates the currency of the order (e.g. EUR).
@@ -9365,8 +9674,8 @@ export interface components {
             /** Order Number */
             order_number?: string | null;
             customer?: components['schemas']['OrderCustomerItemOut'] | null;
-            billing_address?: components['schemas']['AddressItemOut'] | null;
-            shipping_address?: components['schemas']['AddressItemOut'] | null;
+            billing_address?: components['schemas']['CommerceAddressItemOut'] | null;
+            shipping_address?: components['schemas']['CommerceAddressItemOut'] | null;
             /** Created On */
             created_on?: string | null;
             /** Last Updated On */
@@ -9548,7 +9857,7 @@ export interface components {
              * Discounts
              * @default []
              */
-            discounts: components['schemas']['DiscountItem'][] | null;
+            discounts: components['schemas']['CommerceDiscountItem'][] | null;
             /**
              * Gift Card
              * @default false
@@ -9575,7 +9884,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories: components['schemas']['ProductCategoryItem'][] | null;
+            categories: components['schemas']['CommerceProductCategoryItem'][] | null;
         };
         /** OrderPaymentMethods */
         OrderPaymentMethods: {
@@ -9690,7 +9999,7 @@ export interface components {
             payment_method_name?: string | null;
             /** Amount */
             amount: number;
-            status: components['schemas']['backbone_common__models__commerce__common__TransactionStatus'];
+            status: components['schemas']['CommerceTransactionStatus'];
         };
         /** OriginalOutstandingItem */
         OriginalOutstandingItem: {
@@ -10103,9 +10412,16 @@ export interface components {
             delivery_fee: number | null;
             /**
              * @description Delivery Mode
+             * @default UNKNOWN
              * @example eat_in
              */
-            mode?: components['schemas']['Mode'] | null;
+            mode: components['schemas']['Mode'] | null;
+            /**
+             * @description Source of the order
+             * @default UNKNOWN
+             * @example web
+             */
+            source: components['schemas']['Source'] | null;
             /**
              * Currency
              * @description Currency of the order
@@ -10229,9 +10545,7 @@ export interface components {
              * @default []
              * @example []
              */
-            discounts:
-                | components['schemas']['backbone_common__models__pos_pms__DiscountItem'][]
-                | null;
+            discounts: components['schemas']['DiscountItem'][] | null;
             /**
              * Product Id
              * @description Reference to the product related to this item
@@ -10285,7 +10599,7 @@ export interface components {
              * @default Unknown
              * @example Completed
              */
-            status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'] | null;
+            status: components['schemas']['POSPaymentStatus'] | null;
             /**
              * Currency
              * @description Currency of the payment
@@ -10543,9 +10857,7 @@ export interface components {
              * @default []
              * @example []
              */
-            discounts:
-                | components['schemas']['backbone_common__models__pos_pms__DiscountItem'][]
-                | null;
+            discounts: components['schemas']['DiscountItem'][] | null;
             /**
              * Product Id
              * @description Reference to the product related to this item
@@ -10668,9 +10980,16 @@ export interface components {
             delivery_fee: number | null;
             /**
              * @description Delivery Mode
+             * @default UNKNOWN
              * @example eat_in
              */
-            mode?: components['schemas']['Mode'] | null;
+            mode: components['schemas']['Mode'] | null;
+            /**
+             * @description Source of the order
+             * @default UNKNOWN
+             * @example web
+             */
+            source: components['schemas']['Source'] | null;
             /**
              * Currency
              * @description Currency of the order
@@ -10762,7 +11081,7 @@ export interface components {
              * @default Unknown
              * @example Completed
              */
-            status: components['schemas']['backbone_common__models__pos_pms__PaymentStatus'] | null;
+            status: components['schemas']['POSPaymentStatus'] | null;
             /**
              * Currency
              * @description Currency of the payment
@@ -10776,6 +11095,17 @@ export interface components {
              */
             date?: string | null;
         };
+        /**
+         * POSPaymentStatus
+         * @enum {string}
+         */
+        POSPaymentStatus:
+            | 'Pending'
+            | 'Completed'
+            | 'Canceled'
+            | 'Failed'
+            | 'Unknown'
+            | 'Authorised';
         /** POSProductItem */
         POSProductItem: {
             /**
@@ -10934,9 +11264,7 @@ export interface components {
              * @description List of addresses associated with the client.
              * @default []
              */
-            addresses:
-                | components['schemas']['backbone_common__models__common__AddressItemOut'][]
-                | null;
+            addresses: components['schemas']['AddressItemOut'][] | null;
             /**
              * Third Party Account
              * @description Third party account number/code representing the client in the accounting software.
@@ -10965,7 +11293,7 @@ export interface components {
              * Credentials
              * @description Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration
              */
-            credentials?: components['schemas']['CredentialItem-Input'][] | null;
+            credentials?: components['schemas']['CredentialItem'][] | null;
         };
         /** Payment */
         Payment: {
@@ -11016,7 +11344,7 @@ export interface components {
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
-            status: components['schemas']['PaymentStatus'];
+            status: components['schemas']['PaymentPaymentStatus'];
             /**
              * Description
              * @description Description
@@ -11079,6 +11407,18 @@ export interface components {
              */
             extra?: string | null;
         };
+        /**
+         * PaymentPaymentStatus
+         * @enum {string}
+         */
+        PaymentPaymentStatus:
+            | 'pending'
+            | 'completed'
+            | 'partially_completed'
+            | 'canceled'
+            | 'failed'
+            | 'unknown'
+            | 'authorized';
         /** PaymentReporting */
         PaymentReporting: {
             /** @description Payment method */
@@ -11123,19 +11463,7 @@ export interface components {
          * PaymentStatus
          * @enum {string}
          */
-        PaymentStatus:
-            | 'pending'
-            | 'completed'
-            | 'partially_completed'
-            | 'canceled'
-            | 'failed'
-            | 'unknown'
-            | 'authorized';
-        /**
-         * PaymentStatus
-         * @enum {string}
-         */
-        'PaymentStatus-Input': 'all' | 'unpaid' | 'paid';
+        PaymentStatus: 'all' | 'unpaid' | 'paid';
         /** PaymentTermAccountInfo */
         PaymentTermAccountInfo: {
             /**
@@ -11195,7 +11523,7 @@ export interface components {
             country?: string | null;
         };
         /** PostConnectionItem */
-        'PostConnectionItem-Input': {
+        PostConnectionItem: {
             /**
              * Integrationid
              * @description Can be used to specify the integration code of a specific connector. If specified, the url will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.
@@ -11210,7 +11538,7 @@ export interface components {
              * Credentials
              * @description Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration
              */
-            credentials?: components['schemas']['CredentialItem-Input'][] | null;
+            credentials?: components['schemas']['CredentialItem'][] | null;
             /**
              * Country
              * @description ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided.
@@ -11222,17 +11550,22 @@ export interface components {
              * @default false
              */
             redirect: boolean | null;
-        };
-        /** PostConnectionItem */
-        'PostConnectionItem-Output': {
-            /** Id */
-            id: string;
-            /** Title */
-            title: string;
-            /** Optional */
-            optional: boolean;
-            /** Resource */
-            resource: string;
+            /**
+             * Apis
+             * @description Can be used to filter connectors by APIs. Ignored if integrationid is provided.
+             */
+            apis?:
+                | (
+                      | 'Point of Sale'
+                      | 'eCommerce'
+                      | 'Accounting'
+                      | 'Invoicing'
+                      | 'Banking'
+                      | 'Custom'
+                      | 'Payment'
+                      | 'Property Management System'
+                  )[]
+                | null;
         };
         /** PostConsumerItem */
         PostConsumerItem: {
@@ -11301,11 +11634,28 @@ export interface components {
         ProductCategoryItem: {
             /**
              * Id
-             * @description Technical id of the category in Chift
+             * @description Unique identifier of the category
+             * @example 371ca583-d218-4900-b236-397532cf0e52
              */
             id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Name given to the category
+             * @example Pizza
+             */
             name: string;
+            /**
+             * Description
+             * @description Description of the category
+             * @example Delicious pizza
+             */
+            description?: string | null;
+            /**
+             * Id Parent
+             * @description Indicates if the category belongs to a parent category
+             * @example 371ca583-d218-4900-b236-397532cf0e55
+             */
+            id_parent?: string | null;
         };
         /** ProductCostItem */
         ProductCostItem: {
@@ -11315,7 +11665,7 @@ export interface components {
             currency: string;
         };
         /** ProductItem */
-        'ProductItem-Input': {
+        ProductItem: {
             /**
              * Name
              * @description Name
@@ -11362,58 +11712,6 @@ export interface components {
              * @default 0
              */
             cost: number | null;
-        };
-        /** ProductItem */
-        'ProductItem-Output': {
-            /**
-             * Id
-             * @description Technical id in Chift
-             */
-            id: string;
-            /** @description Technical id in the target software */
-            source_ref: components['schemas']['Ref'];
-            /** Name */
-            name: string;
-            /** Description */
-            description?: string | null;
-            /** Description Html */
-            description_html?: string | null;
-            /**
-             * Categories
-             * @default []
-             */
-            categories: components['schemas']['ProductCategoryItem'][] | null;
-            /** Created On */
-            created_on?: string | null;
-            /** Last Updated On */
-            last_updated_on?: string | null;
-            /**
-             * Variants
-             * @default []
-             */
-            variants: components['schemas']['ProductVariantItem'][] | null;
-            status?: components['schemas']['ProductStatus'] | null;
-            /** Sku */
-            sku?: string | null;
-            /**
-             * Common Attributes
-             * @description List of attributes that are shared by all variants of the product.
-             * @default []
-             */
-            common_attributes: components['schemas']['CommonAttributeItem'][] | null;
-            /**
-             * Variant Attributes Options
-             * @default []
-             */
-            variant_attributes_options:
-                | components['schemas']['VariantAttributeOptionItem'][]
-                | null;
-            /**
-             * Common Images
-             * @description List of images that are shared by all variants of the product.
-             * @default []
-             */
-            common_images: components['schemas']['ImageItem'][] | null;
         };
         /** ProductItemOut */
         ProductItemOut: {
@@ -11521,7 +11819,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories: components['schemas']['ProductCategoryItem'][] | null;
+            categories: components['schemas']['CommerceProductCategoryItem'][] | null;
             /** Created On */
             created_on?: string | null;
             /** Sku */
@@ -11537,9 +11835,7 @@ export interface components {
              * Prices
              * @default []
              */
-            prices:
-                | components['schemas']['backbone_common__models__commerce__common__ProductPriceItem'][]
-                | null;
+            prices: components['schemas']['CommerceProductPriceItem'][] | null;
             unit_cost?: components['schemas']['ProductCostItem'] | null;
             /** Unit Of Measure */
             unit_of_measure?: string | null;
@@ -11628,7 +11924,7 @@ export interface components {
                 }[];
             } | null;
             /** Connections */
-            connections: components['schemas']['ConnectionItem'][];
+            connections: components['schemas']['SyncsConnectionItem'][];
             /**
              * Mappings
              * @default []
@@ -11672,6 +11968,12 @@ export interface components {
             /** Sub Mapping Description */
             sub_mapping_description?: string | null;
         };
+        /** ReadSyncSkipMappingItem */
+        ReadSyncSkipMappingItem: {
+            /** Name */
+            name: string;
+            skip_reason: components['schemas']['SyncSkipReason'];
+        };
         /** Ref */
         Ref: {
             /**
@@ -11712,7 +12014,7 @@ export interface components {
             /** @description Technical id in the target software */
             source_ref: components['schemas']['Ref'];
             /** @description Payment status */
-            status: components['schemas']['PaymentStatus'];
+            status: components['schemas']['PaymentPaymentStatus'];
             /**
              * Description
              * @description Description
@@ -11766,6 +12068,126 @@ export interface components {
              * @description Total refunded (after discount).
              */
             total: number;
+        };
+        /**
+         * ReportCategory
+         * @enum {string}
+         */
+        ReportCategory:
+            | 'Supply of goods subject to value-added tax.'
+            | 'Services subject to value-added tax.'
+            | 'Supply of goods and provision of services not subject to value-added tax in France, including intra-Community distance sales mentioned in 1° of I of Article 258 A and in Article 259 B of the French General Tax Code.'
+            | 'Transactions subject to the regimes provided for in e) of 1 of Article 266 and in Articles 268 and 297 A of the French General Tax Code (VAT margin scheme).';
+        /** ReportItem */
+        ReportItem: {
+            /**
+             * Date
+             * Format: date
+             * @description Date of the report
+             * @example 2025-01-01
+             */
+            date: string;
+            /**
+             * Location Id
+             * @description Unique identifier of the location
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
+            location_id: string;
+            /**
+             * Orders
+             * @description List of orders related to the report
+             * @default []
+             */
+            orders: components['schemas']['ReportOrders'][] | null;
+            /**
+             * Payments
+             * @description List of payments related to the report
+             * @default []
+             */
+            payments: components['schemas']['ReportPayments'][] | null;
+        };
+        /** ReportOrders */
+        ReportOrders: {
+            /**
+             * Currency
+             * @description Currency of the report (ISO 4217)
+             * @example EUR
+             */
+            currency: string;
+            /**
+             * Total
+             * @description Total amount including tax of the sales
+             * @example 10
+             */
+            total: number;
+            /**
+             * Tax Amount
+             * @description Total amount of the taxes
+             * @example 1
+             */
+            tax_amount: number;
+            /**
+             * Tax Duedatetypecode
+             * @description Code giving specific meaning to a date, time or period
+             * @example 4
+             */
+            tax_duedatetypecode?: string | null;
+            /**
+             * @description Category of the orders
+             * @example TLB1
+             */
+            category: components['schemas']['ReportCategory'];
+            /**
+             * Total Orders
+             * @description Total number of orders for the period
+             * @example 10
+             */
+            total_orders: number;
+            /**
+             * Taxes
+             * @description List of taxes related to the report
+             * @default []
+             */
+            taxes: components['schemas']['TotalTaxItem'][] | null;
+        };
+        /** ReportPayments */
+        ReportPayments: {
+            /**
+             * Tax Rate
+             * @description Tax rate
+             * @example 10
+             */
+            tax_rate: number;
+            /**
+             * Tax Amount
+             * @description Tax amount
+             * @example 1
+             */
+            tax_amount: number;
+            /**
+             * Total
+             * @description Total amount including tax
+             * @example 11
+             */
+            total: number;
+            /**
+             * Payment Method Id
+             * @description Unique identifier of the payment method used for the payment
+             * @example payment_method-1
+             */
+            payment_method_id?: string | null;
+            /**
+             * Payment Method Name
+             * @description Chift's name of the payment method used for the payment
+             * @example Cash
+             */
+            payment_method_name?: string | null;
+            /**
+             * Currency
+             * @description Currency of the payment (ISO 4217)
+             * @example EUR
+             */
+            currency: string;
         };
         /** ReservationItem */
         ReservationItem: {
@@ -11917,6 +12339,23 @@ export interface components {
              */
             total: number;
         };
+        /**
+         * Source
+         * @enum {string}
+         */
+        Source:
+            | 'WEB'
+            | 'MOBILE'
+            | 'KIOSK'
+            | 'POS'
+            | 'REMOTE_POS'
+            | 'JUSTEAT'
+            | 'FOODORA'
+            | 'UBEREATS'
+            | 'GLOVO'
+            | 'DELIVEROO'
+            | 'SMILEIN'
+            | 'UNKNOWN';
         /**
          * States
          * @enum {string}
@@ -12151,9 +12590,7 @@ export interface components {
              * @description List of addresses associated with the supplier.
              * @default []
              */
-            addresses:
-                | components['schemas']['backbone_common__models__common__AddressItemOut'][]
-                | null;
+            addresses: components['schemas']['AddressItemOut'][] | null;
             /**
              * Third Party Account
              * @description Third party account number/code representing the client in the accounting software.
@@ -12259,7 +12696,7 @@ export interface components {
              * @description List of addresses associated with the supplier.
              * @default []
              */
-            addresses: components['schemas']['AddressItemOut-Input'][] | null;
+            addresses: components['schemas']['AddressItemOut'][] | null;
         };
         /** SyncConsumerItem */
         SyncConsumerItem: {
@@ -12295,6 +12732,11 @@ export interface components {
              */
             link_mappings?: components['schemas']['ReadSyncMappingItem'][] | null;
             /**
+             * Skip Mappings
+             * @description List of mappings which are ignored due to specific configuration of the consumer
+             */
+            skip_mappings?: components['schemas']['ReadSyncSkipMappingItem'][] | null;
+            /**
              * Link Metadata
              * @description Metadata passed during creation
              */
@@ -12319,6 +12761,28 @@ export interface components {
          * @enum {string}
          */
         SyncConsumerStatus: 'active' | 'inactive';
+        /**
+         * SyncSkipReason
+         * @enum {string}
+         */
+        SyncSkipReason: 'presync' | 'challenge';
+        /** SyncsConnectionItem */
+        SyncsConnectionItem: {
+            /** One Api */
+            one_api?: number | null;
+            /** Connection Type */
+            connection_type?: number | null;
+            /**
+             * Display Order
+             * @default 0
+             */
+            display_order: number;
+            /**
+             * Display Hidden
+             * @default false
+             */
+            display_hidden: boolean;
+        };
         /** TaxInfo */
         TaxInfo: {
             /**
@@ -12463,11 +12927,6 @@ export interface components {
             payment_id?: string | null;
         };
         /**
-         * TransactionStatus
-         * @enum {string}
-         */
-        TransactionStatus: 'pending' | 'declined' | 'completed';
-        /**
          * TriggerPriority
          * @enum {string}
          */
@@ -12551,7 +13010,7 @@ export interface components {
              */
             currency?: string | null;
             /** @description Invoice type of the uploaded document */
-            invoice_type?: components['schemas']['InvoiceType'] | null;
+            invoice_type?: components['schemas']['InvoicingInvoiceType'] | null;
             /** @description Status of the uploaded document */
             status?: components['schemas']['InvoiceStatus'] | null;
             /**
@@ -12690,7 +13149,7 @@ export interface components {
              * Categories
              * @default []
              */
-            categories: components['schemas']['ProductCategoryItem'][] | null;
+            categories: components['schemas']['CommerceProductCategoryItem'][] | null;
             /** Created On */
             created_on?: string | null;
             /** Sku */
@@ -12706,9 +13165,7 @@ export interface components {
              * Prices
              * @default []
              */
-            prices:
-                | components['schemas']['backbone_common__models__commerce__common__ProductPriceItem'][]
-                | null;
+            prices: components['schemas']['CommerceProductPriceItem'][] | null;
             unit_cost?: components['schemas']['ProductCostItem'] | null;
             /** Unit Of Measure */
             unit_of_measure?: string | null;
@@ -12945,190 +13402,6 @@ export interface components {
          * @enum {string}
          */
         WithholdingTaxReason: 'RT01' | 'RT02' | 'RT03' | 'RT04' | 'RT05' | 'RT06';
-        /** ConnectionItem */
-        backbone_api__app__routers__connections__ConnectionItem: {
-            /**
-             * Connectionid
-             * Format: uuid
-             */
-            connectionid: string;
-            /** Name */
-            name: string;
-            /** Integration */
-            integration: string;
-            /** Integrationid */
-            integrationid: number;
-            /** Api */
-            api: string;
-            /** Data */
-            data?: {
-                [key: string]: unknown;
-            } | null;
-            status: components['schemas']['Status'];
-            /** @description For local agent only. Indicates whether the local agent is up and running */
-            agent?: components['schemas']['LocalAgentInfo'] | null;
-        };
-        /**
-         * DocumentType
-         * @enum {string}
-         */
-        backbone_common__models__accounting__common__DocumentType: 'invoice' | 'entry';
-        /**
-         * InvoiceType
-         * @enum {string}
-         */
-        backbone_common__models__accounting__common__InvoiceType:
-            | 'customer_invoice'
-            | 'customer_refund'
-            | 'supplier_invoice'
-            | 'supplier_refund';
-        /** AddressItemIn */
-        backbone_common__models__commerce__common__AddressItemIn: {
-            /** First Name */
-            first_name: string;
-            /** Last Name */
-            last_name: string;
-            /** Street */
-            street: string;
-            /** Number */
-            number: string;
-            /** Box */
-            box?: string | null;
-            /** City */
-            city: string;
-            /** Postal Code */
-            postal_code?: string | null;
-            /**
-             * Country
-             * @description Format: ISO 3166-1 codes.
-             */
-            country: string;
-            /** Phone */
-            phone?: string | null;
-            /** Email */
-            email?: string | null;
-        };
-        /** ProductPriceItem */
-        backbone_common__models__commerce__common__ProductPriceItem: {
-            /** Currency */
-            currency: string;
-            /**
-             * Price
-             * @default 0
-             */
-            price: number | null;
-        };
-        /**
-         * TransactionStatus
-         * @enum {string}
-         */
-        backbone_common__models__commerce__common__TransactionStatus:
-            | 'failed'
-            | 'pending'
-            | 'success';
-        /** AddressItemOut */
-        backbone_common__models__common__AddressItemOut: {
-            address_type: components['schemas']['AddressType'];
-            /** Name */
-            name?: string | null;
-            /** Number */
-            number?: string | null;
-            /** Box */
-            box?: string | null;
-            /** Phone */
-            phone?: string | null;
-            /** Mobile */
-            mobile?: string | null;
-            /** Email */
-            email?: string | null;
-            /** Street */
-            street?: string | null;
-            /** City */
-            city?: string | null;
-            /** Postal Code */
-            postal_code?: string | null;
-            /**
-             * Country
-             * @description Format: ISO 3166-1 codes.
-             */
-            country?: string | null;
-        };
-        /** WithholdingTax */
-        backbone_common__models__invoicing__common__WithholdingTax: {
-            /**
-             * Rate
-             * @description Rate
-             */
-            rate: number;
-            /**
-             * Amount
-             * @description Amount
-             */
-            amount: number;
-            /** @description Reason */
-            reason?: components['schemas']['WithholdingTaxReason'] | null;
-            /** @description Payment reason */
-            payment_reason?: components['schemas']['WithholdingTaxPaymentReason'] | null;
-        };
-        /** ProductCategoryItem */
-        backbone_common__models__pos__common__ProductCategoryItem: {
-            /**
-             * Id
-             * @description Unique identifier of the category
-             * @example 371ca583-d218-4900-b236-397532cf0e52
-             */
-            id: string;
-            /**
-             * Name
-             * @description Name given to the category
-             * @example Pizza
-             */
-            name: string;
-            /**
-             * Description
-             * @description Description of the category
-             * @example Delicious pizza
-             */
-            description?: string | null;
-            /**
-             * Id Parent
-             * @description Indicates if the category belongs to a parent category
-             * @example 371ca583-d218-4900-b236-397532cf0e55
-             */
-            id_parent?: string | null;
-        };
-        /** DiscountItem */
-        backbone_common__models__pos_pms__DiscountItem: {
-            /**
-             * Name
-             * @description Name of the discount
-             * @example Percentage discount
-             */
-            name?: string | null;
-            /**
-             * Total
-             * @description Total amount of the discount
-             * @example 10
-             */
-            total: number;
-            /**
-             * @description Type of the discount
-             * @default UNKNOWN
-             * @example offered
-             */
-            type: components['schemas']['DiscountType'];
-        };
-        /**
-         * PaymentStatus
-         * @enum {string}
-         */
-        backbone_common__models__pos_pms__PaymentStatus:
-            | 'Pending'
-            | 'Completed'
-            | 'Canceled'
-            | 'Failed'
-            | 'Unknown'
-            | 'Authorised';
     };
     responses: never;
     parameters: never;
@@ -13453,7 +13726,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['backbone_api__app__routers__connections__ConnectionItem'][];
+                    'application/json': components['schemas']['ConnectionItem'][];
                 };
             };
             /** @description Not Found */
@@ -13493,7 +13766,7 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                'application/json': components['schemas']['PostConnectionItem-Input'] | null;
+                'application/json': components['schemas']['PostConnectionItem'] | null;
             };
         };
         responses: {
@@ -13725,7 +13998,7 @@ export interface operations {
     integrations_get_integrations: {
         parameters: {
             query?: {
-                status?: components['schemas']['Status'] | null;
+                status?: components['schemas']['IntegationStatus'] | null;
                 include_coverage?: components['schemas']['BoolParam'] | null;
             };
             header?: never;
@@ -14662,7 +14935,7 @@ export interface operations {
     datastores_get_datastores: {
         parameters: {
             query?: {
-                status?: components['schemas']['Status'] | null;
+                status?: components['schemas']['DatastoreStatus'] | null;
             };
             header?: never;
             path?: never;
@@ -15347,12 +15620,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "A client/supplier already exist with the same code/id in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15466,12 +15733,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15593,12 +15854,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "A client/supplier already exist with the same code/id in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15712,12 +15967,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15788,12 +16037,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The document is not a valid base64 string representing a PDF.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15803,12 +16046,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15864,12 +16101,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The document is not a valid base64 string representing a PDF.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15879,12 +16110,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15915,7 +16140,7 @@ export interface operations {
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
+                payment_status?: components['schemas']['PaymentStatus'] | null;
                 /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
                 /** @description Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API. */
@@ -15926,7 +16151,7 @@ export interface operations {
             header?: never;
             path: {
                 consumer_id: string;
-                invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
+                invoice_type: components['schemas']['InvoiceType'];
             };
             cookie?: never;
         };
@@ -15983,7 +16208,7 @@ export interface operations {
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
                 /** @description Extra filter to retrieve invoices with a specific payment status. */
-                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
+                payment_status?: components['schemas']['PaymentStatus'] | null;
                 /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
                 /** @description Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API. */
@@ -15994,7 +16219,7 @@ export interface operations {
             header?: never;
             path: {
                 consumer_id: string;
-                invoice_type: components['schemas']['backbone_common__models__accounting__common__InvoiceType'];
+                invoice_type: components['schemas']['InvoiceType'];
             };
             cookie?: never;
         };
@@ -16160,165 +16385,6 @@ export interface operations {
                     /**
                      * @example {
                      *       "message": "The invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    accounting_create_ledger_account: {
-        parameters: {
-            query?: {
-                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
-                folder_id?: string | null;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['LedgerAccountItemIn'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['AccountItem'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "A ledger account already exists with the same number in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    accounting_get_bank_accounts: {
-        parameters: {
-            query?: {
-                /** @description Page number */
-                page?: number;
-                /** @description Page size */
-                size?: number;
-                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
-                folder_id?: string | null;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftPage_BankAccountItemOut_'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    accounting_create_bank_account: {
-        parameters: {
-            query?: {
-                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
-                folder_id?: string | null;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['BankAccountItemIn'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['BankAccountItemOut'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "A bank account/journal already exists with the same code in the accounting system.",
                      *       "status": "error"
                      *     }
                      */
@@ -17047,12 +17113,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The entry is not balanced.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17062,12 +17122,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The currency doesn't exist or is not active in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17077,12 +17131,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "Debit and credit cannot be both positive.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17210,13 +17258,9 @@ export interface operations {
             };
         };
     };
-    accounting_get_payment_terms: {
+    accounting_create_invoice_payment: {
         parameters: {
             query?: {
-                /** @description Page number */
-                page?: number;
-                /** @description Page size */
-                size?: number;
                 /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
@@ -17226,16 +17270,18 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AccountingInvoicePaymentIn'];
+            };
+        };
         responses: {
             /** @description Successful Response */
-            200: {
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    'application/json': components['schemas']['ChiftPage_AccountingPaymentTerms_'];
-                };
+                content?: never;
             };
             /** @description Bad Request */
             400: {
@@ -17263,9 +17309,13 @@ export interface operations {
             };
         };
     };
-    accounting_create_invoice_payment: {
+    accounting_get_payment_terms: {
         parameters: {
             query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
                 /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
                 folder_id?: string | null;
             };
@@ -17275,18 +17325,16 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['AccountingInvoicePaymentIn'];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
-            204: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['ChiftPage_AccountingPaymentTerms_'];
+                };
             };
             /** @description Bad Request */
             400: {
@@ -17578,12 +17626,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The account 'x' cannot be used for this type of line.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17593,12 +17635,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17696,12 +17732,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "Entry 'x' doesn't have the correct status.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17764,12 +17794,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "Entry 'x' doesn't have the correct status.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17782,6 +17806,61 @@ export interface operations {
                     /**
                      * @example {
                      *       "message": "Entry 'x' doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_get_attachments: {
+        parameters: {
+            query: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+                type: components['schemas']['DocumentType'];
+                document_id: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_AttachmentItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -17833,12 +17912,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "An attachment already exists for this invoice.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17851,61 +17924,6 @@ export interface operations {
                     /**
                      * @example {
                      *       "message": "The invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    accounting_get_attachments: {
-        parameters: {
-            query: {
-                /** @description Page number */
-                page?: number;
-                /** @description Page size */
-                size?: number;
-                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
-                folder_id?: string | null;
-                type: components['schemas']['backbone_common__models__accounting__common__DocumentType'];
-                document_id: string;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftPage_AttachmentItemOut_'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -18037,6 +18055,165 @@ export interface operations {
             };
         };
     };
+    accounting_get_bank_accounts: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_BankAccountItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_create_bank_account: {
+        parameters: {
+            query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['BankAccountItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BankAccountItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "A bank account/journal already exists with the same code in the accounting system.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_create_bank_transactions: {
+        parameters: {
+            query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['BankStatementItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BankStatementItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The format of the bank_statement_id doesn't seem to be correct.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_get_employees: {
         parameters: {
             query?: {
@@ -18099,6 +18276,8 @@ export interface operations {
                 financial_counterpart_account?: string | null;
                 /** @description Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. */
                 force_currency_exchange?: boolean | null;
+                /** @description If set to true, Chift will not wait for the entry to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call. */
+                ignore_accounting_id?: boolean;
             };
             header?: never;
             path: {
@@ -18127,12 +18306,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The account 'x' cannot be used for this type of line.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18142,12 +18315,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The currency 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18270,6 +18437,59 @@ export interface operations {
             };
         };
     };
+    accounting_create_ledger_account: {
+        parameters: {
+            query?: {
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['LedgerAccountItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AccountItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "A ledger account already exists with the same number in the accounting system.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_export_fec: {
         parameters: {
             query: {
@@ -18306,59 +18526,6 @@ export interface operations {
                     /**
                      * @example {
                      *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    accounting_create_bank_transactions: {
-        parameters: {
-            query?: {
-                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
-                folder_id?: string | null;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['BankStatementItemIn'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['BankStatementItemOut'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "The format of the bank_statement_id doesn't seem to be correct.",
                      *       "status": "error"
                      *     }
                      */
@@ -19653,6 +19820,87 @@ export interface operations {
             };
         };
     };
+    pos_get_report: {
+        parameters: {
+            query: {
+                /** @description Filter based on the business date */
+                date: string;
+                /** @description Unique identifier of the location. If none passed, we will use the selected location by the end-user. If no location was selected, we will return an error. */
+                location_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ReportItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
     ecommerce_get_customers: {
         parameters: {
             query?: {
@@ -19792,7 +20040,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['ChiftPage_ProductItem_'];
+                    'application/json': components['schemas']['ChiftPage_CommerceProductItem_'];
                 };
             };
             /** @description Bad Request */
@@ -19839,7 +20087,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['ProductItem-Output'];
+                    'application/json': components['schemas']['CommerceProductItem'];
                 };
             };
             /** @description Bad Request */
@@ -19991,12 +20239,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The location doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20105,12 +20347,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The date format of the field 'Date To' is not valid. The expected format is the following: YYYY-MM-DD.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20155,12 +20391,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The country format is not correct. Please use the ISO 3166-1 codes.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20170,12 +20400,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The phone number is already used by another client.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20451,6 +20675,446 @@ export interface operations {
             };
         };
     };
+    invoicing_get_contacts: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                contact_type?: components['schemas']['ContactType'];
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_ContactItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_post_contacts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['ContactItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ContactItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_get_contact: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                contact_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ContactItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The contact doesn't exist.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_get_products: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_ProductItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_post_products: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['ProductItem'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ProductItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_get_product: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                product_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ProductItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The product doesn't exist.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_get_taxes: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_InvoicingVatCode_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_get_tax: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                tax_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['InvoicingVatCode'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The tax doesn't exist.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     invoicing_get_invoices: {
         parameters: {
             query?: {
@@ -20460,8 +21124,8 @@ export interface operations {
                 size?: number;
                 date_from?: string | null;
                 date_to?: string | null;
-                invoice_type?: components['schemas']['InvoiceType'] | null;
-                payment_status?: components['schemas']['PaymentStatus-Input'] | null;
+                invoice_type?: components['schemas']['InvoicingInvoiceType'] | null;
+                payment_status?: components['schemas']['PaymentStatus'] | null;
                 updated_after?: string | null;
                 /** @description Include the invoice lines in the response. By default, invoice lines are included when no extra request is needed to fetch them. If you want to include them explicitly, set this parameter to true. */
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
@@ -20628,171 +21292,7 @@ export interface operations {
             };
         };
     };
-    invoicing_get_taxes: {
-        parameters: {
-            query?: {
-                /** @description Page number */
-                page?: number;
-                /** @description Page size */
-                size?: number;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftPage_InvoicingVatCode_'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    invoicing_get_tax: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                consumer_id: string;
-                tax_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['InvoicingVatCode'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "The tax doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    invoicing_get_products: {
-        parameters: {
-            query?: {
-                /** @description Page number */
-                page?: number;
-                /** @description Page size */
-                size?: number;
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftPage_ProductItemOut_'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    invoicing_post_products: {
+    invoicing_upload_document: {
         parameters: {
             query?: never;
             header?: never;
@@ -20803,17 +21303,17 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['ProductItem-Input'];
+                'application/json': components['schemas']['AttachmentItemIn'];
             };
         };
         responses: {
             /** @description Successful Response */
-            200: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['ProductItemOut'];
+                    'application/json': components['schemas']['UploadDocumentItemOut'];
                 };
             };
             /** @description Bad Request */
@@ -20824,69 +21324,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    invoicing_get_product: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                consumer_id: string;
-                product_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ProductItemOut'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "The product doesn't exist.",
+                     *       "message": "The document is not a valid base64 string representing a PDF.",
                      *       "status": "error"
                      *     }
                      */
@@ -21017,170 +21455,6 @@ export interface operations {
             };
         };
     };
-    invoicing_get_contacts: {
-        parameters: {
-            query?: {
-                /** @description Page number */
-                page?: number;
-                /** @description Page size */
-                size?: number;
-                contact_type?: components['schemas']['ContactType'];
-            };
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftPage_ContactItemOut_'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    invoicing_post_contacts: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['ContactItemIn'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ContactItemOut'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    invoicing_get_contact: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                consumer_id: string;
-                contact_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ContactItemOut'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "The contact doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
     invoicing_get_payments: {
         parameters: {
             query?: {
@@ -21206,6 +21480,107 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ChiftPage_InvoicingPaymentItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_create_payment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['InvoicingPaymentItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['InvoicingPaymentItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    invoicing_update_payment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                payment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['InvoicingPaymentItemUpdate'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['InvoicingPaymentItem'];
                 };
             };
             /** @description Bad Request */
@@ -21378,56 +21753,6 @@ export interface operations {
                     /**
                      * @example {
                      *       "message": "Error while trying to perform your request",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    invoicing_upload_document: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                consumer_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['AttachmentItemIn'];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['UploadDocumentItemOut'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "The document is not a valid base64 string representing a PDF.",
                      *       "status": "error"
                      *     }
                      */
@@ -21660,11 +21985,11 @@ export interface operations {
     banking_get_attachments: {
         parameters: {
             query: {
-                transaction_id: string;
                 /** @description Page number */
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                transaction_id: string;
             };
             header?: never;
             path: {
@@ -21760,7 +22085,7 @@ export interface operations {
             };
         };
     };
-    payment_get_transaction: {
+    payment_get_transactions: {
         parameters: {
             query?: {
                 /** @description Page number */
