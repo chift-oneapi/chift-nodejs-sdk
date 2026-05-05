@@ -280,3 +280,10 @@
 ## 1.0.32 - 2026-03-17
 
 -   Update model (e.g. incldue 'apis' when creating a connection)
+
+## 1.0.33 - 2026-05-05
+
+### Tooling
+
+-   Require Node.js `>=22`: add `engines.node` to `package.json` and `.npmrc` with `engine-strict=true` so installs fail on unsupported Node versions; set `.nvmrc` to `22`
+-   Update CI workflows (`test` and `publish`) to use Node.js `22.x`
