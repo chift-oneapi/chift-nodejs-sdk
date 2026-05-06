@@ -1,100 +1,166 @@
-import axios, { AxiosInstance } from 'axios';
 import { AuthType, TokenType, RequestData } from '../types/api';
 import Settings from '../helpers/settings';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+export interface RequestConfig {
+    url: string;
+    method?: string;
+    params?: Record<string, any> | null;
+    data?: unknown;
+    body?: unknown;
+    headers?: Record<string, string>;
+}
+
+export interface RequestResponse<T = any> {
+    data: T;
+    status: number;
+    headers: Headers;
+}
+
+export class ChiftRequestError extends Error {
+    response: { data: any; status: number; headers: Headers };
+    isChiftRequestError = true;
+
+    constructor(status: number, data: any, headers: Headers) {
+        super(`Request failed with status code ${status}`);
+        this.name = 'ChiftRequestError';
+        this.response = { data, status, headers };
+    }
+}
+
+const isPlainObject = (value: unknown): value is Record<string, any> =>
+    typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const buildQueryString = (params?: Record<string, any> | null): string => {
+    if (!params) return '';
+    const search = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+        if (value === undefined || value === null) continue;
+        if (Array.isArray(value)) {
+            for (const item of value) {
+                if (item === undefined || item === null) continue;
+                search.append(key, String(item));
+            }
+        } else if (value instanceof Date) {
+            search.append(key, value.toISOString());
+        } else if (isPlainObject(value)) {
+            search.append(key, JSON.stringify(value));
+        } else {
+            search.append(key, String(value));
+        }
+    }
+    const qs = search.toString();
+    return qs ? `?${qs}` : '';
+};
+
 class InternalAPI {
-    instance: AxiosInstance;
     auth: AuthType;
     token?: TokenType;
     debug = false;
     relatedChainExecutionId?: string;
     connectionId?: string;
     integrationId?: string;
-    get;
-    post;
-    patch;
-    delete;
+    baseURL: string;
 
     constructor(auth: AuthType) {
-        // add interceptor
         this.auth = auth;
-        this.instance = axios.create({
-            baseURL: this.auth.baseUrl || Settings.BASE_URL,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        this.get = this.instance.get;
-        this.post = this.instance.post;
-        this.patch = this.instance.patch;
-        this.delete = this.instance.delete;
-
-        this.instance.interceptors.request.use(
-            (config) => {
-                return new Promise((resolve, reject) => {
-                    if (this.connectionId) {
-                        config.headers['X-Chift-ConnectionId'] = this.connectionId;
-                    }
-
-                    if (this.integrationId) {
-                        config.headers['X-Chift-IntegrationId'] = this.integrationId;
-                    }
-
-                    if (this.relatedChainExecutionId) {
-                        config.headers['X-Chift-RelatedChainExecutionId'] =
-                            this.relatedChainExecutionId;
-                    }
-
-                    if (this.token) {
-                        const now = new Date().getTime();
-                        const bufferMs = 30 * 1000;
-                        // API returns expires_on in seconds; refresh when expired or within buffer
-                        if (this.token.expires_on * 1000 < now + bufferMs) {
-                            return this.getToken()
-                                .then(() => {
-                                    if (!this.token?.access_token) {
-                                        return reject(
-                                            new Error('Token refresh did not return a valid token')
-                                        );
-                                    }
-
-                                    config.headers['Authorization'] =
-                                        'Bearer ' + this.token.access_token;
-                                    return resolve(config);
-                                })
-                                .catch((err) => {
-                                    return reject(err);
-                                });
-                        } else {
-                            config.headers['Authorization'] = 'Bearer ' + this.token?.access_token;
-                            return resolve(config);
-                        }
-                    } else {
-                        return this.getToken()
-                            .then(() => {
-                                if (!this.token?.access_token) {
-                                    return reject(
-                                        new Error('Token fetch did not return a valid token')
-                                    );
-                                }
-
-                                config.headers['Authorization'] =
-                                    'Bearer ' + this.token.access_token;
-                                return resolve(config);
-                            })
-                            .catch((err) => {
-                                return reject(err);
-                            });
-                    }
-                });
-            },
-            function (error) {
-                return Promise.reject(error);
-            }
-        );
+        this.baseURL = this.auth.baseUrl || Settings.BASE_URL;
     }
+
+    private buildAuthHeaders = async (): Promise<Record<string, string>> => {
+        const headers: Record<string, string> = {};
+
+        if (this.connectionId) {
+            headers['X-Chift-ConnectionId'] = this.connectionId;
+        }
+
+        if (this.integrationId) {
+            headers['X-Chift-IntegrationId'] = this.integrationId;
+        }
+
+        if (this.relatedChainExecutionId) {
+            headers['X-Chift-RelatedChainExecutionId'] = this.relatedChainExecutionId;
+        }
+
+        const now = new Date().getTime();
+        const bufferMs = 30 * 1000;
+        const tokenIsExpired = !this.token || this.token.expires_on * 1000 < now + bufferMs;
+
+        if (tokenIsExpired) {
+            await this.getToken();
+        }
+
+        if (!this.token?.access_token) {
+            throw new Error('Token fetch did not return a valid token');
+        }
+
+        headers['Authorization'] = 'Bearer ' + this.token.access_token;
+        return headers;
+    };
+
+    private resolveUrl = (url: string, params?: Record<string, any> | null): string => {
+        const base = /^https?:\/\//i.test(url) ? url : `${this.baseURL}${url}`;
+        return `${base}${buildQueryString(params)}`;
+    };
+
+    request = async <T = any>(config: RequestConfig): Promise<RequestResponse<T>> => {
+        const authHeaders = await this.buildAuthHeaders();
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+            ...authHeaders,
+            ...(config.headers || {}),
+        };
+
+        const method = (config.method || 'get').toUpperCase();
+        const fullUrl = this.resolveUrl(config.url, config.params);
+
+        const payload = config.data !== undefined ? config.data : config.body;
+        let bodyString: string | undefined;
+        if (payload !== undefined && method !== 'GET' && method !== 'HEAD') {
+            bodyString = typeof payload === 'string' ? payload : JSON.stringify(payload);
+        }
+
+        const response = await fetch(fullUrl, {
+            method,
+            headers,
+            body: bodyString,
+        });
+
+        const contentType = response.headers.get('content-type') || '';
+        let data: any = undefined;
+        if (response.status !== 204) {
+            const text = await response.text();
+            if (text.length > 0) {
+                if (contentType.includes('application/json')) {
+                    try {
+                        data = JSON.parse(text);
+                    } catch {
+                        data = text;
+                    }
+                } else {
+                    data = text;
+                }
+            }
+        }
+
+        if (!response.ok) {
+            throw new ChiftRequestError(response.status, data, response.headers);
+        }
+
+        return { data, status: response.status, headers: response.headers };
+    };
+
+    get = <T = any>(url: string, config?: { params?: Record<string, any> | null }) =>
+        this.request<T>({ url, method: 'get', params: config?.params });
+
+    post = <T = any>(url: string, body?: unknown) =>
+        this.request<T>({ url, method: 'post', data: body });
+
+    patch = <T = any>(url: string, body?: unknown) =>
+        this.request<T>({ url, method: 'patch', data: body });
+
+    delete = <T = any>(url: string) => this.request<T>({ url, method: 'delete' });
 
     getToken = async () => {
         const maxRetries = 3;
@@ -114,21 +180,28 @@ class InternalAPI {
                 if (this.auth.envId) {
                     tokenData['envId'] = this.auth.envId;
                 }
-                const res = await axios.post(
-                    `${this.auth.baseUrl || Settings.BASE_URL}/token`,
-                    tokenData,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
-                this.token = res.data;
+
+                const response = await fetch(`${this.baseURL}/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(tokenData),
+                });
+
+                if (response.status === 401) {
+                    throw new Error('The provided credentials are not correct');
+                }
+
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new ChiftRequestError(response.status, text, response.headers);
+                }
+
+                this.token = (await response.json()) as TokenType;
                 return;
             } catch (err: any) {
                 lastErr = err;
-                if (axios.isAxiosError(err) && err.response?.status === 401) {
-                    throw new Error('The provided credentials are not correct');
+                if (err?.message === 'The provided credentials are not correct') {
+                    throw err;
                 }
 
                 if (attempt < maxRetries) {
@@ -171,7 +244,7 @@ class InternalAPI {
                         ...this.getPaginationParams(currentPage),
                     };
                 }
-                const headers: any = {};
+                const headers: Record<string, string> = {};
                 if (requestData.rawData) {
                     headers['x-chift-raw-data'] = 'true';
                 }
@@ -179,7 +252,7 @@ class InternalAPI {
                     headers['x-chift-client-requestid'] = requestData.clientRequestId;
                 }
 
-                const res = await this.instance({
+                const res = await this.request({
                     url: requestData.url,
                     method: requestData.method,
                     params: params,

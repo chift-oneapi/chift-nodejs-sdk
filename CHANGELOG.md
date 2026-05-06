@@ -287,3 +287,11 @@
 
 -   Require Node.js `>=22`: add `engines.node` to `package.json` and `.npmrc` with `engine-strict=true` so installs fail on unsupported Node versions; set `.nvmrc` to `22`
 -   Update CI workflows (`test` and `publish`) to use Node.js `22.x`
+
+## 1.0.34 - 2026-05-06
+
+### Tooling
+
+-   Drop the `axios` dependency in favour of the platform `fetch` API (Node.js `>=22`). The axios request interceptor (auth header injection, token refresh within a 30s buffer, `X-Chift-ConnectionId` / `X-Chift-IntegrationId` / `X-Chift-RelatedChainExecutionId` forwarding) is preserved inline in the new `InternalAPI.request()` method.
+-   Export a new `ChiftRequestError` class (mirrors the previous `e.response.{data,status}` shape) thrown for non-2xx responses; replaces `axios.isAxiosError(e)` checks in tests.
+-   Add unit tests for `InternalAPI` covering fetch usage, query-param serialization, custom headers, error mapping and the token-refresh flow (initial fetch, reuse, near-expiry refresh, 401 → credentials error, transient retries, optional `marketplaceId`/`envId` forwarding).

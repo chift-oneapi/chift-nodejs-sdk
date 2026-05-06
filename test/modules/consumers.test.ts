@@ -1,8 +1,8 @@
 import { beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
-import axios from 'axios';
 import * as dotenv from 'dotenv';
 import { Consumer } from '../../src/modules/consumer';
+import { ChiftRequestError } from '../../src/modules/internalApi';
 
 dotenv.config();
 
@@ -92,7 +92,7 @@ test('deleteConsumerById', async () => {
         await client.Consumers.deleteConsumerById(consumer.consumerId);
         await client.Consumers.getConsumerById(consumer.consumerId);
     } catch (e: unknown) {
-        if (axios.isAxiosError(e)) {
+        if (e instanceof ChiftRequestError) {
             expect(e.message).toMatch('Request failed with status code 404');
             return;
         }

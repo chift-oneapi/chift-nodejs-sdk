@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, expect, test } from '@jest/globals';
 import * as chift from '../../src/index';
 import * as dotenv from 'dotenv';
-import axios from 'axios';
+import { ChiftRequestError } from '../../src/modules/internalApi';
 dotenv.config();
 
 const client = new chift.API({
@@ -82,7 +82,7 @@ afterAll(async () => {
         await client.Webhooks.unRegisterWebhook(webhook.webhookid);
         await client.Webhooks.getWebhookById(webhook.webhookid);
     } catch (e: unknown) {
-        if (axios.isAxiosError(e)) {
+        if (e instanceof ChiftRequestError) {
             expect(e.message).toMatch('Request failed with status code 404');
             return;
         }
