@@ -1,6 +1,6 @@
 {
     "name": "@chift/chift-nodejs",
-    "version": "1.0.33",
+    "version": "1.0.34",
     "description": "The Chift NodeJS library provides convenient access to the Chift API from applications written in the NodeJS language (Javascript/Typescript).",
     "main": "dist/src/index.js",
     "types": "dist/src/index.d.ts",
@@ -41,7 +41,6 @@
         "typescript": "^4.9.5"
     },
     "dependencies": {
-        "axios": "^1.5.0",
         "dotenv": "^16.0.3"
     },
     "lint-staged": {
