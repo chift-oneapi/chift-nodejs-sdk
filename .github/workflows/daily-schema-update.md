@@ -28,7 +28,8 @@ safe-outputs:
 steps:
     - name: Expand sparse checkout for schema and module updates
       run: |
-          git sparse-checkout add src test package.json package-lock.json tsconfig.json CHANGELOG.md
+          git sparse-checkout add src test
+          git checkout HEAD -- package.json package-lock.json tsconfig.json CHANGELOG.md
 
 timeout-minutes: 20
 ---
