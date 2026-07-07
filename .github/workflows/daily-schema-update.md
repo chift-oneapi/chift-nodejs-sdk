@@ -8,8 +8,24 @@ on:
     workflow_dispatch:
 
 permissions:
-    all: read
+    contents: read
+    issues: read
+    pull-requests: read
+    discussions: read
+    actions: read
+    checks: read
+    deployments: read
+    packages: read
+    pages: read
+    statuses: read
+    security-events: read
+    repository-projects: read
+    attestations: read
+    models: read
+    vulnerability-alerts: read
     copilot-requests: write
+
+run-name: Agentic OpenAPI Schema Maintainer
 
 env:
     HUSKY: '0'
