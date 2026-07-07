@@ -22,15 +22,14 @@
 # This workflow acts as an autonomous engineer responsible for keeping
 # the OpenAPI schemas and modules up to date.
 #
-# frontmatter-hash: a8109a3448c0dce48a63d0096262d003400e8cc68511ccbae9dc28752158cbed
-#
-# Effective stop-time: 2026-02-23 14:37:04
+# frontmatter-hash: f98dbb8063268838dc8411e43bcf283c5d7c7bcd11cbb9b4a6cd3cf22f73edd0
 
 name: "Agentic OpenAPI Schema Maintainer"
 "on":
   schedule:
   - cron: "56 4 * * *"
-  workflow_dispatch: null
+    # Friendly format: daily (scattered)
+  workflow_dispatch:
 
 permissions: {}
 
@@ -41,8 +40,6 @@ run-name: "Agentic OpenAPI Schema Maintainer"
 
 jobs:
   activation:
-    needs: pre_activation
-    if: needs.pre_activation.outputs.activated == 'true'
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1037,28 +1034,6 @@ jobs:
           name: threat-detection.log
           path: /tmp/gh-aw/threat-detection/detection.log
           if-no-files-found: ignore
-
-  pre_activation:
-    runs-on: ubuntu-slim
-    outputs:
-      activated: ${{ steps.check_stop_time.outputs.stop_time_ok == 'true' }}
-    steps:
-      - name: Setup Scripts
-        uses: github/gh-aw/actions/setup@15d0e133ebb103ed42485353efea00d7c8c07304 # v0.42.16
-        with:
-          destination: /opt/gh-aw/actions
-      - name: Check stop-time limit
-        id: check_stop_time
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
-        env:
-          GH_AW_STOP_TIME: 2026-02-23 14:37:04
-          GH_AW_WORKFLOW_NAME: "Agentic OpenAPI Schema Maintainer"
-        with:
-          script: |
-            const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
-            setupGlobals(core, github, context, exec, io);
-            const { main } = require('/opt/gh-aw/actions/check_stop_time.cjs');
-            await main();
 
   safe_outputs:
     needs:
