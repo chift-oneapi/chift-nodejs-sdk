@@ -6,7 +6,6 @@ description: |
 on:
     schedule: daily
     workflow_dispatch:
-    stop-after: +2w
 
 permissions: read-all
 
@@ -29,7 +28,7 @@ safe-outputs:
 steps:
     - name: Expand sparse checkout for schema and module updates
       run: |
-        git sparse-checkout add src test package.json package-lock.json tsconfig.json CHANGELOG.md
+          git sparse-checkout add src test package.json package-lock.json tsconfig.json CHANGELOG.md
 
 timeout-minutes: 20
 ---
