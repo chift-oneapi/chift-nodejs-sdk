@@ -25,6 +25,8 @@ tools:
     bash: true
 
 safe-outputs:
+    threat-detection:
+        continue-on-error: false
     create-pull-request:
         draft: true
     create-issue:
