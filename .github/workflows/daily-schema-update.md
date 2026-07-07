@@ -9,6 +9,9 @@ on:
 
 permissions: read-all
 
+env:
+    HUSKY: '0'
+
 network:
     allowed:
         - defaults
@@ -29,7 +32,13 @@ steps:
     - name: Expand sparse checkout for schema and module updates
       run: |
           git sparse-checkout add src test
-          git checkout HEAD -- package.json package-lock.json tsconfig.json CHANGELOG.md
+          git checkout HEAD -- \
+            README.md \
+            package.json \
+            package-lock.json \
+            tsconfig.json \
+            CHANGELOG.md \
+            .nvmrc
 
 timeout-minutes: 20
 ---
