@@ -48,18 +48,6 @@ safe-outputs:
     create-issue:
         title-prefix: '${{ github.workflow }}'
 
-steps:
-    - name: Expand sparse checkout for schema and module updates
-      run: |
-          git sparse-checkout add src test
-          git checkout HEAD -- \
-            README.md \
-            package.json \
-            package-lock.json \
-            tsconfig.json \
-            CHANGELOG.md \
-            .nvmrc
-
 timeout-minutes: 20
 ---
 
