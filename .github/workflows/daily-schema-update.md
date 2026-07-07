@@ -7,7 +7,9 @@ on:
     schedule: daily
     workflow_dispatch:
 
-permissions: read-all
+permissions:
+    all: read
+    copilot-requests: write
 
 env:
     HUSKY: '0'
@@ -23,6 +25,8 @@ tools:
     bash: true
 
 safe-outputs:
+    threat-detection:
+        continue-on-error: false
     create-pull-request:
         draft: true
     create-issue:
