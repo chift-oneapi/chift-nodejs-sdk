@@ -37,7 +37,7 @@ network:
         - defaults
         - api.chift.eu
 
-max-turns: 30
+max-turns: 80
 
 tools:
     github:
@@ -54,7 +54,7 @@ safe-outputs:
     create-issue:
         title-prefix: '${{ github.workflow }}'
 
-timeout-minutes: 20
+timeout-minutes: 30
 ---
 
 # Agentic OpenAPI Schema Maintainer
