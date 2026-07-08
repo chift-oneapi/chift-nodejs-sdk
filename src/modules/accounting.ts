@@ -190,7 +190,7 @@ const accountingFactory = {
     getPartnerContacts(
         params: GetPartnerContactsParams,
         options?: RawDataOption
-    ): RequestData<components['schemas']['ChiftPage_ContactItem_']> {
+    ): RequestData<components['schemas']['ContactItem'][]> {
         return {
             params,
             method: 'get',

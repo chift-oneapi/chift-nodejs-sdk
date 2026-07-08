@@ -134,7 +134,7 @@ const pmsFactory = {
     getAccountingTransactions(
         params: GetAccountingTransactionsParams,
         rawData?: boolean
-    ): RequestData<components['schemas']['ChiftPage_PMSAccountingTransactionItem_']> {
+    ): RequestData<components['schemas']['PMSAccountingTransactionItem'][]> {
         return {
             params,
             method: 'get',

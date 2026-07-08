@@ -79,7 +79,7 @@ const paymentFactory = {
     getLocations(
         params?: GetLocationsParams,
         options?: RawDataOption
-    ): RequestData<components['schemas']['ChiftPage_PaymentLocationItem_']> {
+    ): RequestData<components['schemas']['PaymentLocationItem'][]> {
         return {
             params,
             method: 'get',
@@ -90,7 +90,7 @@ const paymentFactory = {
     getPayouts(
         params?: GetPayoutsParams,
         options?: RawDataOption
-    ): RequestData<components['schemas']['ChiftPage_PayoutItemOut_']> {
+    ): RequestData<components['schemas']['PayoutItemOut'][]> {
         return {
             params,
             method: 'get',

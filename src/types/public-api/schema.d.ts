@@ -3975,7 +3975,13 @@ export interface components {
          * @enum {string}
          */
         BankAccountRoutingType:
-            'unknown' | 'ach' | 'sort_code' | 'bsb' | 'transit' | 'ifsc' | 'clabe';
+            | 'unknown'
+            | 'ach'
+            | 'sort_code'
+            | 'bsb'
+            | 'transit'
+            | 'ifsc'
+            | 'clabe';
         /** BankAccountsItem */
         BankAccountsItem: {
             /**
@@ -5907,7 +5913,8 @@ export interface components {
              * @default []
              */
             variant_attributes_options:
-                components['schemas']['VariantAttributeOptionItem'][] | null;
+                | components['schemas']['VariantAttributeOptionItem'][]
+                | null;
             /**
              * Common Images
              * @description List of images that are shared by all variants of the product.
@@ -6702,7 +6709,10 @@ export interface components {
          * @enum {string}
          */
         EntryLineType:
-            'customer_account' | 'supplier_account' | 'employee_account' | 'general_account';
+            | 'customer_account'
+            | 'supplier_account'
+            | 'employee_account'
+            | 'general_account';
         /** ErrorInfo */
         ErrorInfo: {
             /** Error Code */
@@ -8967,7 +8977,10 @@ export interface components {
          * @enum {string}
          */
         InvoiceType:
-            'customer_invoice' | 'customer_refund' | 'supplier_invoice' | 'supplier_refund';
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund';
         /** InvoicingBankAccountItem */
         InvoicingBankAccountItem: {
             /**
@@ -9058,7 +9071,10 @@ export interface components {
          * @enum {string}
          */
         InvoicingCreateInvoiceType:
-            'customer_invoice' | 'customer_refund' | 'supplier_invoice' | 'supplier_refund';
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund';
         /**
          * InvoicingDocumentType
          * @enum {string}
@@ -9069,7 +9085,11 @@ export interface components {
          * @enum {string}
          */
         InvoicingInvoiceType:
-            'customer_invoice' | 'customer_refund' | 'supplier_invoice' | 'supplier_refund' | 'all';
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund'
+            | 'all';
         /** InvoicingPaymentItem */
         InvoicingPaymentItem: {
             /**
@@ -10491,7 +10511,12 @@ export interface components {
          * @enum {string}
          */
         OrderStatus:
-            'cancelled_unpaid' | 'cancelled' | 'draft' | 'confirmed' | 'shipped' | 'refunded';
+            | 'cancelled_unpaid'
+            | 'cancelled'
+            | 'draft'
+            | 'confirmed'
+            | 'shipped'
+            | 'refunded';
         /** OrderTransactions */
         OrderTransactions: {
             /**
@@ -11788,7 +11813,12 @@ export interface components {
          * @enum {string}
          */
         POSPaymentStatus:
-            'Pending' | 'Completed' | 'Canceled' | 'Failed' | 'Unknown' | 'Authorised';
+            | 'Pending'
+            | 'Completed'
+            | 'Canceled'
+            | 'Failed'
+            | 'Unknown'
+            | 'Authorised';
         /** POSProductItem */
         POSProductItem: {
             /**

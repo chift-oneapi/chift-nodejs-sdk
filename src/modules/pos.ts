@@ -190,7 +190,7 @@ const posFactory = {
     getTaxes(
         params?: GetTaxesParams,
         options?: RawDataOption
-    ): RequestData<components['schemas']['ChiftPage_POSTaxRateItem_']> {
+    ): RequestData<components['schemas']['POSTaxRateItem'][]> {
         return {
             params,
             method: 'get',
