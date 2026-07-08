@@ -7,8 +7,16 @@ Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`htt
 ### Modules
 
 -   [INVOICING] `createInvoice`: update request body type from the renamed schema `InvoiceItem-Input` to `InvoiceItemIn`. Its `invoice_type` now uses the new `InvoicingCreateInvoiceType` enum (`customer_invoice` / `customer_refund` / `supplier_invoice` / `supplier_refund`), which — unlike `InvoicingInvoiceType` — no longer includes `all`.
+-   [ACCOUNTING] `getFolder`: get a single accounting folder by id.
+-   [ACCOUNTING] `getPartnerContacts`: get contacts for a client or supplier partner.
+-   [CONNECTIONS] `enableDatalayer`, `refreshDatalayer`, `disableDatalayer`: manage datalayer sync on a connection.
+-   [PAYMENT] `getLocations`, `getPayouts`: list payment locations and payouts.
+-   [PMS] `getAccountingTransactions`: list PMS accounting transactions.
+-   [POS] `getTaxes`: list POS tax rates.
+-   [SYNCS] `getSyncExecutions`: list executions for a sync.
+-   [CONSUMER] `disableFlow`: disable a flow for a specific consumer.
 
-### Schema (new endpoints now available)
+### Schema (new endpoints)
 
 -   [ACCOUNTING] Get Folder (`GET /consumers/{consumer_id}/accounting/folders/{folder_id}`)
 -   [ACCOUNTING] Get partner contacts
