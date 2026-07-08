@@ -79,7 +79,7 @@ Your goal is to ensure that:
 2. If there are no changes, stop.
 3. Classify the diff. Update modules only when needed — for example when new endpoints are added, existing endpoints change, or module/test code references renamed or removed schema types. A schema-only update is fine when changes do not affect the SDK surface.
 4. When module work is needed, follow existing patterns in `src/modules/` and prior schema sync commits. Match factory return types to sibling list methods — see README → **Development** → **Return types**.
-5. Bump the package version and update `CHANGELOG.md`.
+5. Bump the package version in `package.json` and update `CHANGELOG.md`. Keep `package-lock.json` in sync (`npm install --package-lock-only`).
 6. Build the project and ensure it compiles successfully (`npm run build`). Do **not** treat integration tests as a success criterion — `npm test` requires live credentials and test-environment data and often fails for reasons unrelated to schema sync work.
 
     If the build fails:

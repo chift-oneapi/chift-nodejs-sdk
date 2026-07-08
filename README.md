@@ -99,7 +99,7 @@ After regenerating `schema.d.ts`, classify the diff before editing modules:
 
 When new public endpoints are added, expose them in the SDK. When only non-breaking schema refinements land and nothing in the modules references the changed symbols, skip module edits.
 
-Finish with a patch version bump in `package.json`, a `CHANGELOG.md` entry (separate **Modules** and **Schema** subsections), and a successful `npm run build`.
+Finish with a patch version bump in `package.json`, a matching `package-lock.json` update (`npm install --package-lock-only`), a `CHANGELOG.md` entry (separate **Modules** and **Schema** subsections), and a successful `npm run build`.
 
 ### Module layout
 
