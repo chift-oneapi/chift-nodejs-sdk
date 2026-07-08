@@ -7,6 +7,9 @@ on:
     schedule: daily
     workflow_dispatch:
 
+engine:
+    id: claude
+
 permissions:
     contents: read
     issues: read
@@ -23,7 +26,6 @@ permissions:
     attestations: read
     models: read
     vulnerability-alerts: read
-    copilot-requests: write
 
 run-name: Agentic OpenAPI Schema Maintainer
 
@@ -35,14 +37,18 @@ network:
         - defaults
         - api.chift.eu
 
+max-turns: 30
+
 tools:
     github:
         toolsets: [all]
     bash: true
+    timeout: 300
 
 safe-outputs:
     threat-detection:
         continue-on-error: false
+        engine: claude
     create-pull-request:
         draft: true
     create-issue:
