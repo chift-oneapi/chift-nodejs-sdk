@@ -79,16 +79,62 @@ const rawOrders = await consumer.ecommerce.getOrders({}, { rawData: true });
 
 ## Development
 
-How to generate the typescript schemas from the OpenAPI schema of Chift:
+### Regenerate the OpenAPI schema
 
-> npx openapi-typescript https://api.chift.eu/openapi.json --output src/types/public-api/schema.d.ts
+```sh
+npx openapi-typescript https://api.chift.eu/openapi.json -o src/types/public-api/schema.d.ts
+npx prettier --write src/types/public-api/schema.d.ts
+```
+
+Compare the result with the existing file. If there are no changes, stop.
+
+### Schema sync workflow
+
+After regenerating `schema.d.ts`, classify the diff before editing modules:
+
+-   **Module updates are needed** when new endpoints are added, existing endpoints are removed or renamed, or schema types referenced in `src/modules` / `test/` change.
+-   **A schema-only update is enough** when changes are limited to types, enums, or fields that no module references, or are documentation/formatting-only.
+
+`npm run build` passing does not prove module coverage is complete, but it also does not mean modules must always change. Inspect the schema diff and existing module coverage to decide.
+
+When new public endpoints are added, expose them in the SDK. When only non-breaking schema refinements land and nothing in the modules references the changed symbols, skip module edits.
+
+Finish with a patch version bump in `package.json`, a `CHANGELOG.md` entry (separate **Modules** and **Schema** subsections), and a successful `npm run build`.
+
+### Module layout
+
+Inspect `src/modules/` to learn the current structure. In general:
+
+-   Vertical APIs (`accounting`, `banking`, `ecommerce`, `invoicing`, `payment`, `pms`, `pos`, `custom`) use a `*Factory` pattern and are exposed on `consumer.<api>`.
+-   Consumer-scoped management APIs (connections, per-consumer syncs, datalayer) live in `consumer.ts`.
+-   Sync-level APIs live in `syncs.ts`.
+-   Other top-level APIs have matching files in `src/modules/`.
+
+New top-level modules must also be wired in `src/modules/api.ts` (import, property, and constructor assignment) before they are exposed on `client.<api>`.
+
+Follow existing methods in the target module. Copy exact paths from the schema `paths` section — do not guess URLs from operation names.
 
 ### Add routes
 
-The library handles pagination. If the route parameters in the schema contain `page` and `size`, you should use the generic type `AutoPaginatedParams<T>` for the route parameters in the module.
+The library handles pagination. If the route parameters in the schema contain `page` and `size`, use `AutoPaginatedParams<T>` for the route parameters in the module.
 
-If the `query` parameter is optional in the schema, it should also be declared as optional in the module.
+If the `query` parameter is optional in the schema, declare `params` as optional in the module. If it is required, make `params` required.
 
 For example, in `accounting.ts`, the `parameters['query']` for `operations['accounting_get_analytic_plans']` should be replaced with `AutoPaginatedParams<operations['accounting_get_analytic_plans']['parameters']['query']>`.
 
-Since `query` is optional, the `getAnalyticPlans` function should be declared like this: `getAnalyticPlans(params?: GetAnalyticPlansParams)`.
+Since `query` is optional, `getAnalyticPlans` should be declared as `getAnalyticPlans(params?: GetAnalyticPlansParams)`.
+
+#### Return types
+
+Do not copy the OpenAPI response type blindly. The SDK runtime shape depends on how the method is wired:
+
+-   **Factory methods** (`*Factory`, exposed on `consumer.<api>`) go through `createApiFor` → `makeRequest`. For paginated `GET` list endpoints, `makeRequest` fetches every page and returns a **flat array** of items. Type these as `RequestData<Item[]>` using the element type from the page schema (e.g. `ContactItem[]`), **not** `ChiftPage_ContactItem_`. Compare with sibling list methods in the same module such as `getClients` or `getPayments`.
+-   **Direct `InternalAPI` methods** (`consumer.ts`, `syncs.ts`, …) call `_internalApi` directly and return the raw API response. Type them to match sibling methods in the same file.
+
+Factory methods return `RequestData<...>` with `method`, `url`, and optionally `params`, `body`, `rawData`, or `clientRequestId`.
+
+When adding a method for a new operation, add a corresponding entry in `src/types/public-api/mappings.ts`.
+
+Integration tests in `test/modules/` depend on live credentials and test-environment data. Fix type references there when the schema breaks compilation, but do not add or run integration tests as part of schema sync — failing tests are not a blocker.
+
+For prior examples of schema sync PRs, look at recent commits that touch `schema.d.ts` and `src/modules/`.
