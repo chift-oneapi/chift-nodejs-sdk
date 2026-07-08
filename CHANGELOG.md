@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.35 - 2026-07-08
+
+### Modules
+
+-   [ACCOUNTING] Add `getFolder()` to retrieve a single accounting folder by id
+-   [ACCOUNTING] Add `getPartnerContacts()` to list partner contacts (paginated)
+-   [POS] Add `getTaxes()` to list POS tax rates (`/pos/tax-rates`)
+-   [PAYMENT] Add `getLocations()` and `getPayouts()` (paginated)
+-   [PMS] Add `getAccountingTransactions()` to list accounting transactions (paginated, `date_from`/`date_to` required)
+-   [CONSUMER] Add datalayer connection controls: `enableDatalayer()`, `refreshDatalayer()`, `disableDatalayer()`
+-   [SYNCS] Add `getSyncExecutions()` and `disableSyncConsumer()`
+-   [DATALAB] Add new top-level `Datalab` API exposed on `client.Datalab` with `getCubeSchemas()` and `queryDb()`
+-   Add operation entries in `mappings.ts` for the new endpoints
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   New endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `datalab_get_cube_schemas`, `datalab_query_db`, `datalayer_enable`, `datalayer_refresh`, `datalayer_disable`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `pos_get_taxes`, `syncs_get_sync_executions`, `syncs_disable_syncconsumer`
+-   New schemas including `ContactItem`, `PaymentLocationItem`, `PayoutItemOut`, `POSTaxRateItem`, `PMSAccountingTransactionItem`, `SyncExecutionItem`, `PublicCubeMetaCube`, `CubeLoadQuery`, `QueryResponse`, `DatalayerEnableBody`, `DatalayerRefreshBody`
+-   The invoicing create-invoice request body type changed from `InvoiceItem-Input` to `InvoiceItemIn`; `createInvoice()` updated accordingly
+
 ## 1.0.0 - 2023-09-14
 
 -   First release with scopes of the 5 unified APIs (Accounting, POS, eCommerce, Invoicing & Payment) of Chift and the management of consumers, connections & webhooks.

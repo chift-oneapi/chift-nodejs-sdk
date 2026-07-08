@@ -1,4 +1,4 @@
-import { components } from '../types/public-api/schema';
+import { components, operations } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { Sync } from './sync';
 
@@ -23,6 +23,17 @@ export type SyncsAPI = {
         flowid: string,
         executionid: string
     ) => Promise<components['schemas']['ChainExecutionItem']>;
+    getSyncExecutions: (
+        syncid: string,
+        params?: operations['syncs_get_sync_executions']['parameters']['query']
+    ) => Promise<components['schemas']['ChiftPage_SyncExecutionItem_']>;
+    disableSyncConsumer: (
+        consumerid: string,
+        syncid: string,
+        flowid: string
+    ) => Promise<
+        operations['syncs_disable_syncconsumer']['responses'][200]['content']['application/json']
+    >;
 };
 
 const Syncs = (internalApi: InternalAPI): SyncsAPI => {
@@ -75,6 +86,26 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         return data;
     };
 
+    const getSyncExecutions = async (
+        syncid: string,
+        params?: operations['syncs_get_sync_executions']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_SyncExecutionItem_'] } =
+            await _internalApi.get(`/syncs/${syncid}/executions`, { params });
+        return data;
+    };
+
+    const disableSyncConsumer = async (consumerid: string, syncid: string, flowid: string) => {
+        const {
+            data,
+        }: {
+            data: operations['syncs_disable_syncconsumer']['responses'][200]['content']['application/json'];
+        } = await _internalApi.post(
+            `/consumers/${consumerid}/syncs/${syncid}/flows/${flowid}/disable`
+        );
+        return data;
+    };
+
     return {
         createSync,
         getSyncs,
@@ -82,6 +113,8 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         sendCustomEvent,
         getConsumerExecutions,
         getExecution,
+        getSyncExecutions,
+        disableSyncConsumer,
     };
 };
 

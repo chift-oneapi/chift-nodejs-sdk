@@ -96,6 +96,44 @@ const Consumer = (
         return data;
     };
 
+    const enableDatalayer = async (
+        connectionId: string,
+        body?: components['schemas']['DatalayerEnableBody'] | null
+    ) => {
+        const {
+            data,
+        }: {
+            data: operations['datalayer_enable']['responses'][200]['content']['application/json'];
+        } = await _internalApi.post(
+            `/consumers/${consumerId}/connections/${connectionId}/enable_datalayer`,
+            body ?? null
+        );
+        return data;
+    };
+
+    const refreshDatalayer = async (
+        connectionId: string,
+        body?: components['schemas']['DatalayerRefreshBody'] | null
+    ) => {
+        const { data }: { data: components['schemas']['TriggerResponse'] } =
+            await _internalApi.post(
+                `/consumers/${consumerId}/connections/${connectionId}/refresh_datalayer`,
+                body ?? null
+            );
+        return data;
+    };
+
+    const disableDatalayer = async (connectionId: string) => {
+        const {
+            data,
+        }: {
+            data: operations['datalayer_disable']['responses'][200]['content']['application/json'];
+        } = await _internalApi.post(
+            `/consumers/${consumerId}/connections/${connectionId}/disable_datalayer`
+        );
+        return data;
+    };
+
     const getSyncUrl = async (body: components['schemas']['CreateConsumerSyncItem']) => {
         const { data }: { data: components['schemas']['LinkSyncItem'] } = await _internalApi.post(
             `/consumers/${consumerId}/syncs`,
@@ -226,6 +264,9 @@ const Consumer = (
         updateConnection,
         deleteConnection,
         getTransactionByClientRequestId,
+        enableDatalayer,
+        refreshDatalayer,
+        disableDatalayer,
         enableFlow,
         getSyncUrl,
         name,

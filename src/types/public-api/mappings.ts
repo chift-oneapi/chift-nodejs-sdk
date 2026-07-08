@@ -42,6 +42,8 @@ export type chiftOperations = {
     updateSyncToConsumer: 'syncs_update_synctoconsumer';
     enableSyncConsumer: 'syncs_enable_syncconsumer';
     updateFlowToConsumer: 'syncs_update_flowtoconsumer';
+    getSyncExecutions: 'syncs_get_sync_executions';
+    disableSyncConsumer: 'syncs_disable_syncconsumer';
 
     // Datastore operations
     getDatastores: 'datastores_get_datastores';
@@ -57,6 +59,8 @@ export type chiftOperations = {
 
     // Accounting operations
     getFolders: 'accounting_get_folders';
+    getFolder: 'accounting_get_folder';
+    getPartnerContacts: 'accounting_get_partner_contacts';
     getBookyears: 'accounting_get_bookyears';
     getAnalyticPlans: 'accounting_get_analytic_plans';
     getClients: 'accounting_get_clients';
@@ -130,6 +134,7 @@ export type chiftOperations = {
     getAccountingCategories: 'pos_get_accounting_categories';
     getClosure: 'pos_get_closure';
     getObjectives: 'pos_get_objectives';
+    getPOSTaxRates: 'pos_get_taxes';
 
     // eCommerce operations
     getCommerceCustomers: 'ecommerce_get_customers';
@@ -180,6 +185,8 @@ export type chiftOperations = {
     getPaymentPayments: 'payment_get_payments';
     getPayment: 'payment_get_payment';
     getRefunds: 'payment_get_refunds';
+    getPaymentLocations: 'payment_get_locations';
+    getPayouts: 'payment_get_payouts';
 
     // PMS operations
     getPMSOrders: 'pms_get_orders';
@@ -192,4 +199,14 @@ export type chiftOperations = {
     getPMSAccountingCategories: 'pms_get_accounting_categories';
     getPMSClosure: 'pms_get_closure';
     getPMSTaxes: 'pms_get_taxes';
+    getPMSAccountingTransactions: 'pms_get_accounting_transactions';
+
+    // Datalayer operations
+    enableDatalayer: 'datalayer_enable';
+    refreshDatalayer: 'datalayer_refresh';
+    disableDatalayer: 'datalayer_disable';
+
+    // Datalab operations
+    getCubeSchemas: 'datalab_get_cube_schemas';
+    queryDb: 'datalab_query_db';
 };

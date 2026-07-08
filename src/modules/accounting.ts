@@ -85,6 +85,10 @@ type GetSchemesParams = AutoPaginatedParams<
     operations['accounting_get_schemes']['parameters']['query']
 >;
 
+type GetPartnerContactsParams = AutoPaginatedParams<
+    operations['accounting_get_partner_contacts']['parameters']['query']
+>;
+
 const accountingFactory = {
     getAnalyticPlans(
         params?: GetAnalyticPlansParams,
@@ -609,6 +613,27 @@ const accountingFactory = {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/folders',
+            rawData: options?.rawData,
+        };
+    },
+    getFolder(
+        folderId: string,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['FolderItem']> {
+        return {
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/folders/${folderId}`,
+            rawData: options?.rawData,
+        };
+    },
+    getPartnerContacts(
+        params: GetPartnerContactsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ContactItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/contacts',
             rawData: options?.rawData,
         };
     },
