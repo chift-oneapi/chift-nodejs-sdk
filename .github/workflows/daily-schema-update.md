@@ -51,6 +51,7 @@ safe-outputs:
         engine: claude
     create-pull-request:
         draft: true
+        protected-files: allowed
     create-issue:
         title-prefix: '${{ github.workflow }}'
 
