@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.0.35 - 2026-07-08
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [INVOICING] `createInvoice`: update request body type from the renamed schema `InvoiceItem-Input` to `InvoiceItemIn`. Its `invoice_type` now uses the new `InvoicingCreateInvoiceType` enum (`customer_invoice` / `customer_refund` / `supplier_invoice` / `supplier_refund`), which — unlike `InvoicingInvoiceType` — no longer includes `all`.
+
+### Schema (new endpoints now available)
+
+-   [ACCOUNTING] Get Folder (`GET /consumers/{consumer_id}/accounting/folders/{folder_id}`)
+-   [ACCOUNTING] Get partner contacts
+-   [CONNECTIONS] Datalayer sync: enable / refresh / disable (`.../connections/{connection_id}/{enable,refresh,disable}_datalayer`)
+-   [PAYMENT] Get locations, Get payouts
+-   [PMS] Get accounting transactions
+-   [POS] Get taxes
+-   [SYNCS] Get executions for a sync (`GET /syncs/{syncid}/executions`); Disable a flow for a specific consumer (`POST /consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable`)
+
+### Schema (type refinements)
+
+-   `SyncSkipReason` gains `connector_feature`.
+-   `PartnerType` is split into `PartnerType-Input` (`client` / `supplier`) and `PartnerType-Output` (`owner` / `account`).
+
 ## 1.0.0 - 2023-09-14
 
 -   First release with scopes of the 5 unified APIs (Accounting, POS, eCommerce, Invoicing & Payment) of Chift and the management of consumers, connections & webhooks.

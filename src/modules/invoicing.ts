@@ -42,7 +42,7 @@ const invoicingFactory = {
         };
     },
     createInvoice(
-        invoice: components['schemas']['InvoiceItem-Input'],
+        invoice: components['schemas']['InvoiceItemIn'],
         options?: ClientRequestOption
     ): RequestData<components['schemas']['InvoiceItemOut']> {
         return {
