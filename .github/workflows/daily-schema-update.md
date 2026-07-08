@@ -51,6 +51,7 @@ safe-outputs:
         engine: claude
     create-pull-request:
         draft: true
+        protected-files: allowed
     create-issue:
         title-prefix: '${{ github.workflow }}'
 
@@ -63,29 +64,23 @@ Your name is "${{ github.workflow }}". You are an autonomous TypeScript engineer
 responsible for keeping this repository compatible with the live OpenAPI schema
 exposed at https://api.chift.eu/openapi.json.
 
+Read `README.md` → **Development** for repository conventions before making changes.
+
 Your goal is to ensure that:
 
 -   The generated TypeScript schema in `src/types/public-api/schema.d.ts` matches the live API schema
--   The modules in `src/modules` correctly use and reflect the current API schema
+-   The modules in `src/modules` correctly reflect the current API schema
 -   The project builds successfully after any required changes
--   The package version and CHANGELOG.md reflect the changes introduced
+-   The package version and `CHANGELOG.md` reflect the changes introduced
 
 ## Instructions
 
-1. Inspect the current OpenAPI schema at https://api.chift.eu/openapi.json.
-2. Regenerate the TypeScript schema using appropriate tooling.
-3. Compare the generated result with the existing schema file.
-4. If there are no changes, stop.
-
-5. If there are changes:
-
-    - Update the schema file
-    - Inspect compilation errors and code usage in `src/modules`
-    - Refactor the modules so they correctly match the new schema
-    - Update `package.json` version appropriately
-    - Update `CHANGELOG.md` describing the API-related changes
-
-6. Build the project and ensure it compiles successfully.
+1. Regenerate and compare `src/types/public-api/schema.d.ts` against the live OpenAPI schema.
+2. If there are no changes, stop.
+3. Classify the diff. Update modules only when needed — for example when new endpoints are added, existing endpoints change, or module/test code references renamed or removed schema types. A schema-only update is fine when changes do not affect the SDK surface.
+4. When module work is needed, follow existing patterns in `src/modules/` and prior schema sync commits. Match factory return types to sibling list methods — see README → **Development** → **Return types**.
+5. Bump the package version in `package.json` and update `CHANGELOG.md`. Keep `package-lock.json` in sync (`npm install --package-lock-only`).
+6. Build the project and ensure it compiles successfully (`npm run build`). Do **not** treat integration tests as a success criterion — `npm test` requires live credentials and test-environment data and often fails for reasons unrelated to schema sync work.
 
     If the build fails:
 
