@@ -1,5 +1,47 @@
 # Changelog
 
+## 1.0.35 - 2026-07-09
+
+### Modules
+
+#### Accounting
+
+-   Add `getFolder()` to retrieve a single accounting folder by id
+-   Add `getPartnerContacts()` to retrieve partner contacts (paginated, filtered by `partner_type` and `partner_id`)
+
+#### POS
+
+-   Add `getTaxes()` to retrieve POS tax rates (paginated)
+
+#### Payment
+
+-   Add `getLocations()` to retrieve payment locations (paginated)
+-   Add `getPayouts()` to retrieve payouts (paginated, filterable by date range and location)
+
+#### PMS
+
+-   Add `getAccountingTransactions()` to retrieve PMS accounting transactions (paginated, requires `date_from`/`date_to`)
+
+#### Consumer
+
+-   Add `disableFlow()` to disable a sync flow for a consumer
+-   Add `enableDatalayer()`, `refreshDatalayer()`, and `disableDatalayer()` to manage the datalayer on a consumer connection
+
+#### Syncs
+
+-   Add `getSyncExecutions()` to retrieve executions for a sync (paginated)
+
+#### Datalab
+
+-   Add new top-level `Datalab` API (`client.Datalab`) with `getCubeSchemas()` and `queryDb()`
+
+### Schema
+
+-   Regenerate `schema.d.ts` from the live OpenAPI schema
+-   Rename `InvoiceItem-Input` schema to `InvoiceItemIn` (updates `invoicing.createInvoice`)
+-   Add new endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `pos_get_taxes`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `syncs_get_sync_executions`, `syncs_disable_syncconsumer`, `datalayer_enable`, `datalayer_refresh`, `datalayer_disable`, `datalab_get_cube_schemas`, `datalab_query_db`
+-   Add new schemas including `ContactItem`, `POSTaxRateItem`, `PaymentLocationItem`, `PayoutItemOut`, `PMSAccountingTransactionItem`, `SyncExecutionItem`, `FolderItem` references, datalab cube types (`PublicCubeMetaCube`, `CubeLoadQuery`, `QueryResponse`, …), and datalayer bodies (`DatalayerEnableBody`, `DatalayerRefreshBody`)
+
 ## 1.0.0 - 2023-09-14
 
 -   First release with scopes of the 5 unified APIs (Accounting, POS, eCommerce, Invoicing & Payment) of Chift and the management of consumers, connections & webhooks.
