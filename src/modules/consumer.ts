@@ -122,6 +122,55 @@ const Consumer = (
         return data;
     };
 
+    const disableFlow = async (syncId: string, flowId: string) => {
+        const {
+            data,
+        }: {
+            data: operations['syncs_disable_syncconsumer']['responses'][200]['content']['application/json'];
+        } = await _internalApi.post(
+            `/consumers/${consumerId}/syncs/${syncId}/flows/${flowId}/disable`
+        );
+        return data;
+    };
+
+    const enableDatalayer = async (
+        connectionId: string,
+        body?: components['schemas']['DatalayerEnableBody'] | null
+    ) => {
+        const {
+            data,
+        }: {
+            data: operations['datalayer_enable']['responses'][200]['content']['application/json'];
+        } = await _internalApi.post(
+            `/consumers/${consumerId}/connections/${connectionId}/enable_datalayer`,
+            body
+        );
+        return data;
+    };
+
+    const refreshDatalayer = async (
+        connectionId: string,
+        body?: components['schemas']['DatalayerRefreshBody'] | null
+    ) => {
+        const { data }: { data: components['schemas']['TriggerResponse'] } =
+            await _internalApi.post(
+                `/consumers/${consumerId}/connections/${connectionId}/refresh_datalayer`,
+                body
+            );
+        return data;
+    };
+
+    const disableDatalayer = async (connectionId: string) => {
+        const {
+            data,
+        }: {
+            data: operations['datalayer_disable']['responses'][200]['content']['application/json'];
+        } = await _internalApi.post(
+            `/consumers/${consumerId}/connections/${connectionId}/disable_datalayer`
+        );
+        return data;
+    };
+
     const getDataByDataStoreName = async (dataStoreName: string, params?: object) => {
         const { data }: { data: components['schemas']['DataStoreItem'][] } = await _internalApi.get(
             `/datastores`
@@ -227,6 +276,10 @@ const Consumer = (
         deleteConnection,
         getTransactionByClientRequestId,
         enableFlow,
+        disableFlow,
+        enableDatalayer,
+        refreshDatalayer,
+        disableDatalayer,
         getSyncUrl,
         name,
         redirect_url,

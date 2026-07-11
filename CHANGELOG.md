@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.0.35 - 2026-07-11
+
+Sync with the live OpenAPI schema.
+
+### Modules
+
+-   [ACCOUNTING] Add `getFolder` (`GET /consumers/{consumer_id}/accounting/folders/{folder_id}`)
+-   [ACCOUNTING] Add `getPartnerContacts` (`GET /consumers/{consumer_id}/accounting/contacts`)
+-   [POS] Add `getTaxes` (`GET /consumers/{consumer_id}/pos/tax-rates`)
+-   [PAYMENT] Add `getLocations` (`GET /consumers/{consumer_id}/payment/locations`)
+-   [PAYMENT] Add `getPayouts` (`GET /consumers/{consumer_id}/payment/payouts`)
+-   [PMS] Add `getAccountingTransactions` (`GET /consumers/{consumer_id}/pms/accounting-transactions`)
+-   [SYNC] Add `getSyncExecutions` (`GET /syncs/{syncid}/executions`)
+-   [CONSUMER] Add `disableFlow` (`POST /consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable`)
+-   [CONSUMER] Add datalayer management: `enableDatalayer`, `refreshDatalayer`, `disableDatalayer` (`POST /consumers/{consumer_id}/connections/{connection_id}/{enable,refresh,disable}_datalayer`)
+-   [DATALAB] New top-level `Datalab` module with `getCubeSchemas` (`GET /datalab/cube-schemas`) and `queryDb` (`POST /datalab/query-db`), exposed on `client.Datalab`
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from `https://api.chift.eu/openapi.json`
+-   Rename `InvoiceItem-Input` → `InvoiceItemIn` and `InvoiceItem-Output` → `InvoiceItem`; update `invoicing.createInvoice` accordingly
+-   Add new schema types backing the endpoints above (e.g. `ContactItem`, `POSTaxRateItem`, `PaymentLocationItem`, `PayoutItemOut`, `PMSAccountingTransactionItem`, `SyncExecutionItem`, `FolderItem`, `DatalayerEnableBody`, `DatalayerRefreshBody`, `CubeLoadQuery`, `QueryResponse`, `PublicCubeMetaCube`) plus assorted enum/field refinements
+
 ## 1.0.0 - 2023-09-14
 
 -   First release with scopes of the 5 unified APIs (Accounting, POS, eCommerce, Invoicing & Payment) of Chift and the management of consumers, connections & webhooks.
