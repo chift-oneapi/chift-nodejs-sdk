@@ -52,6 +52,22 @@ safe-outputs:
     create-pull-request:
         draft: true
         protected-files: allowed
+        title-prefix: 'chore(schema): '
+        labels: [schema-sync, agentic]
+        preserve-branch-name: true
+        recreate-ref: true
+        allowed-branches:
+            - schema-sync/*
+    push-to-pull-request-branch:
+        target: '*'
+        required-labels: [schema-sync, agentic]
+        required-title-prefix: 'chore(schema): '
+        protected-files: allowed
+    close-pull-request:
+        target: '*'
+        required-labels: [schema-sync, agentic]
+        required-title-prefix: 'chore(schema): '
+        max: 10
     create-issue:
         title-prefix: '${{ github.workflow }}'
 
@@ -77,10 +93,11 @@ Your goal is to ensure that:
 
 1. Regenerate and compare `src/types/public-api/schema.d.ts` against the live OpenAPI schema.
 2. If there are no changes, stop.
-3. Classify the diff. Update modules only when needed — for example when new endpoints are added, existing endpoints change, or module/test code references renamed or removed schema types. A schema-only update is fine when changes do not affect the SDK surface.
-4. When module work is needed, follow existing patterns in `src/modules/` and prior schema sync commits. Match factory return types to sibling list methods — see README → **Development** → **Return types**.
-5. Bump the package version in `package.json` and update `CHANGELOG.md`. Keep `package-lock.json` in sync (`npm install --package-lock-only`).
-6. Build the project and ensure it compiles successfully (`npm run build`). Do **not** treat integration tests as a success criterion — `npm test` requires live credentials and test-environment data and often fails for reasons unrelated to schema sync work.
+3. **Check for an existing PR matching this workflow's criteria.** Only consider an open pull request when it has both the `schema-sync` and `agentic` labels and its title starts with `chore(schema): `. Remember the newest matching PR number if one exists — you will update it in step 8 instead of opening another. Ignore all other pull requests, even if their title or branch resembles a schema sync.
+4. Classify the diff. Update modules only when needed — for example when new endpoints are added, existing endpoints change, or module/test code references renamed or removed schema types. A schema-only update is fine when changes do not affect the SDK surface.
+5. When module work is needed, follow existing patterns in `src/modules/` and prior schema sync commits. Match factory return types to sibling list methods — see README → **Development** → **Return types**.
+6. Bump the package version in `package.json` and update `CHANGELOG.md`. Keep `package-lock.json` in sync (`npm install --package-lock-only`).
+7. Build the project and ensure it compiles successfully (`npm run build`). Do **not** treat integration tests as a success criterion — `npm test` requires live credentials and test-environment data and often fails for reasons unrelated to schema sync work.
 
     If the build fails:
 
@@ -89,7 +106,10 @@ Your goal is to ensure that:
     - Retry the build
     - Repeat until successful or time runs out
 
-7. When the project builds successfully, create a draft pull request containing all changes.
+8. When the project builds successfully, publish the changes:
+
+    - **If step 3 found a matching open PR:** push your changes to the newest matching PR from step 3 using `push_to_pull_request_branch` (provide its `pull_request_number`). Do **not** call `create_pull_request`. Close any other open PRs that match the workflow criteria, keeping only the PR you updated.
+    - **Otherwise:** create a draft pull request on branch `schema-sync/openapi` containing all changes.
 
 ## If you cannot produce a working build
 
