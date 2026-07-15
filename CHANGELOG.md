@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.35 - 2026-07-08
+## 1.0.35 - 2026-07-15
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
 
@@ -15,6 +15,9 @@ Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`htt
 -   [POS] `getTaxes`: list POS tax rates.
 -   [SYNCS] `getSyncExecutions`: list executions for a sync.
 -   [CONSUMER] `disableFlow`: disable a flow for a specific consumer.
+-   [DATALAB] `getCubeSchemas`: list available Cube schemas.
+-   [DATALAB] `queryDb`: run a Cube load query against the datalab database.
+-   [LOCAL AGENTS] `getReleases`: list local agent releases for a connector.
 
 ### Schema (new endpoints)
 
@@ -25,6 +28,9 @@ Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`htt
 -   [PMS] Get accounting transactions
 -   [POS] Get taxes
 -   [SYNCS] Get executions for a sync (`GET /syncs/{syncid}/executions`); Disable a flow for a specific consumer (`POST /consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable`)
+-   [DATALAB] Get cube schemas (`GET /datalab/cube-schemas`)
+-   [DATALAB] Query db (`POST /datalab/query-db`)
+-   [LOCAL AGENTS] Get releases (`GET /local-agents/releases`)
 
 ### Schema (type refinements)
 

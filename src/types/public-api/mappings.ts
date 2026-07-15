@@ -60,6 +60,13 @@ export type chiftOperations = {
     getIssuesByConsumerId: 'issues_get_issues_by_consumer_id';
     getIssue: 'issues_get_issue';
 
+    // Datalab operations
+    getCubeSchemas: 'datalab_get_cube_schemas';
+    queryDb: 'datalab_query_db';
+
+    // Local agents operations
+    getLocalAgentReleases: 'get_releases_local_agents_releases_get';
+
     // Accounting operations
     getFolders: 'accounting_get_folders';
     getFolder: 'accounting_get_folder';

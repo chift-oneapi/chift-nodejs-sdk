@@ -649,6 +649,40 @@ export interface paths {
         patch: operations['datastores_update_consumer_datastoredata'];
         trace?: never;
     };
+    '/datalab/cube-schemas': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Cube Schemas */
+        get: operations['datalab_get_cube_schemas'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/datalab/query-db': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query Db */
+        post: operations['datalab_query_db'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/issues': {
         parameters: {
             query?: never;
@@ -701,6 +735,23 @@ export interface paths {
          * @description Returns one specific issue. This includes as well the list of events for this issue.
          */
         get: operations['issues_get_issue'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/local-agents/releases': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Releases */
+        get: operations['get_releases_local_agents_releases_get'];
         put?: never;
         post?: never;
         delete?: never;
@@ -6488,6 +6539,101 @@ export interface components {
             /** Value */
             value: string;
         };
+        /**
+         * CubeAndFilter
+         * @description Cube REST API logical AND filter.
+         */
+        CubeAndFilter: {
+            /** And */
+            and: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+        };
+        /**
+         * CubeLeafFilter
+         * @description Cube REST API leaf filter: member + operator + values.
+         */
+        CubeLeafFilter: {
+            /** Member */
+            member: string;
+            /** Operator */
+            operator: string;
+            /** Values */
+            values?: string[] | null;
+        };
+        /** CubeLoadQuery */
+        CubeLoadQuery: {
+            /** Measures */
+            measures?: string[];
+            /** Dimensions */
+            dimensions?: string[];
+            /** Segments */
+            segments?: string[];
+            /** Filters */
+            filters?: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+            /** Timedimensions */
+            timeDimensions?: components['schemas']['CubeTimeDimension'][];
+            /** Order */
+            order?:
+                | {
+                      [key: string]: 'asc' | 'desc';
+                  }
+                | components['schemas']['CubeOrderItem'][]
+                | string[][]
+                | null;
+            /** Limit */
+            limit?: number | null;
+            /** Offset */
+            offset?: number | null;
+            /** Timezone */
+            timezone?: string | null;
+            /** Total */
+            total?: boolean | null;
+            /** Renewquery */
+            renewQuery?: boolean | null;
+            /** Ungrouped */
+            ungrouped?: boolean | null;
+        };
+        /**
+         * CubeOrFilter
+         * @description Cube REST API logical OR filter.
+         */
+        CubeOrFilter: {
+            /** Or */
+            or: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+        };
+        /** CubeOrderItem */
+        CubeOrderItem: {
+            /** Id */
+            id?: string | null;
+            /** Member */
+            member?: string | null;
+            /** Desc */
+            desc?: boolean | null;
+            /** Direction */
+            direction?: ('asc' | 'desc') | null;
+        };
+        /** CubeTimeDimension */
+        CubeTimeDimension: {
+            /** Dimension */
+            dimension: string;
+            /** Daterange */
+            dateRange?: string | string[] | null;
+            /** Comparedaterange */
+            compareDateRange?: string[][] | null;
+            /** Granularity */
+            granularity?: string | null;
+        };
         /** DataItem */
         DataItem: {
             /** Data */
@@ -6542,6 +6688,13 @@ export interface components {
              * @default false
              */
             full_history: boolean;
+            /**
+             * Entity Filter
+             * @description Restrict the datalayer to specific entities of the connection instead of every one the end-user selected, keyed by entity kind applicable to the connection's vertical (e.g. `folder_ids`, `location_ids`). The ids are validated against the ones available on the connection when the sync runs. Omit to sync every selected entity.
+             */
+            entity_filter?: {
+                [key: string]: string[];
+            } | null;
         };
         /** DatalayerRefreshBody */
         DatalayerRefreshBody: {
@@ -6723,6 +6876,17 @@ export interface components {
             title: string;
             /** Description */
             description?: string;
+        };
+        /** ExecutionResult */
+        ExecutionResult: {
+            /** Column */
+            column: string;
+            /** Title */
+            title?: string | null;
+            /** Data */
+            data: unknown[];
+            /** Type */
+            type: string;
         };
         /**
          * ExecutionType
@@ -7494,7 +7658,7 @@ export interface components {
             tax_code?: string | null;
             /** @description Tax information related to the journal item. The provided tax amount is added to the amount (debit or credit) of the journal item. This is only supported for general accounts. */
             tax_info?: components['schemas']['TaxInfo'] | null;
-            /** @description (For certain specific connectors only) Details of the third-party account (client/supplier) to be created if it does not already exist in the accounting system. Some softwares do not support creating third-party accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime). */
+            /** @description (For certain specific connectors only) Details of the account (third-party or general ledger) to be created if it does not already exist in the accounting system. Some softwares do not support creating accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime). */
             account_info?: components['schemas']['AccountToCreate'] | null;
         };
         /**
@@ -12677,6 +12841,108 @@ export interface components {
              */
             variant_images: components['schemas']['ImageItem'][] | null;
         };
+        /**
+         * PublicCubeMetaCube
+         * @description Agent-facing Cube schema, close to Cube /v1/meta and stripped of SQL internals.
+         */
+        PublicCubeMetaCube: {
+            /** Name */
+            name: string;
+            /** Type */
+            type?: ('cube' | 'view') | null;
+            /** Title */
+            title?: string | null;
+            /** Description */
+            description?: string | null;
+            /** Connectedcomponent */
+            connectedComponent?: number | null;
+            /** Measures */
+            measures?: components['schemas']['PublicCubeMetaMember'][];
+            /** Dimensions */
+            dimensions?: components['schemas']['PublicCubeMetaMember'][];
+            /** Hierarchies */
+            hierarchies?: {
+                [key: string]: unknown;
+            }[];
+            /** Segments */
+            segments?: components['schemas']['PublicCubeMetaMember'][];
+            /** Relationships */
+            relationships?: components['schemas']['PublicCubeRelationship'][];
+            /** Domain */
+            domain?: string | null;
+            /** Querygroup */
+            queryGroup?: string | null;
+        };
+        /**
+         * PublicCubeMetaMember
+         * @description Agent-facing Cube member metadata.
+         *
+         *     The base fields mirror Cube /v1/meta. The remaining fields are selected, SQL-free
+         *     Backbone metadata flattened so agents do not need to inspect arbitrary `meta`.
+         */
+        PublicCubeMetaMember: {
+            /** Name */
+            name: string;
+            /** Title */
+            title?: string | null;
+            /** Shorttitle */
+            shortTitle?: string | null;
+            /** Aliasname */
+            aliasName?: string | null;
+            /** Type */
+            type?: string | null;
+            /** Description */
+            description?: string | null;
+            /** Aggtype */
+            aggType?: string | null;
+            /** Drillmembers */
+            drillMembers?: string[] | null;
+            /** Format */
+            format?: string | null;
+            /** Primarykey */
+            primaryKey?: boolean | null;
+            /** Suggestfiltervalues */
+            suggestFilterValues?: boolean | null;
+            /** Nullable */
+            nullable?: boolean | null;
+            /** Values */
+            values?: string[] | null;
+            /** Allowedgranularities */
+            allowedGranularities?: string[] | null;
+            /** Jsonschema */
+            jsonSchema?: {
+                [key: string]: unknown;
+            } | null;
+            /** Monetary */
+            monetary?: boolean | null;
+            /** Currencydimension */
+            currencyDimension?: string | null;
+            /** Currencysensitive */
+            currencySensitive?: boolean | null;
+        };
+        /** PublicCubeRelationship */
+        PublicCubeRelationship: {
+            /** Target */
+            target: string;
+            /**
+             * Relationship
+             * @enum {string}
+             */
+            relationship: 'one_to_one' | 'one_to_many' | 'many_to_one';
+        };
+        /** QueryMeta */
+        QueryMeta: {
+            /** Currency */
+            currency?: string[] | null;
+            /** Monetary Measures */
+            monetary_measures?: string[] | null;
+        };
+        /** QueryResponse */
+        QueryResponse: {
+            /** Results */
+            results: components['schemas']['ExecutionResult'][];
+            meta?: components['schemas']['QueryMeta'] | null;
+        };
         /** ReadFlowConsumerItem */
         ReadFlowConsumerItem: {
             /** Name */
@@ -12883,6 +13149,15 @@ export interface components {
              * @description Total refunded (after discount).
              */
             total: number;
+        };
+        /** ReleaseItem */
+        ReleaseItem: {
+            /** Filename */
+            fileName: string;
+            /** Version */
+            version: string;
+            /** Downloadurl */
+            downloadUrl: string;
         };
         /**
          * ReportCategory
@@ -16368,6 +16643,59 @@ export interface operations {
             };
         };
     };
+    datalab_get_cube_schemas: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PublicCubeMetaCube'][];
+                };
+            };
+        };
+    };
+    datalab_query_db: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CubeLoadQuery'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['QueryResponse'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     issues_get_issues: {
         parameters: {
             query?: {
@@ -16501,6 +16829,37 @@ export interface operations {
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    get_releases_local_agents_releases_get: {
+        parameters: {
+            query: {
+                connector: number | 'cockpit';
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ReleaseItem'][];
                 };
             };
             /** @description Validation Error */
