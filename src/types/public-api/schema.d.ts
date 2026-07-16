@@ -377,6 +377,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/syncs/{syncid}/executions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get executions for a sync
+         * @description Returns all executions for a sync with pagination. Optionally filter by flow.
+         */
+        get: operations['syncs_get_sync_executions'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/syncs/{syncid}/flows/{flowid}/executions/{executionid}': {
         parameters: {
             query?: never;
@@ -461,6 +481,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Disable a flow for a specific consumer
+         * @description Route that can be used to disable a flow for a specific consumer
+         */
+        post: operations['syncs_disable_syncconsumer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}': {
         parameters: {
             query?: never;
@@ -479,6 +519,66 @@ export interface paths {
          * @description Route that can be used to update the flow configuration for a specific consumer. It will merge the new configuration with the existing one.
          */
         patch: operations['syncs_update_flowtoconsumer'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/connections/{connection_id}/enable_datalayer': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Enable the datalayer sync for a connection
+         * @description Enables the datalayer sync for the consumer's connection so it refreshes on schedule. Requires the datalayer to be configured for the connection's vertical.
+         */
+        post: operations['datalayer_enable'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/connections/{connection_id}/refresh_datalayer': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refresh the datalayer sync for a connection
+         * @description Triggers an on-demand execution of the datalayer sync for the consumer's connection. Requires the datalayer to be configured for the connection's vertical and the sync enabled.
+         */
+        post: operations['datalayer_refresh'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/connections/{connection_id}/disable_datalayer': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Disable the datalayer sync for a connection
+         * @description Disables the datalayer sync for the consumer's connection so it stops refreshing. Requires the datalayer to be configured for the connection's vertical.
+         */
+        post: operations['datalayer_disable'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     '/datastores': {
@@ -549,6 +649,40 @@ export interface paths {
         patch: operations['datastores_update_consumer_datastoredata'];
         trace?: never;
     };
+    '/datalab/cube-schemas': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Cube Schemas */
+        get: operations['datalab_get_cube_schemas'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/datalab/query-db': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query Db */
+        post: operations['datalab_query_db'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/issues': {
         parameters: {
             query?: never;
@@ -609,6 +743,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/local-agents/releases': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Releases */
+        get: operations['get_releases_local_agents_releases_get'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/accounting/folders': {
         parameters: {
             query?: never;
@@ -618,6 +769,23 @@ export interface paths {
         };
         /** Get Folders */
         get: operations['accounting_get_folders'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/folders/{folder_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Folder */
+        get: operations['accounting_get_folder'];
         put?: never;
         post?: never;
         delete?: never;
@@ -774,6 +942,26 @@ export interface paths {
          * @description Update an accounting supplier
          */
         patch: operations['accounting_update_supplier'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/contacts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get contacts of a partner
+         * @description Returns contacts of a specific client or supplier
+         */
+        get: operations['accounting_get_partner_contacts'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices': {
@@ -1097,6 +1285,7 @@ export interface paths {
         };
         /**
          * Get payments by invoice ID
+         * @deprecated
          * @description Get payments of a specific invoice based on its ID
          */
         get: operations['accounting_get_payments_by_invoice'];
@@ -1237,12 +1426,14 @@ export interface paths {
         };
         /**
          * Get miscellaneous operations
+         * @deprecated
          * @description Get miscellaneous operations from the the accounting system
          */
         get: operations['accounting_get_miscellaneous_operations'];
         put?: never;
         /**
          * Create miscellaneous operation
+         * @deprecated
          * @description Create a new miscellaneous operation
          */
         post: operations['accounting_create_miscellaneous_operation'];
@@ -1261,6 +1452,7 @@ export interface paths {
         };
         /**
          * Get one miscellaneous operation
+         * @deprecated
          * @description Get a specific miscellaneous operation from the the accounting system
          */
         get: operations['accounting_get_miscellaneous_operation'];
@@ -1303,6 +1495,7 @@ export interface paths {
         put?: never;
         /**
          * Match multiple entries
+         * @deprecated
          * @description Match existing entries in the accounting system
          */
         post: operations['accounting_match_entries_multiple'];
@@ -1321,7 +1514,7 @@ export interface paths {
         };
         /**
          * Get attachments
-         * @description Returns a list of all attachments linked to an accounting entry
+         * @description Returns the file content of all attachments linked to an accounting entry (invoice or journal entry). Use this endpoint when an invoice or journal entry has attachments_info.status set to 'yes_to_request'. Pass type=invoice and document_id={invoice_id} for invoices, or type=entry and document_id={entry_id} for journal entries. Each returned item contains a base64-encoded string of the file content (id and base64_string fields).
          */
         get: operations['accounting_get_attachments'];
         put?: never;
@@ -1776,6 +1969,26 @@ export interface paths {
          * @description Returns a list of accounting categories. When not available for a specific POS, it will return the same values as the product categories.
          */
         get: operations['pos_get_accounting_categories'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/pos/tax-rates': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get tax rates (POS)
+         * @description Returns a list of the tax rates
+         */
+        get: operations['pos_get_taxes'];
         put?: never;
         post?: never;
         delete?: never;
@@ -2544,6 +2757,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/payment/locations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all locations
+         * @description Returns a list of locations.
+         */
+        get: operations['payment_get_locations'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/payment/balances': {
         parameters: {
             query?: never;
@@ -2636,6 +2869,26 @@ export interface paths {
          * @description Returns a list of refunds.
          */
         get: operations['payment_get_refunds'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/payment/payouts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all payouts
+         * @description Returns a list of payouts (periodic bank transfers made by the processor to the merchant).
+         */
+        get: operations['payment_get_payouts'];
         put?: never;
         post?: never;
         delete?: never;
@@ -2836,6 +3089,26 @@ export interface paths {
          * @description Returns a list of the tax rates
          */
         get: operations['pms_get_taxes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/pms/accounting-transactions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the accounting transactions (PMS)
+         * @description Returns a list of the accounting transactions
+         */
+        get: operations['pms_get_accounting_transactions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -3601,6 +3874,11 @@ export interface components {
         AttachmentItem: {
             /** Base64 String */
             base64_string: string;
+            /**
+             * Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            name?: string | null;
         };
         /** AttachmentItemIn */
         AttachmentItemIn: {
@@ -3610,9 +3888,15 @@ export interface components {
         };
         /** AttachmentItemOut */
         AttachmentItemOut: {
-            /** Id */
+            /**
+             * Id
+             * @description The ID of the attachment in the accounting system.
+             */
             id: string;
-            /** Base64 String */
+            /**
+             * Base64 String
+             * @description The file content encoded as a base64 string. Decode this to reconstruct the original file (PDF, image, etc.).
+             */
             base64_string: string;
         };
         /** AuthItem */
@@ -3650,10 +3934,9 @@ export interface components {
             currency: string;
             /**
              * Create Date
-             * Format: date-time
              * @description Create Date
              */
-            create_date: string;
+            create_date?: string | null;
         };
         /** BankAccountItemIn */
         BankAccountItemIn: {
@@ -3738,6 +4021,49 @@ export interface components {
              */
             unallocated_account?: string | null;
         };
+        /**
+         * BankAccountRoutingType
+         * @enum {string}
+         */
+        BankAccountRoutingType:
+            | 'unknown'
+            | 'ach'
+            | 'sort_code'
+            | 'bsb'
+            | 'transit'
+            | 'ifsc'
+            | 'clabe';
+        /** BankAccountsItem */
+        BankAccountsItem: {
+            /**
+             * Is Primary
+             * @description Indicates whether this is the default bank account for this third-party. Only one bank account per third-party can have is_primary set to true. Defaults to true.
+             * @default true
+             */
+            is_primary: boolean | null;
+            /**
+             * Currency
+             * @description Indicates the currency of the bank account (e.g., EUR).
+             */
+            currency?: string | null;
+            /**
+             * Iban
+             * @description International Bank Account Number (ISO 13616). Present for countries in the IBAN scheme (e.g., France, Germany, United Kingdom). null for countries that do not participate in the IBAN scheme (e.g., US, Canada, Australia).
+             */
+            iban?: string | null;
+            /**
+             * Bic Swift
+             * @description Bank Identifier Code (ISO 9362), also known as SWIFT code. 8 or 11 characters. Optional for domestic payments, but required for international wire transfers.
+             */
+            bic_swift?: string | null;
+            /**
+             * Account Number
+             * @description Local bank account number. Used when the country does not participate in the IBAN scheme (e.g., US, CA, AU). Always paired with a routing_code.
+             */
+            account_number?: string | null;
+            /** @description Domestic routing identifier for the bank. Required when no iban is present. Contains two subfields: type and value */
+            routing_code?: components['schemas']['RoutingCodeItem'] | null;
+        };
         /** BankStatementItemIn */
         BankStatementItemIn: {
             /**
@@ -3758,7 +4084,7 @@ export interface components {
             currency: string;
             /**
              * External Bank Statement Id
-             * @description External bank statement ID. To be compatible with all software, we recommend to use only digits.
+             * @description External bank statement ID. To be compatible with all software, we recommend to use only digits with a maximum length of 10.
              */
             external_bank_statement_id: string;
             /**
@@ -3771,6 +4097,11 @@ export interface components {
              * @description Base64 PDF attachment of the bank statement.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Items
              * @description List of transaction items
@@ -4067,6 +4398,12 @@ export interface components {
              */
             id: string;
             /**
+             * Bank Account Id
+             * @description Identifier of the bank account linked to the transaction
+             * @example account-123
+             */
+            bank_account_id?: string | null;
+            /**
              * Amount
              * @description Amount of the transaction
              * @example 1000
@@ -4159,6 +4496,12 @@ export interface components {
              * @example pending
              */
             status?: components['schemas']['BankingTransactionStatus'] | null;
+            /**
+             * Open Balance
+             * @description Opening balance of the account at the time of the transaction
+             * @example 1000
+             */
+            open_balance?: number | null;
             /** @description Extra information about the attachments linked to the invoice. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
         };
@@ -4216,8 +4559,16 @@ export interface components {
         };
         /** ChainExecutionItem */
         ChainExecutionItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Execution id
+             */
             id: string;
+            /**
+             * Parentexecutionid
+             * @description Parent execution id. An execution is linked to multiple child executions linked to consumers.
+             */
+            parentexecutionid: string | null;
             /**
              * Start
              * Format: date-time
@@ -4506,6 +4857,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[ContactItem] */
+        ChiftPage_ContactItem_: {
+            /** Items */
+            items: components['schemas']['ContactItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[CountryItem] */
         ChiftPage_CountryItem_: {
             /** Items */
@@ -4715,6 +5077,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[PMSAccountingTransactionItem] */
+        ChiftPage_PMSAccountingTransactionItem_: {
+            /** Items */
+            items: components['schemas']['PMSAccountingTransactionItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[PMSCustomerItem] */
         ChiftPage_PMSCustomerItem_: {
             /** Items */
@@ -4847,10 +5220,32 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[POSTaxRateItem] */
+        ChiftPage_POSTaxRateItem_: {
+            /** Items */
+            items: components['schemas']['POSTaxRateItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[PaymentItemOut] */
         ChiftPage_PaymentItemOut_: {
             /** Items */
             items: components['schemas']['PaymentItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PaymentLocationItem] */
+        ChiftPage_PaymentLocationItem_: {
+            /** Items */
+            items: components['schemas']['PaymentLocationItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4884,6 +5279,17 @@ export interface components {
         ChiftPage_Payment_: {
             /** Items */
             items: components['schemas']['Payment'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PayoutItemOut] */
+        ChiftPage_PayoutItemOut_: {
+            /** Items */
+            items: components['schemas']['PayoutItemOut'][];
             /** Total */
             total: number;
             /** Page */
@@ -4939,6 +5345,17 @@ export interface components {
         ChiftPage_SupplierItemOut_: {
             /** Items */
             items: components['schemas']['SupplierItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[SyncExecutionItem] */
+        ChiftPage_SyncExecutionItem_: {
+            /** Items */
+            items: components['schemas']['SyncExecutionItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -5041,6 +5458,11 @@ export interface components {
              * @description VAT number of the client, used for tax compliance and invoicing. This value is unique per company and can be used as a reliable identifier to match clients between systems.
              */
             vat?: string | null;
+            /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
             /**
              * Iban
              * @description IBAN account number of the client.
@@ -5147,13 +5569,18 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
-             * @description IBAN account number of the client.
+             * @description IBAN account number of the client. DEPRECATED see bank_accounts
              */
             iban?: string | null;
             /**
              * Bank Account
-             * @description Bank account number of the client.
+             * @description Bank account number of the client. DEPRECATED see bank_accounts
              */
             bank_account?: string | null;
             /**
@@ -5172,11 +5599,6 @@ export interface components {
              * @description Ledger account number assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
              */
             account_number?: string | null;
-            /**
-             * Company Number
-             * @description Id of the associated company, used when the record is a contact person linked to a company.
-             */
-            company_number?: string | null;
             /**
              * Id
              * @description Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.
@@ -5198,6 +5620,11 @@ export interface components {
              * @description Third party account number/code representing the client in the accounting software.
              */
             third_party_account?: string | null;
+            /**
+             * Bank Accounts
+             * @description List of bank accounts information associated with the client.
+             */
+            bank_accounts?: components['schemas']['BankAccountsItem'][] | null;
         };
         /** ClientItemUpdate */
         ClientItemUpdate: {
@@ -5272,6 +5699,11 @@ export interface components {
              * @description VAT number of the client, used for tax compliance and invoicing. This value is unique per company and can be used as a reliable identifier to match clients between systems.
              */
             vat?: string | null;
+            /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
             /**
              * Iban
              * @description IBAN account number of the client.
@@ -5408,6 +5840,8 @@ export interface components {
             phone?: string | null;
             /** Email */
             email?: string | null;
+            /** Vat */
+            vat?: string | null;
         };
         /** CommerceCustomerItem */
         CommerceCustomerItem: {
@@ -5623,6 +6057,49 @@ export interface components {
          * @enum {string}
          */
         ContactGender: 'H' | 'F' | 'N/A';
+        /** ContactItem */
+        ContactItem: {
+            /**
+             * Id
+             * @description Unique id of the contact in the accounting system.
+             */
+            id: string;
+            /**
+             * Name
+             * @description Full name of the contact.
+             */
+            name: string;
+            /**
+             * First Name
+             * @description First name of the contact.
+             */
+            first_name?: string | null;
+            /**
+             * Last Name
+             * @description Last name of the contact.
+             */
+            last_name?: string | null;
+            /**
+             * Function
+             * @description Business role or job title of the contact.
+             */
+            function?: string | null;
+            /**
+             * Email
+             * @description Email address of the contact.
+             */
+            email?: string | null;
+            /**
+             * Phone
+             * @description Phone number of the contact.
+             */
+            phone?: string | null;
+            /**
+             * Mobile
+             * @description Mobile phone number of the contact.
+             */
+            mobile?: string | null;
+        };
         /** ContactItemIn */
         ContactItemIn: {
             /**
@@ -5918,9 +6395,7 @@ export interface components {
             name: string;
             /** Config */
             config?: {
-                [key: string]: {
-                    [key: string]: unknown;
-                }[];
+                [key: string]: unknown;
             } | null;
             /** Connections */
             connections: components['schemas']['SyncsConnectionItem'][];
@@ -6015,6 +6490,11 @@ export interface components {
             logic?: {
                 [key: string]: unknown;
             } | null;
+            /**
+             * Manual Mapping
+             * @default false
+             */
+            manual_mapping: boolean;
         };
         /** CreateSyncMappingToFieldItem */
         'CreateSyncMappingToFieldItem-Output': {
@@ -6046,6 +6526,11 @@ export interface components {
             logic?: {
                 [key: string]: unknown;
             } | null;
+            /**
+             * Manual Mapping
+             * @default false
+             */
+            manual_mapping: boolean;
         };
         /** CredentialItem */
         CredentialItem: {
@@ -6053,6 +6538,101 @@ export interface components {
             key: string;
             /** Value */
             value: string;
+        };
+        /**
+         * CubeAndFilter
+         * @description Cube REST API logical AND filter.
+         */
+        CubeAndFilter: {
+            /** And */
+            and: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+        };
+        /**
+         * CubeLeafFilter
+         * @description Cube REST API leaf filter: member + operator + values.
+         */
+        CubeLeafFilter: {
+            /** Member */
+            member: string;
+            /** Operator */
+            operator: string;
+            /** Values */
+            values?: string[] | null;
+        };
+        /** CubeLoadQuery */
+        CubeLoadQuery: {
+            /** Measures */
+            measures?: string[];
+            /** Dimensions */
+            dimensions?: string[];
+            /** Segments */
+            segments?: string[];
+            /** Filters */
+            filters?: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+            /** Timedimensions */
+            timeDimensions?: components['schemas']['CubeTimeDimension'][];
+            /** Order */
+            order?:
+                | {
+                      [key: string]: 'asc' | 'desc';
+                  }
+                | components['schemas']['CubeOrderItem'][]
+                | string[][]
+                | null;
+            /** Limit */
+            limit?: number | null;
+            /** Offset */
+            offset?: number | null;
+            /** Timezone */
+            timezone?: string | null;
+            /** Total */
+            total?: boolean | null;
+            /** Renewquery */
+            renewQuery?: boolean | null;
+            /** Ungrouped */
+            ungrouped?: boolean | null;
+        };
+        /**
+         * CubeOrFilter
+         * @description Cube REST API logical OR filter.
+         */
+        CubeOrFilter: {
+            /** Or */
+            or: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+        };
+        /** CubeOrderItem */
+        CubeOrderItem: {
+            /** Id */
+            id?: string | null;
+            /** Member */
+            member?: string | null;
+            /** Desc */
+            desc?: boolean | null;
+            /** Direction */
+            direction?: ('asc' | 'desc') | null;
+        };
+        /** CubeTimeDimension */
+        CubeTimeDimension: {
+            /** Dimension */
+            dimension: string;
+            /** Daterange */
+            dateRange?: string | string[] | null;
+            /** Comparedaterange */
+            compareDateRange?: string[][] | null;
+            /** Granularity */
+            granularity?: string | null;
         };
         /** DataItem */
         DataItem: {
@@ -6089,6 +6669,40 @@ export interface components {
             /** @default active */
             status: components['schemas']['DatastoreStatus'] | null;
             definition: components['schemas']['DatastoreDef'];
+        };
+        /** DatalayerEnableBody */
+        DatalayerEnableBody: {
+            /**
+             * From Date
+             * @description Date from which the data is synced. Defaults to one year ago when omitted.
+             */
+            from_date?: string | null;
+            /**
+             * Fiscal Years Back
+             * @description Sync from the start of the book year this many fiscal years back (accounting only). 0 syncs from the start of the current fiscal year.
+             */
+            fiscal_years_back?: number | null;
+            /**
+             * Full History
+             * @description Sync the whole history, without a lower date bound. Mirrors the 'infinite' automatic-activation policy.
+             * @default false
+             */
+            full_history: boolean;
+            /**
+             * Entity Filter
+             * @description Restrict the datalayer to specific entities of the connection instead of every one the end-user selected, keyed by entity kind applicable to the connection's vertical (e.g. `folder_ids`, `location_ids`). The ids are validated against the ones available on the connection when the sync runs. Omit to sync every selected entity.
+             */
+            entity_filter?: {
+                [key: string]: string[];
+            } | null;
+        };
+        /** DatalayerRefreshBody */
+        DatalayerRefreshBody: {
+            /**
+             * Force From Date
+             * @description Force the refresh to (re)sync data from this date, overriding the flow configuration.
+             */
+            force_from_date?: string | null;
         };
         /** DatastoreColumn */
         DatastoreColumn: {
@@ -6150,6 +6764,16 @@ export interface components {
          * @enum {string}
          */
         DocumentType: 'invoice' | 'entry';
+        /** EcommerceFulfillmentObject */
+        EcommerceFulfillmentObject: {
+            fulfillment_type: components['schemas']['EcommerceFulfillmentType'];
+            shipping_from_address?: components['schemas']['AddressItemOut'] | null;
+        };
+        /**
+         * EcommerceFulfillmentType
+         * @enum {string}
+         */
+        EcommerceFulfillmentType: 'FBA' | 'FBM';
         /** EmployeeItem */
         EmployeeItem: {
             /**
@@ -6253,6 +6877,17 @@ export interface components {
             /** Description */
             description?: string;
         };
+        /** ExecutionResult */
+        ExecutionResult: {
+            /** Column */
+            column: string;
+            /** Title */
+            title?: string | null;
+            /** Data */
+            data: unknown[];
+            /** Type */
+            type: string;
+        };
         /**
          * ExecutionType
          * @enum {string}
@@ -6313,6 +6948,11 @@ export interface components {
              */
             pdf?: string | null;
             /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
+            /**
              * Lines
              * @description Expense lines.
              */
@@ -6372,6 +7012,11 @@ export interface components {
              * @description Base64 PDF attachment of the expense document.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Lines
              * @description Expense lines.
@@ -6633,6 +7278,11 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
         };
         /** FinancialEntryItemOut */
         FinancialEntryItemOut: {
@@ -6874,9 +7524,16 @@ export interface components {
             name: string;
             /**
              * Selected
+             * @description Indicates whether the folder was selected during the Chift activation process. Only selected folders can be used in subsequent requests. Requests targeting a folder that was not selected will be rejected. If only one folder is selected, it will be used by default when no folder is specified in the request.
              * @default true
              */
             selected: boolean | null;
+            /**
+             * Active
+             * @description Indicates whether the folder is currently active in the target accounting software. Requests targeting an inactive folder will fail on the target software side.
+             * @default true
+             */
+            active: boolean | null;
             /** Vat */
             vat?: string | null;
             /** Company Number */
@@ -6938,6 +7595,11 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the item.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Posted
              * @description Indicates if the journal entry has been posted (finalized) in the accounting system. If not provided, it defaults to True.
@@ -7003,7 +7665,7 @@ export interface components {
             tax_code?: string | null;
             /** @description Tax information related to the journal item. The provided tax amount is added to the amount (debit or credit) of the journal item. This is only supported for general accounts. */
             tax_info?: components['schemas']['TaxInfo'] | null;
-            /** @description (For certain specific connectors only) Details of the third-party account (client/supplier) to be created if it does not already exist in the accounting system. Some softwares do not support creating third-party accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime). */
+            /** @description (For certain specific connectors only) Details of the account (third-party or general ledger) to be created if it does not already exist in the accounting system. Some softwares do not support creating accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime). */
             account_info?: components['schemas']['AccountToCreate'] | null;
         };
         /**
@@ -7110,6 +7772,11 @@ export interface components {
              * @default false
              */
             optional: boolean;
+            /**
+             * @description Visibility of the credential. If connector is selected, it should be defined when the connector is activated on your environment. If consumer is selected, the end-user will have to provide the credential when creating the connection. If both is selected, the credential can be defined when the connector is activated on your environment or when the end-user creates the connection (it will not be available for the end-user when it's activated at connector-level)
+             * @default both
+             */
+            visibility: components['schemas']['Visibility'] | null;
         };
         /** IntegrationsPostConnectionItem */
         IntegrationsPostConnectionItem: {
@@ -7156,6 +7823,16 @@ export interface components {
             /** Available Quantity */
             available_quantity: number;
         };
+        /**
+         * InvoiceApprovalStatus
+         * @enum {string}
+         */
+        InvoiceApprovalStatus: 'unknown' | 'pending' | 'approved' | 'rejected';
+        /**
+         * InvoiceApprovalStatusFilter
+         * @enum {string}
+         */
+        InvoiceApprovalStatusFilter: 'pending' | 'approved' | 'rejected';
         /** InvoiceCorrection */
         InvoiceCorrection: {
             /**
@@ -7180,14 +7857,71 @@ export interface components {
             invoice_correction_debit_account_number?: string | null;
         };
         /** InvoiceItem */
-        'InvoiceItem-Input': {
+        InvoiceItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             * @example INV-12345
+             */
+            invoice_number: string | null;
+            /**
+             * Creation Date
+             * @description Creation date of the invoice
+             * @example 2023-10-01T12:00:00
+             */
+            creation_date?: string | null;
+            /**
+             * Closing Date
+             * @description Closing date of the invoice
+             * @example 2023-10-10T12:00:00
+             */
+            closing_date?: string | null;
+            /**
+             * Partners
+             * @description List of partners related to the invoice
+             */
+            partners?: components['schemas']['InvoicePartnerItem'][] | null;
+        };
+        /** InvoiceItemDueDatesOut */
+        InvoiceItemDueDatesOut: {
+            /**
+             * Due Date
+             * Format: date
+             * @description Due date of the item.
+             */
+            due_date: string;
+            /**
+             * Payment Method
+             * @description Payment method used to pay the invoice on that due date.
+             */
+            payment_method?: string | null;
+            /**
+             * Payment Method Id
+             * @description Technical ID of the payment method used to pay the invoice on that due date.
+             */
+            payment_method_id?: string | null;
+            /**
+             * Amount
+             * @description Amount due for the invoice on that due date. A positive amount represents debit on customer invoices and supplier refunds or credit on supplier invoices and customer refunds. A negative amount represents credit on customer invoices and supplier refunds or debit on supplier invoices and customer refunds.
+             */
+            amount: number;
+        };
+        /** InvoiceItemIn */
+        InvoiceItemIn: {
             /**
              * Currency
              * @description Currency matching target sofware name
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['InvoicingInvoiceType'];
+            invoice_type: components['schemas']['InvoicingCreateInvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -7251,63 +7985,6 @@ export interface components {
             journal_ref?: components['schemas']['FieldRef'] | null;
             /** @description Specificities for Italy */
             italian_specificities?: components['schemas']['ItalianSpecificities-Input'] | null;
-        };
-        /** InvoiceItem */
-        'InvoiceItem-Output': {
-            /**
-             * Id
-             * @description Technical id in Chift
-             */
-            id: string;
-            /** @description Technical id in the target software */
-            source_ref: components['schemas']['Ref'];
-            /**
-             * Invoice Number
-             * @description Number/sequence
-             * @example INV-12345
-             */
-            invoice_number: string | null;
-            /**
-             * Creation Date
-             * @description Creation date of the invoice
-             * @example 2023-10-01T12:00:00
-             */
-            creation_date?: string | null;
-            /**
-             * Closing Date
-             * @description Closing date of the invoice
-             * @example 2023-10-10T12:00:00
-             */
-            closing_date?: string | null;
-            /**
-             * Partners
-             * @description List of partners related to the invoice
-             */
-            partners?: components['schemas']['InvoicePartnerItem'][] | null;
-        };
-        /** InvoiceItemDueDatesOut */
-        InvoiceItemDueDatesOut: {
-            /**
-             * Due Date
-             * Format: date
-             * @description Due date of the item.
-             */
-            due_date: string;
-            /**
-             * Payment Method
-             * @description Payment method used to pay the invoice on that due date.
-             */
-            payment_method?: string | null;
-            /**
-             * Payment Method Id
-             * @description Technical ID of the payment method used to pay the invoice on that due date.
-             */
-            payment_method_id?: string | null;
-            /**
-             * Amount
-             * @description Amount due for the invoice on that due date. A positive amount represents debit on customer invoices and supplier refunds or credit on supplier invoices and customer refunds. A negative amount represents credit on customer invoices and supplier refunds or debit on supplier invoices and customer refunds.
-             */
-            amount: number;
         };
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
@@ -7392,6 +8069,11 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the invoice.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Currency Exchange Rate
              * @description Exchange rate applicable at the date of the invoice. Required when the invoice currency is different from the folder's default currency.
@@ -7510,6 +8192,11 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the invoice.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Currency Exchange Rate
              * @description Exchange rate applicable at the date of the invoice. Required when the invoice currency is different from the folder's default currency.
@@ -7742,7 +8429,7 @@ export interface components {
              * @default []
              */
             due_dates: components['schemas']['InvoiceItemDueDatesOut'][] | null;
-            /** @description Extra information about the attachments linked to the invoice. */
+            /** @description Indicates whether a file attachment (e.g. PDF or image) is linked to this invoice and how to retrieve it. Check the status field: 'yes' means a direct download URL is available in the attachments array; 'yes_to_request' means the file exists but must be fetched separately via GET /accounting/attachments?type=invoice&document_id={id}, which returns the file as a base64-encoded string. 'no' means no attachment is linked. 'unknown' means the connector does not support this. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
             /** @description Additional information about the invoice. */
             accounting_info?: components['schemas']['AccountingInfoOut'] | null;
@@ -7751,6 +8438,11 @@ export interface components {
              * @description Technical ID of the payment method in the accounting system. This is the payment method currently linked to the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice.
              */
             payment_method_id?: string | null;
+            /**
+             * @description Approval status of the invoice.
+             * @default unknown
+             */
+            approval_status: components['schemas']['InvoiceApprovalStatus'];
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMonoAnalyticPlan'][];
         };
@@ -7843,7 +8535,7 @@ export interface components {
              * @default []
              */
             due_dates: components['schemas']['InvoiceItemDueDatesOut'][] | null;
-            /** @description Extra information about the attachments linked to the invoice. */
+            /** @description Indicates whether a file attachment (e.g. PDF or image) is linked to this invoice and how to retrieve it. Check the status field: 'yes' means a direct download URL is available in the attachments array; 'yes_to_request' means the file exists but must be fetched separately via GET /accounting/attachments?type=invoice&document_id={id}, which returns the file as a base64-encoded string. 'no' means no attachment is linked. 'unknown' means the connector does not support this. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
             /** @description Additional information about the invoice. */
             accounting_info?: components['schemas']['AccountingInfoOut'] | null;
@@ -7852,6 +8544,11 @@ export interface components {
              * @description Technical ID of the payment method in the accounting system. This is the payment method currently linked to the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice.
              */
             payment_method_id?: string | null;
+            /**
+             * @description Approval status of the invoice.
+             * @default unknown
+             */
+            approval_status: components['schemas']['InvoiceApprovalStatus'];
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMultiAnalyticPlans'][];
         };
@@ -8409,7 +9106,7 @@ export interface components {
              * @description Type of the partner
              * @example account
              */
-            type: components['schemas']['PartnerType'];
+            type: components['schemas']['PartnerType-Output'];
             /** @description Address of the partner */
             address?: components['schemas']['AddressItem'] | null;
             /**
@@ -8540,6 +9237,15 @@ export interface components {
              */
             linked_documents: components['schemas']['LinkedDocument'][] | null;
         };
+        /**
+         * InvoicingCreateInvoiceType
+         * @enum {string}
+         */
+        InvoicingCreateInvoiceType:
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund';
         /**
          * InvoicingDocumentType
          * @enum {string}
@@ -8837,16 +9543,17 @@ export interface components {
             filename?: string | null;
             /**
              * Url
-             * @description The URL to download the file.
+             * @description Direct download URL for the attachment file. Only populated when the parent attachments_info.status is 'yes'. When status is 'yes_to_request', this field is null and the file must be retrieved via GET /accounting/attachments with the appropriate type and document_id, which returns the content as a base64-encoded string.
              */
             url?: string | null;
         };
         /** ItemAttachmentInfoOut */
         ItemAttachmentInfoOut: {
-            /** @description The status of the attachment.'yes' means the attachment can be returned directly.'yes_to_request' means an additional request is required.'no' means there is no attachment.'unknown' means we can not yet determine if an attachment is available. */
+            /** @description Indicates whether an attachment (e.g. PDF or image) is available for this entry, and how to retrieve it. 'yes': one or more attachments are available directly — each entry in the attachments array contains a filename and a download URL. 'yes_to_request': an attachment exists but cannot be returned inline. Call GET /accounting/attachments with type and document_id to retrieve the file as a base64-encoded string. The attachments array may be empty in this case. 'no': no attachment is linked to this entry. 'unknown': the connector does not support attachment detection for this provider. */
             status: components['schemas']['ItemAttachmentInfoStatus'];
             /**
              * Attachments
+             * @description List of attachments available directly for this entry. Populated only when status is 'yes'. When status is 'yes_to_request', this list is empty — use GET /accounting/attachments to fetch the file content.
              * @default []
              */
             attachments: components['schemas']['ItemAttachmentInfoAttachment'][] | null;
@@ -8950,7 +9657,7 @@ export interface components {
              * @default []
              */
             due_dates: components['schemas']['JournalItemDueDatesOut'][] | null;
-            /** @description Extra information about the attachments linked to the journal entry. */
+            /** @description Indicates whether a file attachment (e.g. PDF or image) is linked to this journal entry and how to retrieve it. Check the status field: 'yes' means a direct download URL is available in the attachments array; 'yes_to_request' means the file exists but must be fetched separately via GET /accounting/attachments?type=entry&document_id={id}, which returns the file as a base64-encoded string. 'no' means no attachment is linked. 'unknown' means the connector does not support this. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
             /**
              * Items
@@ -9006,7 +9713,7 @@ export interface components {
              * @default []
              */
             due_dates: components['schemas']['JournalItemDueDatesOut'][] | null;
-            /** @description Extra information about the attachments linked to the journal entry. */
+            /** @description Indicates whether a file attachment (e.g. PDF or image) is linked to this journal entry and how to retrieve it. Check the status field: 'yes' means a direct download URL is available in the attachments array; 'yes_to_request' means the file exists but must be fetched separately via GET /accounting/attachments?type=entry&document_id={id}, which returns the file as a base64-encoded string. 'no' means no attachment is linked. 'unknown' means the connector does not support this. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
             /**
              * Items
@@ -9526,6 +10233,8 @@ export interface components {
             | 'swift_income'
             | 'pay_later'
             | 'financing_installment'
+            | 'cashback'
+            | 'interest'
             | 'other';
         /** OpportunityItem */
         OpportunityItem: {
@@ -9687,6 +10396,7 @@ export interface components {
             /** Cancelled On */
             cancelled_on?: string | null;
             status: components['schemas']['OrderStatus'];
+            fulfillment?: components['schemas']['EcommerceFulfillmentObject'] | null;
             /** Discount Amount */
             discount_amount: number;
             /**
@@ -10160,6 +10870,144 @@ export interface components {
              */
             posting_account_code?: string | null;
         };
+        /** PMSAccountingTransactionItem */
+        PMSAccountingTransactionItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Group Id
+             * @description Group id of the transaction
+             */
+            group_id: string;
+            /**
+             * Date
+             * Format: date-time
+             * @description Datetime of the transaction.This is the date when the transaction is recorded in the pms system.
+             */
+            date: string;
+            /**
+             * Amount
+             * @description Total amount
+             */
+            amount: number;
+            /**
+             * Is Tax Line
+             * @description Indicates the transaction is tax line
+             */
+            is_tax_line: boolean;
+            /**
+             * Sub Group Id
+             * @description Sub group id of the transaction
+             */
+            sub_group_id?: string | null;
+            /**
+             * Tax Code
+             * @description Indicates the tax code used for the transaction. This is the Id of the Tax Code in the pms software.
+             */
+            tax_code?: string | null;
+            /**
+             * Description
+             * @description Text description for this transaction.
+             * @default
+             */
+            description: string | null;
+            /**
+             * Currency Exchange Rate
+             * @description Exchange rate applicable at the transaction date.
+             * @default 1
+             */
+            currency_exchange_rate: number | null;
+            /**
+             * Currency
+             * @description Indicates the currency of the operation (e.g., EUR, USD).
+             */
+            currency: string;
+            /**
+             * @description Type of transaction
+             * @example pos
+             */
+            transaction_type: components['schemas']['PMSAccountingTransactionType'];
+            /**
+             * Accounting Category Id
+             * @description Used by a PMS to give specific accounting categories to a transaction item.
+             * @example 371ca583-d218-4900-b236-397532cf0e2
+             */
+            accounting_category_id?: string | null;
+            /**
+             * Ledger Account Code
+             * @description Ledger account code assigned to the category
+             * @example 123456
+             */
+            ledger_account_code?: string | null;
+            /**
+             * @description string indicating if invoice has been posted (finalized) in the pms system.
+             * @example posted
+             */
+            status: components['schemas']['PMSAccountingTransactionStatus'];
+            /**
+             * @description Type of origin of the transaction item
+             * @example {
+             *       "id": "1",
+             *       "type": "payment"
+             *     }
+             */
+            origin: components['schemas']['PMSAccountingTransactionOrigin'] | null;
+            /** @description Reference to the partner related to this transaction */
+            partner_id?: components['schemas']['ChiftId'] | null;
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the transaction.
+             */
+            reference?: string | null;
+            /**
+             * Location Id
+             * @description ID of the location this transaction belongs to
+             */
+            location_id?: string | null;
+        };
+        /** PMSAccountingTransactionOrigin */
+        PMSAccountingTransactionOrigin: {
+            /**
+             * Id
+             * @description Technical id in the target software
+             * @example 1
+             */
+            id: string;
+            /**
+             * @description Type of the transaction
+             * @example invoice
+             */
+            type: components['schemas']['PMSAccountingTransactionOriginType'];
+        };
+        /**
+         * PMSAccountingTransactionOriginType
+         * @enum {string}
+         */
+        PMSAccountingTransactionOriginType: 'payment' | 'invoice' | 'order';
+        /**
+         * PMSAccountingTransactionStatus
+         * @enum {string}
+         */
+        PMSAccountingTransactionStatus: 'draft' | 'posted';
+        /**
+         * PMSAccountingTransactionType
+         * @enum {string}
+         */
+        PMSAccountingTransactionType:
+            | 'payment'
+            | 'room'
+            | 'addon'
+            | 'invoice'
+            | 'pos'
+            | 'fee'
+            | 'tax'
+            | 'reservation'
+            | 'other';
         /** PMSClosureItem */
         PMSClosureItem: {
             /**
@@ -10237,6 +11085,12 @@ export interface components {
              * @description List of addresses related to the customer
              */
             addresses?: components['schemas']['AddressItem'][] | null;
+            /**
+             * Is Company
+             * @description Indicates if the client is an individual or a company.
+             * @default false
+             */
+            is_company: boolean | null;
         };
         /** PMSInvoiceFullItem */
         PMSInvoiceFullItem: {
@@ -10480,7 +11334,7 @@ export interface components {
              * Bills
              * @description Reference to the bills related to this order
              */
-            bills?: components['schemas']['InvoiceItem-Output'][] | null;
+            bills?: components['schemas']['InvoiceItem'][] | null;
         };
         /** PMSOrderLineItem */
         PMSOrderLineItem: {
@@ -10533,6 +11387,12 @@ export interface components {
              * @example 10
              */
             tax_rate?: number | null;
+            /**
+             * Tax Id
+             * @description Unique identifier of the tax of the order line item
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            tax_id?: string | null;
             /**
              * Description
              * @description Description of the order line item
@@ -10612,6 +11472,12 @@ export interface components {
              * @example 2025-01-01T00:00:00Z
              */
             date?: string | null;
+            /**
+             * Invoice Ref
+             * @description Reference of the invoice linked to the payment
+             * @example invoice-123
+             */
+            invoice_ref?: string | null;
             /** @description Reference to the customer related to this payment */
             partner_id?: components['schemas']['ChiftId'] | null;
             /**
@@ -10676,6 +11542,12 @@ export interface components {
              * @example 21
              */
             rate?: number | null;
+            /**
+             * Is City Tax
+             * @description Indicates if the tax is a city tax (or tourist tax)
+             * @example false
+             */
+            is_city_tax?: boolean | null;
         };
         /** POSClosureInformationItem */
         POSClosureInformationItem: {
@@ -10845,6 +11717,12 @@ export interface components {
              * @example 10
              */
             tax_rate?: number | null;
+            /**
+             * Tax Id
+             * @description Unique identifier of the tax of the order line item
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            tax_id?: string | null;
             /**
              * Description
              * @description Description of the order line item
@@ -11094,6 +11972,12 @@ export interface components {
              * @example 2025-01-01T00:00:00Z
              */
             date?: string | null;
+            /**
+             * Invoice Ref
+             * @description Reference of the invoice linked to the payment
+             * @example invoice-123
+             */
+            invoice_ref?: string | null;
         };
         /**
          * POSPaymentStatus
@@ -11144,6 +12028,33 @@ export interface components {
              * @example 371ca583-d218-4900-b236-397532cf0e2
              */
             accounting_category_ids?: string[] | null;
+        };
+        /** POSTaxRateItem */
+        POSTaxRateItem: {
+            /**
+             * Id
+             * @description Unique identifier of the tax rate
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            id: string;
+            /**
+             * Label
+             * @description Label of the tax rate
+             * @example VAT 21%
+             */
+            label?: string | null;
+            /**
+             * Rate
+             * @description Percentage of the tax rate
+             * @example 21
+             */
+            rate?: number | null;
+            /**
+             * Tax Code
+             * @description VAT code of the tax rate
+             * @example VAT21
+             */
+            tax_code?: string | null;
         };
         /** Partner */
         Partner: {
@@ -11219,13 +12130,18 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
-             * @description IBAN account number of the client.
+             * @description IBAN account number of the client. DEPRECATED see bank_accounts
              */
             iban?: string | null;
             /**
              * Bank Account
-             * @description Bank account number of the client.
+             * @description Bank account number of the client. DEPRECATED see bank_accounts
              */
             bank_account?: string | null;
             /**
@@ -11244,11 +12160,6 @@ export interface components {
              * @description Ledger account number assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
              */
             account_number?: string | null;
-            /**
-             * Company Number
-             * @description Id of the associated company, used when the record is a contact person linked to a company.
-             */
-            company_number?: string | null;
             /**
              * Id
              * @description Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.
@@ -11270,12 +12181,22 @@ export interface components {
              * @description Third party account number/code representing the client in the accounting software.
              */
             third_party_account?: string | null;
+            /**
+             * Bank Accounts
+             * @description List of bank accounts information associated with the client.
+             */
+            bank_accounts?: components['schemas']['BankAccountsItem'][] | null;
         };
         /**
          * PartnerType
          * @enum {string}
          */
-        PartnerType: 'owner' | 'account';
+        'PartnerType-Input': 'client' | 'supplier';
+        /**
+         * PartnerType
+         * @enum {string}
+         */
+        'PartnerType-Output': 'owner' | 'account';
         /** PatchConnectionItem */
         PatchConnectionItem: {
             /**
@@ -11291,7 +12212,7 @@ export interface components {
             name?: string | null;
             /**
              * Credentials
-             * @description Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration
+             * @description Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration. Note: The preferred approach to let a consumer change their credentials is to call this endpoint without passing credentials in the body of the request, which will return a link that can be reshared with the consumer to update their credentials through the Chift UI.
              */
             credentials?: components['schemas']['CredentialItem'][] | null;
         };
@@ -11371,6 +12292,21 @@ export interface components {
              * @description Partner ID
              */
             partner_id?: string | null;
+        };
+        /** PaymentLocationItem */
+        PaymentLocationItem: {
+            /**
+             * Id
+             * @description Unique identifier of the location
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name given to the location
+             * @example Restaurant de la Paix
+             */
+            name: string;
         };
         /** PaymentMethodItem */
         PaymentMethodItem: {
@@ -11477,6 +12413,56 @@ export interface components {
              */
             iban: string;
         };
+        /** PayoutItemOut */
+        PayoutItemOut: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /** @description Payout status */
+            status: components['schemas']['PayoutStatus'];
+            /** @description Payout type */
+            type: components['schemas']['PayoutType'];
+            /**
+             * Amount
+             * @description Amount transferred to the merchant
+             */
+            amount: number;
+            /**
+             * Currency
+             * @description Currency
+             */
+            currency: string;
+            /**
+             * Fee
+             * @description Total fee applied by the processor
+             */
+            fee?: number | null;
+            /**
+             * Extra Fee
+             * @description Extra fee, if exposed by the processor
+             */
+            extra_fee?: number | null;
+            /**
+             * Payment Date
+             * Format: date
+             * @description Date at which the payout was made
+             */
+            payment_date: string;
+        };
+        /**
+         * PayoutStatus
+         * @enum {string}
+         */
+        PayoutStatus: 'scheduled' | 'in_transit' | 'paid' | 'failed' | 'canceled';
+        /**
+         * PayoutType
+         * @enum {string}
+         */
+        PayoutType: 'payout' | 'bank_account' | 'other';
         /** PostAddressItem */
         PostAddressItem: {
             /**
@@ -11824,6 +12810,8 @@ export interface components {
             created_on?: string | null;
             /** Sku */
             sku?: string | null;
+            /** Taxable */
+            taxable?: boolean | null;
             /** Barcode */
             barcode?: string | null;
             /**
@@ -11859,6 +12847,108 @@ export interface components {
              * @default []
              */
             variant_images: components['schemas']['ImageItem'][] | null;
+        };
+        /**
+         * PublicCubeMetaCube
+         * @description Agent-facing Cube schema, close to Cube /v1/meta and stripped of SQL internals.
+         */
+        PublicCubeMetaCube: {
+            /** Name */
+            name: string;
+            /** Type */
+            type?: ('cube' | 'view') | null;
+            /** Title */
+            title?: string | null;
+            /** Description */
+            description?: string | null;
+            /** Connectedcomponent */
+            connectedComponent?: number | null;
+            /** Measures */
+            measures?: components['schemas']['PublicCubeMetaMember'][];
+            /** Dimensions */
+            dimensions?: components['schemas']['PublicCubeMetaMember'][];
+            /** Hierarchies */
+            hierarchies?: {
+                [key: string]: unknown;
+            }[];
+            /** Segments */
+            segments?: components['schemas']['PublicCubeMetaMember'][];
+            /** Relationships */
+            relationships?: components['schemas']['PublicCubeRelationship'][];
+            /** Domain */
+            domain?: string | null;
+            /** Querygroup */
+            queryGroup?: string | null;
+        };
+        /**
+         * PublicCubeMetaMember
+         * @description Agent-facing Cube member metadata.
+         *
+         *     The base fields mirror Cube /v1/meta. The remaining fields are selected, SQL-free
+         *     Backbone metadata flattened so agents do not need to inspect arbitrary `meta`.
+         */
+        PublicCubeMetaMember: {
+            /** Name */
+            name: string;
+            /** Title */
+            title?: string | null;
+            /** Shorttitle */
+            shortTitle?: string | null;
+            /** Aliasname */
+            aliasName?: string | null;
+            /** Type */
+            type?: string | null;
+            /** Description */
+            description?: string | null;
+            /** Aggtype */
+            aggType?: string | null;
+            /** Drillmembers */
+            drillMembers?: string[] | null;
+            /** Format */
+            format?: string | null;
+            /** Primarykey */
+            primaryKey?: boolean | null;
+            /** Suggestfiltervalues */
+            suggestFilterValues?: boolean | null;
+            /** Nullable */
+            nullable?: boolean | null;
+            /** Values */
+            values?: string[] | null;
+            /** Allowedgranularities */
+            allowedGranularities?: string[] | null;
+            /** Jsonschema */
+            jsonSchema?: {
+                [key: string]: unknown;
+            } | null;
+            /** Monetary */
+            monetary?: boolean | null;
+            /** Currencydimension */
+            currencyDimension?: string | null;
+            /** Currencysensitive */
+            currencySensitive?: boolean | null;
+        };
+        /** PublicCubeRelationship */
+        PublicCubeRelationship: {
+            /** Target */
+            target: string;
+            /**
+             * Relationship
+             * @enum {string}
+             */
+            relationship: 'one_to_one' | 'one_to_many' | 'many_to_one';
+        };
+        /** QueryMeta */
+        QueryMeta: {
+            /** Currency */
+            currency?: string[] | null;
+            /** Monetary Measures */
+            monetary_measures?: string[] | null;
+        };
+        /** QueryResponse */
+        QueryResponse: {
+            /** Results */
+            results: components['schemas']['ExecutionResult'][];
+            meta?: components['schemas']['QueryMeta'] | null;
         };
         /** ReadFlowConsumerItem */
         ReadFlowConsumerItem: {
@@ -11919,9 +13009,7 @@ export interface components {
             name: string;
             /** Config */
             config?: {
-                [key: string]: {
-                    [key: string]: unknown;
-                }[];
+                [key: string]: unknown;
             } | null;
             /** Connections */
             connections: components['schemas']['SyncsConnectionItem'][];
@@ -12069,6 +13157,15 @@ export interface components {
              */
             total: number;
         };
+        /** ReleaseItem */
+        ReleaseItem: {
+            /** Filename */
+            fileName: string;
+            /** Version */
+            version: string;
+            /** Downloadurl */
+            downloadUrl: string;
+        };
         /**
          * ReportCategory
          * @enum {string}
@@ -12152,6 +13249,12 @@ export interface components {
         };
         /** ReportPayments */
         ReportPayments: {
+            /**
+             * Tax Id
+             * @description Unique identifier of the tax
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            tax_id?: string | null;
             /**
              * Tax Rate
              * @description Tax rate
@@ -12274,6 +13377,19 @@ export interface components {
              * @description Total refunded (after discount).
              */
             total: number;
+        };
+        /** RoutingCodeItem */
+        RoutingCodeItem: {
+            /**
+             * @description The routing format. Possible values: ach (US), sort_code (UK), bsb (AU), transit (CA), ifsc (IN), clabe (MX).
+             * @default unknown
+             */
+            type: components['schemas']['BankAccountRoutingType'];
+            /**
+             * Value
+             * @description The raw routing code value, without spaces or dashes.
+             */
+            value?: string | null;
         };
         /** SalesItem */
         SalesItem: {
@@ -12440,6 +13556,11 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
              * @description IBAN account number of the supplier.
              */
@@ -12545,13 +13666,18 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
-             * @description IBAN account number of the supplier.
+             * @description IBAN account number of the supplier. DEPRECATED see bank_accounts
              */
             iban?: string | null;
             /**
              * Bank Account
-             * @description Bank account number of the supplier.
+             * @description Bank account number of the supplier. DEPRECATED see bank_accounts
              */
             bank_account?: string | null;
             /**
@@ -12570,11 +13696,6 @@ export interface components {
              * @description Ledger account number assigned to the supplier in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
              */
             account_number?: string | null;
-            /**
-             * Company Number
-             * @description Id of the associated company, used when the record is a contact person linked to a company.
-             */
-            company_number?: string | null;
             /**
              * Id
              * @description Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system.
@@ -12596,6 +13717,11 @@ export interface components {
              * @description Third party account number/code representing the client in the accounting software.
              */
             third_party_account?: string | null;
+            /**
+             * Bank Accounts
+             * @description List of bank accounts information associated with the suppliers.
+             */
+            bank_accounts?: components['schemas']['BankAccountsItem'][] | null;
         };
         /** SupplierItemUpdate */
         SupplierItemUpdate: {
@@ -12670,6 +13796,11 @@ export interface components {
              * @description VAT number of the supplier.
              */
             vat?: string | null;
+            /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
             /**
              * Iban
              * @description IBAN account number of the supplier.
@@ -12761,11 +13892,37 @@ export interface components {
          * @enum {string}
          */
         SyncConsumerStatus: 'active' | 'inactive';
+        /** SyncExecutionItem */
+        SyncExecutionItem: {
+            /**
+             * Id
+             * @description Execution id
+             */
+            id: string;
+            /**
+             * Parentexecutionid
+             * @description Parent execution id. An execution is linked to multiple child executions linked to consumers.
+             */
+            parentexecutionid: string | null;
+            /**
+             * Start
+             * Format: date-time
+             */
+            start: string;
+            /** End */
+            end: string | null;
+            /** Status */
+            status: string;
+            /** Consumer Id */
+            consumer_id: string;
+            /** Flow Id */
+            flow_id: string;
+        };
         /**
          * SyncSkipReason
          * @enum {string}
          */
-        SyncSkipReason: 'presync' | 'challenge';
+        SyncSkipReason: 'presync' | 'connector_feature' | 'challenge';
         /** SyncsConnectionItem */
         SyncsConnectionItem: {
             /** One Api */
@@ -12840,6 +13997,12 @@ export interface components {
         };
         /** TotalTaxItem */
         TotalTaxItem: {
+            /**
+             * Tax Id
+             * @description Unique identifier of the tax
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            tax_id?: string | null;
             /**
              * Tax Rate
              * @description Tax rate
@@ -12925,6 +14088,11 @@ export interface components {
             refund_id?: string | null;
             /** Payment Id */
             payment_id?: string | null;
+            /**
+             * Description
+             * @description Description linked to the transaction
+             */
+            description?: string | null;
         };
         /**
          * TriggerPriority
@@ -13110,6 +14278,10 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
+            /** Input */
+            input?: unknown;
+            /** Context */
+            ctx?: Record<string, never>;
         };
         /** VariantAttributeItem */
         VariantAttributeItem: {
@@ -13154,6 +14326,8 @@ export interface components {
             created_on?: string | null;
             /** Sku */
             sku?: string | null;
+            /** Taxable */
+            taxable?: boolean | null;
             /** Barcode */
             barcode?: string | null;
             /**
@@ -13217,6 +14391,11 @@ export interface components {
          * @enum {string}
          */
         VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
+        /**
+         * Visibility
+         * @enum {string}
+         */
+        Visibility: 'consumer' | 'connector' | 'both';
         /** WebhookInstanceGetItem */
         WebhookInstanceGetItem: {
             /**
@@ -14596,6 +15775,58 @@ export interface operations {
             };
         };
     };
+    syncs_get_sync_executions: {
+        parameters: {
+            query?: {
+                flowid?: string | null;
+                page?: number;
+                size?: number;
+                date_to?: string | null;
+                date_from?: string | null;
+            };
+            header?: never;
+            path: {
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_SyncExecutionItem_'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The flow does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     syncs_get_execution: {
         parameters: {
             query?: {
@@ -14876,6 +16107,54 @@ export interface operations {
             };
         };
     };
+    syncs_disable_syncconsumer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                syncid: string;
+                flowid: string;
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': unknown;
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The consumer does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     syncs_update_flowtoconsumer: {
         parameters: {
             query?: never;
@@ -14928,6 +16207,200 @@ export interface operations {
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    datalayer_enable: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['DatalayerEnableBody'] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': unknown;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The datalayer is not configured on this account.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The consumer or connection does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    datalayer_refresh: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['DatalayerRefreshBody'] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['TriggerResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The datalayer is not configured on this account.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The consumer or connection does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    datalayer_disable: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': unknown;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The datalayer is not configured on this account.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The consumer or connection does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -15177,6 +16650,59 @@ export interface operations {
             };
         };
     };
+    datalab_get_cube_schemas: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PublicCubeMetaCube'][];
+                };
+            };
+        };
+    };
+    datalab_query_db: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CubeLoadQuery'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['QueryResponse'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     issues_get_issues: {
         parameters: {
             query?: {
@@ -15323,6 +16849,37 @@ export interface operations {
             };
         };
     };
+    get_releases_local_agents_releases_get: {
+        parameters: {
+            query: {
+                connector: number | 'cockpit';
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ReleaseItem'][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_get_folders: {
         parameters: {
             query?: never;
@@ -15341,6 +16898,53 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['FolderItem'][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_get_folder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                folder_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['FolderItem'];
                 };
             };
             /** @description Bad Request */
@@ -15996,6 +17600,76 @@ export interface operations {
             };
         };
     };
+    accounting_get_partner_contacts: {
+        parameters: {
+            query: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+                partner_type: components['schemas']['PartnerType-Input'];
+                partner_id: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_ContactItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The partner doesn't exist in the accounting system.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_create_invoice: {
         parameters: {
             query?: {
@@ -16147,6 +17821,8 @@ export interface operations {
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
                 /** @description Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved. */
                 include_partner_info?: components['schemas']['BoolParam'] | null;
+                /** @description Filter invoices by approval status. */
+                approval_status?: components['schemas']['InvoiceApprovalStatusFilter'] | null;
             };
             header?: never;
             path: {
@@ -16215,6 +17891,8 @@ export interface operations {
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
                 /** @description Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved. */
                 include_partner_info?: components['schemas']['BoolParam'] | null;
+                /** @description Filter invoices by approval status. */
+                approval_status?: components['schemas']['InvoiceApprovalStatusFilter'] | null;
             };
             header?: never;
             path: {
@@ -19652,6 +21330,87 @@ export interface operations {
             };
         };
     };
+    pos_get_taxes: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_POSTaxRateItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
     pos_get_closure: {
         parameters: {
             query?: {
@@ -21186,7 +22945,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['InvoiceItem-Input'];
+                'application/json': components['schemas']['InvoiceItemIn'];
             };
         };
         responses: {
@@ -22034,6 +23793,57 @@ export interface operations {
             };
         };
     };
+    payment_get_locations: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PaymentLocationItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     payment_get_balances: {
         parameters: {
             query?: {
@@ -22098,8 +23908,12 @@ export interface operations {
                 starting_from?: string | null;
                 /** @description Get all transactions for a specific balance */
                 balance_id?: string | null;
+                /** @description Get all transactions linked to a specific payout */
+                payout_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Get all transactions for a specific location */
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -22153,6 +23967,8 @@ export interface operations {
                 size?: number;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Get all transactions for a specific location */
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -22270,6 +24086,8 @@ export interface operations {
                 payment_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Get all transactions for a specific location */
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -22286,6 +24104,61 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ChiftPage_RefundItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    payment_get_payouts: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                date_from?: string | null;
+                date_to?: string | null;
+                /** @description Get all transactions for a specific location */
+                location_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PayoutItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -22490,6 +24363,12 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Filter based on other parameters than the email/phone, e.g. firstname, lastname */
+                search?: string | null;
+                /** @description Filter based on email of customer */
+                email?: string | null;
+                /** @description Filter based on phone of customer */
+                phone?: string | null;
             };
             header?: never;
             path: {
@@ -23085,6 +24964,90 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PMSTaxRateItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    pms_get_accounting_transactions: {
+        parameters: {
+            query: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                date_from: string;
+                date_to: string;
+                location_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PMSAccountingTransactionItem_'];
                 };
             };
             /** @description Bad Request */

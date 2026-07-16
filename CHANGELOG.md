@@ -1,5 +1,42 @@
 # Changelog
 
+## 1.0.35 - 2026-07-16
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [INVOICING] `createInvoice`: update request body type from the renamed schema `InvoiceItem-Input` to `InvoiceItemIn`. Its `invoice_type` now uses the new `InvoicingCreateInvoiceType` enum (`customer_invoice` / `customer_refund` / `supplier_invoice` / `supplier_refund`), which — unlike `InvoicingInvoiceType` — no longer includes `all`.
+-   [ACCOUNTING] `getFolder`: get a single accounting folder by id.
+-   [ACCOUNTING] `getPartnerContacts`: get contacts for a client or supplier partner.
+-   [CONNECTIONS] `enableDatalayer`, `refreshDatalayer`, `disableDatalayer`: manage datalayer sync on a connection.
+-   [PAYMENT] `getLocations`, `getPayouts`: list payment locations and payouts.
+-   [PMS] `getAccountingTransactions`: list PMS accounting transactions.
+-   [POS] `getTaxes`: list POS tax rates.
+-   [SYNCS] `getSyncExecutions`: list executions for a sync.
+-   [CONSUMER] `disableFlow`: disable a flow for a specific consumer.
+-   [DATALAB] `getCubeSchemas`: list available Cube schemas.
+-   [DATALAB] `queryDb`: run a Cube load query against the datalab database.
+-   [LOCAL AGENTS] `getReleases`: list local agent releases for a connector.
+
+### Schema (new endpoints)
+
+-   [ACCOUNTING] Get Folder (`GET /consumers/{consumer_id}/accounting/folders/{folder_id}`)
+-   [ACCOUNTING] Get partner contacts (`GET /consumers/{consumer_id}/accounting/contacts`)
+-   [CONNECTIONS] Datalayer sync: enable / refresh / disable (`.../connections/{connection_id}/{enable,refresh,disable}_datalayer`)
+-   [PAYMENT] Get locations, Get payouts
+-   [PMS] Get accounting transactions
+-   [POS] Get taxes (`GET /consumers/{consumer_id}/pos/tax-rates`)
+-   [SYNCS] Get executions for a sync (`GET /syncs/{syncid}/executions`); Disable a flow for a specific consumer (`POST /consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable`)
+-   [DATALAB] Get cube schemas (`GET /datalab/cube-schemas`)
+-   [DATALAB] Query db (`POST /datalab/query-db`)
+-   [LOCAL AGENTS] Get releases (`GET /local-agents/releases`)
+
+### Schema (type refinements)
+
+-   `SyncSkipReason` gains `connector_feature`.
+-   `PartnerType` is split into `PartnerType-Input` (`client` / `supplier`) and `PartnerType-Output` (`owner` / `account`).
+
 ## 1.0.0 - 2023-09-14
 
 -   First release with scopes of the 5 unified APIs (Accounting, POS, eCommerce, Invoicing & Payment) of Chift and the management of consumers, connections & webhooks.
