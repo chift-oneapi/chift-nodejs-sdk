@@ -46,6 +46,8 @@ tools:
     timeout: 300
 
 safe-outputs:
+    noop:
+        report-as-issue: false
     threat-detection:
         continue-on-error: false
         engine: claude
