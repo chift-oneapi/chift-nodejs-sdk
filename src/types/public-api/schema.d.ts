@@ -10777,6 +10777,12 @@ export interface components {
              */
             due_date?: string | null;
             /**
+             * Due Dates
+             * @description List of all due dates of the outstanding.
+             * @default []
+             */
+            due_dates: components['schemas']['OutstandingItemDueDatesOut'][] | null;
+            /**
              * Currency
              * @description Currency of the outstanding item (e.g., EUR, USD).
              */
@@ -10829,6 +10835,30 @@ export interface components {
             posted: boolean;
             /** @description Details of the original document associated with the outstanding item. This is used to link the outstanding item to its original source when oustanding item was initially posted in previous bookyear. */
             original_document?: components['schemas']['OriginalOutstandingItem'] | null;
+        };
+        /** OutstandingItemDueDatesOut */
+        OutstandingItemDueDatesOut: {
+            /**
+             * Due Date
+             * Format: date
+             * @description Due date of the outstanding item.
+             */
+            due_date: string;
+            /**
+             * Payment Method
+             * @description Payment method used to pay the outstanding on that due date.
+             */
+            payment_method?: string | null;
+            /**
+             * Payment Method Id
+             * @description Technical ID of the payment method used to pay the outstanding on that due date.
+             */
+            payment_method_id?: string | null;
+            /**
+             * Amount
+             * @description Amount due for the outstanding on that due date.
+             */
+            amount: number;
         };
         /**
          * OutstandingType
@@ -11920,6 +11950,12 @@ export interface components {
              * @description List of item lines in the order
              */
             items: components['schemas']['POSItem'][];
+            /**
+             * Invoice Id
+             * @description ID of the invoice linked to the order. Only available for specific POS and if the order is linked to an invoice (B2B)
+             * @example invoice-123
+             */
+            invoice_id?: string | null;
         };
         /** POSPaymentItem */
         POSPaymentItem: {
@@ -11978,6 +12014,12 @@ export interface components {
              * @example invoice-123
              */
             invoice_ref?: string | null;
+            /**
+             * Order Id
+             * @description Unique identifier of the order
+             * @example order-123
+             */
+            order_id?: string | null;
         };
         /**
          * POSPaymentStatus

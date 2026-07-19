@@ -36,6 +36,9 @@ Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`htt
 
 -   `SyncSkipReason` gains `connector_feature`.
 -   `PartnerType` is split into `PartnerType-Input` (`client` / `supplier`) and `PartnerType-Output` (`owner` / `account`).
+-   `OutstandingItem` gains a `due_dates` list backed by the new `OutstandingItemDueDatesOut` schema (`due_date`, `payment_method`, `payment_method_id`, `amount`).
+-   `POSOrderItem` gains an optional `invoice_id` (invoice linked to a B2B order).
+-   `POSPaymentItem` gains an optional `order_id`.
 
 ## 1.0.0 - 2023-09-14
 
