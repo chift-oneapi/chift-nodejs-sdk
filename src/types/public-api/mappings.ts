@@ -188,6 +188,7 @@ export type chiftOperations = {
     getAccountTransactions: 'banking_get_account_transactions';
     getAccountCounterparts: 'banking_get_account_counterparts';
     getBankingAttachments: 'banking_get_attachments';
+    getOpeningBalance: 'banking_get_opening_balance';
 
     // Payment operations
     getBalances: 'payment_get_balances';

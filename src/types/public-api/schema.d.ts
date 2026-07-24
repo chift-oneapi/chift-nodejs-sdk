@@ -2757,6 +2757,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/banking/opening-balance': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get opening balance for an account on a specific date
+         * @description Returns the opening balance for a banking account on a given date
+         */
+        get: operations['banking_get_opening_balance'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/payment/locations': {
         parameters: {
             query?: never;
@@ -4389,6 +4409,34 @@ export interface components {
              */
             name: string;
         };
+        /** BankingOpeningBalanceItem */
+        BankingOpeningBalanceItem: {
+            /**
+             * Account Id
+             * @description Identifier of the banking account
+             * @example account-123
+             */
+            account_id: string;
+            /**
+             * Date
+             * Format: date
+             * @description Date for which the opening balance is reported
+             * @example 2025-01-15
+             */
+            date: string;
+            /**
+             * Opening Balance
+             * @description Opening balance of the account on the given date
+             * @example 1000
+             */
+            opening_balance?: number | null;
+            /**
+             * Currency
+             * @description Currency of the balance
+             * @example EUR
+             */
+            currency?: string | null;
+        };
         /** BankingTransactionItem */
         BankingTransactionItem: {
             /**
@@ -4497,11 +4545,11 @@ export interface components {
              */
             status?: components['schemas']['BankingTransactionStatus'] | null;
             /**
-             * Open Balance
+             * Opening Balance
              * @description Opening balance of the account at the time of the transaction
              * @example 1000
              */
-            open_balance?: number | null;
+            opening_balance?: number | null;
             /** @description Extra information about the attachments linked to the invoice. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
         };
@@ -23807,6 +23855,59 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AttachmentItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    banking_get_opening_balance: {
+        parameters: {
+            query: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                account_id: string;
+                date: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BankingOpeningBalanceItem'];
                 };
             };
             /** @description Bad Request */

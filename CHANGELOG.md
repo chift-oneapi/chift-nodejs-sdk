@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.36 - 2026-07-24
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [BANKING] `getOpeningBalance`: get the opening balance for a banking account on a specific date.
+
+### Schema (new endpoints)
+
+-   [BANKING] Get opening balance (`GET /consumers/{consumer_id}/banking/opening-balance`)
+
+### Schema (type refinements)
+
+-   New `BankingOpeningBalanceItem` schema (`account_id`, `date`, `opening_balance`, `currency`).
+-   `BankingTransactionItem`: the `open_balance` field is renamed to `opening_balance`.
+
 ## 1.0.35 - 2026-07-16
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).

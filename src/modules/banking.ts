@@ -21,6 +21,10 @@ type GetAttachmentsParams = AutoPaginatedParams<
     operations['banking_get_attachments']['parameters']['query']
 >;
 
+type GetOpeningBalanceParams = AutoPaginatedParams<
+    operations['banking_get_opening_balance']['parameters']['query']
+>;
+
 const bankingFactory = {
     getFinancialInstitutions(
         params?: GetFinancialInstitutionsParams,
@@ -74,6 +78,17 @@ const bankingFactory = {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/banking/attachments',
+            rawData: options?.rawData,
+        };
+    },
+    getOpeningBalance(
+        params: GetOpeningBalanceParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['BankingOpeningBalanceItem']> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/banking/opening-balance',
             rawData: options?.rawData,
         };
     },
