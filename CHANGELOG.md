@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.0.37 - 2026-07-29
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [POS] `getModifiers`: list the modifiers of a point of sale (paginated, optional `location_id`).
+
+### Schema (new endpoints)
+
+-   [POS] Get Modifiers (`GET /consumers/{consumer_id}/pos/modifiers`)
+
+### Schema (type refinements)
+
+-   New `ModifiersItem`, `ModifierOptionItem`, `ModifierLine` and `ChiftPage_ModifiersItem_` schemas.
+-   `POSLineItem`: add the `modifiers` field (list of `ModifierLine`).
+-   `POSProductItem`: add the `modifier_groups_ids` field.
+
 ## 1.0.36 - 2026-07-24
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).

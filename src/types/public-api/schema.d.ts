@@ -1749,6 +1749,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/pos/modifiers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Modifiers
+         * @description Returns a list of the modifiers
+         */
+        get: operations['pos_get_modifiers'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/pos/orders': {
         parameters: {
             query?: never;
@@ -5063,6 +5083,17 @@ export interface components {
         ChiftPage_MiscellaneousOperationOut_: {
             /** Items */
             items: components['schemas']['MiscellaneousOperationOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[ModifiersItem] */
+        ChiftPage_ModifiersItem_: {
+            /** Items */
+            items: components['schemas']['ModifiersItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -10208,6 +10239,88 @@ export interface components {
          * @enum {string}
          */
         Mode: 'EAT_IN' | 'TAKEAWAY' | 'DELIVERY' | 'UNKNOWN';
+        /** ModifierLine */
+        ModifierLine: {
+            /**
+             * Modifier Id
+             * @description Unique identifier of the modifier line item
+             * @example 123
+             */
+            modifier_id?: string | null;
+            /**
+             * Name
+             * @description Name of the modifier
+             * @example Ketchup
+             */
+            name: string;
+            /**
+             * Modifier Group Id
+             * @description Unique identifier of the modifier group line item
+             * @example 123
+             */
+            modifier_group_id?: string | null;
+            /**
+             * Quantity
+             * @description Quantity of the modifier line item
+             * @default 1
+             * @example 1
+             */
+            quantity: number | null;
+            /**
+             * Unit Price
+             * @description Unit price (without tax) of the modifier line item
+             * @default 0
+             * @example 10
+             */
+            unit_price: number | null;
+            /**
+             * Total
+             * @description Total amount including tax of the modifier line item
+             * @default 0
+             * @example 11
+             */
+            total: number | null;
+        };
+        /** ModifierOptionItem */
+        ModifierOptionItem: {
+            /**
+             * Id
+             * @description Unique identifier of the modifier option
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name of the modifier option
+             * @example Extra Cheese
+             */
+            name?: string | null;
+            /**
+             * Price
+             * @description Price of the modifier option
+             */
+            price: number;
+        };
+        /** ModifiersItem */
+        ModifiersItem: {
+            /**
+             * Id
+             * @description Unique identifier of the modifier
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name of the modifier
+             * @example Toppings
+             */
+            name?: string | null;
+            /**
+             * Options
+             * @description List of options of the modifier
+             */
+            options: components['schemas']['ModifierOptionItem'][];
+        };
         /** MultipleMatchingIn */
         MultipleMatchingIn: {
             /** Matchings */
@@ -11826,6 +11939,12 @@ export interface components {
              * @example 123
              */
             accounting_category_id?: string | null;
+            /**
+             * Modifiers
+             * @description List of modifiers
+             * @default []
+             */
+            modifiers: components['schemas']['ModifierLine'][] | null;
         };
         /**
          * POSLineItemType
@@ -12112,6 +12231,12 @@ export interface components {
              * @description List of prices for the product
              */
             prices: components['schemas']['ProductPriceItem'][];
+            /**
+             * Modifier Groups Ids
+             * @description List of ids of the modifier groups
+             * @default []
+             */
+            modifier_groups_ids: string[] | null;
             /**
              * Accounting Category Ids
              * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
@@ -20307,6 +20432,89 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    pos_get_modifiers: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Unique identifier of the location. If none passed, products from all locations will be returned unless the location was selected by the end-user */
+                location_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_ModifiersItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };

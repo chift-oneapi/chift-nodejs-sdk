@@ -145,6 +145,7 @@ export type chiftOperations = {
     getClosure: 'pos_get_closure';
     getObjectives: 'pos_get_objectives';
     getPOSTaxes: 'pos_get_taxes';
+    getModifiers: 'pos_get_modifiers';
 
     // eCommerce operations
     getCommerceCustomers: 'ecommerce_get_customers';
