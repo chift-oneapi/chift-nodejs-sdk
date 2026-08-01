@@ -16336,13 +16336,11 @@ export interface operations {
         requestBody?: never;
         responses: {
             /** @description Successful Response */
-            200: {
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    'application/json': unknown;
-                };
+                content?: never;
             };
             /** @description Not Found */
             404: {
@@ -16571,13 +16569,11 @@ export interface operations {
         requestBody?: never;
         responses: {
             /** @description Successful Response */
-            200: {
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    'application/json': unknown;
-                };
+                content?: never;
             };
             /** @description Bad Request */
             400: {

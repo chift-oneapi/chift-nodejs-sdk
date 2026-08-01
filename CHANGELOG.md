@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.38 - 2026-08-01
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (type refinements)
+
+-   [SYNCS] Disable a flow for a specific consumer (`POST /consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable`) now responds with `204 No Content` instead of `200`.
+-   [CONNECTIONS] Disable datalayer sync (`POST .../connections/{connection_id}/disable_datalayer`) now responds with `204 No Content` instead of `200`.
+
 ## 1.0.37 - 2026-07-29
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
