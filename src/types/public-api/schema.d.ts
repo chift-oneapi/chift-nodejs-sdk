@@ -683,6 +683,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/datalab/query-groups-join': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query Groups Join */
+        post: operations['datalab_query_groups_join'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/issues': {
         parameters: {
             query?: never;
@@ -4661,6 +4678,8 @@ export interface components {
              * @default
              */
             detail: string | null;
+            /** Error Code */
+            error_code?: string | null;
         };
         /** ChiftId */
         ChiftId: {
@@ -6629,6 +6648,22 @@ export interface components {
                 | components['schemas']['CubeAndFilter']
                 | components['schemas']['CubeOrFilter']
             )[];
+        };
+        /**
+         * CubeJoinQuery
+         * @description Runs several single-group queries and merges them on shared, aligned dimensions.
+         *
+         *     Each entry in ``queries`` is a standard load query for a single query group. Each entry in
+         *     ``align`` is a positional list of dimensions to align (``cols[i]`` is the dimension of
+         *     ``queries[i]``, or ``None`` if that query lacks the axis); the results are full-outer joined on
+         *     the aligned dimension tuples. The dimensions in an align entry must share one declared
+         *     ``align_axis``, and that axis names the resulting output column.
+         */
+        CubeJoinQuery: {
+            /** Queries */
+            queries: components['schemas']['CubeLoadQuery'][];
+            /** Align */
+            align?: (string | null)[][];
         };
         /**
          * CubeLeafFilter
@@ -13141,6 +13176,8 @@ export interface components {
             currencyDimension?: string | null;
             /** Currencysensitive */
             currencySensitive?: boolean | null;
+            /** Alignaxis */
+            alignAxis?: string | null;
         };
         /** PublicCubeRelationship */
         PublicCubeRelationship: {
@@ -13155,7 +13192,7 @@ export interface components {
         /** QueryMeta */
         QueryMeta: {
             /** Currency */
-            currency?: string[] | null;
+            currency?: (string | null)[] | null;
             /** Monetary Measures */
             monetary_measures?: string[] | null;
         };
@@ -16914,6 +16951,39 @@ export interface operations {
             };
         };
     };
+    datalab_query_groups_join: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CubeJoinQuery'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['QueryResponse'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     issues_get_issues: {
         parameters: {
             query?: {
@@ -17438,13 +17508,13 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17494,12 +17564,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The client/supplier doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17548,6 +17612,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17557,22 +17627,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The client/supplier doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17672,13 +17736,13 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17728,12 +17792,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The client/supplier doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17782,6 +17840,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17791,22 +17855,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The client/supplier doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17861,12 +17919,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The partner doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17934,13 +17986,22 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17998,13 +18059,22 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -18024,7 +18094,7 @@ export interface operations {
                 journal_ids?: string | null;
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
-                /** @description Extra filter to retrieve invoices with a specific payment status. */
+                /** @description Extra filter to retrieve invoices with a specific payment status. Cancelled invoices are filtered out when using either paid or unpaid. */
                 payment_status?: components['schemas']['PaymentStatus'] | null;
                 /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
@@ -18061,7 +18131,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "You must provide an invoice type.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -18094,7 +18164,7 @@ export interface operations {
                 journal_ids?: string | null;
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
-                /** @description Extra filter to retrieve invoices with a specific payment status. */
+                /** @description Extra filter to retrieve invoices with a specific payment status. Cancelled invoices are filtered out when using either paid or unpaid. */
                 payment_status?: components['schemas']['PaymentStatus'] | null;
                 /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
@@ -18131,7 +18201,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "You must provide an invoice type.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -18187,7 +18257,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -18200,22 +18270,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -18258,7 +18322,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -18271,22 +18335,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -18379,10 +18437,19 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "An analytic account already exists with the same code in the accounting system.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18433,10 +18500,19 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "An analytic account already exists with the same code in the accounting system.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18496,12 +18572,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The analytic account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18565,12 +18635,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The analytic account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18631,12 +18695,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The analytic account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18701,12 +18759,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The analytic account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18817,12 +18869,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "You can retrieve maximum 3 months of data at once. The difference between 'date_from' and 'date_to' is at maximum 3 months when 'updated_after' parameter is not provided.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18880,12 +18926,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "You can retrieve maximum 3 months of data at once. The difference between 'date_from' and 'date_to' is at maximum 3 months when 'updated_after' parameter is not provided.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18945,12 +18985,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The entry doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -19061,7 +19095,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -19074,22 +19108,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The given invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -19337,27 +19365,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "A journal already exists with the same code in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "The counterpart account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -19527,13 +19534,13 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -19630,22 +19637,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "Entry 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -19692,22 +19693,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "Entry 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -19810,12 +19805,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20032,20 +20021,20 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "A bank account/journal already exists with the same code in the accounting system.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -20085,20 +20074,20 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The format of the bank_statement_id doesn't seem to be correct.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -20207,13 +20196,13 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -20359,12 +20348,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "A ledger account already exists with the same number in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20522,15 +20505,15 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
-                /** @description Start date (inclusive) of the period to get orders from */
+                /** @description Start date (inclusive) of the period to get orders from. Ignored when 'closure_id' is provided. */
                 date_from?: string | null;
-                /** @description End date (inclusive) of the period to get orders from */
+                /** @description End date (inclusive) of the period to get orders from. Ignored when 'closure_id' is provided. */
                 date_to?: string | null;
                 /** @description Unique identifier of the location. If none passed, orders from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
                 /** @description State of the orders to get */
                 state?: components['schemas']['States'];
-                /** @description Unique identifier of the closure. If none passed, orders from all closures will be selected. */
+                /** @description Unique identifier of the closure. Scopes the result to that closure instead of a date range: when provided, 'date_from' and 'date_to' are ignored and every order of the closure is returned, whatever its date. If none passed, orders from all closures in the period will be selected. */
                 closure_id?: string | null;
             };
             header?: never;
@@ -20649,12 +20632,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The order with id {OrderId} could not be found",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -21323,12 +21300,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The customer with id {CustomerId} could not be found",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22047,12 +22018,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The customer doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22164,12 +22129,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The product doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22226,12 +22185,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The variant doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22400,6 +22353,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22444,6 +22403,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22503,12 +22468,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The order doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22872,12 +22831,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The contact doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -23035,12 +22988,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The product doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -23148,12 +23095,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The tax doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -23210,7 +23151,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "You must provide an invoice type.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -23310,12 +23251,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The ID of the invoice doesn't have the correct format.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -23325,12 +23260,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The invoice doesn't exist in the invoicing system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -23377,7 +23306,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The document is not a valid base64 string representing a PDF.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -23488,12 +23417,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The opportunity doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -24287,7 +24210,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "You must provide an transaction type.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -24402,12 +24325,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The payment doesn't exist in the system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -24832,12 +24749,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The customer with id {CustomerId} could not be found",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };

@@ -63,6 +63,7 @@ export type chiftOperations = {
     // Datalab operations
     getCubeSchemas: 'datalab_get_cube_schemas';
     queryDb: 'datalab_query_db';
+    queryGroupsJoin: 'datalab_query_groups_join';
 
     // Local agents operations
     getLocalAgentReleases: 'get_releases_local_agents_releases_get';

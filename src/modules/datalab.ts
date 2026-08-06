@@ -23,9 +23,19 @@ const Datalab = (internalApi: InternalAPI) => {
         return data;
     };
 
+    const queryGroupsJoin = async (body: components['schemas']['CubeJoinQuery']) => {
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['queryGroupsJoin']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.post('/datalab/query-groups-join', body);
+        return data;
+    };
+
     return {
         getCubeSchemas,
         queryDb,
+        queryGroupsJoin,
     };
 };
 

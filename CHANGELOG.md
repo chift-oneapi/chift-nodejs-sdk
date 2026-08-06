@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.0.39 - 2026-08-06
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [DATALAB] `queryGroupsJoin`: run a joined groups query (`POST /datalab/query-groups-join`), taking a `CubeJoinQuery` body and returning a `QueryResponse`.
+
+### Schema (new endpoints)
+
+-   [DATALAB] Query Groups Join (`POST /datalab/query-groups-join`)
+
+### Schema (type refinements)
+
+-   New `CubeJoinQuery` schema (`queries: CubeLoadQuery[]`, optional `align`).
+-   `CubeLoadQuery`: add optional `align` / `alignAxis` fields; `currency` widened to `(string | null)[] | null`.
+-   Align several endpoints' error responses to `ChiftError` in place of `HTTPValidationError`.
+
 ## 1.0.38 - 2026-08-01
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
