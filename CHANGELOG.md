@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.40 - 2026-08-15
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (type refinements)
+
+-   [INVOICING] Add optional `delivery_date` (`string | null`) to invoice item schemas `InvoiceItemIn`, `InvoiceItemInMultiAnalyticPlans`, `InvoiceItemOut`, and `InvoiceItemOutMultiAnalyticPlans` — date on which the goods were delivered or the service was provided (`YYYY-MM-DD`), used to assign the invoice and its tax to the correct period when it differs from the invoice date.
+
 ## 1.0.39 - 2026-08-06
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).

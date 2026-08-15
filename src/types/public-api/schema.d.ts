@@ -8222,6 +8222,11 @@ export interface components {
              * @description Technical ID of the payment method in the accounting system. This is an indication of the payment method that will be used to pay the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice.
              */
             payment_method_id?: string | null;
+            /**
+             * Delivery Date
+             * @description Date on which the goods were delivered or the service was provided (format: YYYY-MM-DD). Used to assign the invoice and its tax to the correct period when it differs from the invoice date.
+             */
+            delivery_date?: string | null;
         };
         /** InvoiceItemInMultiAnalyticPlans */
         InvoiceItemInMultiAnalyticPlans: {
@@ -8345,6 +8350,11 @@ export interface components {
              * @description Technical ID of the payment method in the accounting system. This is an indication of the payment method that will be used to pay the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice.
              */
             payment_method_id?: string | null;
+            /**
+             * Delivery Date
+             * @description Date on which the goods were delivered or the service was provided (format: YYYY-MM-DD). Used to assign the invoice and its tax to the correct period when it differs from the invoice date.
+             */
+            delivery_date?: string | null;
         };
         /** InvoiceItemOut */
         InvoiceItemOut: {
@@ -8519,6 +8529,11 @@ export interface components {
              * @description Last Due date of the invoice. The invoice date is used when this information is not given by the software.
              */
             due_date: string;
+            /**
+             * Delivery Date
+             * @description Date on which the goods were delivered or the service was provided (format: YYYY-MM-DD), when the accounting system exposes it.
+             */
+            delivery_date?: string | null;
             /** Partner Id */
             partner_id: string | null;
             /**
@@ -8625,6 +8640,11 @@ export interface components {
              * @description Last Due date of the invoice. The invoice date is used when this information is not given by the software.
              */
             due_date: string;
+            /**
+             * Delivery Date
+             * @description Date on which the goods were delivered or the service was provided (format: YYYY-MM-DD), when the accounting system exposes it.
+             */
+            delivery_date?: string | null;
             /** Partner Id */
             partner_id: string | null;
             /**
