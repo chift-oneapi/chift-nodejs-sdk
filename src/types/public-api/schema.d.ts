@@ -15,7 +15,7 @@ export interface paths {
         put?: never;
         /**
          * Get access token
-         * @description This endpoint allows you to get an access token that can be used as a BEARER token to access the protected endpoints of this APIs. The token is valid for 30 minutes. You can refresh the token by requesting a new token.
+         * @description Authenticates with your clientId, clientSecret, and accountId, then returns a Bearer access token valid for 30 minutes for use on all protected API endpoints.
          */
         post: operations['generate_access_token_token_post'];
         delete?: never;
@@ -35,7 +35,7 @@ export interface paths {
         put?: never;
         /**
          * Get MCP token
-         * @description This endpoint allows you to get an access token for the MCP server. This token is always linked with a consumer_id.
+         * @description Authenticates and returns a Bearer access token scoped to the MCP server for the specified consumer, enabling MCP-level API access.
          */
         post: operations['generate_mcp_token_mcp_token_post'];
         delete?: never;
@@ -53,13 +53,13 @@ export interface paths {
         };
         /**
          * Get consumers
-         * @description Returns the list of consumers linked to your account.
+         * @description Returns the list of consumers linked to your account, optionally filtered by name or internal reference.
          */
         get: operations['consumers_get_consumers'];
         put?: never;
         /**
          * Create new consumer
-         * @description Create a new consumer that will have the possibility to use the enabled integrations
+         * @description Creates a new consumer and returns the created consumer object. The consumer can then connect to the integrations enabled on your account.
          */
         post: operations['consumers_create_consumer'];
         delete?: never;
@@ -77,21 +77,21 @@ export interface paths {
         };
         /**
          * Get one consumer
-         * @description Returns the specified consumer
+         * @description Returns the consumer matching the given ID.
          */
         get: operations['consumers_get_consumer'];
         put?: never;
         post?: never;
         /**
          * Delete one consumer
-         * @description Endpoint that deletes one consumer in Chift
+         * @description Deletes the specified consumer and all associated connections, then returns HTTP 204 on success.
          */
         delete: operations['consumers_delete_consumer'];
         options?: never;
         head?: never;
         /**
          * Update one consumer
-         * @description Update one consumer in Chift
+         * @description Updates one or more fields of an existing consumer and returns the updated consumer object.
          */
         patch: operations['consumers_update_consumer'];
         trace?: never;
@@ -132,7 +132,7 @@ export interface paths {
         post?: never;
         /**
          * Delete one connection
-         * @description Endpoint that deletes one connection of a consumer in Chift
+         * @description Deletes the specified connection of a consumer and disables any associated webhooks, then returns HTTP 204 on success.
          */
         delete: operations['connections_delete_connection'];
         options?: never;
@@ -153,7 +153,7 @@ export interface paths {
         };
         /**
          * Get transaction information
-         * @description Returns transaction info by client_request_id
+         * @description Returns the API transaction matching the given client_request_id, allowing you to trace the outcome of a specific request made on behalf of a consumer.
          */
         get: operations['get_transaction_by_client_request_id_consumers__consumer_id__connections__connection_id__transactions_get'];
         put?: never;
@@ -191,7 +191,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Returns a logo/icon of an integration (as base64) */
+        /**
+         * Get integration logo/icon (as base64)
+         * @description Returns the logo or icon image of the specified integration as a base64-encoded string wrapped in a JSON object.
+         */
         get: operations['integrations_get_integration_logo_json'];
         put?: never;
         post?: never;
@@ -236,7 +239,7 @@ export interface paths {
         put?: never;
         /**
          * Add new webhook instance
-         * @description Returns the created webhook instance
+         * @description Creates a new webhook subscription for the specified event and URL, then returns the created webhook instance.
          */
         post: operations['webhooks_create_webhook'];
         delete?: never;
@@ -254,21 +257,21 @@ export interface paths {
         };
         /**
          * Get one webhook instance
-         * @description Returns one webhook instance
+         * @description Returns the specified webhook instance.
          */
         get: operations['webhooks_get_webhook'];
         put?: never;
         post?: never;
         /**
          * Delete one webhook
-         * @description Endpoint that deletes one existing webhook
+         * @description Deletes the specified webhook subscription and its associated logs, then returns HTTP 204 on success.
          */
         delete: operations['webhooks_delete_webhook'];
         options?: never;
         head?: never;
         /**
          * Update one webhook
-         * @description Update one webhook in Chift
+         * @description Updates the URL, status, or signing secret of an existing webhook and returns the updated webhook instance.
          */
         patch: operations['webhooks_update_webhook'];
         trace?: never;
@@ -302,13 +305,13 @@ export interface paths {
         };
         /**
          * Get syncs
-         * @description Returns the syncs
+         * @description Returns all syncs configured for your account.
          */
         get: operations['syncs_get_syncs'];
         put?: never;
         /**
          * Create sync
-         * @description Returns the created sync
+         * @description Creates a new sync with the provided configuration and returns the created sync object.
          */
         post: operations['syncs_post_sync'];
         delete?: never;
@@ -326,7 +329,7 @@ export interface paths {
         };
         /**
          * Get sync
-         * @description Returns a sync by id
+         * @description Returns the sync matching the given ID.
          */
         get: operations['syncs_get_sync'];
         put?: never;
@@ -348,7 +351,7 @@ export interface paths {
         put?: never;
         /**
          * Send a custom event for a specific flow
-         * @description Route that can be used to send a specific event for a flow
+         * @description Sends a custom trigger event to the specified flow and returns the execution trigger response.
          */
         post: operations['syncs_send_custom_event'];
         delete?: never;
@@ -366,7 +369,7 @@ export interface paths {
         };
         /**
          * Get executions information for one consumer/flow/sync
-         * @description Returns executions information for one consumer/flow/sync
+         * @description Returns all execution records for the specified consumer, sync, and flow combination, optionally filtered by date range.
          */
         get: operations['syncs_get_consumer_executions'];
         put?: never;
@@ -405,8 +408,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get execution start/end timestamp
-         * @description Get execution start/end timestamp
+         * Get execution details
+         * @description Returns the details of a specific execution for the given sync and flow.
          */
         get: operations['syncs_get_execution'];
         put?: never;
@@ -428,7 +431,7 @@ export interface paths {
         put?: never;
         /**
          * Retrieve the url of a sync for a specific consumer
-         * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
+         * @description Links the specified consumer to a sync and returns the URL to share with your client so they can complete the connection setup.
          */
         post: operations['syncs_create_synctoconsumer'];
         delete?: never;
@@ -456,7 +459,7 @@ export interface paths {
         head?: never;
         /**
          * Update flow mappings for a specific consumer
-         * @description Route that can be used to update the flow mappings for a specific consumer. It will replace the existing configuration with the provided one.
+         * @description Replaces the flow mappings for a specific consumer with the provided configuration, overwriting the existing mappings.
          */
         patch: operations['syncs_update_synctoconsumer'];
         trace?: never;
@@ -472,7 +475,7 @@ export interface paths {
         put?: never;
         /**
          * Enable a flow for a specific consumer
-         * @description Route that can be used to enable a flow for a specific consumer
+         * @description Enables the specified flow for a consumer so that it starts executing on its configured schedule or triggers.
          */
         post: operations['syncs_enable_syncconsumer'];
         delete?: never;
@@ -492,7 +495,7 @@ export interface paths {
         put?: never;
         /**
          * Disable a flow for a specific consumer
-         * @description Route that can be used to disable a flow for a specific consumer
+         * @description Disables the specified flow for a consumer so that it stops executing until re-enabled.
          */
         post: operations['syncs_disable_syncconsumer'];
         delete?: never;
@@ -516,7 +519,7 @@ export interface paths {
         head?: never;
         /**
          * Update flow settings for a specific consumer
-         * @description Route that can be used to update the flow configuration for a specific consumer. It will merge the new configuration with the existing one.
+         * @description Updates the flow configuration for a specific consumer by merging the provided settings with the existing configuration.
          */
         patch: operations['syncs_update_flowtoconsumer'];
         trace?: never;
@@ -784,7 +787,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Folders */
+        /**
+         * Get folders
+         * @description Returns the list of accounting folders (companies or dossiers) the consumer has access to in the accounting system.
+         */
         get: operations['accounting_get_folders'];
         put?: never;
         post?: never;
@@ -801,7 +807,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Folder */
+        /**
+         * Get one folder
+         * @description Returns a single accounting folder (company or dossier) by its ID from the accounting system.
+         */
         get: operations['accounting_get_folder'];
         put?: never;
         post?: never;
@@ -818,7 +827,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Bookyears */
+        /**
+         * Get book years
+         * @description Returns the list of fiscal book years defined in the accounting system for the authenticated consumer.
+         */
         get: operations['accounting_get_bookyears'];
         put?: never;
         post?: never;
@@ -835,7 +847,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Analytic Plans */
+        /**
+         * Get analytic plans
+         * @description Returns the list of analytic plan structures available in the accounting system for cost allocation.
+         */
         get: operations['accounting_get_analytic_plans'];
         put?: never;
         post?: never;
@@ -874,13 +889,13 @@ export interface paths {
         };
         /**
          * Get clients
-         * @description Returns a list of accounting clients
+         * @description Returns the list of clients (customer/debtor partners) registered in the accounting system.
          */
         get: operations['accounting_get_clients'];
         put?: never;
         /**
          * Create client
-         * @description Create a new client
+         * @description Creates a new client (customer/debtor partner) in the accounting system and returns the created record.
          */
         post: operations['accounting_create_client'];
         delete?: never;
@@ -898,7 +913,7 @@ export interface paths {
         };
         /**
          * Get one client
-         * @description Returns a specific accounting client
+         * @description Returns a specific client (customer/debtor partner) by its ID from the accounting system.
          */
         get: operations['accounting_get_client'];
         put?: never;
@@ -922,13 +937,13 @@ export interface paths {
         };
         /**
          * Get suppliers
-         * @description Returns a list of accounting suppliers
+         * @description Returns the list of suppliers (vendor/creditor partners) registered in the accounting system.
          */
         get: operations['accounting_get_suppliers'];
         put?: never;
         /**
          * Create supplier
-         * @description Create a new supplier
+         * @description Creates a new supplier (vendor/creditor partner) in the accounting system and returns the created record.
          */
         post: operations['accounting_create_supplier'];
         delete?: never;
@@ -946,7 +961,7 @@ export interface paths {
         };
         /**
          * Get one supplier
-         * @description Returns one accounting supplier
+         * @description Returns a specific supplier (vendor/creditor partner) by its ID from the accounting system.
          */
         get: operations['accounting_get_supplier'];
         put?: never;
@@ -956,7 +971,7 @@ export interface paths {
         head?: never;
         /**
          * Update one supplier
-         * @description Update an accounting supplier
+         * @description Updates an existing supplier (vendor/creditor partner) record in the accounting system with the provided fields.
          */
         patch: operations['accounting_update_supplier'];
         trace?: never;
@@ -970,7 +985,7 @@ export interface paths {
         };
         /**
          * Get contacts of a partner
-         * @description Returns contacts of a specific client or supplier
+         * @description Returns the contact persons linked to a specific client or supplier partner in the accounting system.
          */
         get: operations['accounting_get_partner_contacts'];
         put?: never;
@@ -992,7 +1007,7 @@ export interface paths {
         put?: never;
         /**
          * Create sale/purchase entry
-         * @description Create a new sale/purchase accounting entry
+         * @description Creates a new sale or purchase invoice entry in the accounting system and returns the created record.
          */
         post: operations['accounting_create_invoice'];
         delete?: never;
@@ -1110,13 +1125,13 @@ export interface paths {
         };
         /**
          * Get analytic accounts
-         * @description Returns all analytic accounts of the default analytic plan
+         * @description Returns all analytic accounts belonging to the default analytic plan in the accounting system.
          */
         get: operations['accounting_get_analytic_accounts'];
         put?: never;
         /**
          * Create analytic account
-         * @description Create a new analytic account in the default analytic plan
+         * @description Creates a new analytic account in the accounting system's default analytic plan and returns the created record.
          */
         post: operations['accounting_create_analytic_account'];
         delete?: never;
@@ -1136,7 +1151,7 @@ export interface paths {
         put?: never;
         /**
          * Create analytic account (Multiple Analytic Plans)
-         * @description Create a new analytic account in a specific analytic plan
+         * @description Creates a new analytic account in a specific analytic plan of the accounting system and returns the created record.
          */
         post: operations['accounting_create_analytic_account_multi_plans'];
         delete?: never;
@@ -1202,7 +1217,7 @@ export interface paths {
         };
         /**
          * Get analytic accounts (Multiple Analytic Plans)
-         * @description Returns all analytic accounts of all analytic plans
+         * @description Returns all analytic accounts across all analytic plans defined in the accounting system.
          */
         get: operations['accounting_get_analytic_accounts_multi_plans'];
         put?: never;
@@ -1262,7 +1277,7 @@ export interface paths {
         };
         /**
          * Get one journal entry
-         * @description Returns a single journal entry by ID.
+         * @description Returns a single journal entry by its ID from the accounting system.
          */
         get: operations['accounting_get_journal_entry'];
         put?: never;
@@ -1284,7 +1299,7 @@ export interface paths {
         put?: never;
         /**
          * Create Journal Entry
-         * @description Create a new Journal Entry in the accounting system
+         * @description Creates a new journal entry in the accounting system using the unified generic entry model.
          */
         post: operations['accounting_create_generic_journal_entry'];
         delete?: never;
@@ -1303,7 +1318,7 @@ export interface paths {
         /**
          * Get payments by invoice ID
          * @deprecated
-         * @description Get payments of a specific invoice based on its ID
+         * @description Returns the list of payments recorded against a specific invoice, looked up by its invoice ID.
          */
         get: operations['accounting_get_payments_by_invoice'];
         put?: never;
@@ -1323,7 +1338,7 @@ export interface paths {
         };
         /**
          * Get payment methods
-         * @description Get payment methods
+         * @description Returns the list of payment method configurations available in the accounting system.
          */
         get: operations['accounting_get_payment_methods'];
         put?: never;
@@ -1345,7 +1360,7 @@ export interface paths {
         put?: never;
         /**
          * Create an invoice payment
-         * @description Create invoice payment
+         * @description Records a payment against an invoice in the accounting system, marking the invoice as (partially) settled.
          */
         post: operations['accounting_create_invoice_payment'];
         delete?: never;
@@ -1363,7 +1378,7 @@ export interface paths {
         };
         /**
          * Get payment terms
-         * @description Get payment terms
+         * @description Returns the list of payment term configurations (e.g., net 30, immediate) defined in the accounting system.
          */
         get: operations['accounting_get_payment_terms'];
         put?: never;
@@ -1383,7 +1398,7 @@ export interface paths {
         };
         /**
          * Get journals
-         * @description Get journals existing in the accounting system
+         * @description Returns the list of accounting journals (sales, purchase, bank, cash, etc.) defined in the accounting system.
          */
         get: operations['accounting_get_journals'];
         put?: never;
@@ -1405,7 +1420,7 @@ export interface paths {
         put?: never;
         /**
          * Create journal
-         * @description Create a journal in the accounting system
+         * @description Creates a new accounting journal (e.g., sales, purchase, or bank journal) in the accounting system.
          */
         post: operations['accounting_create_journal'];
         delete?: never;
@@ -1423,7 +1438,7 @@ export interface paths {
         };
         /**
          * Get vat codes
-         * @description Get vat codes existing in the accounting system
+         * @description Returns the list of VAT/tax codes configured in the accounting system.
          */
         get: operations['accounting_get_vat_codes'];
         put?: never;
@@ -1444,14 +1459,14 @@ export interface paths {
         /**
          * Get miscellaneous operations
          * @deprecated
-         * @description Get miscellaneous operations from the the accounting system
+         * @description Returns the list of miscellaneous accounting operations (not tied to invoices) from the accounting system.
          */
         get: operations['accounting_get_miscellaneous_operations'];
         put?: never;
         /**
          * Create miscellaneous operation
          * @deprecated
-         * @description Create a new miscellaneous operation
+         * @description Creates a new miscellaneous accounting operation (not tied to an invoice) in the accounting system.
          */
         post: operations['accounting_create_miscellaneous_operation'];
         delete?: never;
@@ -1492,7 +1507,7 @@ export interface paths {
         put?: never;
         /**
          * Match entries
-         * @description Match existing entries in the accounting system
+         * @description Reconciles open accounting entries against each other in the accounting system, marking them as matched.
          */
         post: operations['accounting_match_entries'];
         delete?: never;
@@ -1513,7 +1528,7 @@ export interface paths {
         /**
          * Match multiple entries
          * @deprecated
-         * @description Match existing entries in the accounting system
+         * @description Reconciles multiple sets of open accounting entries against each other in the accounting system in a single call.
          */
         post: operations['accounting_match_entries_multiple'];
         delete?: never;
@@ -1553,7 +1568,7 @@ export interface paths {
         put?: never;
         /**
          * Attach a document (PDF)
-         * @description Attach a document (PDF) to the invoice entry
+         * @description Attaches a PDF document to an existing invoice entry in the accounting system as a linked attachment.
          */
         post: operations['accounting_add_attachment'];
         delete?: never;
@@ -1571,7 +1586,7 @@ export interface paths {
         };
         /**
          * Get chart of accounts
-         * @description Get all accounts in the chart of accounts
+         * @description Returns the full list of ledger accounts in the chart of accounts for the accounting system.
          */
         get: operations['accounting_get_chart_of_accounts'];
         put?: never;
@@ -1611,13 +1626,13 @@ export interface paths {
         };
         /**
          * Get bank accounts
-         * @description Returns a list of bank accounts in the accounting system
+         * @description Returns the list of bank accounts configured in the accounting system for the consumer.
          */
         get: operations['accounting_get_bank_accounts'];
         put?: never;
         /**
          * Create bank account
-         * @description Create a new bank account in the accounting system
+         * @description Creates a new bank account in the accounting system and returns the created object.
          */
         post: operations['accounting_create_bank_account'];
         delete?: never;
@@ -1637,7 +1652,7 @@ export interface paths {
         put?: never;
         /**
          * Create bank transactions
-         * @description Create new bank transactions
+         * @description Creates new bank statement transactions (lines) in the accounting system for a given bank account.
          */
         post: operations['accounting_create_bank_transactions'];
         delete?: never;
@@ -1655,7 +1670,7 @@ export interface paths {
         };
         /**
          * Get employees
-         * @description Returns a list of the employees linked to the company
+         * @description Returns the list of employees linked to the company in the accounting system.
          */
         get: operations['accounting_get_employees'];
         put?: never;
@@ -1677,7 +1692,7 @@ export interface paths {
         put?: never;
         /**
          * Create a financial entry
-         * @description Create a new financial entry (Bank or Cash operation)
+         * @description Creates a new bank or cash journal financial entry in the accounting system and returns the created record.
          */
         post: operations['accounting_create_financial_entries'];
         delete?: never;
@@ -1697,7 +1712,7 @@ export interface paths {
         put?: never;
         /**
          * Create an expense
-         * @description Create a new employee expense
+         * @description Creates a new employee expense claim in the accounting system and returns the created record.
          */
         post: operations['accounting_create_expense'];
         delete?: never;
@@ -1715,7 +1730,7 @@ export interface paths {
         };
         /**
          * Get clients/suppliers outstanding items
-         * @description Returns a list of all clients/suppliers outstanding items
+         * @description Returns the list of outstanding (unpaid) items for clients and suppliers in the accounting system.
          */
         get: operations['accounting_get_outstandings'];
         put?: never;
@@ -1737,7 +1752,7 @@ export interface paths {
         put?: never;
         /**
          * Create ledger account
-         * @description Create a new ledger account in the chart of accounts
+         * @description Creates a new ledger account in the chart of accounts for the accounting system.
          */
         post: operations['accounting_create_ledger_account'];
         delete?: never;
@@ -1755,7 +1770,7 @@ export interface paths {
         };
         /**
          * Export entries in FEC format
-         * @description Returns accounting entries according to the FEC format
+         * @description Returns accounting entries formatted according to the French FEC (Fichier des Écritures Comptables) standard.
          */
         get: operations['accounting_export_fec'];
         put?: never;
@@ -1775,7 +1790,7 @@ export interface paths {
         };
         /**
          * Get Modifiers
-         * @description Returns a list of the modifiers
+         * @description Returns the list of product modifiers (add-ons or customization options) available in the POS system.
          */
         get: operations['pos_get_modifiers'];
         put?: never;
@@ -1795,7 +1810,7 @@ export interface paths {
         };
         /**
          * Get orders
-         * @description Returns a list of the orders
+         * @description Returns the list of orders placed in the POS system, optionally filtered by date range or location.
          */
         get: operations['pos_get_orders'];
         put?: never;
@@ -1815,7 +1830,7 @@ export interface paths {
         };
         /**
          * Get one order
-         * @description Returns a single order
+         * @description Returns a specific order from the POS system by its unique identifier.
          */
         get: operations['pos_get_order'];
         put?: never;
@@ -1825,7 +1840,7 @@ export interface paths {
         head?: never;
         /**
          * Update order
-         * @description Update one order
+         * @description Updates a specific order in the POS system with the provided fields and returns the updated record.
          */
         patch: operations['pos_update_pos_customer'];
         trace?: never;
@@ -1839,7 +1854,7 @@ export interface paths {
         };
         /**
          * Get locations
-         * @description Returns a list of the locations
+         * @description Returns the list of physical locations (outlets or terminals) configured in the POS system.
          */
         get: operations['pos_get_locations'];
         put?: never;
@@ -1859,7 +1874,7 @@ export interface paths {
         };
         /**
          * Get payments
-         * @description Returns a list of payments
+         * @description Returns the list of payments collected in the POS system, optionally filtered by date or location.
          */
         get: operations['pos_get_payments'];
         put?: never;
@@ -1879,7 +1894,7 @@ export interface paths {
         };
         /**
          * Get sales
-         * @description Returns the summary of the sales
+         * @description Returns the aggregated sales summary for a given period, optionally broken down by location.
          */
         get: operations['pos_get_sales'];
         put?: never;
@@ -1899,7 +1914,7 @@ export interface paths {
         };
         /**
          * Get payment methods (POS)
-         * @description Returns the list of payment methods (POS)
+         * @description Returns the list of payment methods accepted and configured in the POS system.
          */
         get: operations['pos_get_payments_methods'];
         put?: never;
@@ -1919,13 +1934,13 @@ export interface paths {
         };
         /**
          * Get customers
-         * @description Returns the list of customers
+         * @description Returns the list of customer profiles registered in the POS system, optionally filtered.
          */
         get: operations['pos_get_customers'];
         put?: never;
         /**
          * Create one customer
-         * @description Create a customer
+         * @description Creates a new customer profile in the POS system and returns the created customer record.
          */
         post: operations['pos_create_pos_customer'];
         delete?: never;
@@ -1943,7 +1958,7 @@ export interface paths {
         };
         /**
          * Get one customer
-         * @description Returns a specific customer
+         * @description Returns a specific customer profile from the POS system by their unique identifier.
          */
         get: operations['pos_get_customer'];
         put?: never;
@@ -1963,7 +1978,7 @@ export interface paths {
         };
         /**
          * Get product categories
-         * @description Returns a list of product categories
+         * @description Returns the list of product categories used to organize the menu or catalog in the POS system.
          */
         get: operations['pos_get_product_categories'];
         put?: never;
@@ -1983,7 +1998,7 @@ export interface paths {
         };
         /**
          * Get products
-         * @description Returns a list of products
+         * @description Returns the list of products or menu items available for sale in the POS system.
          */
         get: operations['pos_get_products'];
         put?: never;
@@ -2023,7 +2038,7 @@ export interface paths {
         };
         /**
          * Get tax rates (POS)
-         * @description Returns a list of the tax rates
+         * @description Returns the list of tax rates configured in the POS system for product and order pricing.
          */
         get: operations['pos_get_taxes'];
         put?: never;
@@ -2103,7 +2118,7 @@ export interface paths {
         };
         /**
          * Get all customers
-         * @description Returns a list of all the customers
+         * @description Returns the list of all customers registered in the e-commerce system, optionally filtered.
          */
         get: operations['ecommerce_get_customers'];
         put?: never;
@@ -2123,7 +2138,7 @@ export interface paths {
         };
         /**
          * Get one specific customer
-         * @description Returns a specific customer
+         * @description Returns a specific customer from the e-commerce system by their unique identifier.
          */
         get: operations['ecommerce_get_customer'];
         put?: never;
@@ -2143,7 +2158,7 @@ export interface paths {
         };
         /**
          * Get all products
-         * @description Returns a list of all the products
+         * @description Returns the list of all products available in the e-commerce catalog, optionally filtered.
          */
         get: operations['ecommerce_get_products'];
         put?: never;
@@ -2163,7 +2178,7 @@ export interface paths {
         };
         /**
          * Get one specific product
-         * @description Returns a specific product
+         * @description Returns a specific product from the e-commerce catalog by its unique identifier.
          */
         get: operations['ecommerce_get_product'];
         put?: never;
@@ -2183,7 +2198,7 @@ export interface paths {
         };
         /**
          * Get one specific product variant
-         * @description Returns a specific product variant
+         * @description Returns a specific product variant from the e-commerce system by its unique identifier.
          */
         get: operations['ecommerce_get_variant'];
         put?: never;
@@ -2223,7 +2238,7 @@ export interface paths {
         };
         /**
          * Get all locations
-         * @description Returns a list of all locations
+         * @description Returns the list of all physical or virtual locations configured in the e-commerce system.
          */
         get: operations['ecommerce_get_locations'];
         put?: never;
@@ -2243,13 +2258,13 @@ export interface paths {
         };
         /**
          * Get all orders
-         * @description Returns a list of all the orders
+         * @description Returns the list of orders placed in the e-commerce system, optionally filtered by date or status.
          */
         get: operations['ecommerce_get_orders'];
         put?: never;
         /**
          * Create an order
-         * @description Create a new order
+         * @description Creates a new customer order in the e-commerce system and returns the created order record.
          */
         post: operations['ecommerce_create_order'];
         delete?: never;
@@ -2267,7 +2282,7 @@ export interface paths {
         };
         /**
          * Get one specific order
-         * @description Returns a specific order
+         * @description Returns a specific order from the e-commerce system by its unique identifier.
          */
         get: operations['ecommerce_get_order'];
         put?: never;
@@ -2287,7 +2302,7 @@ export interface paths {
         };
         /**
          * Get all payment methods
-         * @description Returns the list of the payment methods
+         * @description Returns the list of payment methods accepted and configured in the e-commerce system.
          */
         get: operations['ecommerce_get_payments_methods'];
         put?: never;
@@ -2307,7 +2322,7 @@ export interface paths {
         };
         /**
          * Get all product categories
-         * @description Returns the list of the product categories
+         * @description Returns the list of product categories defined in the e-commerce system for organizing the catalog.
          */
         get: operations['ecommerce_get_product_categories'];
         put?: never;
@@ -2327,7 +2342,7 @@ export interface paths {
         };
         /**
          * Get all tax rates
-         * @description Returns the list of all tax rates
+         * @description Returns the list of all tax rates configured in the e-commerce system for product pricing.
          */
         get: operations['ecommerce_get_taxes'];
         put?: never;
@@ -2347,7 +2362,7 @@ export interface paths {
         };
         /**
          * Get all countries
-         * @description Returns the list of all activated countries
+         * @description Returns the list of all activated countries available for shipping and billing in the e-commerce system.
          */
         get: operations['ecommerce_get_countries'];
         put?: never;
@@ -2373,7 +2388,7 @@ export interface paths {
         put?: never;
         /**
          * Create a contact
-         * @description Create a new contact.
+         * @description Creates a new contact in the invoicing system and returns the created contact record.
          */
         post: operations['invoicing_post_contacts'];
         delete?: never;
@@ -2391,7 +2406,7 @@ export interface paths {
         };
         /**
          * Retrieve one contact
-         * @description Returns a contact
+         * @description Returns a specific contact from the invoicing system by their unique identifier.
          */
         get: operations['invoicing_get_contact'];
         put?: never;
@@ -2411,13 +2426,13 @@ export interface paths {
         };
         /**
          * Retrieve all products
-         * @description Returns a list of all the products
+         * @description Returns the list of all products or services available in the invoicing system catalog.
          */
         get: operations['invoicing_get_products'];
         put?: never;
         /**
          * Create a product
-         * @description Create a new product.
+         * @description Creates a new product or service in the invoicing system catalog and returns the created record.
          */
         post: operations['invoicing_post_products'];
         delete?: never;
@@ -2435,7 +2450,7 @@ export interface paths {
         };
         /**
          * Retrieve one product
-         * @description Returns a product
+         * @description Returns a specific product or service from the invoicing system by its unique identifier.
          */
         get: operations['invoicing_get_product'];
         put?: never;
@@ -2455,7 +2470,7 @@ export interface paths {
         };
         /**
          * Retrieve all taxes
-         * @description Returns a list of all the taxes
+         * @description Returns the list of all VAT or tax codes configured in the invoicing system.
          */
         get: operations['invoicing_get_taxes'];
         put?: never;
@@ -2475,7 +2490,7 @@ export interface paths {
         };
         /**
          * Retrieve one tax
-         * @description Returns a tax
+         * @description Returns a specific VAT or tax code from the invoicing system by its unique identifier.
          */
         get: operations['invoicing_get_tax'];
         put?: never;
@@ -2501,7 +2516,7 @@ export interface paths {
         put?: never;
         /**
          * Create an invoice
-         * @description Create a new invoice.
+         * @description Creates a new invoice in the invoicing system and returns the created invoice record.
          */
         post: operations['invoicing_post_invoices'];
         delete?: never;
@@ -2519,7 +2534,7 @@ export interface paths {
         };
         /**
          * Retrieve one invoice
-         * @description Returns a invoice
+         * @description Returns a specific invoice from the invoicing system by its unique identifier.
          */
         get: operations['invoicing_get_invoice'];
         put?: never;
@@ -2541,7 +2556,7 @@ export interface paths {
         put?: never;
         /**
          * Upload a document (PDF)
-         * @description Upload a document (PDF)
+         * @description Uploads a PDF document to the invoicing system and returns a reference to the stored document.
          */
         post: operations['invoicing_upload_document'];
         delete?: never;
@@ -2559,7 +2574,7 @@ export interface paths {
         };
         /**
          * Retrieve all opportunities
-         * @description Returns a list of all the opportunities
+         * @description Returns the list of all sales opportunities (deals or quotes) available in the invoicing system.
          */
         get: operations['invoicing_get_opportunities'];
         put?: never;
@@ -2579,7 +2594,7 @@ export interface paths {
         };
         /**
          * Retrieve one opportunity
-         * @description Returns an opportunity
+         * @description Returns a specific sales opportunity (deal or quote) from the invoicing system by its unique identifier.
          */
         get: operations['invoicing_get_opportunity'];
         put?: never;
@@ -2599,13 +2614,13 @@ export interface paths {
         };
         /**
          * Retrieve all payments (invoicing)
-         * @description Returns a list of payments
+         * @description Returns the list of payment records registered in the invoicing system, optionally filtered.
          */
         get: operations['invoicing_get_payments'];
         put?: never;
         /**
          * Create a payment (invoicing)
-         * @description Create a payment (invoicing)
+         * @description Creates a new payment record in the invoicing system and returns the created payment.
          */
         post: operations['invoicing_create_payment'];
         delete?: never;
@@ -2629,7 +2644,7 @@ export interface paths {
         head?: never;
         /**
          * Update a payment (invoicing)
-         * @description Update a payment (invoicing)
+         * @description Updates an existing payment record in the invoicing system with the provided fields.
          */
         patch: operations['invoicing_update_payment'];
         trace?: never;
@@ -2643,7 +2658,7 @@ export interface paths {
         };
         /**
          * Retrieve all payment methods
-         * @description Returns the list of payment methods
+         * @description Returns the list of payment method configurations available in the invoicing system.
          */
         get: operations['invoicing_get_payments_methods'];
         put?: never;
@@ -2663,7 +2678,7 @@ export interface paths {
         };
         /**
          * Retrieve all Bank Accounts
-         * @description Returns the list of bank accounts
+         * @description Returns the list of bank accounts configured in the invoicing system.
          */
         get: operations['invoicing_get_bank_accounts'];
         put?: never;
@@ -2683,7 +2698,7 @@ export interface paths {
         };
         /**
          * Retrieve all Bank Transactions
-         * @description Returns the list of bank transactions
+         * @description Returns the list of bank statement transactions available in the invoicing system.
          */
         get: operations['invoicing_get_bank_transactions'];
         put?: never;
@@ -2723,7 +2738,7 @@ export interface paths {
         };
         /**
          * Get list of banking accounts
-         * @description Returns the list of banking accounts
+         * @description Returns the list of banking accounts.
          */
         get: operations['banking_get_accounts'];
         put?: never;
@@ -2743,7 +2758,7 @@ export interface paths {
         };
         /**
          * Get list of financial transactions
-         * @description Returns the list of transactions of an account
+         * @description Returns the list of bank transactions for a specific account, optionally filtered by date range.
          */
         get: operations['banking_get_account_transactions'];
         put?: never;
@@ -2783,7 +2798,7 @@ export interface paths {
         };
         /**
          * Get Attachments
-         * @description Returns a list of all attachments linked to a transaction
+         * @description Returns the list of document attachments linked to a specific banking transaction.
          */
         get: operations['banking_get_attachments'];
         put?: never;
@@ -2823,7 +2838,7 @@ export interface paths {
         };
         /**
          * Retrieve all locations
-         * @description Returns a list of locations.
+         * @description Returns the list of physical or virtual merchant locations registered in the payment processor.
          */
         get: operations['payment_get_locations'];
         put?: never;
@@ -2843,7 +2858,7 @@ export interface paths {
         };
         /**
          * Retrieve all balances
-         * @description Returns a list of balances.
+         * @description Returns the list of account balances available in the payment processor for the authenticated account.
          */
         get: operations['payment_get_balances'];
         put?: never;
@@ -2883,7 +2898,7 @@ export interface paths {
         };
         /**
          * Retrieve all payments
-         * @description Returns a list of payments.
+         * @description Returns the list of payment intents processed by the payment connector, optionally filtered by date.
          */
         get: operations['payment_get_payments'];
         put?: never;
@@ -2903,7 +2918,7 @@ export interface paths {
         };
         /**
          * Get a payment
-         * @description Returns a specific payment.
+         * @description Returns a specific payment record from the payment connector by its unique identifier.
          */
         get: operations['payment_get_payment'];
         put?: never;
@@ -2923,7 +2938,7 @@ export interface paths {
         };
         /**
          * Retrieve all refunds
-         * @description Returns a list of refunds.
+         * @description Returns the list of refund transactions processed by the payment connector, optionally filtered by date.
          */
         get: operations['payment_get_refunds'];
         put?: never;
@@ -2963,7 +2978,7 @@ export interface paths {
         };
         /**
          * Get orders (PMS)
-         * @description Returns a list of the orders
+         * @description Returns the list of orders (reservations or bookings) placed in the property management system.
          */
         get: operations['pms_get_orders'];
         put?: never;
@@ -2983,7 +2998,7 @@ export interface paths {
         };
         /**
          * Get invoices (PMS)
-         * @description Returns a list of the invoices
+         * @description Returns the list of invoices generated by the property management system for guests or reservations.
          */
         get: operations['pms_get_invoices'];
         put?: never;
@@ -3003,7 +3018,7 @@ export interface paths {
         };
         /**
          * Get customers (PMS)
-         * @description Returns a list of all the customers
+         * @description Returns the list of all guest or customer profiles registered in the property management system.
          */
         get: operations['pms_get_customers'];
         put?: never;
@@ -3023,7 +3038,7 @@ export interface paths {
         };
         /**
          * Get one customer (PMS)
-         * @description Returns a specific customer
+         * @description Returns a specific guest or customer profile from the property management system by their unique identifier.
          */
         get: operations['pms_get_customer'];
         put?: never;
@@ -3043,7 +3058,7 @@ export interface paths {
         };
         /**
          * Get locations (PMS)
-         * @description Returns a list of the locations
+         * @description Returns the list of physical locations (hotels, properties, or outlets) in the property management system.
          */
         get: operations['pms_get_locations'];
         put?: never;
@@ -3063,7 +3078,7 @@ export interface paths {
         };
         /**
          * Get payments (PMS)
-         * @description Returns a list of payments
+         * @description Returns the list of payments collected in the property management system, optionally filtered by date.
          */
         get: operations['pms_get_payments'];
         put?: never;
@@ -3083,7 +3098,7 @@ export interface paths {
         };
         /**
          * Get payment methods (PMS)
-         * @description Returns the list of payment methods
+         * @description Returns the list of payment methods accepted and configured in the property management system.
          */
         get: operations['pms_get_payments_methods'];
         put?: never;
@@ -3143,7 +3158,7 @@ export interface paths {
         };
         /**
          * Get tax rates (PMS)
-         * @description Returns a list of the tax rates
+         * @description Returns the list of tax rates configured in the property management system for billing purposes.
          */
         get: operations['pms_get_taxes'];
         put?: never;
@@ -3163,7 +3178,7 @@ export interface paths {
         };
         /**
          * Get the accounting transactions (PMS)
-         * @description Returns a list of the accounting transactions
+         * @description Returns the list of accounting transactions generated by the property management system for reconciliation.
          */
         get: operations['pms_get_accounting_transactions'];
         put?: never;
@@ -14931,6 +14946,7 @@ export interface operations {
     consumers_get_consumers: {
         parameters: {
             query?: {
+                /** @description Partial, case-insensitive match on the name or the email of the consumer. */
                 search?: string | null;
                 internal_reference?: string | null;
             };

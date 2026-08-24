@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.41 - 2026-08-24
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (documentation)
+
+-   Refresh endpoint `@description` and summary comments across `paths` and `operations` to match the upstream OpenAPI docs. No endpoints, request/response types, fields, or enums changed — this is a documentation-only sync, so the SDK surface (`src/modules`) is unaffected.
+
 ## 1.0.40 - 2026-08-15
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
