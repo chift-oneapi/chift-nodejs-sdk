@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.42 - 2026-08-26
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (type refinements)
+
+-   [ECOMMERCE] Add optional `channel` (`string | null`) to the `OrderItemOut` schema — the sales channel the order originated from. Additive output-only field; it flows through `consumer.ecommerce.getOrders` / `getOrder` automatically, so the SDK surface (`src/modules`) is unaffected.
+
 ## 1.0.41 - 2026-08-24
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).

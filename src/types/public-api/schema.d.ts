@@ -10613,6 +10613,8 @@ export interface components {
             source_ref: components['schemas']['Ref'];
             /** Order Number */
             order_number?: string | null;
+            /** Channel */
+            channel?: string | null;
             customer?: components['schemas']['OrderCustomerItemOut'] | null;
             billing_address?: components['schemas']['CommerceAddressItemOut'] | null;
             shipping_address?: components['schemas']['CommerceAddressItemOut'] | null;
