@@ -15,7 +15,7 @@ export interface paths {
         put?: never;
         /**
          * Get access token
-         * @description This endpoint allows you to get an access token that can be used as a BEARER token to access the protected endpoints of this APIs. The token is valid for 30 minutes. You can refresh the token by requesting a new token.
+         * @description Authenticates with your clientId, clientSecret, and accountId, then returns a Bearer access token valid for 30 minutes for use on all protected API endpoints.
          */
         post: operations['generate_access_token_token_post'];
         delete?: never;
@@ -35,7 +35,7 @@ export interface paths {
         put?: never;
         /**
          * Get MCP token
-         * @description This endpoint allows you to get an access token for the MCP server. This token is always linked with a consumer_id.
+         * @description Authenticates and returns a Bearer access token scoped to the MCP server for the specified consumer, enabling MCP-level API access.
          */
         post: operations['generate_mcp_token_mcp_token_post'];
         delete?: never;
@@ -53,13 +53,13 @@ export interface paths {
         };
         /**
          * Get consumers
-         * @description Returns the list of consumers linked to your account.
+         * @description Returns the list of consumers linked to your account, optionally filtered by name or internal reference.
          */
         get: operations['consumers_get_consumers'];
         put?: never;
         /**
          * Create new consumer
-         * @description Create a new consumer that will have the possibility to use the enabled integrations
+         * @description Creates a new consumer and returns the created consumer object. The consumer can then connect to the integrations enabled on your account.
          */
         post: operations['consumers_create_consumer'];
         delete?: never;
@@ -77,21 +77,21 @@ export interface paths {
         };
         /**
          * Get one consumer
-         * @description Returns the specified consumer
+         * @description Returns the consumer matching the given ID.
          */
         get: operations['consumers_get_consumer'];
         put?: never;
         post?: never;
         /**
          * Delete one consumer
-         * @description Endpoint that deletes one consumer in Chift
+         * @description Deletes the specified consumer and all associated connections, then returns HTTP 204 on success.
          */
         delete: operations['consumers_delete_consumer'];
         options?: never;
         head?: never;
         /**
          * Update one consumer
-         * @description Update one consumer in Chift
+         * @description Updates one or more fields of an existing consumer and returns the updated consumer object.
          */
         patch: operations['consumers_update_consumer'];
         trace?: never;
@@ -132,7 +132,7 @@ export interface paths {
         post?: never;
         /**
          * Delete one connection
-         * @description Endpoint that deletes one connection of a consumer in Chift
+         * @description Deletes the specified connection of a consumer and disables any associated webhooks, then returns HTTP 204 on success.
          */
         delete: operations['connections_delete_connection'];
         options?: never;
@@ -153,7 +153,7 @@ export interface paths {
         };
         /**
          * Get transaction information
-         * @description Returns transaction info by client_request_id
+         * @description Returns the API transaction matching the given client_request_id, allowing you to trace the outcome of a specific request made on behalf of a consumer.
          */
         get: operations['get_transaction_by_client_request_id_consumers__consumer_id__connections__connection_id__transactions_get'];
         put?: never;
@@ -191,7 +191,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Returns a logo/icon of an integration (as base64) */
+        /**
+         * Get integration logo/icon (as base64)
+         * @description Returns the logo or icon image of the specified integration as a base64-encoded string wrapped in a JSON object.
+         */
         get: operations['integrations_get_integration_logo_json'];
         put?: never;
         post?: never;
@@ -236,7 +239,7 @@ export interface paths {
         put?: never;
         /**
          * Add new webhook instance
-         * @description Returns the created webhook instance
+         * @description Creates a new webhook subscription for the specified event and URL, then returns the created webhook instance.
          */
         post: operations['webhooks_create_webhook'];
         delete?: never;
@@ -254,21 +257,21 @@ export interface paths {
         };
         /**
          * Get one webhook instance
-         * @description Returns one webhook instance
+         * @description Returns the specified webhook instance.
          */
         get: operations['webhooks_get_webhook'];
         put?: never;
         post?: never;
         /**
          * Delete one webhook
-         * @description Endpoint that deletes one existing webhook
+         * @description Deletes the specified webhook subscription and its associated logs, then returns HTTP 204 on success.
          */
         delete: operations['webhooks_delete_webhook'];
         options?: never;
         head?: never;
         /**
          * Update one webhook
-         * @description Update one webhook in Chift
+         * @description Updates the URL, status, or signing secret of an existing webhook and returns the updated webhook instance.
          */
         patch: operations['webhooks_update_webhook'];
         trace?: never;
@@ -302,13 +305,13 @@ export interface paths {
         };
         /**
          * Get syncs
-         * @description Returns the syncs
+         * @description Returns all syncs configured for your account.
          */
         get: operations['syncs_get_syncs'];
         put?: never;
         /**
          * Create sync
-         * @description Returns the created sync
+         * @description Creates a new sync with the provided configuration and returns the created sync object.
          */
         post: operations['syncs_post_sync'];
         delete?: never;
@@ -326,7 +329,7 @@ export interface paths {
         };
         /**
          * Get sync
-         * @description Returns a sync by id
+         * @description Returns the sync matching the given ID.
          */
         get: operations['syncs_get_sync'];
         put?: never;
@@ -348,7 +351,7 @@ export interface paths {
         put?: never;
         /**
          * Send a custom event for a specific flow
-         * @description Route that can be used to send a specific event for a flow
+         * @description Sends a custom trigger event to the specified flow and returns the execution trigger response.
          */
         post: operations['syncs_send_custom_event'];
         delete?: never;
@@ -366,9 +369,29 @@ export interface paths {
         };
         /**
          * Get executions information for one consumer/flow/sync
-         * @description Returns executions information for one consumer/flow/sync
+         * @description Returns all execution records for the specified consumer, sync, and flow combination, optionally filtered by date range.
          */
         get: operations['syncs_get_consumer_executions'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/syncs/{syncid}/executions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get executions for a sync
+         * @description Returns all executions for a sync with pagination. Optionally filter by flow.
+         */
+        get: operations['syncs_get_sync_executions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -385,8 +408,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get execution start/end timestamp
-         * @description Get execution start/end timestamp
+         * Get execution details
+         * @description Returns the details of a specific execution for the given sync and flow.
          */
         get: operations['syncs_get_execution'];
         put?: never;
@@ -408,7 +431,7 @@ export interface paths {
         put?: never;
         /**
          * Retrieve the url of a sync for a specific consumer
-         * @description This route can be used to retrieve the url that can be shared with your clients to allow them to connect as specified in a sync
+         * @description Links the specified consumer to a sync and returns the URL to share with your client so they can complete the connection setup.
          */
         post: operations['syncs_create_synctoconsumer'];
         delete?: never;
@@ -436,7 +459,7 @@ export interface paths {
         head?: never;
         /**
          * Update flow mappings for a specific consumer
-         * @description Route that can be used to update the flow mappings for a specific consumer. It will replace the existing configuration with the provided one.
+         * @description Replaces the flow mappings for a specific consumer with the provided configuration, overwriting the existing mappings.
          */
         patch: operations['syncs_update_synctoconsumer'];
         trace?: never;
@@ -452,9 +475,29 @@ export interface paths {
         put?: never;
         /**
          * Enable a flow for a specific consumer
-         * @description Route that can be used to enable a flow for a specific consumer
+         * @description Enables the specified flow for a consumer so that it starts executing on its configured schedule or triggers.
          */
         post: operations['syncs_enable_syncconsumer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Disable a flow for a specific consumer
+         * @description Disables the specified flow for a consumer so that it stops executing until re-enabled.
+         */
+        post: operations['syncs_disable_syncconsumer'];
         delete?: never;
         options?: never;
         head?: never;
@@ -476,9 +519,69 @@ export interface paths {
         head?: never;
         /**
          * Update flow settings for a specific consumer
-         * @description Route that can be used to update the flow configuration for a specific consumer. It will merge the new configuration with the existing one.
+         * @description Updates the flow configuration for a specific consumer by merging the provided settings with the existing configuration.
          */
         patch: operations['syncs_update_flowtoconsumer'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/connections/{connection_id}/enable_datalayer': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Enable the datalayer sync for a connection
+         * @description Enables the datalayer sync for the consumer's connection so it refreshes on schedule. Requires the datalayer to be configured for the connection's vertical.
+         */
+        post: operations['datalayer_enable'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/connections/{connection_id}/refresh_datalayer': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refresh the datalayer sync for a connection
+         * @description Triggers an on-demand execution of the datalayer sync for the consumer's connection. Requires the datalayer to be configured for the connection's vertical and the sync enabled.
+         */
+        post: operations['datalayer_refresh'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/connections/{connection_id}/disable_datalayer': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Disable the datalayer sync for a connection
+         * @description Disables the datalayer sync for the consumer's connection so it stops refreshing. Requires the datalayer to be configured for the connection's vertical.
+         */
+        post: operations['datalayer_disable'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     '/datastores': {
@@ -549,6 +652,57 @@ export interface paths {
         patch: operations['datastores_update_consumer_datastoredata'];
         trace?: never;
     };
+    '/datalab/cube-schemas': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Cube Schemas */
+        get: operations['datalab_get_cube_schemas'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/datalab/query-db': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query Db */
+        post: operations['datalab_query_db'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/datalab/query-groups-join': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Query Groups Join */
+        post: operations['datalab_query_groups_join'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/issues': {
         parameters: {
             query?: never;
@@ -609,6 +763,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/local-agents/releases': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Releases */
+        get: operations['get_releases_local_agents_releases_get'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/accounting/folders': {
         parameters: {
             query?: never;
@@ -616,8 +787,31 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Folders */
+        /**
+         * Get folders
+         * @description Returns the list of accounting folders (companies or dossiers) the consumer has access to in the accounting system.
+         */
         get: operations['accounting_get_folders'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/folders/{folder_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get one folder
+         * @description Returns a single accounting folder (company or dossier) by its ID from the accounting system.
+         */
+        get: operations['accounting_get_folder'];
         put?: never;
         post?: never;
         delete?: never;
@@ -633,7 +827,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Bookyears */
+        /**
+         * Get book years
+         * @description Returns the list of fiscal book years defined in the accounting system for the authenticated consumer.
+         */
         get: operations['accounting_get_bookyears'];
         put?: never;
         post?: never;
@@ -650,7 +847,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Analytic Plans */
+        /**
+         * Get analytic plans
+         * @description Returns the list of analytic plan structures available in the accounting system for cost allocation.
+         */
         get: operations['accounting_get_analytic_plans'];
         put?: never;
         post?: never;
@@ -689,13 +889,13 @@ export interface paths {
         };
         /**
          * Get clients
-         * @description Returns a list of accounting clients
+         * @description Returns the list of clients (customer/debtor partners) registered in the accounting system.
          */
         get: operations['accounting_get_clients'];
         put?: never;
         /**
          * Create client
-         * @description Create a new client
+         * @description Creates a new client (customer/debtor partner) in the accounting system and returns the created record.
          */
         post: operations['accounting_create_client'];
         delete?: never;
@@ -713,7 +913,7 @@ export interface paths {
         };
         /**
          * Get one client
-         * @description Returns a specific accounting client
+         * @description Returns a specific client (customer/debtor partner) by its ID from the accounting system.
          */
         get: operations['accounting_get_client'];
         put?: never;
@@ -737,13 +937,13 @@ export interface paths {
         };
         /**
          * Get suppliers
-         * @description Returns a list of accounting suppliers
+         * @description Returns the list of suppliers (vendor/creditor partners) registered in the accounting system.
          */
         get: operations['accounting_get_suppliers'];
         put?: never;
         /**
          * Create supplier
-         * @description Create a new supplier
+         * @description Creates a new supplier (vendor/creditor partner) in the accounting system and returns the created record.
          */
         post: operations['accounting_create_supplier'];
         delete?: never;
@@ -761,7 +961,7 @@ export interface paths {
         };
         /**
          * Get one supplier
-         * @description Returns one accounting supplier
+         * @description Returns a specific supplier (vendor/creditor partner) by its ID from the accounting system.
          */
         get: operations['accounting_get_supplier'];
         put?: never;
@@ -771,9 +971,29 @@ export interface paths {
         head?: never;
         /**
          * Update one supplier
-         * @description Update an accounting supplier
+         * @description Updates an existing supplier (vendor/creditor partner) record in the accounting system with the provided fields.
          */
         patch: operations['accounting_update_supplier'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/accounting/contacts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get contacts of a partner
+         * @description Returns the contact persons linked to a specific client or supplier partner in the accounting system.
+         */
+        get: operations['accounting_get_partner_contacts'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     '/consumers/{consumer_id}/accounting/invoices': {
@@ -787,7 +1007,7 @@ export interface paths {
         put?: never;
         /**
          * Create sale/purchase entry
-         * @description Create a new sale/purchase accounting entry
+         * @description Creates a new sale or purchase invoice entry in the accounting system and returns the created record.
          */
         post: operations['accounting_create_invoice'];
         delete?: never;
@@ -905,13 +1125,13 @@ export interface paths {
         };
         /**
          * Get analytic accounts
-         * @description Returns all analytic accounts of the default analytic plan
+         * @description Returns all analytic accounts belonging to the default analytic plan in the accounting system.
          */
         get: operations['accounting_get_analytic_accounts'];
         put?: never;
         /**
          * Create analytic account
-         * @description Create a new analytic account in the default analytic plan
+         * @description Creates a new analytic account in the accounting system's default analytic plan and returns the created record.
          */
         post: operations['accounting_create_analytic_account'];
         delete?: never;
@@ -931,7 +1151,7 @@ export interface paths {
         put?: never;
         /**
          * Create analytic account (Multiple Analytic Plans)
-         * @description Create a new analytic account in a specific analytic plan
+         * @description Creates a new analytic account in a specific analytic plan of the accounting system and returns the created record.
          */
         post: operations['accounting_create_analytic_account_multi_plans'];
         delete?: never;
@@ -997,7 +1217,7 @@ export interface paths {
         };
         /**
          * Get analytic accounts (Multiple Analytic Plans)
-         * @description Returns all analytic accounts of all analytic plans
+         * @description Returns all analytic accounts across all analytic plans defined in the accounting system.
          */
         get: operations['accounting_get_analytic_accounts_multi_plans'];
         put?: never;
@@ -1057,7 +1277,7 @@ export interface paths {
         };
         /**
          * Get one journal entry
-         * @description Returns a single journal entry by ID.
+         * @description Returns a single journal entry by its ID from the accounting system.
          */
         get: operations['accounting_get_journal_entry'];
         put?: never;
@@ -1079,7 +1299,7 @@ export interface paths {
         put?: never;
         /**
          * Create Journal Entry
-         * @description Create a new Journal Entry in the accounting system
+         * @description Creates a new journal entry in the accounting system using the unified generic entry model.
          */
         post: operations['accounting_create_generic_journal_entry'];
         delete?: never;
@@ -1097,7 +1317,8 @@ export interface paths {
         };
         /**
          * Get payments by invoice ID
-         * @description Get payments of a specific invoice based on its ID
+         * @deprecated
+         * @description Returns the list of payments recorded against a specific invoice, looked up by its invoice ID.
          */
         get: operations['accounting_get_payments_by_invoice'];
         put?: never;
@@ -1117,7 +1338,7 @@ export interface paths {
         };
         /**
          * Get payment methods
-         * @description Get payment methods
+         * @description Returns the list of payment method configurations available in the accounting system.
          */
         get: operations['accounting_get_payment_methods'];
         put?: never;
@@ -1139,7 +1360,7 @@ export interface paths {
         put?: never;
         /**
          * Create an invoice payment
-         * @description Create invoice payment
+         * @description Records a payment against an invoice in the accounting system, marking the invoice as (partially) settled.
          */
         post: operations['accounting_create_invoice_payment'];
         delete?: never;
@@ -1157,7 +1378,7 @@ export interface paths {
         };
         /**
          * Get payment terms
-         * @description Get payment terms
+         * @description Returns the list of payment term configurations (e.g., net 30, immediate) defined in the accounting system.
          */
         get: operations['accounting_get_payment_terms'];
         put?: never;
@@ -1177,7 +1398,7 @@ export interface paths {
         };
         /**
          * Get journals
-         * @description Get journals existing in the accounting system
+         * @description Returns the list of accounting journals (sales, purchase, bank, cash, etc.) defined in the accounting system.
          */
         get: operations['accounting_get_journals'];
         put?: never;
@@ -1199,7 +1420,7 @@ export interface paths {
         put?: never;
         /**
          * Create journal
-         * @description Create a journal in the accounting system
+         * @description Creates a new accounting journal (e.g., sales, purchase, or bank journal) in the accounting system.
          */
         post: operations['accounting_create_journal'];
         delete?: never;
@@ -1217,7 +1438,7 @@ export interface paths {
         };
         /**
          * Get vat codes
-         * @description Get vat codes existing in the accounting system
+         * @description Returns the list of VAT/tax codes configured in the accounting system.
          */
         get: operations['accounting_get_vat_codes'];
         put?: never;
@@ -1237,13 +1458,15 @@ export interface paths {
         };
         /**
          * Get miscellaneous operations
-         * @description Get miscellaneous operations from the the accounting system
+         * @deprecated
+         * @description Returns the list of miscellaneous accounting operations (not tied to invoices) from the accounting system.
          */
         get: operations['accounting_get_miscellaneous_operations'];
         put?: never;
         /**
          * Create miscellaneous operation
-         * @description Create a new miscellaneous operation
+         * @deprecated
+         * @description Creates a new miscellaneous accounting operation (not tied to an invoice) in the accounting system.
          */
         post: operations['accounting_create_miscellaneous_operation'];
         delete?: never;
@@ -1261,6 +1484,7 @@ export interface paths {
         };
         /**
          * Get one miscellaneous operation
+         * @deprecated
          * @description Get a specific miscellaneous operation from the the accounting system
          */
         get: operations['accounting_get_miscellaneous_operation'];
@@ -1283,7 +1507,7 @@ export interface paths {
         put?: never;
         /**
          * Match entries
-         * @description Match existing entries in the accounting system
+         * @description Reconciles open accounting entries against each other in the accounting system, marking them as matched.
          */
         post: operations['accounting_match_entries'];
         delete?: never;
@@ -1303,7 +1527,8 @@ export interface paths {
         put?: never;
         /**
          * Match multiple entries
-         * @description Match existing entries in the accounting system
+         * @deprecated
+         * @description Reconciles multiple sets of open accounting entries against each other in the accounting system in a single call.
          */
         post: operations['accounting_match_entries_multiple'];
         delete?: never;
@@ -1321,7 +1546,7 @@ export interface paths {
         };
         /**
          * Get attachments
-         * @description Returns a list of all attachments linked to an accounting entry
+         * @description Returns the file content of all attachments linked to an accounting entry (invoice or journal entry). Use this endpoint when an invoice or journal entry has attachments_info.status set to 'yes_to_request'. Pass type=invoice and document_id={invoice_id} for invoices, or type=entry and document_id={entry_id} for journal entries. Each returned item contains a base64-encoded string of the file content (id and base64_string fields).
          */
         get: operations['accounting_get_attachments'];
         put?: never;
@@ -1343,7 +1568,7 @@ export interface paths {
         put?: never;
         /**
          * Attach a document (PDF)
-         * @description Attach a document (PDF) to the invoice entry
+         * @description Attaches a PDF document to an existing invoice entry in the accounting system as a linked attachment.
          */
         post: operations['accounting_add_attachment'];
         delete?: never;
@@ -1361,7 +1586,7 @@ export interface paths {
         };
         /**
          * Get chart of accounts
-         * @description Get all accounts in the chart of accounts
+         * @description Returns the full list of ledger accounts in the chart of accounts for the accounting system.
          */
         get: operations['accounting_get_chart_of_accounts'];
         put?: never;
@@ -1401,13 +1626,13 @@ export interface paths {
         };
         /**
          * Get bank accounts
-         * @description Returns a list of bank accounts in the accounting system
+         * @description Returns the list of bank accounts configured in the accounting system for the consumer.
          */
         get: operations['accounting_get_bank_accounts'];
         put?: never;
         /**
          * Create bank account
-         * @description Create a new bank account in the accounting system
+         * @description Creates a new bank account in the accounting system and returns the created object.
          */
         post: operations['accounting_create_bank_account'];
         delete?: never;
@@ -1427,7 +1652,7 @@ export interface paths {
         put?: never;
         /**
          * Create bank transactions
-         * @description Create new bank transactions
+         * @description Creates new bank statement transactions (lines) in the accounting system for a given bank account.
          */
         post: operations['accounting_create_bank_transactions'];
         delete?: never;
@@ -1445,7 +1670,7 @@ export interface paths {
         };
         /**
          * Get employees
-         * @description Returns a list of the employees linked to the company
+         * @description Returns the list of employees linked to the company in the accounting system.
          */
         get: operations['accounting_get_employees'];
         put?: never;
@@ -1467,7 +1692,7 @@ export interface paths {
         put?: never;
         /**
          * Create a financial entry
-         * @description Create a new financial entry (Bank or Cash operation)
+         * @description Creates a new bank or cash journal financial entry in the accounting system and returns the created record.
          */
         post: operations['accounting_create_financial_entries'];
         delete?: never;
@@ -1487,7 +1712,7 @@ export interface paths {
         put?: never;
         /**
          * Create an expense
-         * @description Create a new employee expense
+         * @description Creates a new employee expense claim in the accounting system and returns the created record.
          */
         post: operations['accounting_create_expense'];
         delete?: never;
@@ -1505,7 +1730,7 @@ export interface paths {
         };
         /**
          * Get clients/suppliers outstanding items
-         * @description Returns a list of all clients/suppliers outstanding items
+         * @description Returns the list of outstanding (unpaid) items for clients and suppliers in the accounting system.
          */
         get: operations['accounting_get_outstandings'];
         put?: never;
@@ -1527,7 +1752,7 @@ export interface paths {
         put?: never;
         /**
          * Create ledger account
-         * @description Create a new ledger account in the chart of accounts
+         * @description Creates a new ledger account in the chart of accounts for the accounting system.
          */
         post: operations['accounting_create_ledger_account'];
         delete?: never;
@@ -1545,9 +1770,29 @@ export interface paths {
         };
         /**
          * Export entries in FEC format
-         * @description Returns accounting entries according to the FEC format
+         * @description Returns accounting entries formatted according to the French FEC (Fichier des Écritures Comptables) standard.
          */
         get: operations['accounting_export_fec'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/pos/modifiers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Modifiers
+         * @description Returns the list of product modifiers (add-ons or customization options) available in the POS system.
+         */
+        get: operations['pos_get_modifiers'];
         put?: never;
         post?: never;
         delete?: never;
@@ -1565,7 +1810,7 @@ export interface paths {
         };
         /**
          * Get orders
-         * @description Returns a list of the orders
+         * @description Returns the list of orders placed in the POS system, optionally filtered by date range or location.
          */
         get: operations['pos_get_orders'];
         put?: never;
@@ -1585,7 +1830,7 @@ export interface paths {
         };
         /**
          * Get one order
-         * @description Returns a single order
+         * @description Returns a specific order from the POS system by its unique identifier.
          */
         get: operations['pos_get_order'];
         put?: never;
@@ -1595,7 +1840,7 @@ export interface paths {
         head?: never;
         /**
          * Update order
-         * @description Update one order
+         * @description Updates a specific order in the POS system with the provided fields and returns the updated record.
          */
         patch: operations['pos_update_pos_customer'];
         trace?: never;
@@ -1609,7 +1854,7 @@ export interface paths {
         };
         /**
          * Get locations
-         * @description Returns a list of the locations
+         * @description Returns the list of physical locations (outlets or terminals) configured in the POS system.
          */
         get: operations['pos_get_locations'];
         put?: never;
@@ -1629,7 +1874,7 @@ export interface paths {
         };
         /**
          * Get payments
-         * @description Returns a list of payments
+         * @description Returns the list of payments collected in the POS system, optionally filtered by date or location.
          */
         get: operations['pos_get_payments'];
         put?: never;
@@ -1649,7 +1894,7 @@ export interface paths {
         };
         /**
          * Get sales
-         * @description Returns the summary of the sales
+         * @description Returns the aggregated sales summary for a given period, optionally broken down by location.
          */
         get: operations['pos_get_sales'];
         put?: never;
@@ -1669,7 +1914,7 @@ export interface paths {
         };
         /**
          * Get payment methods (POS)
-         * @description Returns the list of payment methods (POS)
+         * @description Returns the list of payment methods accepted and configured in the POS system.
          */
         get: operations['pos_get_payments_methods'];
         put?: never;
@@ -1689,13 +1934,13 @@ export interface paths {
         };
         /**
          * Get customers
-         * @description Returns the list of customers
+         * @description Returns the list of customer profiles registered in the POS system, optionally filtered.
          */
         get: operations['pos_get_customers'];
         put?: never;
         /**
          * Create one customer
-         * @description Create a customer
+         * @description Creates a new customer profile in the POS system and returns the created customer record.
          */
         post: operations['pos_create_pos_customer'];
         delete?: never;
@@ -1713,7 +1958,7 @@ export interface paths {
         };
         /**
          * Get one customer
-         * @description Returns a specific customer
+         * @description Returns a specific customer profile from the POS system by their unique identifier.
          */
         get: operations['pos_get_customer'];
         put?: never;
@@ -1733,7 +1978,7 @@ export interface paths {
         };
         /**
          * Get product categories
-         * @description Returns a list of product categories
+         * @description Returns the list of product categories used to organize the menu or catalog in the POS system.
          */
         get: operations['pos_get_product_categories'];
         put?: never;
@@ -1753,7 +1998,7 @@ export interface paths {
         };
         /**
          * Get products
-         * @description Returns a list of products
+         * @description Returns the list of products or menu items available for sale in the POS system.
          */
         get: operations['pos_get_products'];
         put?: never;
@@ -1776,6 +2021,26 @@ export interface paths {
          * @description Returns a list of accounting categories. When not available for a specific POS, it will return the same values as the product categories.
          */
         get: operations['pos_get_accounting_categories'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/pos/tax-rates': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get tax rates (POS)
+         * @description Returns the list of tax rates configured in the POS system for product and order pricing.
+         */
+        get: operations['pos_get_taxes'];
         put?: never;
         post?: never;
         delete?: never;
@@ -1853,7 +2118,7 @@ export interface paths {
         };
         /**
          * Get all customers
-         * @description Returns a list of all the customers
+         * @description Returns the list of all customers registered in the e-commerce system, optionally filtered.
          */
         get: operations['ecommerce_get_customers'];
         put?: never;
@@ -1873,7 +2138,7 @@ export interface paths {
         };
         /**
          * Get one specific customer
-         * @description Returns a specific customer
+         * @description Returns a specific customer from the e-commerce system by their unique identifier.
          */
         get: operations['ecommerce_get_customer'];
         put?: never;
@@ -1893,7 +2158,7 @@ export interface paths {
         };
         /**
          * Get all products
-         * @description Returns a list of all the products
+         * @description Returns the list of all products available in the e-commerce catalog, optionally filtered.
          */
         get: operations['ecommerce_get_products'];
         put?: never;
@@ -1913,7 +2178,7 @@ export interface paths {
         };
         /**
          * Get one specific product
-         * @description Returns a specific product
+         * @description Returns a specific product from the e-commerce catalog by its unique identifier.
          */
         get: operations['ecommerce_get_product'];
         put?: never;
@@ -1933,7 +2198,7 @@ export interface paths {
         };
         /**
          * Get one specific product variant
-         * @description Returns a specific product variant
+         * @description Returns a specific product variant from the e-commerce system by its unique identifier.
          */
         get: operations['ecommerce_get_variant'];
         put?: never;
@@ -1973,7 +2238,7 @@ export interface paths {
         };
         /**
          * Get all locations
-         * @description Returns a list of all locations
+         * @description Returns the list of all physical or virtual locations configured in the e-commerce system.
          */
         get: operations['ecommerce_get_locations'];
         put?: never;
@@ -1993,13 +2258,13 @@ export interface paths {
         };
         /**
          * Get all orders
-         * @description Returns a list of all the orders
+         * @description Returns the list of orders placed in the e-commerce system, optionally filtered by date or status.
          */
         get: operations['ecommerce_get_orders'];
         put?: never;
         /**
          * Create an order
-         * @description Create a new order
+         * @description Creates a new customer order in the e-commerce system and returns the created order record.
          */
         post: operations['ecommerce_create_order'];
         delete?: never;
@@ -2017,7 +2282,7 @@ export interface paths {
         };
         /**
          * Get one specific order
-         * @description Returns a specific order
+         * @description Returns a specific order from the e-commerce system by its unique identifier.
          */
         get: operations['ecommerce_get_order'];
         put?: never;
@@ -2037,7 +2302,7 @@ export interface paths {
         };
         /**
          * Get all payment methods
-         * @description Returns the list of the payment methods
+         * @description Returns the list of payment methods accepted and configured in the e-commerce system.
          */
         get: operations['ecommerce_get_payments_methods'];
         put?: never;
@@ -2057,7 +2322,7 @@ export interface paths {
         };
         /**
          * Get all product categories
-         * @description Returns the list of the product categories
+         * @description Returns the list of product categories defined in the e-commerce system for organizing the catalog.
          */
         get: operations['ecommerce_get_product_categories'];
         put?: never;
@@ -2077,7 +2342,7 @@ export interface paths {
         };
         /**
          * Get all tax rates
-         * @description Returns the list of all tax rates
+         * @description Returns the list of all tax rates configured in the e-commerce system for product pricing.
          */
         get: operations['ecommerce_get_taxes'];
         put?: never;
@@ -2097,7 +2362,7 @@ export interface paths {
         };
         /**
          * Get all countries
-         * @description Returns the list of all activated countries
+         * @description Returns the list of all activated countries available for shipping and billing in the e-commerce system.
          */
         get: operations['ecommerce_get_countries'];
         put?: never;
@@ -2123,7 +2388,7 @@ export interface paths {
         put?: never;
         /**
          * Create a contact
-         * @description Create a new contact.
+         * @description Creates a new contact in the invoicing system and returns the created contact record.
          */
         post: operations['invoicing_post_contacts'];
         delete?: never;
@@ -2141,7 +2406,7 @@ export interface paths {
         };
         /**
          * Retrieve one contact
-         * @description Returns a contact
+         * @description Returns a specific contact from the invoicing system by their unique identifier.
          */
         get: operations['invoicing_get_contact'];
         put?: never;
@@ -2161,13 +2426,13 @@ export interface paths {
         };
         /**
          * Retrieve all products
-         * @description Returns a list of all the products
+         * @description Returns the list of all products or services available in the invoicing system catalog.
          */
         get: operations['invoicing_get_products'];
         put?: never;
         /**
          * Create a product
-         * @description Create a new product.
+         * @description Creates a new product or service in the invoicing system catalog and returns the created record.
          */
         post: operations['invoicing_post_products'];
         delete?: never;
@@ -2185,7 +2450,7 @@ export interface paths {
         };
         /**
          * Retrieve one product
-         * @description Returns a product
+         * @description Returns a specific product or service from the invoicing system by its unique identifier.
          */
         get: operations['invoicing_get_product'];
         put?: never;
@@ -2205,7 +2470,7 @@ export interface paths {
         };
         /**
          * Retrieve all taxes
-         * @description Returns a list of all the taxes
+         * @description Returns the list of all VAT or tax codes configured in the invoicing system.
          */
         get: operations['invoicing_get_taxes'];
         put?: never;
@@ -2225,7 +2490,7 @@ export interface paths {
         };
         /**
          * Retrieve one tax
-         * @description Returns a tax
+         * @description Returns a specific VAT or tax code from the invoicing system by its unique identifier.
          */
         get: operations['invoicing_get_tax'];
         put?: never;
@@ -2251,7 +2516,7 @@ export interface paths {
         put?: never;
         /**
          * Create an invoice
-         * @description Create a new invoice.
+         * @description Creates a new invoice in the invoicing system and returns the created invoice record.
          */
         post: operations['invoicing_post_invoices'];
         delete?: never;
@@ -2269,7 +2534,7 @@ export interface paths {
         };
         /**
          * Retrieve one invoice
-         * @description Returns a invoice
+         * @description Returns a specific invoice from the invoicing system by its unique identifier.
          */
         get: operations['invoicing_get_invoice'];
         put?: never;
@@ -2291,7 +2556,7 @@ export interface paths {
         put?: never;
         /**
          * Upload a document (PDF)
-         * @description Upload a document (PDF)
+         * @description Uploads a PDF document to the invoicing system and returns a reference to the stored document.
          */
         post: operations['invoicing_upload_document'];
         delete?: never;
@@ -2309,7 +2574,7 @@ export interface paths {
         };
         /**
          * Retrieve all opportunities
-         * @description Returns a list of all the opportunities
+         * @description Returns the list of all sales opportunities (deals or quotes) available in the invoicing system.
          */
         get: operations['invoicing_get_opportunities'];
         put?: never;
@@ -2329,7 +2594,7 @@ export interface paths {
         };
         /**
          * Retrieve one opportunity
-         * @description Returns an opportunity
+         * @description Returns a specific sales opportunity (deal or quote) from the invoicing system by its unique identifier.
          */
         get: operations['invoicing_get_opportunity'];
         put?: never;
@@ -2349,13 +2614,13 @@ export interface paths {
         };
         /**
          * Retrieve all payments (invoicing)
-         * @description Returns a list of payments
+         * @description Returns the list of payment records registered in the invoicing system, optionally filtered.
          */
         get: operations['invoicing_get_payments'];
         put?: never;
         /**
          * Create a payment (invoicing)
-         * @description Create a payment (invoicing)
+         * @description Creates a new payment record in the invoicing system and returns the created payment.
          */
         post: operations['invoicing_create_payment'];
         delete?: never;
@@ -2379,7 +2644,7 @@ export interface paths {
         head?: never;
         /**
          * Update a payment (invoicing)
-         * @description Update a payment (invoicing)
+         * @description Updates an existing payment record in the invoicing system with the provided fields.
          */
         patch: operations['invoicing_update_payment'];
         trace?: never;
@@ -2393,7 +2658,7 @@ export interface paths {
         };
         /**
          * Retrieve all payment methods
-         * @description Returns the list of payment methods
+         * @description Returns the list of payment method configurations available in the invoicing system.
          */
         get: operations['invoicing_get_payments_methods'];
         put?: never;
@@ -2413,7 +2678,7 @@ export interface paths {
         };
         /**
          * Retrieve all Bank Accounts
-         * @description Returns the list of bank accounts
+         * @description Returns the list of bank accounts configured in the invoicing system.
          */
         get: operations['invoicing_get_bank_accounts'];
         put?: never;
@@ -2433,7 +2698,7 @@ export interface paths {
         };
         /**
          * Retrieve all Bank Transactions
-         * @description Returns the list of bank transactions
+         * @description Returns the list of bank statement transactions available in the invoicing system.
          */
         get: operations['invoicing_get_bank_transactions'];
         put?: never;
@@ -2473,7 +2738,7 @@ export interface paths {
         };
         /**
          * Get list of banking accounts
-         * @description Returns the list of banking accounts
+         * @description Returns the list of banking accounts.
          */
         get: operations['banking_get_accounts'];
         put?: never;
@@ -2493,7 +2758,7 @@ export interface paths {
         };
         /**
          * Get list of financial transactions
-         * @description Returns the list of transactions of an account
+         * @description Returns the list of bank transactions for a specific account, optionally filtered by date range.
          */
         get: operations['banking_get_account_transactions'];
         put?: never;
@@ -2533,9 +2798,49 @@ export interface paths {
         };
         /**
          * Get Attachments
-         * @description Returns a list of all attachments linked to a transaction
+         * @description Returns the list of document attachments linked to a specific banking transaction.
          */
         get: operations['banking_get_attachments'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/banking/opening-balance': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get opening balance for an account on a specific date
+         * @description Returns the opening balance for a banking account on a given date
+         */
+        get: operations['banking_get_opening_balance'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/payment/locations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all locations
+         * @description Returns the list of physical or virtual merchant locations registered in the payment processor.
+         */
+        get: operations['payment_get_locations'];
         put?: never;
         post?: never;
         delete?: never;
@@ -2553,7 +2858,7 @@ export interface paths {
         };
         /**
          * Retrieve all balances
-         * @description Returns a list of balances.
+         * @description Returns the list of account balances available in the payment processor for the authenticated account.
          */
         get: operations['payment_get_balances'];
         put?: never;
@@ -2593,7 +2898,7 @@ export interface paths {
         };
         /**
          * Retrieve all payments
-         * @description Returns a list of payments.
+         * @description Returns the list of payment intents processed by the payment connector, optionally filtered by date.
          */
         get: operations['payment_get_payments'];
         put?: never;
@@ -2613,7 +2918,7 @@ export interface paths {
         };
         /**
          * Get a payment
-         * @description Returns a specific payment.
+         * @description Returns a specific payment record from the payment connector by its unique identifier.
          */
         get: operations['payment_get_payment'];
         put?: never;
@@ -2633,9 +2938,29 @@ export interface paths {
         };
         /**
          * Retrieve all refunds
-         * @description Returns a list of refunds.
+         * @description Returns the list of refund transactions processed by the payment connector, optionally filtered by date.
          */
         get: operations['payment_get_refunds'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/payment/payouts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve all payouts
+         * @description Returns a list of payouts (periodic bank transfers made by the processor to the merchant).
+         */
+        get: operations['payment_get_payouts'];
         put?: never;
         post?: never;
         delete?: never;
@@ -2653,7 +2978,7 @@ export interface paths {
         };
         /**
          * Get orders (PMS)
-         * @description Returns a list of the orders
+         * @description Returns the list of orders (reservations or bookings) placed in the property management system.
          */
         get: operations['pms_get_orders'];
         put?: never;
@@ -2673,7 +2998,7 @@ export interface paths {
         };
         /**
          * Get invoices (PMS)
-         * @description Returns a list of the invoices
+         * @description Returns the list of invoices generated by the property management system for guests or reservations.
          */
         get: operations['pms_get_invoices'];
         put?: never;
@@ -2693,7 +3018,7 @@ export interface paths {
         };
         /**
          * Get customers (PMS)
-         * @description Returns a list of all the customers
+         * @description Returns the list of all guest or customer profiles registered in the property management system.
          */
         get: operations['pms_get_customers'];
         put?: never;
@@ -2713,7 +3038,7 @@ export interface paths {
         };
         /**
          * Get one customer (PMS)
-         * @description Returns a specific customer
+         * @description Returns a specific guest or customer profile from the property management system by their unique identifier.
          */
         get: operations['pms_get_customer'];
         put?: never;
@@ -2733,7 +3058,7 @@ export interface paths {
         };
         /**
          * Get locations (PMS)
-         * @description Returns a list of the locations
+         * @description Returns the list of physical locations (hotels, properties, or outlets) in the property management system.
          */
         get: operations['pms_get_locations'];
         put?: never;
@@ -2753,7 +3078,7 @@ export interface paths {
         };
         /**
          * Get payments (PMS)
-         * @description Returns a list of payments
+         * @description Returns the list of payments collected in the property management system, optionally filtered by date.
          */
         get: operations['pms_get_payments'];
         put?: never;
@@ -2773,7 +3098,7 @@ export interface paths {
         };
         /**
          * Get payment methods (PMS)
-         * @description Returns the list of payment methods
+         * @description Returns the list of payment methods accepted and configured in the property management system.
          */
         get: operations['pms_get_payments_methods'];
         put?: never;
@@ -2833,9 +3158,29 @@ export interface paths {
         };
         /**
          * Get tax rates (PMS)
-         * @description Returns a list of the tax rates
+         * @description Returns the list of tax rates configured in the property management system for billing purposes.
          */
         get: operations['pms_get_taxes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/pms/accounting-transactions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the accounting transactions (PMS)
+         * @description Returns the list of accounting transactions generated by the property management system for reconciliation.
+         */
+        get: operations['pms_get_accounting_transactions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -3151,19 +3496,19 @@ export interface components {
             payable_account?: string | null;
             /**
              * Reversed
-             * @description Indicates whether the VAT code is reversed. A reversed VAT code is used in specific scenarios, such as reverse charge mechanisms, where the responsibility for reporting VAT shifts from the seller to the buyer.
+             * @description Whether the VAT code is a reverse-charge code, where VAT-reporting responsibility shifts from seller to buyer. When true, the invoice line's tax_amount is 0: two VAT lines are booked that cancel each other, one on the deductible account and one on the payable account.
              * @default false
              */
             reversed: boolean | null;
             /**
              * Withholding Tax
-             * @description Indicates whether the VAT code is a withholding tax. This is used to indicate that the VAT code is a withholding tax and should be treated as such.
+             * @description Whether this VAT code can be used for withholding taxes.
              * @default false
              */
             withholding_tax: boolean | null;
             /**
              * Country
-             * @description Country of the VAT code. This is the ISO 3166-1 code of the country.
+             * @description ISO 3166-1 country code the VAT code is restricted to, set only when the code can be used for one specific country.
              */
             country?: string | null;
         };
@@ -3476,7 +3821,7 @@ export interface components {
         AnalyticDistribution: {
             /**
              * Analytic Plan
-             * @description Id of the analytic plan to which the distribution applies.
+             * @description Technical ID of the analytic plan to which the distribution applies.
              */
             analytic_plan: string;
             /**
@@ -3487,7 +3832,10 @@ export interface components {
         };
         /** AnalyticDistributionDetail */
         AnalyticDistributionDetail: {
-            /** Analytic Account */
+            /**
+             * Analytic Account
+             * @description Technical ID of the analytic account.
+             */
             analytic_account: string;
             /**
              * Percentage
@@ -3601,6 +3949,11 @@ export interface components {
         AttachmentItem: {
             /** Base64 String */
             base64_string: string;
+            /**
+             * Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            name?: string | null;
         };
         /** AttachmentItemIn */
         AttachmentItemIn: {
@@ -3610,9 +3963,15 @@ export interface components {
         };
         /** AttachmentItemOut */
         AttachmentItemOut: {
-            /** Id */
+            /**
+             * Id
+             * @description The ID of the attachment in the accounting system.
+             */
             id: string;
-            /** Base64 String */
+            /**
+             * Base64 String
+             * @description The file content encoded as a base64 string. Decode this to reconstruct the original file (PDF, image, etc.).
+             */
             base64_string: string;
         };
         /** AuthItem */
@@ -3650,10 +4009,9 @@ export interface components {
             currency: string;
             /**
              * Create Date
-             * Format: date-time
              * @description Create Date
              */
-            create_date: string;
+            create_date?: string | null;
         };
         /** BankAccountItemIn */
         BankAccountItemIn: {
@@ -3738,6 +4096,49 @@ export interface components {
              */
             unallocated_account?: string | null;
         };
+        /**
+         * BankAccountRoutingType
+         * @enum {string}
+         */
+        BankAccountRoutingType:
+            | 'unknown'
+            | 'ach'
+            | 'sort_code'
+            | 'bsb'
+            | 'transit'
+            | 'ifsc'
+            | 'clabe';
+        /** BankAccountsItem */
+        BankAccountsItem: {
+            /**
+             * Is Primary
+             * @description Indicates whether this is the default bank account for this third-party. Only one bank account per third-party can have is_primary set to true. Defaults to true.
+             * @default true
+             */
+            is_primary: boolean | null;
+            /**
+             * Currency
+             * @description Indicates the currency of the bank account (e.g., EUR).
+             */
+            currency?: string | null;
+            /**
+             * Iban
+             * @description International Bank Account Number (ISO 13616). Present for countries in the IBAN scheme (e.g., France, Germany, United Kingdom). null for countries that do not participate in the IBAN scheme (e.g., US, Canada, Australia).
+             */
+            iban?: string | null;
+            /**
+             * Bic Swift
+             * @description Bank Identifier Code (ISO 9362), also known as SWIFT code. 8 or 11 characters. Optional for domestic payments, but required for international wire transfers.
+             */
+            bic_swift?: string | null;
+            /**
+             * Account Number
+             * @description Local bank account number. Used when the country does not participate in the IBAN scheme (e.g., US, CA, AU). Always paired with a routing_code.
+             */
+            account_number?: string | null;
+            /** @description Domestic routing identifier for the bank. Required when no iban is present. Contains two subfields: type and value */
+            routing_code?: components['schemas']['RoutingCodeItem'] | null;
+        };
         /** BankStatementItemIn */
         BankStatementItemIn: {
             /**
@@ -3758,7 +4159,7 @@ export interface components {
             currency: string;
             /**
              * External Bank Statement Id
-             * @description External bank statement ID. To be compatible with all software, we recommend to use only digits.
+             * @description External bank statement ID. To be compatible with all software, we recommend to use only digits with a maximum length of 10.
              */
             external_bank_statement_id: string;
             /**
@@ -3771,6 +4172,11 @@ export interface components {
              * @description Base64 PDF attachment of the bank statement.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Items
              * @description List of transaction items
@@ -3986,7 +4392,7 @@ export interface components {
             description: string;
             /**
              * Reference
-             * @description Reference of the account
+             * @description External reference identifying the account, e.g. its IBAN.
              * @example FR76300040123456789012345678
              */
             reference: string;
@@ -4058,6 +4464,34 @@ export interface components {
              */
             name: string;
         };
+        /** BankingOpeningBalanceItem */
+        BankingOpeningBalanceItem: {
+            /**
+             * Account Id
+             * @description Identifier of the banking account
+             * @example account-123
+             */
+            account_id: string;
+            /**
+             * Date
+             * Format: date
+             * @description Date for which the opening balance is reported
+             * @example 2025-01-15
+             */
+            date: string;
+            /**
+             * Opening Balance
+             * @description Opening balance of the account on the given date
+             * @example 1000
+             */
+            opening_balance?: number | null;
+            /**
+             * Currency
+             * @description Currency of the balance
+             * @example EUR
+             */
+            currency?: string | null;
+        };
         /** BankingTransactionItem */
         BankingTransactionItem: {
             /**
@@ -4067,8 +4501,14 @@ export interface components {
              */
             id: string;
             /**
+             * Bank Account Id
+             * @description Identifier of the bank account linked to the transaction
+             * @example account-123
+             */
+            bank_account_id?: string | null;
+            /**
              * Amount
-             * @description Amount of the transaction
+             * @description Signed amount of the transaction in the account currency (inflows positive, outflows negative). Tax-inclusive: it includes any tax, while tax_amount reports the VAT portion separately.
              * @example 1000
              */
             amount: number;
@@ -4137,7 +4577,7 @@ export interface components {
             execution_date: string;
             /**
              * Internal Transaction
-             * @description Indicates if the transaction is internal
+             * @description Whether the transaction is internal, i.e. a transfer between two of the consumer's own bank accounts.
              * @default false
              * @example false
              */
@@ -4159,6 +4599,12 @@ export interface components {
              * @example pending
              */
             status?: components['schemas']['BankingTransactionStatus'] | null;
+            /**
+             * Opening Balance
+             * @description Opening balance of the account at the time of the transaction
+             * @example 1000
+             */
+            opening_balance?: number | null;
             /** @description Extra information about the attachments linked to the invoice. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
         };
@@ -4216,8 +4662,16 @@ export interface components {
         };
         /** ChainExecutionItem */
         ChainExecutionItem: {
-            /** Id */
+            /**
+             * Id
+             * @description Execution id
+             */
             id: string;
+            /**
+             * Parentexecutionid
+             * @description Parent execution id. An execution is linked to multiple child executions linked to consumers.
+             */
+            parentexecutionid: string | null;
             /**
              * Start
              * Format: date-time
@@ -4242,6 +4696,8 @@ export interface components {
              * @default
              */
             detail: string | null;
+            /** Error Code */
+            error_code?: string | null;
         };
         /** ChiftId */
         ChiftId: {
@@ -4506,6 +4962,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[ContactItem] */
+        ChiftPage_ContactItem_: {
+            /** Items */
+            items: components['schemas']['ContactItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[CountryItem] */
         ChiftPage_CountryItem_: {
             /** Items */
@@ -4660,6 +5127,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[ModifiersItem] */
+        ChiftPage_ModifiersItem_: {
+            /** Items */
+            items: components['schemas']['ModifiersItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[ObjectivesItem] */
         ChiftPage_ObjectivesItem_: {
             /** Items */
@@ -4708,6 +5186,17 @@ export interface components {
         ChiftPage_PMSAccountingCategoryItem_: {
             /** Items */
             items: components['schemas']['PMSAccountingCategoryItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PMSAccountingTransactionItem] */
+        ChiftPage_PMSAccountingTransactionItem_: {
+            /** Items */
+            items: components['schemas']['PMSAccountingTransactionItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4847,10 +5336,32 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[POSTaxRateItem] */
+        ChiftPage_POSTaxRateItem_: {
+            /** Items */
+            items: components['schemas']['POSTaxRateItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[PaymentItemOut] */
         ChiftPage_PaymentItemOut_: {
             /** Items */
             items: components['schemas']['PaymentItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PaymentLocationItem] */
+        ChiftPage_PaymentLocationItem_: {
+            /** Items */
+            items: components['schemas']['PaymentLocationItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -4884,6 +5395,17 @@ export interface components {
         ChiftPage_Payment_: {
             /** Items */
             items: components['schemas']['Payment'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[PayoutItemOut] */
+        ChiftPage_PayoutItemOut_: {
+            /** Items */
+            items: components['schemas']['PayoutItemOut'][];
             /** Total */
             total: number;
             /** Page */
@@ -4946,6 +5468,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[SyncExecutionItem] */
+        ChiftPage_SyncExecutionItem_: {
+            /** Items */
+            items: components['schemas']['SyncExecutionItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[TaxRateItem] */
         ChiftPage_TaxRateItem_: {
             /** Items */
@@ -4972,7 +5505,7 @@ export interface components {
         ClientItemIn: {
             /**
              * External Reference
-             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system. Normally unique per client/supplier type and can serve as the primary key of the accounting system.
              */
             external_reference?: string | null;
             /**
@@ -4992,7 +5525,7 @@ export interface components {
             name: string;
             /**
              * Function
-             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             * @description Only used when the client is an individual (is_company=false). Job function/title of the client.
              */
             function?: string | null;
             /**
@@ -5042,6 +5575,11 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
              * @description IBAN account number of the client.
              */
@@ -5077,7 +5615,7 @@ export interface components {
         ClientItemOut: {
             /**
              * External Reference
-             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system. Normally unique per client/supplier type and can serve as the primary key of the accounting system.
              */
             external_reference?: string | null;
             /**
@@ -5097,7 +5635,7 @@ export interface components {
             name?: string | null;
             /**
              * Function
-             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             * @description Only used when the client is an individual (is_company=false). Job function/title of the client.
              */
             function?: string | null;
             /**
@@ -5147,13 +5685,18 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
-             * @description IBAN account number of the client.
+             * @description IBAN account number of the client. DEPRECATED see bank_accounts
              */
             iban?: string | null;
             /**
              * Bank Account
-             * @description Bank account number of the client.
+             * @description Bank account number of the client. DEPRECATED see bank_accounts
              */
             bank_account?: string | null;
             /**
@@ -5169,14 +5712,9 @@ export interface components {
             active: boolean | null;
             /**
              * Account Number
-             * @description Ledger account number assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
+             * @description General ledger account assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is the account used on journal entry lines to debit/credit this partner.
              */
             account_number?: string | null;
-            /**
-             * Company Number
-             * @description Id of the associated company, used when the record is a contact person linked to a company.
-             */
-            company_number?: string | null;
             /**
              * Id
              * @description Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.
@@ -5198,12 +5736,17 @@ export interface components {
              * @description Third party account number/code representing the client in the accounting software.
              */
             third_party_account?: string | null;
+            /**
+             * Bank Accounts
+             * @description List of bank accounts information associated with the client.
+             */
+            bank_accounts?: components['schemas']['BankAccountsItem'][] | null;
         };
         /** ClientItemUpdate */
         ClientItemUpdate: {
             /**
              * External Reference
-             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system. Normally unique per client/supplier type and can serve as the primary key of the accounting system.
              */
             external_reference?: string | null;
             /**
@@ -5223,7 +5766,7 @@ export interface components {
             name?: string | null;
             /**
              * Function
-             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             * @description Only used when the client is an individual (is_company=false). Job function/title of the client.
              */
             function?: string | null;
             /**
@@ -5272,6 +5815,11 @@ export interface components {
              * @description VAT number of the client, used for tax compliance and invoicing. This value is unique per company and can be used as a reliable identifier to match clients between systems.
              */
             vat?: string | null;
+            /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
             /**
              * Iban
              * @description IBAN account number of the client.
@@ -5408,6 +5956,8 @@ export interface components {
             phone?: string | null;
             /** Email */
             email?: string | null;
+            /** Vat */
+            vat?: string | null;
         };
         /** CommerceCustomerItem */
         CommerceCustomerItem: {
@@ -5623,6 +6173,49 @@ export interface components {
          * @enum {string}
          */
         ContactGender: 'H' | 'F' | 'N/A';
+        /** ContactItem */
+        ContactItem: {
+            /**
+             * Id
+             * @description Unique id of the contact in the accounting system.
+             */
+            id: string;
+            /**
+             * Name
+             * @description Full name of the contact.
+             */
+            name: string;
+            /**
+             * First Name
+             * @description First name of the contact.
+             */
+            first_name?: string | null;
+            /**
+             * Last Name
+             * @description Last name of the contact.
+             */
+            last_name?: string | null;
+            /**
+             * Function
+             * @description Business role or job title of the contact.
+             */
+            function?: string | null;
+            /**
+             * Email
+             * @description Email address of the contact.
+             */
+            email?: string | null;
+            /**
+             * Phone
+             * @description Phone number of the contact.
+             */
+            phone?: string | null;
+            /**
+             * Mobile
+             * @description Mobile phone number of the contact.
+             */
+            mobile?: string | null;
+        };
         /** ContactItemIn */
         ContactItemIn: {
             /**
@@ -5918,9 +6511,7 @@ export interface components {
             name: string;
             /** Config */
             config?: {
-                [key: string]: {
-                    [key: string]: unknown;
-                }[];
+                [key: string]: unknown;
             } | null;
             /** Connections */
             connections: components['schemas']['SyncsConnectionItem'][];
@@ -6015,6 +6606,11 @@ export interface components {
             logic?: {
                 [key: string]: unknown;
             } | null;
+            /**
+             * Manual Mapping
+             * @default false
+             */
+            manual_mapping: boolean;
         };
         /** CreateSyncMappingToFieldItem */
         'CreateSyncMappingToFieldItem-Output': {
@@ -6046,6 +6642,11 @@ export interface components {
             logic?: {
                 [key: string]: unknown;
             } | null;
+            /**
+             * Manual Mapping
+             * @default false
+             */
+            manual_mapping: boolean;
         };
         /** CredentialItem */
         CredentialItem: {
@@ -6053,6 +6654,117 @@ export interface components {
             key: string;
             /** Value */
             value: string;
+        };
+        /**
+         * CubeAndFilter
+         * @description Cube REST API logical AND filter.
+         */
+        CubeAndFilter: {
+            /** And */
+            and: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+        };
+        /**
+         * CubeJoinQuery
+         * @description Runs several single-group queries and merges them on shared, aligned dimensions.
+         *
+         *     Each entry in ``queries`` is a standard load query for a single query group. Each entry in
+         *     ``align`` is a positional list of dimensions to align (``cols[i]`` is the dimension of
+         *     ``queries[i]``, or ``None`` if that query lacks the axis); the results are full-outer joined on
+         *     the aligned dimension tuples. The dimensions in an align entry must share one declared
+         *     ``align_axis``, and that axis names the resulting output column.
+         */
+        CubeJoinQuery: {
+            /** Queries */
+            queries: components['schemas']['CubeLoadQuery'][];
+            /** Align */
+            align?: (string | null)[][];
+        };
+        /**
+         * CubeLeafFilter
+         * @description Cube REST API leaf filter: member + operator + values.
+         */
+        CubeLeafFilter: {
+            /** Member */
+            member: string;
+            /** Operator */
+            operator: string;
+            /** Values */
+            values?: string[] | null;
+        };
+        /** CubeLoadQuery */
+        CubeLoadQuery: {
+            /** Measures */
+            measures?: string[];
+            /** Dimensions */
+            dimensions?: string[];
+            /** Segments */
+            segments?: string[];
+            /** Filters */
+            filters?: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+            /** Timedimensions */
+            timeDimensions?: components['schemas']['CubeTimeDimension'][];
+            /** Order */
+            order?:
+                | {
+                      [key: string]: 'asc' | 'desc';
+                  }
+                | components['schemas']['CubeOrderItem'][]
+                | string[][]
+                | null;
+            /** Limit */
+            limit?: number | null;
+            /** Offset */
+            offset?: number | null;
+            /** Timezone */
+            timezone?: string | null;
+            /** Total */
+            total?: boolean | null;
+            /** Renewquery */
+            renewQuery?: boolean | null;
+            /** Ungrouped */
+            ungrouped?: boolean | null;
+        };
+        /**
+         * CubeOrFilter
+         * @description Cube REST API logical OR filter.
+         */
+        CubeOrFilter: {
+            /** Or */
+            or: (
+                | components['schemas']['CubeLeafFilter']
+                | components['schemas']['CubeAndFilter']
+                | components['schemas']['CubeOrFilter']
+            )[];
+        };
+        /** CubeOrderItem */
+        CubeOrderItem: {
+            /** Id */
+            id?: string | null;
+            /** Member */
+            member?: string | null;
+            /** Desc */
+            desc?: boolean | null;
+            /** Direction */
+            direction?: ('asc' | 'desc') | null;
+        };
+        /** CubeTimeDimension */
+        CubeTimeDimension: {
+            /** Dimension */
+            dimension: string;
+            /** Daterange */
+            dateRange?: string | string[] | null;
+            /** Comparedaterange */
+            compareDateRange?: string[][] | null;
+            /** Granularity */
+            granularity?: string | null;
         };
         /** DataItem */
         DataItem: {
@@ -6089,6 +6801,40 @@ export interface components {
             /** @default active */
             status: components['schemas']['DatastoreStatus'] | null;
             definition: components['schemas']['DatastoreDef'];
+        };
+        /** DatalayerEnableBody */
+        DatalayerEnableBody: {
+            /**
+             * From Date
+             * @description Date from which the data is synced. Defaults to one year ago when omitted.
+             */
+            from_date?: string | null;
+            /**
+             * Fiscal Years Back
+             * @description Sync from the start of the book year this many fiscal years back (accounting only). 0 syncs from the start of the current fiscal year.
+             */
+            fiscal_years_back?: number | null;
+            /**
+             * Full History
+             * @description Sync the whole history, without a lower date bound. Mirrors the 'infinite' automatic-activation policy.
+             * @default false
+             */
+            full_history: boolean;
+            /**
+             * Entity Filter
+             * @description Restrict the datalayer to specific entities of the connection instead of every one the end-user selected, keyed by entity kind applicable to the connection's vertical (e.g. `folder_ids`, `location_ids`). The ids are validated against the ones available on the connection when the sync runs. Omit to sync every selected entity.
+             */
+            entity_filter?: {
+                [key: string]: string[];
+            } | null;
+        };
+        /** DatalayerRefreshBody */
+        DatalayerRefreshBody: {
+            /**
+             * Force From Date
+             * @description Force the refresh to (re)sync data from this date, overriding the flow configuration.
+             */
+            force_from_date?: string | null;
         };
         /** DatastoreColumn */
         DatastoreColumn: {
@@ -6150,6 +6896,16 @@ export interface components {
          * @enum {string}
          */
         DocumentType: 'invoice' | 'entry';
+        /** EcommerceFulfillmentObject */
+        EcommerceFulfillmentObject: {
+            fulfillment_type: components['schemas']['EcommerceFulfillmentType'];
+            shipping_from_address?: components['schemas']['AddressItemOut'] | null;
+        };
+        /**
+         * EcommerceFulfillmentType
+         * @enum {string}
+         */
+        EcommerceFulfillmentType: 'FBA' | 'FBM';
         /** EmployeeItem */
         EmployeeItem: {
             /**
@@ -6253,6 +7009,17 @@ export interface components {
             /** Description */
             description?: string;
         };
+        /** ExecutionResult */
+        ExecutionResult: {
+            /** Column */
+            column: string;
+            /** Title */
+            title?: string | null;
+            /** Data */
+            data: unknown[];
+            /** Type */
+            type: string;
+        };
         /**
          * ExecutionType
          * @enum {string}
@@ -6313,6 +7080,11 @@ export interface components {
              */
             pdf?: string | null;
             /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
+            /**
              * Lines
              * @description Expense lines.
              */
@@ -6372,6 +7144,11 @@ export interface components {
              * @description Base64 PDF attachment of the expense document.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Lines
              * @description Expense lines.
@@ -6633,6 +7410,11 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the sale/purchase entry.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
         };
         /** FinancialEntryItemOut */
         FinancialEntryItemOut: {
@@ -6874,9 +7656,16 @@ export interface components {
             name: string;
             /**
              * Selected
+             * @description Indicates whether the folder was selected during the Chift activation process. Only selected folders can be used in subsequent requests. Requests targeting a folder that was not selected will be rejected. If only one folder is selected, it will be used by default when no folder is specified in the request.
              * @default true
              */
             selected: boolean | null;
+            /**
+             * Active
+             * @description Indicates whether the folder is currently active in the target accounting software. Requests targeting an inactive folder will fail on the target software side.
+             * @default true
+             */
+            active: boolean | null;
             /** Vat */
             vat?: string | null;
             /** Company Number */
@@ -6898,7 +7687,7 @@ export interface components {
             reference?: string | null;
             /**
              * Due Date
-             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             * @description If the journal entry relates to an invoice, this is the last due date for payment or settlement (format: YYYY-MM-DD), carried from a client/supplier entry line.
              */
             due_date?: string | null;
             /**
@@ -6938,6 +7727,11 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the item.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Posted
              * @description Indicates if the journal entry has been posted (finalized) in the accounting system. If not provided, it defaults to True.
@@ -7003,7 +7797,7 @@ export interface components {
             tax_code?: string | null;
             /** @description Tax information related to the journal item. The provided tax amount is added to the amount (debit or credit) of the journal item. This is only supported for general accounts. */
             tax_info?: components['schemas']['TaxInfo'] | null;
-            /** @description (For certain specific connectors only) Details of the third-party account (client/supplier) to be created if it does not already exist in the accounting system. Some softwares do not support creating third-party accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime). */
+            /** @description (For certain specific connectors only) Details of the account (third-party or general ledger) to be created if it does not already exist in the accounting system. Some softwares do not support creating accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime). */
             account_info?: components['schemas']['AccountToCreate'] | null;
         };
         /**
@@ -7110,6 +7904,11 @@ export interface components {
              * @default false
              */
             optional: boolean;
+            /**
+             * @description Visibility of the credential. If connector is selected, it should be defined when the connector is activated on your environment. If consumer is selected, the end-user will have to provide the credential when creating the connection. If both is selected, the credential can be defined when the connector is activated on your environment or when the end-user creates the connection (it will not be available for the end-user when it's activated at connector-level)
+             * @default both
+             */
+            visibility: components['schemas']['Visibility'] | null;
         };
         /** IntegrationsPostConnectionItem */
         IntegrationsPostConnectionItem: {
@@ -7156,6 +7955,16 @@ export interface components {
             /** Available Quantity */
             available_quantity: number;
         };
+        /**
+         * InvoiceApprovalStatus
+         * @enum {string}
+         */
+        InvoiceApprovalStatus: 'unknown' | 'pending' | 'approved' | 'rejected';
+        /**
+         * InvoiceApprovalStatusFilter
+         * @enum {string}
+         */
+        InvoiceApprovalStatusFilter: 'pending' | 'approved' | 'rejected';
         /** InvoiceCorrection */
         InvoiceCorrection: {
             /**
@@ -7180,14 +7989,71 @@ export interface components {
             invoice_correction_debit_account_number?: string | null;
         };
         /** InvoiceItem */
-        'InvoiceItem-Input': {
+        InvoiceItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Invoice Number
+             * @description Number/sequence
+             * @example INV-12345
+             */
+            invoice_number: string | null;
+            /**
+             * Creation Date
+             * @description Creation date of the invoice
+             * @example 2023-10-01T12:00:00
+             */
+            creation_date?: string | null;
+            /**
+             * Closing Date
+             * @description Closing date of the invoice
+             * @example 2023-10-10T12:00:00
+             */
+            closing_date?: string | null;
+            /**
+             * Partners
+             * @description List of partners related to the invoice
+             */
+            partners?: components['schemas']['InvoicePartnerItem'][] | null;
+        };
+        /** InvoiceItemDueDatesOut */
+        InvoiceItemDueDatesOut: {
+            /**
+             * Due Date
+             * Format: date
+             * @description Due date of the item.
+             */
+            due_date: string;
+            /**
+             * Payment Method
+             * @description Payment method used to pay the invoice on that due date.
+             */
+            payment_method?: string | null;
+            /**
+             * Payment Method Id
+             * @description Technical ID of the payment method used to pay the invoice on that due date.
+             */
+            payment_method_id?: string | null;
+            /**
+             * Amount
+             * @description Amount due for the invoice on that due date. A positive amount represents debit on customer invoices and supplier refunds or credit on supplier invoices and customer refunds. A negative amount represents credit on customer invoices and supplier refunds or debit on supplier invoices and customer refunds.
+             */
+            amount: number;
+        };
+        /** InvoiceItemIn */
+        InvoiceItemIn: {
             /**
              * Currency
              * @description Currency matching target sofware name
              */
             currency: string;
             /** @description Invoice type */
-            invoice_type: components['schemas']['InvoicingInvoiceType'];
+            invoice_type: components['schemas']['InvoicingCreateInvoiceType'];
             /** @description Status */
             status: components['schemas']['InvoiceStatus'];
             /**
@@ -7252,70 +8118,13 @@ export interface components {
             /** @description Specificities for Italy */
             italian_specificities?: components['schemas']['ItalianSpecificities-Input'] | null;
         };
-        /** InvoiceItem */
-        'InvoiceItem-Output': {
-            /**
-             * Id
-             * @description Technical id in Chift
-             */
-            id: string;
-            /** @description Technical id in the target software */
-            source_ref: components['schemas']['Ref'];
-            /**
-             * Invoice Number
-             * @description Number/sequence
-             * @example INV-12345
-             */
-            invoice_number: string | null;
-            /**
-             * Creation Date
-             * @description Creation date of the invoice
-             * @example 2023-10-01T12:00:00
-             */
-            creation_date?: string | null;
-            /**
-             * Closing Date
-             * @description Closing date of the invoice
-             * @example 2023-10-10T12:00:00
-             */
-            closing_date?: string | null;
-            /**
-             * Partners
-             * @description List of partners related to the invoice
-             */
-            partners?: components['schemas']['InvoicePartnerItem'][] | null;
-        };
-        /** InvoiceItemDueDatesOut */
-        InvoiceItemDueDatesOut: {
-            /**
-             * Due Date
-             * Format: date
-             * @description Due date of the item.
-             */
-            due_date: string;
-            /**
-             * Payment Method
-             * @description Payment method used to pay the invoice on that due date.
-             */
-            payment_method?: string | null;
-            /**
-             * Payment Method Id
-             * @description Technical ID of the payment method used to pay the invoice on that due date.
-             */
-            payment_method_id?: string | null;
-            /**
-             * Amount
-             * @description Amount due for the invoice on that due date. A positive amount represents debit on customer invoices and supplier refunds or credit on supplier invoices and customer refunds. A negative amount represents credit on customer invoices and supplier refunds or debit on supplier invoices and customer refunds.
-             */
-            amount: number;
-        };
         /** InvoiceItemInMonoAnalyticPlan */
         InvoiceItemInMonoAnalyticPlan: {
             /** @description Specifies the type of invoice */
             invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
-             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details. On the purchase side some tools store the supplier's own invoice number here, so it is not necessarily unique across suppliers.
              */
             invoice_number?: string | null;
             /**
@@ -7358,7 +8167,7 @@ export interface components {
              * @description Technical ID of the payment term associated with the invoice.
              */
             payment_term_id?: string | null;
-            /** @description Withholding tax information for the invoice. */
+            /** @description Withholding-tax information for the invoice. A withholding tax is paid to the government directly by the payer rather than by the recipient: the payer deducts it before paying the recipient, reducing the amount received (e.g. an employer remitting salary tax). In Chift use cases this is mainly seen in Spain. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /**
              * Invoice Date
@@ -7392,6 +8201,11 @@ export interface components {
              * @description Base 64 string representing the PDF attached to the invoice.
              */
             pdf?: string | null;
+            /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
             /**
              * Currency Exchange Rate
              * @description Exchange rate applicable at the date of the invoice. Required when the invoice currency is different from the folder's default currency.
@@ -7426,6 +8240,11 @@ export interface components {
              * @description Technical ID of the payment method in the accounting system. This is an indication of the payment method that will be used to pay the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice.
              */
             payment_method_id?: string | null;
+            /**
+             * Delivery Date
+             * @description Date on which the goods were delivered or the service was provided (format: YYYY-MM-DD). Used to assign the invoice and its tax to the correct period when it differs from the invoice date.
+             */
+            delivery_date?: string | null;
         };
         /** InvoiceItemInMultiAnalyticPlans */
         InvoiceItemInMultiAnalyticPlans: {
@@ -7433,7 +8252,7 @@ export interface components {
             invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
-             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details. On the purchase side some tools store the supplier's own invoice number here, so it is not necessarily unique across suppliers.
              */
             invoice_number?: string | null;
             /**
@@ -7476,7 +8295,7 @@ export interface components {
              * @description Technical ID of the payment term associated with the invoice.
              */
             payment_term_id?: string | null;
-            /** @description Withholding tax information for the invoice. */
+            /** @description Withholding-tax information for the invoice. A withholding tax is paid to the government directly by the payer rather than by the recipient: the payer deducts it before paying the recipient, reducing the amount received (e.g. an employer remitting salary tax). In Chift use cases this is mainly seen in Spain. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /**
              * Invoice Date
@@ -7511,6 +8330,11 @@ export interface components {
              */
             pdf?: string | null;
             /**
+             * Pdf Name
+             * @description A name for the PDF file to be created for accounting software that support it.
+             */
+            pdf_name?: string | null;
+            /**
              * Currency Exchange Rate
              * @description Exchange rate applicable at the date of the invoice. Required when the invoice currency is different from the folder's default currency.
              * @default 1
@@ -7544,6 +8368,11 @@ export interface components {
              * @description Technical ID of the payment method in the accounting system. This is an indication of the payment method that will be used to pay the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice.
              */
             payment_method_id?: string | null;
+            /**
+             * Delivery Date
+             * @description Date on which the goods were delivered or the service was provided (format: YYYY-MM-DD). Used to assign the invoice and its tax to the correct period when it differs from the invoice date.
+             */
+            delivery_date?: string | null;
         };
         /** InvoiceItemOut */
         InvoiceItemOut: {
@@ -7659,7 +8488,7 @@ export interface components {
             invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
-             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details. On the purchase side some tools store the supplier's own invoice number here, so it is not necessarily unique across suppliers.
              */
             invoice_number?: string | null;
             /**
@@ -7702,22 +8531,27 @@ export interface components {
              * @description Technical ID of the payment term associated with the invoice.
              */
             payment_term_id?: string | null;
-            /** @description Withholding tax information for the invoice. */
+            /** @description Withholding-tax information for the invoice. A withholding tax is paid to the government directly by the payer rather than by the recipient: the payer deducts it before paying the recipient, reducing the amount received (e.g. an employer remitting salary tax). In Chift use cases this is mainly seen in Spain. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /** Id */
             id?: string | null;
             /**
              * Invoice Date
              * Format: date
-             * @description Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
+             * @description Document date of the invoice. It can differ from the accounting date/period that determines the book year. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
              */
             invoice_date: string;
             /**
              * Due Date
              * Format: date
-             * @description Last Due date of the invoice. The invoice date is used when this information is not given by the software.
+             * @description Last due date of the invoice, normally on or after the invoice date. The invoice date is used when this information is not given by the software.
              */
             due_date: string;
+            /**
+             * Delivery Date
+             * @description Date on which the goods were delivered or the service was provided (format: YYYY-MM-DD), when the accounting system exposes it.
+             */
+            delivery_date?: string | null;
             /** Partner Id */
             partner_id: string | null;
             /**
@@ -7742,7 +8576,7 @@ export interface components {
              * @default []
              */
             due_dates: components['schemas']['InvoiceItemDueDatesOut'][] | null;
-            /** @description Extra information about the attachments linked to the invoice. */
+            /** @description Indicates whether a file attachment (e.g. PDF or image) is linked to this invoice and how to retrieve it. Check the status field: 'yes' means a direct download URL is available in the attachments array; 'yes_to_request' means the file exists but must be fetched separately via GET /accounting/attachments?type=invoice&document_id={id}, which returns the file as a base64-encoded string. 'no' means no attachment is linked. 'unknown' means the connector does not support this. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
             /** @description Additional information about the invoice. */
             accounting_info?: components['schemas']['AccountingInfoOut'] | null;
@@ -7751,6 +8585,11 @@ export interface components {
              * @description Technical ID of the payment method in the accounting system. This is the payment method currently linked to the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice.
              */
             payment_method_id?: string | null;
+            /**
+             * @description Approval status of the invoice.
+             * @default unknown
+             */
+            approval_status: components['schemas']['InvoiceApprovalStatus'];
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMonoAnalyticPlan'][];
         };
@@ -7760,7 +8599,7 @@ export interface components {
             invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
-             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details. On the purchase side some tools store the supplier's own invoice number here, so it is not necessarily unique across suppliers.
              */
             invoice_number?: string | null;
             /**
@@ -7803,22 +8642,27 @@ export interface components {
              * @description Technical ID of the payment term associated with the invoice.
              */
             payment_term_id?: string | null;
-            /** @description Withholding tax information for the invoice. */
+            /** @description Withholding-tax information for the invoice. A withholding tax is paid to the government directly by the payer rather than by the recipient: the payer deducts it before paying the recipient, reducing the amount received (e.g. an employer remitting salary tax). In Chift use cases this is mainly seen in Spain. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /** Id */
             id?: string | null;
             /**
              * Invoice Date
              * Format: date
-             * @description Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
+             * @description Document date of the invoice. It can differ from the accounting date/period that determines the book year. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
              */
             invoice_date: string;
             /**
              * Due Date
              * Format: date
-             * @description Last Due date of the invoice. The invoice date is used when this information is not given by the software.
+             * @description Last due date of the invoice, normally on or after the invoice date. The invoice date is used when this information is not given by the software.
              */
             due_date: string;
+            /**
+             * Delivery Date
+             * @description Date on which the goods were delivered or the service was provided (format: YYYY-MM-DD), when the accounting system exposes it.
+             */
+            delivery_date?: string | null;
             /** Partner Id */
             partner_id: string | null;
             /**
@@ -7843,7 +8687,7 @@ export interface components {
              * @default []
              */
             due_dates: components['schemas']['InvoiceItemDueDatesOut'][] | null;
-            /** @description Extra information about the attachments linked to the invoice. */
+            /** @description Indicates whether a file attachment (e.g. PDF or image) is linked to this invoice and how to retrieve it. Check the status field: 'yes' means a direct download URL is available in the attachments array; 'yes_to_request' means the file exists but must be fetched separately via GET /accounting/attachments?type=invoice&document_id={id}, which returns the file as a base64-encoded string. 'no' means no attachment is linked. 'unknown' means the connector does not support this. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
             /** @description Additional information about the invoice. */
             accounting_info?: components['schemas']['AccountingInfoOut'] | null;
@@ -7852,6 +8696,11 @@ export interface components {
              * @description Technical ID of the payment method in the accounting system. This is the payment method currently linked to the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice.
              */
             payment_method_id?: string | null;
+            /**
+             * @description Approval status of the invoice.
+             * @default unknown
+             */
+            approval_status: components['schemas']['InvoiceApprovalStatus'];
             /** Lines */
             lines: components['schemas']['InvoiceLineItemOutMultiAnalyticPlans'][];
         };
@@ -8409,7 +9258,7 @@ export interface components {
              * @description Type of the partner
              * @example account
              */
-            type: components['schemas']['PartnerType'];
+            type: components['schemas']['PartnerType-Output'];
             /** @description Address of the partner */
             address?: components['schemas']['AddressItem'] | null;
             /**
@@ -8540,6 +9389,15 @@ export interface components {
              */
             linked_documents: components['schemas']['LinkedDocument'][] | null;
         };
+        /**
+         * InvoicingCreateInvoiceType
+         * @enum {string}
+         */
+        InvoicingCreateInvoiceType:
+            | 'customer_invoice'
+            | 'customer_refund'
+            | 'supplier_invoice'
+            | 'supplier_refund';
         /**
          * InvoicingDocumentType
          * @enum {string}
@@ -8837,16 +9695,17 @@ export interface components {
             filename?: string | null;
             /**
              * Url
-             * @description The URL to download the file.
+             * @description Direct download URL for the attachment file. Only populated when the parent attachments_info.status is 'yes'. When status is 'yes_to_request', this field is null and the file must be retrieved via GET /accounting/attachments with the appropriate type and document_id, which returns the content as a base64-encoded string.
              */
             url?: string | null;
         };
         /** ItemAttachmentInfoOut */
         ItemAttachmentInfoOut: {
-            /** @description The status of the attachment.'yes' means the attachment can be returned directly.'yes_to_request' means an additional request is required.'no' means there is no attachment.'unknown' means we can not yet determine if an attachment is available. */
+            /** @description Indicates whether an attachment (e.g. PDF or image) is available for this entry, and how to retrieve it. 'yes': one or more attachments are available directly, each entry in the attachments array contains a filename and a download URL. 'yes_to_request': an attachment exists but cannot be returned inline. Call GET /accounting/attachments with type and document_id to retrieve the file as a base64-encoded string. The attachments array may be empty in this case. 'no': no attachment is linked to this entry. 'unknown': the connector does not support attachment detection for this provider. */
             status: components['schemas']['ItemAttachmentInfoStatus'];
             /**
              * Attachments
+             * @description List of attachments available directly for this entry. Populated only when status is 'yes'. When status is 'yes_to_request', this list is empty, use GET /accounting/attachments to fetch the file content.
              * @default []
              */
             attachments: components['schemas']['ItemAttachmentInfoAttachment'][] | null;
@@ -8864,25 +9723,27 @@ export interface components {
             code?: string | null;
             /** Name */
             name: string;
+            /** @description Category of the journal. In retrieved data the values are customer_invoice, customer_refund, supplier_invoice, supplier_refund, financial_operation, miscellaneous_operation, or unknown. 'bank' and 'cash' exist only in the creation model; a journal representing a bank or cash account is retrieved as financial_operation (typically with an iban), so filter on financial_operation, not 'bank'/'cash', to find treasury journals. */
             journal_type: components['schemas']['JournalType'];
             /**
              * Counterpart Account
-             * @description When journal is of type bank or cash, this is account number of the counterpart account used for the journal.
+             * @description Account number of the counterpart account used for the journal, for a treasury journal representing a bank or cash account (retrieved as journal_type financial_operation; bank/cash in the creation model).
              */
             counterpart_account?: string | null;
             /**
              * Unallocated Account
-             * @description Unallocated ledger account used to book entries when the final ledger account / client / supplier / employee is not yet known (specific to bank and cash journals)
+             * @description Unallocated ledger account used to book entries when the final ledger account / client / supplier / employee is not yet known (specific to treasury journals, retrieved as journal_type financial_operation; bank/cash in the creation model).
              */
             unallocated_account?: string | null;
             /**
              * Next Document Numbers
+             * @description The next document numbers to use when the accounting tool enforces its own numbering sequence on creation (one sequence per journal, per book year, per folder).
              * @default []
              */
             next_document_numbers: components['schemas']['NextDocumentNumber'][] | null;
             /**
              * Iban
-             * @description When the journal is of type bank, IBAN of the bank account linked to the journal
+             * @description IBAN of the bank account linked to the journal, for a treasury journal representing a bank account (retrieved as journal_type financial_operation).
              */
             iban?: string | null;
             /**
@@ -8912,7 +9773,7 @@ export interface components {
             reference?: string | null;
             /**
              * Due Date
-             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             * @description If the journal entry relates to an invoice, this is the last due date for payment or settlement (format: YYYY-MM-DD), carried from a client/supplier entry line.
              */
             due_date?: string | null;
             /**
@@ -8920,7 +9781,10 @@ export interface components {
              * @description Id of the journal instance in the accounting system in which the journal entry is recorded.
              */
             journal_id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Mainly the accounting entry number (numéro de pièce comptable) assigned by the source system.
+             */
             name?: string | null;
             /**
              * Journal Name
@@ -8929,7 +9793,7 @@ export interface components {
             journal_name?: string | null;
             /**
              * Date
-             * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
+             * @description Accounting date of the journal entry, which determines the accounting period and therefore the book year the entry falls into. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
             date: string | null;
@@ -8946,11 +9810,11 @@ export interface components {
             id: string;
             /**
              * Due Dates
-             * @description List of all due dates of a journal entry.
+             * @description List of all due dates of a journal entry. Generally an entry has one client/supplier line per due date, each listed here with its amount.
              * @default []
              */
             due_dates: components['schemas']['JournalItemDueDatesOut'][] | null;
-            /** @description Extra information about the attachments linked to the journal entry. */
+            /** @description Indicates whether a file attachment (e.g. PDF or image) is linked to this journal entry and how to retrieve it. Check the status field: 'yes' means a direct download URL is available in the attachments array; 'yes_to_request' means the file exists but must be fetched separately via GET /accounting/attachments?type=entry&document_id={id}, which returns the file as a base64-encoded string. 'no' means no attachment is linked. 'unknown' means the connector does not support this. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
             /**
              * Items
@@ -8968,7 +9832,7 @@ export interface components {
             reference?: string | null;
             /**
              * Due Date
-             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             * @description If the journal entry relates to an invoice, this is the last due date for payment or settlement (format: YYYY-MM-DD), carried from a client/supplier entry line.
              */
             due_date?: string | null;
             /**
@@ -8976,7 +9840,10 @@ export interface components {
              * @description Id of the journal instance in the accounting system in which the journal entry is recorded.
              */
             journal_id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Mainly the accounting entry number (numéro de pièce comptable) assigned by the source system.
+             */
             name?: string | null;
             /**
              * Journal Name
@@ -8985,7 +9852,7 @@ export interface components {
             journal_name?: string | null;
             /**
              * Date
-             * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
+             * @description Accounting date of the journal entry, which determines the accounting period and therefore the book year the entry falls into. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
             date: string | null;
@@ -9002,11 +9869,11 @@ export interface components {
             id: string;
             /**
              * Due Dates
-             * @description List of all due dates of a journal entry.
+             * @description List of all due dates of a journal entry. Generally an entry has one client/supplier line per due date, each listed here with its amount.
              * @default []
              */
             due_dates: components['schemas']['JournalItemDueDatesOut'][] | null;
-            /** @description Extra information about the attachments linked to the journal entry. */
+            /** @description Indicates whether a file attachment (e.g. PDF or image) is linked to this journal entry and how to retrieve it. Check the status field: 'yes' means a direct download URL is available in the attachments array; 'yes_to_request' means the file exists but must be fetched separately via GET /accounting/attachments?type=entry&document_id={id}, which returns the file as a base64-encoded string. 'no' means no attachment is linked. 'unknown' means the connector does not support this. */
             attachments_info?: components['schemas']['ItemAttachmentInfoOut'];
             /**
              * Items
@@ -9087,7 +9954,7 @@ export interface components {
             account_number: string;
             /**
              * Partner Id
-             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice).
+             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice). The thirdparty line is typically the invoice's total line, i.e. the accounting line tied to a due date / payment term.
              */
             partner_id?: string | null;
             /**
@@ -9112,7 +9979,7 @@ export interface components {
             currency: string;
             /**
              * Currency Exchange Rate
-             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency.
+             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency. Amount in folder currency = amount in foreign currency * currency_exchange_rate.
              * @default 1
              */
             currency_exchange_rate: number | null;
@@ -9133,13 +10000,13 @@ export interface components {
             account_name: string;
             /**
              * Matching Numbers
-             * @description List of matching numbers used to link this journal item to other entries in the accounting system. This is used for reconciliation/lettering purposes.
+             * @description List of matching numbers used to link this journal item to other entries in the accounting system, for reconciliation/lettering. Lines on the same ledger account, in the same book year, carrying the same matching number are lettered (matched) together; when a partner_id is set it is also part of that link. A thirdparty line with debit or credit and no matching number is an open (outstanding) item, and stays outstanding until the matched set balances (sum of debit == sum of credit) within the same book year.
              * @default []
              */
             matching_numbers: string[] | null;
             /**
              * Analytic Account
-             * @description Analytic account in the default analytic plan.
+             * @description Technical ID of the analytic account in the default analytic plan.
              */
             analytic_account?: string | null;
             /**
@@ -9157,7 +10024,7 @@ export interface components {
             account_number: string;
             /**
              * Partner Id
-             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice).
+             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice). The thirdparty line is typically the invoice's total line, i.e. the accounting line tied to a due date / payment term.
              */
             partner_id?: string | null;
             /**
@@ -9182,7 +10049,7 @@ export interface components {
             currency: string;
             /**
              * Currency Exchange Rate
-             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency.
+             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency. Amount in folder currency = amount in foreign currency * currency_exchange_rate.
              * @default 1
              */
             currency_exchange_rate: number | null;
@@ -9203,7 +10070,7 @@ export interface components {
             account_name: string;
             /**
              * Matching Numbers
-             * @description List of matching numbers used to link this journal item to other entries in the accounting system. This is used for reconciliation/lettering purposes.
+             * @description List of matching numbers used to link this journal item to other entries in the accounting system, for reconciliation/lettering. Lines on the same ledger account, in the same book year, carrying the same matching number are lettered (matched) together; when a partner_id is set it is also part of that link. A thirdparty line with debit or credit and no matching number is an open (outstanding) item, and stays outstanding until the matched set balances (sum of debit == sum of credit) within the same book year.
              * @default []
              */
             matching_numbers: string[] | null;
@@ -9453,6 +10320,88 @@ export interface components {
          * @enum {string}
          */
         Mode: 'EAT_IN' | 'TAKEAWAY' | 'DELIVERY' | 'UNKNOWN';
+        /** ModifierLine */
+        ModifierLine: {
+            /**
+             * Modifier Id
+             * @description Unique identifier of the modifier line item
+             * @example 123
+             */
+            modifier_id?: string | null;
+            /**
+             * Name
+             * @description Name of the modifier
+             * @example Ketchup
+             */
+            name: string;
+            /**
+             * Modifier Group Id
+             * @description Unique identifier of the modifier group line item
+             * @example 123
+             */
+            modifier_group_id?: string | null;
+            /**
+             * Quantity
+             * @description Quantity of the modifier line item
+             * @default 1
+             * @example 1
+             */
+            quantity: number | null;
+            /**
+             * Unit Price
+             * @description Unit price (without tax) of the modifier line item
+             * @default 0
+             * @example 10
+             */
+            unit_price: number | null;
+            /**
+             * Total
+             * @description Total amount including tax of the modifier line item
+             * @default 0
+             * @example 11
+             */
+            total: number | null;
+        };
+        /** ModifierOptionItem */
+        ModifierOptionItem: {
+            /**
+             * Id
+             * @description Unique identifier of the modifier option
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name of the modifier option
+             * @example Extra Cheese
+             */
+            name?: string | null;
+            /**
+             * Price
+             * @description Price of the modifier option
+             */
+            price: number;
+        };
+        /** ModifiersItem */
+        ModifiersItem: {
+            /**
+             * Id
+             * @description Unique identifier of the modifier
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name of the modifier
+             * @example Toppings
+             */
+            name?: string | null;
+            /**
+             * Options
+             * @description List of options of the modifier
+             */
+            options: components['schemas']['ModifierOptionItem'][];
+        };
         /** MultipleMatchingIn */
         MultipleMatchingIn: {
             /** Matchings */
@@ -9526,6 +10475,8 @@ export interface components {
             | 'swift_income'
             | 'pay_later'
             | 'financing_installment'
+            | 'cashback'
+            | 'interest'
             | 'other';
         /** OpportunityItem */
         OpportunityItem: {
@@ -9673,6 +10624,8 @@ export interface components {
             source_ref: components['schemas']['Ref'];
             /** Order Number */
             order_number?: string | null;
+            /** Channel */
+            channel?: string | null;
             customer?: components['schemas']['OrderCustomerItemOut'] | null;
             billing_address?: components['schemas']['CommerceAddressItemOut'] | null;
             shipping_address?: components['schemas']['CommerceAddressItemOut'] | null;
@@ -9687,6 +10640,7 @@ export interface components {
             /** Cancelled On */
             cancelled_on?: string | null;
             status: components['schemas']['OrderStatus'];
+            fulfillment?: components['schemas']['EcommerceFulfillmentObject'] | null;
             /** Discount Amount */
             discount_amount: number;
             /**
@@ -10067,6 +11021,12 @@ export interface components {
              */
             due_date?: string | null;
             /**
+             * Due Dates
+             * @description List of all due dates of the outstanding.
+             * @default []
+             */
+            due_dates: components['schemas']['OutstandingItemDueDatesOut'][] | null;
+            /**
              * Currency
              * @description Currency of the outstanding item (e.g., EUR, USD).
              */
@@ -10120,6 +11080,30 @@ export interface components {
             /** @description Details of the original document associated with the outstanding item. This is used to link the outstanding item to its original source when oustanding item was initially posted in previous bookyear. */
             original_document?: components['schemas']['OriginalOutstandingItem'] | null;
         };
+        /** OutstandingItemDueDatesOut */
+        OutstandingItemDueDatesOut: {
+            /**
+             * Due Date
+             * Format: date
+             * @description Due date of the outstanding item.
+             */
+            due_date: string;
+            /**
+             * Payment Method
+             * @description Payment method used to pay the outstanding on that due date.
+             */
+            payment_method?: string | null;
+            /**
+             * Payment Method Id
+             * @description Technical ID of the payment method used to pay the outstanding on that due date.
+             */
+            payment_method_id?: string | null;
+            /**
+             * Amount
+             * @description Amount due for the outstanding on that due date.
+             */
+            amount: number;
+        };
         /**
          * OutstandingType
          * @enum {string}
@@ -10160,6 +11144,144 @@ export interface components {
              */
             posting_account_code?: string | null;
         };
+        /** PMSAccountingTransactionItem */
+        PMSAccountingTransactionItem: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /**
+             * Group Id
+             * @description Group id of the transaction
+             */
+            group_id: string;
+            /**
+             * Date
+             * Format: date-time
+             * @description Datetime of the transaction.This is the date when the transaction is recorded in the pms system.
+             */
+            date: string;
+            /**
+             * Amount
+             * @description Total amount
+             */
+            amount: number;
+            /**
+             * Is Tax Line
+             * @description Indicates the transaction is tax line
+             */
+            is_tax_line: boolean;
+            /**
+             * Sub Group Id
+             * @description Sub group id of the transaction
+             */
+            sub_group_id?: string | null;
+            /**
+             * Tax Code
+             * @description Indicates the tax code used for the transaction. This is the Id of the Tax Code in the pms software.
+             */
+            tax_code?: string | null;
+            /**
+             * Description
+             * @description Text description for this transaction.
+             * @default
+             */
+            description: string | null;
+            /**
+             * Currency Exchange Rate
+             * @description Exchange rate applicable at the transaction date.
+             * @default 1
+             */
+            currency_exchange_rate: number | null;
+            /**
+             * Currency
+             * @description Indicates the currency of the operation (e.g., EUR, USD).
+             */
+            currency: string;
+            /**
+             * @description Type of transaction
+             * @example pos
+             */
+            transaction_type: components['schemas']['PMSAccountingTransactionType'];
+            /**
+             * Accounting Category Id
+             * @description Used by a PMS to give specific accounting categories to a transaction item.
+             * @example 371ca583-d218-4900-b236-397532cf0e2
+             */
+            accounting_category_id?: string | null;
+            /**
+             * Ledger Account Code
+             * @description Ledger account code assigned to the category
+             * @example 123456
+             */
+            ledger_account_code?: string | null;
+            /**
+             * @description string indicating if invoice has been posted (finalized) in the pms system.
+             * @example posted
+             */
+            status: components['schemas']['PMSAccountingTransactionStatus'];
+            /**
+             * @description Type of origin of the transaction item
+             * @example {
+             *       "id": "1",
+             *       "type": "payment"
+             *     }
+             */
+            origin: components['schemas']['PMSAccountingTransactionOrigin'] | null;
+            /** @description Reference to the partner related to this transaction */
+            partner_id?: components['schemas']['ChiftId'] | null;
+            /**
+             * Reference
+             * @description Optional reference field used to store an external or contextual identifier related to the transaction.
+             */
+            reference?: string | null;
+            /**
+             * Location Id
+             * @description ID of the location this transaction belongs to
+             */
+            location_id?: string | null;
+        };
+        /** PMSAccountingTransactionOrigin */
+        PMSAccountingTransactionOrigin: {
+            /**
+             * Id
+             * @description Technical id in the target software
+             * @example 1
+             */
+            id: string;
+            /**
+             * @description Type of the transaction
+             * @example invoice
+             */
+            type: components['schemas']['PMSAccountingTransactionOriginType'];
+        };
+        /**
+         * PMSAccountingTransactionOriginType
+         * @enum {string}
+         */
+        PMSAccountingTransactionOriginType: 'payment' | 'invoice' | 'order';
+        /**
+         * PMSAccountingTransactionStatus
+         * @enum {string}
+         */
+        PMSAccountingTransactionStatus: 'draft' | 'posted';
+        /**
+         * PMSAccountingTransactionType
+         * @enum {string}
+         */
+        PMSAccountingTransactionType:
+            | 'payment'
+            | 'room'
+            | 'addon'
+            | 'invoice'
+            | 'pos'
+            | 'fee'
+            | 'tax'
+            | 'reservation'
+            | 'other';
         /** PMSClosureItem */
         PMSClosureItem: {
             /**
@@ -10237,6 +11359,12 @@ export interface components {
              * @description List of addresses related to the customer
              */
             addresses?: components['schemas']['AddressItem'][] | null;
+            /**
+             * Is Company
+             * @description Indicates if the client is an individual or a company.
+             * @default false
+             */
+            is_company: boolean | null;
         };
         /** PMSInvoiceFullItem */
         PMSInvoiceFullItem: {
@@ -10480,7 +11608,7 @@ export interface components {
              * Bills
              * @description Reference to the bills related to this order
              */
-            bills?: components['schemas']['InvoiceItem-Output'][] | null;
+            bills?: components['schemas']['InvoiceItem'][] | null;
         };
         /** PMSOrderLineItem */
         PMSOrderLineItem: {
@@ -10533,6 +11661,12 @@ export interface components {
              * @example 10
              */
             tax_rate?: number | null;
+            /**
+             * Tax Id
+             * @description Unique identifier of the tax of the order line item
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            tax_id?: string | null;
             /**
              * Description
              * @description Description of the order line item
@@ -10612,6 +11746,12 @@ export interface components {
              * @example 2025-01-01T00:00:00Z
              */
             date?: string | null;
+            /**
+             * Invoice Ref
+             * @description Reference of the invoice linked to the payment
+             * @example invoice-123
+             */
+            invoice_ref?: string | null;
             /** @description Reference to the customer related to this payment */
             partner_id?: components['schemas']['ChiftId'] | null;
             /**
@@ -10676,6 +11816,12 @@ export interface components {
              * @example 21
              */
             rate?: number | null;
+            /**
+             * Is City Tax
+             * @description Indicates if the tax is a city tax (or tourist tax)
+             * @example false
+             */
+            is_city_tax?: boolean | null;
         };
         /** POSClosureInformationItem */
         POSClosureInformationItem: {
@@ -10846,6 +11992,12 @@ export interface components {
              */
             tax_rate?: number | null;
             /**
+             * Tax Id
+             * @description Unique identifier of the tax of the order line item
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            tax_id?: string | null;
+            /**
              * Description
              * @description Description of the order line item
              * @example Pizza
@@ -10870,6 +12022,12 @@ export interface components {
              * @example 123
              */
             accounting_category_id?: string | null;
+            /**
+             * Modifiers
+             * @description List of modifiers
+             * @default []
+             */
+            modifiers: components['schemas']['ModifierLine'][] | null;
         };
         /**
          * POSLineItemType
@@ -11042,6 +12200,12 @@ export interface components {
              * @description List of item lines in the order
              */
             items: components['schemas']['POSItem'][];
+            /**
+             * Invoice Id
+             * @description ID of the invoice linked to the order. Only available for specific POS and if the order is linked to an invoice (B2B)
+             * @example invoice-123
+             */
+            invoice_id?: string | null;
         };
         /** POSPaymentItem */
         POSPaymentItem: {
@@ -11094,6 +12258,18 @@ export interface components {
              * @example 2025-01-01T00:00:00Z
              */
             date?: string | null;
+            /**
+             * Invoice Ref
+             * @description Reference of the invoice linked to the payment
+             * @example invoice-123
+             */
+            invoice_ref?: string | null;
+            /**
+             * Order Id
+             * @description Unique identifier of the order
+             * @example order-123
+             */
+            order_id?: string | null;
         };
         /**
          * POSPaymentStatus
@@ -11139,17 +12315,50 @@ export interface components {
              */
             prices: components['schemas']['ProductPriceItem'][];
             /**
+             * Modifier Groups Ids
+             * @description List of ids of the modifier groups
+             * @default []
+             */
+            modifier_groups_ids: string[] | null;
+            /**
              * Accounting Category Ids
              * @description Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids
              * @example 371ca583-d218-4900-b236-397532cf0e2
              */
             accounting_category_ids?: string[] | null;
         };
+        /** POSTaxRateItem */
+        POSTaxRateItem: {
+            /**
+             * Id
+             * @description Unique identifier of the tax rate
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            id: string;
+            /**
+             * Label
+             * @description Label of the tax rate
+             * @example VAT 21%
+             */
+            label?: string | null;
+            /**
+             * Rate
+             * @description Percentage of the tax rate
+             * @example 21
+             */
+            rate?: number | null;
+            /**
+             * Tax Code
+             * @description VAT code of the tax rate
+             * @example VAT21
+             */
+            tax_code?: string | null;
+        };
         /** Partner */
         Partner: {
             /**
              * External Reference
-             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system. Normally unique per client/supplier type and can serve as the primary key of the accounting system.
              */
             external_reference?: string | null;
             /**
@@ -11169,7 +12378,7 @@ export interface components {
             name?: string | null;
             /**
              * Function
-             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             * @description Only used when the client is an individual (is_company=false). Job function/title of the client.
              */
             function?: string | null;
             /**
@@ -11219,13 +12428,18 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
-             * @description IBAN account number of the client.
+             * @description IBAN account number of the client. DEPRECATED see bank_accounts
              */
             iban?: string | null;
             /**
              * Bank Account
-             * @description Bank account number of the client.
+             * @description Bank account number of the client. DEPRECATED see bank_accounts
              */
             bank_account?: string | null;
             /**
@@ -11241,14 +12455,9 @@ export interface components {
             active: boolean | null;
             /**
              * Account Number
-             * @description Ledger account number assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
+             * @description General ledger account assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is the account used on journal entry lines to debit/credit this partner.
              */
             account_number?: string | null;
-            /**
-             * Company Number
-             * @description Id of the associated company, used when the record is a contact person linked to a company.
-             */
-            company_number?: string | null;
             /**
              * Id
              * @description Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.
@@ -11270,12 +12479,22 @@ export interface components {
              * @description Third party account number/code representing the client in the accounting software.
              */
             third_party_account?: string | null;
+            /**
+             * Bank Accounts
+             * @description List of bank accounts information associated with the client.
+             */
+            bank_accounts?: components['schemas']['BankAccountsItem'][] | null;
         };
         /**
          * PartnerType
          * @enum {string}
          */
-        PartnerType: 'owner' | 'account';
+        'PartnerType-Input': 'client' | 'supplier';
+        /**
+         * PartnerType
+         * @enum {string}
+         */
+        'PartnerType-Output': 'owner' | 'account';
         /** PatchConnectionItem */
         PatchConnectionItem: {
             /**
@@ -11291,7 +12510,7 @@ export interface components {
             name?: string | null;
             /**
              * Credentials
-             * @description Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration
+             * @description Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration. Note: The preferred approach to let a consumer change their credentials is to call this endpoint without passing credentials in the body of the request, which will return a link that can be reshared with the consumer to update their credentials through the Chift UI.
              */
             credentials?: components['schemas']['CredentialItem'][] | null;
         };
@@ -11310,7 +12529,7 @@ export interface components {
             amount: number;
             /**
              * Dedicated Amount
-             * @description Amount of the payment dedicated to the invoice.
+             * @description Amount of the payment dedicated to the invoice. It is 0 when the source cannot attribute the payment to individual invoices (e.g. a lump payment covering several), so a 0 here does not mean nothing was paid.
              * @default 0
              */
             dedicated_amount: number;
@@ -11371,6 +12590,21 @@ export interface components {
              * @description Partner ID
              */
             partner_id?: string | null;
+        };
+        /** PaymentLocationItem */
+        PaymentLocationItem: {
+            /**
+             * Id
+             * @description Unique identifier of the location
+             * @example 371ca583-d218-4900-b236-397532cf0e52
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name given to the location
+             * @example Restaurant de la Paix
+             */
+            name: string;
         };
         /** PaymentMethodItem */
         PaymentMethodItem: {
@@ -11477,6 +12711,56 @@ export interface components {
              */
             iban: string;
         };
+        /** PayoutItemOut */
+        PayoutItemOut: {
+            /**
+             * Id
+             * @description Technical id in Chift
+             */
+            id: string;
+            /** @description Technical id in the target software */
+            source_ref: components['schemas']['Ref'];
+            /** @description Payout status */
+            status: components['schemas']['PayoutStatus'];
+            /** @description Payout type */
+            type: components['schemas']['PayoutType'];
+            /**
+             * Amount
+             * @description Amount transferred to the merchant
+             */
+            amount: number;
+            /**
+             * Currency
+             * @description Currency
+             */
+            currency: string;
+            /**
+             * Fee
+             * @description Total fee applied by the processor
+             */
+            fee?: number | null;
+            /**
+             * Extra Fee
+             * @description Extra fee, if exposed by the processor
+             */
+            extra_fee?: number | null;
+            /**
+             * Payment Date
+             * Format: date
+             * @description Date at which the payout was made
+             */
+            payment_date: string;
+        };
+        /**
+         * PayoutStatus
+         * @enum {string}
+         */
+        PayoutStatus: 'scheduled' | 'in_transit' | 'paid' | 'failed' | 'canceled';
+        /**
+         * PayoutType
+         * @enum {string}
+         */
+        PayoutType: 'payout' | 'bank_account' | 'other';
         /** PostAddressItem */
         PostAddressItem: {
             /**
@@ -11824,6 +13108,8 @@ export interface components {
             created_on?: string | null;
             /** Sku */
             sku?: string | null;
+            /** Taxable */
+            taxable?: boolean | null;
             /** Barcode */
             barcode?: string | null;
             /**
@@ -11859,6 +13145,110 @@ export interface components {
              * @default []
              */
             variant_images: components['schemas']['ImageItem'][] | null;
+        };
+        /**
+         * PublicCubeMetaCube
+         * @description Agent-facing Cube schema, close to Cube /v1/meta and stripped of SQL internals.
+         */
+        PublicCubeMetaCube: {
+            /** Name */
+            name: string;
+            /** Type */
+            type?: ('cube' | 'view') | null;
+            /** Title */
+            title?: string | null;
+            /** Description */
+            description?: string | null;
+            /** Connectedcomponent */
+            connectedComponent?: number | null;
+            /** Measures */
+            measures?: components['schemas']['PublicCubeMetaMember'][];
+            /** Dimensions */
+            dimensions?: components['schemas']['PublicCubeMetaMember'][];
+            /** Hierarchies */
+            hierarchies?: {
+                [key: string]: unknown;
+            }[];
+            /** Segments */
+            segments?: components['schemas']['PublicCubeMetaMember'][];
+            /** Relationships */
+            relationships?: components['schemas']['PublicCubeRelationship'][];
+            /** Domain */
+            domain?: string | null;
+            /** Querygroup */
+            queryGroup?: string | null;
+        };
+        /**
+         * PublicCubeMetaMember
+         * @description Agent-facing Cube member metadata.
+         *
+         *     The base fields mirror Cube /v1/meta. The remaining fields are selected, SQL-free
+         *     Backbone metadata flattened so agents do not need to inspect arbitrary `meta`.
+         */
+        PublicCubeMetaMember: {
+            /** Name */
+            name: string;
+            /** Title */
+            title?: string | null;
+            /** Shorttitle */
+            shortTitle?: string | null;
+            /** Aliasname */
+            aliasName?: string | null;
+            /** Type */
+            type?: string | null;
+            /** Description */
+            description?: string | null;
+            /** Aggtype */
+            aggType?: string | null;
+            /** Drillmembers */
+            drillMembers?: string[] | null;
+            /** Format */
+            format?: string | null;
+            /** Primarykey */
+            primaryKey?: boolean | null;
+            /** Suggestfiltervalues */
+            suggestFilterValues?: boolean | null;
+            /** Nullable */
+            nullable?: boolean | null;
+            /** Values */
+            values?: string[] | null;
+            /** Allowedgranularities */
+            allowedGranularities?: string[] | null;
+            /** Jsonschema */
+            jsonSchema?: {
+                [key: string]: unknown;
+            } | null;
+            /** Monetary */
+            monetary?: boolean | null;
+            /** Currencydimension */
+            currencyDimension?: string | null;
+            /** Currencysensitive */
+            currencySensitive?: boolean | null;
+            /** Alignaxis */
+            alignAxis?: string | null;
+        };
+        /** PublicCubeRelationship */
+        PublicCubeRelationship: {
+            /** Target */
+            target: string;
+            /**
+             * Relationship
+             * @enum {string}
+             */
+            relationship: 'one_to_one' | 'one_to_many' | 'many_to_one';
+        };
+        /** QueryMeta */
+        QueryMeta: {
+            /** Currency */
+            currency?: (string | null)[] | null;
+            /** Monetary Measures */
+            monetary_measures?: string[] | null;
+        };
+        /** QueryResponse */
+        QueryResponse: {
+            /** Results */
+            results: components['schemas']['ExecutionResult'][];
+            meta?: components['schemas']['QueryMeta'] | null;
         };
         /** ReadFlowConsumerItem */
         ReadFlowConsumerItem: {
@@ -11919,9 +13309,7 @@ export interface components {
             name: string;
             /** Config */
             config?: {
-                [key: string]: {
-                    [key: string]: unknown;
-                }[];
+                [key: string]: unknown;
             } | null;
             /** Connections */
             connections: components['schemas']['SyncsConnectionItem'][];
@@ -12069,6 +13457,15 @@ export interface components {
              */
             total: number;
         };
+        /** ReleaseItem */
+        ReleaseItem: {
+            /** Filename */
+            fileName: string;
+            /** Version */
+            version: string;
+            /** Downloadurl */
+            downloadUrl: string;
+        };
         /**
          * ReportCategory
          * @enum {string}
@@ -12152,6 +13549,12 @@ export interface components {
         };
         /** ReportPayments */
         ReportPayments: {
+            /**
+             * Tax Id
+             * @description Unique identifier of the tax
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            tax_id?: string | null;
             /**
              * Tax Rate
              * @description Tax rate
@@ -12274,6 +13677,19 @@ export interface components {
              * @description Total refunded (after discount).
              */
             total: number;
+        };
+        /** RoutingCodeItem */
+        RoutingCodeItem: {
+            /**
+             * @description The routing format. Possible values: ach (US), sort_code (UK), bsb (AU), transit (CA), ifsc (IN), clabe (MX).
+             * @default unknown
+             */
+            type: components['schemas']['BankAccountRoutingType'];
+            /**
+             * Value
+             * @description The raw routing code value, without spaces or dashes.
+             */
+            value?: string | null;
         };
         /** SalesItem */
         SalesItem: {
@@ -12440,6 +13856,11 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
              * @description IBAN account number of the supplier.
              */
@@ -12545,13 +13966,18 @@ export interface components {
              */
             vat?: string | null;
             /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
+            /**
              * Iban
-             * @description IBAN account number of the supplier.
+             * @description IBAN account number of the supplier. DEPRECATED see bank_accounts
              */
             iban?: string | null;
             /**
              * Bank Account
-             * @description Bank account number of the supplier.
+             * @description Bank account number of the supplier. DEPRECATED see bank_accounts
              */
             bank_account?: string | null;
             /**
@@ -12570,11 +13996,6 @@ export interface components {
              * @description Ledger account number assigned to the supplier in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
              */
             account_number?: string | null;
-            /**
-             * Company Number
-             * @description Id of the associated company, used when the record is a contact person linked to a company.
-             */
-            company_number?: string | null;
             /**
              * Id
              * @description Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system.
@@ -12596,6 +14017,11 @@ export interface components {
              * @description Third party account number/code representing the client in the accounting software.
              */
             third_party_account?: string | null;
+            /**
+             * Bank Accounts
+             * @description List of bank accounts information associated with the suppliers.
+             */
+            bank_accounts?: components['schemas']['BankAccountsItem'][] | null;
         };
         /** SupplierItemUpdate */
         SupplierItemUpdate: {
@@ -12670,6 +14096,11 @@ export interface components {
              * @description VAT number of the supplier.
              */
             vat?: string | null;
+            /**
+             * Company Number
+             * @description National identification number of the company.
+             */
+            company_number?: string | null;
             /**
              * Iban
              * @description IBAN account number of the supplier.
@@ -12761,11 +14192,37 @@ export interface components {
          * @enum {string}
          */
         SyncConsumerStatus: 'active' | 'inactive';
+        /** SyncExecutionItem */
+        SyncExecutionItem: {
+            /**
+             * Id
+             * @description Execution id
+             */
+            id: string;
+            /**
+             * Parentexecutionid
+             * @description Parent execution id. An execution is linked to multiple child executions linked to consumers.
+             */
+            parentexecutionid: string | null;
+            /**
+             * Start
+             * Format: date-time
+             */
+            start: string;
+            /** End */
+            end: string | null;
+            /** Status */
+            status: string;
+            /** Consumer Id */
+            consumer_id: string;
+            /** Flow Id */
+            flow_id: string;
+        };
         /**
          * SyncSkipReason
          * @enum {string}
          */
-        SyncSkipReason: 'presync' | 'challenge';
+        SyncSkipReason: 'presync' | 'connector_feature' | 'challenge';
         /** SyncsConnectionItem */
         SyncsConnectionItem: {
             /** One Api */
@@ -12840,6 +14297,12 @@ export interface components {
         };
         /** TotalTaxItem */
         TotalTaxItem: {
+            /**
+             * Tax Id
+             * @description Unique identifier of the tax
+             * @example 371ca583-d218-4900-b236-397532cf0e39
+             */
+            tax_id?: string | null;
             /**
              * Tax Rate
              * @description Tax rate
@@ -12925,6 +14388,11 @@ export interface components {
             refund_id?: string | null;
             /** Payment Id */
             payment_id?: string | null;
+            /**
+             * Description
+             * @description Description linked to the transaction
+             */
+            description?: string | null;
         };
         /**
          * TriggerPriority
@@ -13110,6 +14578,10 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
+            /** Input */
+            input?: unknown;
+            /** Context */
+            ctx?: Record<string, never>;
         };
         /** VariantAttributeItem */
         VariantAttributeItem: {
@@ -13154,6 +14626,8 @@ export interface components {
             created_on?: string | null;
             /** Sku */
             sku?: string | null;
+            /** Taxable */
+            taxable?: boolean | null;
             /** Barcode */
             barcode?: string | null;
             /**
@@ -13217,6 +14691,11 @@ export interface components {
          * @enum {string}
          */
         VatCodeType: 'sale' | 'purchase' | 'both' | 'unknown';
+        /**
+         * Visibility
+         * @enum {string}
+         */
+        Visibility: 'consumer' | 'connector' | 'both';
         /** WebhookInstanceGetItem */
         WebhookInstanceGetItem: {
             /**
@@ -13480,6 +14959,7 @@ export interface operations {
     consumers_get_consumers: {
         parameters: {
             query?: {
+                /** @description Partial, case-insensitive match on the name or the email of the consumer. */
                 search?: string | null;
                 internal_reference?: string | null;
             };
@@ -14596,6 +16076,58 @@ export interface operations {
             };
         };
     };
+    syncs_get_sync_executions: {
+        parameters: {
+            query?: {
+                flowid?: string | null;
+                page?: number;
+                size?: number;
+                date_to?: string | null;
+                date_from?: string | null;
+            };
+            header?: never;
+            path: {
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_SyncExecutionItem_'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The flow does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     syncs_get_execution: {
         parameters: {
             query?: {
@@ -14876,6 +16408,52 @@ export interface operations {
             };
         };
     };
+    syncs_disable_syncconsumer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                syncid: string;
+                flowid: string;
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The consumer does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     syncs_update_flowtoconsumer: {
         parameters: {
             query?: never;
@@ -14928,6 +16506,198 @@ export interface operations {
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    datalayer_enable: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['DatalayerEnableBody'] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': unknown;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The datalayer is not configured on this account.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The consumer or connection does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    datalayer_refresh: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['DatalayerRefreshBody'] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['TriggerResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The datalayer is not configured on this account.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The consumer or connection does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    datalayer_disable: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The datalayer is not configured on this account.",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The consumer or connection does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -15177,6 +16947,92 @@ export interface operations {
             };
         };
     };
+    datalab_get_cube_schemas: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PublicCubeMetaCube'][];
+                };
+            };
+        };
+    };
+    datalab_query_db: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CubeLoadQuery'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['QueryResponse'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    datalab_query_groups_join: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CubeJoinQuery'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['QueryResponse'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     issues_get_issues: {
         parameters: {
             query?: {
@@ -15323,6 +17179,37 @@ export interface operations {
             };
         };
     };
+    get_releases_local_agents_releases_get: {
+        parameters: {
+            query: {
+                connector: number | 'cockpit';
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ReleaseItem'][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     accounting_get_folders: {
         parameters: {
             query?: never;
@@ -15341,6 +17228,53 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['FolderItem'][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    accounting_get_folder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                folder_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['FolderItem'];
                 };
             };
             /** @description Bad Request */
@@ -15623,13 +17557,13 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -15679,12 +17613,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The client/supplier doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15733,6 +17661,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15742,22 +17676,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The client/supplier doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -15857,13 +17785,13 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -15913,12 +17841,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The client/supplier doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15967,6 +17889,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -15976,12 +17904,70 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    accounting_get_partner_contacts: {
+        parameters: {
+            query: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled. */
+                folder_id?: string | null;
+                partner_type: components['schemas']['PartnerType-Input'];
+                partner_id: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_ContactItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     /**
                      * @example {
-                     *       "message": "The client/supplier doesn't exist in the accounting system.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16049,13 +18035,22 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -16113,13 +18108,22 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -16139,7 +18143,7 @@ export interface operations {
                 journal_ids?: string | null;
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
-                /** @description Extra filter to retrieve invoices with a specific payment status. */
+                /** @description Extra filter to retrieve invoices with a specific payment status. Cancelled invoices are filtered out when using either paid or unpaid. */
                 payment_status?: components['schemas']['PaymentStatus'] | null;
                 /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
@@ -16147,6 +18151,8 @@ export interface operations {
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
                 /** @description Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved. */
                 include_partner_info?: components['schemas']['BoolParam'] | null;
+                /** @description Filter invoices by approval status. */
+                approval_status?: components['schemas']['InvoiceApprovalStatusFilter'] | null;
             };
             header?: never;
             path: {
@@ -16174,7 +18180,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "You must provide an invoice type.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -16207,7 +18213,7 @@ export interface operations {
                 journal_ids?: string | null;
                 /** @description Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null. */
                 include_payments?: components['schemas']['BoolParam'] | null;
-                /** @description Extra filter to retrieve invoices with a specific payment status. */
+                /** @description Extra filter to retrieve invoices with a specific payment status. Cancelled invoices are filtered out when using either paid or unpaid. */
                 payment_status?: components['schemas']['PaymentStatus'] | null;
                 /** @description Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
                 updated_after?: string | null;
@@ -16215,6 +18221,8 @@ export interface operations {
                 include_invoice_lines?: components['schemas']['BoolParam'] | null;
                 /** @description Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved. */
                 include_partner_info?: components['schemas']['BoolParam'] | null;
+                /** @description Filter invoices by approval status. */
+                approval_status?: components['schemas']['InvoiceApprovalStatusFilter'] | null;
             };
             header?: never;
             path: {
@@ -16242,7 +18250,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "You must provide an invoice type.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -16298,7 +18306,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -16311,22 +18319,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -16369,7 +18371,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -16382,22 +18384,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -16490,10 +18486,19 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "An analytic account already exists with the same code in the accounting system.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16544,10 +18549,19 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "An analytic account already exists with the same code in the accounting system.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16607,12 +18621,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The analytic account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16676,12 +18684,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The analytic account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16742,12 +18744,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The analytic account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16812,12 +18808,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The analytic account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16928,12 +18918,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "You can retrieve maximum 3 months of data at once. The difference between 'date_from' and 'date_to' is at maximum 3 months when 'updated_after' parameter is not provided.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -16991,12 +18975,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "You can retrieve maximum 3 months of data at once. The difference between 'date_from' and 'date_to' is at maximum 3 months when 'updated_after' parameter is not provided.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17056,12 +19034,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The entry doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17172,7 +19144,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The ID of the invoice doesn't have the correct format.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -17185,22 +19157,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The given invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17448,27 +19414,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "A journal already exists with the same code in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "message": "The counterpart account doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -17638,13 +19583,13 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17741,22 +19686,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "Entry 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17803,22 +19742,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "Entry 'x' doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -17921,12 +19854,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The invoice doesn't exist in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18143,20 +20070,20 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "A bank account/journal already exists with the same code in the accounting system.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -18196,20 +20123,20 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The format of the bank_statement_id doesn't seem to be correct.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -18318,13 +20245,13 @@ export interface operations {
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
-            /** @description Validation Error */
+            /** @description Unprocessable Entity */
             422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
         };
@@ -18470,12 +20397,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "A ledger account already exists with the same number in the accounting system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -18543,6 +20464,89 @@ export interface operations {
             };
         };
     };
+    pos_get_modifiers: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Unique identifier of the location. If none passed, products from all locations will be returned unless the location was selected by the end-user */
+                location_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_ModifiersItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
     pos_get_orders: {
         parameters: {
             query?: {
@@ -18550,15 +20554,15 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
-                /** @description Start date (inclusive) of the period to get orders from */
+                /** @description Start date (inclusive) of the period to get orders from. Ignored when 'closure_id' is provided. */
                 date_from?: string | null;
-                /** @description End date (inclusive) of the period to get orders from */
+                /** @description End date (inclusive) of the period to get orders from. Ignored when 'closure_id' is provided. */
                 date_to?: string | null;
                 /** @description Unique identifier of the location. If none passed, orders from all locations will be returned unless the location was selected by the end-user */
                 location_id?: string | null;
                 /** @description State of the orders to get */
                 state?: components['schemas']['States'];
-                /** @description Unique identifier of the closure. If none passed, orders from all closures will be selected. */
+                /** @description Unique identifier of the closure. Scopes the result to that closure instead of a date range: when provided, 'date_from' and 'date_to' are ignored and every order of the closure is returned, whatever its date. If none passed, orders from all closures in the period will be selected. */
                 closure_id?: string | null;
             };
             header?: never;
@@ -18677,12 +20681,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The order with id {OrderId} could not be found",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -19351,12 +21349,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The customer with id {CustomerId} could not be found",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -19594,6 +21586,87 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ChiftPage_AccountingCategoryItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    pos_get_taxes: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_POSTaxRateItem_'];
                 };
             };
             /** @description Bad Request */
@@ -19994,12 +22067,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The customer doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20111,12 +22178,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The product doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20173,12 +22234,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The variant doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20347,6 +22402,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20391,6 +22452,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20450,12 +22517,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The order doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20819,12 +22880,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The contact doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -20982,12 +23037,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The product doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -21095,12 +23144,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The tax doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -21157,7 +23200,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "You must provide an invoice type.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -21186,7 +23229,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['InvoiceItem-Input'];
+                'application/json': components['schemas']['InvoiceItemIn'];
             };
         };
         responses: {
@@ -21257,12 +23300,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The ID of the invoice doesn't have the correct format.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -21272,12 +23309,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The invoice doesn't exist in the invoicing system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -21324,7 +23355,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "The document is not a valid base64 string representing a PDF.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -21435,12 +23466,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The opportunity doesn't exist.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22034,6 +24059,110 @@ export interface operations {
             };
         };
     };
+    banking_get_opening_balance: {
+        parameters: {
+            query: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                account_id: string;
+                date: string;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BankingOpeningBalanceItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    payment_get_locations: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PaymentLocationItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     payment_get_balances: {
         parameters: {
             query?: {
@@ -22098,8 +24227,12 @@ export interface operations {
                 starting_from?: string | null;
                 /** @description Get all transactions for a specific balance */
                 balance_id?: string | null;
+                /** @description Get all transactions linked to a specific payout */
+                payout_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Get all transactions for a specific location */
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -22126,7 +24259,7 @@ export interface operations {
                 content: {
                     /**
                      * @example {
-                     *       "message": "You must provide an transaction type.",
+                     *       "message": "Error while trying to perform your request",
                      *       "status": "error"
                      *     }
                      */
@@ -22153,6 +24286,8 @@ export interface operations {
                 size?: number;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Get all transactions for a specific location */
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -22239,12 +24374,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The payment doesn't exist in the system.",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -22270,6 +24399,8 @@ export interface operations {
                 payment_id?: string | null;
                 date_from?: string | null;
                 date_to?: string | null;
+                /** @description Get all transactions for a specific location */
+                location_id?: string | null;
             };
             header?: never;
             path: {
@@ -22286,6 +24417,61 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ChiftPage_RefundItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    payment_get_payouts: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                date_from?: string | null;
+                date_to?: string | null;
+                /** @description Get all transactions for a specific location */
+                location_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PayoutItemOut_'];
                 };
             };
             /** @description Bad Request */
@@ -22490,6 +24676,12 @@ export interface operations {
                 page?: number;
                 /** @description Page size */
                 size?: number;
+                /** @description Filter based on other parameters than the email/phone, e.g. firstname, lastname */
+                search?: string | null;
+                /** @description Filter based on email of customer */
+                email?: string | null;
+                /** @description Filter based on phone of customer */
+                phone?: string | null;
             };
             header?: never;
             path: {
@@ -22606,12 +24798,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "message": "The customer with id {CustomerId} could not be found",
-                     *       "status": "error"
-                     *     }
-                     */
                     'application/json': components['schemas']['ChiftError'];
                 };
             };
@@ -23085,6 +25271,90 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ChiftPage_PMSTaxRateItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Method Not Allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to authenticate to {ConnectorName}",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    pms_get_accounting_transactions: {
+        parameters: {
+            query: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                date_from: string;
+                date_to: string;
+                location_id?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PMSAccountingTransactionItem_'];
                 };
             };
             /** @description Bad Request */

@@ -20,6 +20,10 @@ type GetInvoicesParams = AutoPaginatedParams<operations['pms_get_invoices']['par
 
 type GetTaxesParams = AutoPaginatedParams<operations['pms_get_taxes']['parameters']['query']>;
 
+type GetAccountingTransactionsParams = AutoPaginatedParams<
+    operations['pms_get_accounting_transactions']['parameters']['query']
+>;
+
 const pmsFactory = {
     getLocations(rawData?: boolean): RequestData<components['schemas']['PMSLocationItem'][]> {
         return {
@@ -124,6 +128,17 @@ const pmsFactory = {
             params,
             method: 'get',
             url: '/consumers/{consumer_id}/pms/taxes',
+            rawData,
+        };
+    },
+    getAccountingTransactions(
+        params: GetAccountingTransactionsParams,
+        rawData?: boolean
+    ): RequestData<components['schemas']['PMSAccountingTransactionItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/pms/accounting-transactions',
             rawData,
         };
     },

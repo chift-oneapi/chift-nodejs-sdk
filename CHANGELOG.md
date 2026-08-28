@@ -1,5 +1,139 @@
 # Changelog
 
+## 1.0.43 - 2026-08-28
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (documentation)
+
+-   Refresh `@description` comments across accounting, banking, ecommerce and invoicing schemas to match the upstream OpenAPI docs (e.g. VAT code reverse-charge/withholding semantics, journal entry accounting/due dates, matching-number lettering rules, analytic account/plan IDs, invoice number and date fields). A few previously undocumented fields (`Analytic Account`, journal entry `Name`) gain descriptions. No endpoints, request/response types, fields, or enums changed — this is a documentation-only sync, so the SDK surface (`src/modules`) is unaffected.
+
+## 1.0.42 - 2026-08-26
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (type refinements)
+
+-   [ECOMMERCE] Add optional `channel` (`string | null`) to the `OrderItemOut` schema — the sales channel the order originated from. Additive output-only field; it flows through `consumer.ecommerce.getOrders` / `getOrder` automatically, so the SDK surface (`src/modules`) is unaffected.
+
+## 1.0.41 - 2026-08-24
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (documentation)
+
+-   Refresh endpoint `@description` and summary comments across `paths` and `operations` to match the upstream OpenAPI docs. No endpoints, request/response types, fields, or enums changed — this is a documentation-only sync, so the SDK surface (`src/modules`) is unaffected.
+
+## 1.0.40 - 2026-08-15
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (type refinements)
+
+-   [INVOICING] Add optional `delivery_date` (`string | null`) to invoice item schemas `InvoiceItemIn`, `InvoiceItemInMultiAnalyticPlans`, `InvoiceItemOut`, and `InvoiceItemOutMultiAnalyticPlans` — date on which the goods were delivered or the service was provided (`YYYY-MM-DD`), used to assign the invoice and its tax to the correct period when it differs from the invoice date.
+
+## 1.0.39 - 2026-08-06
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [DATALAB] `queryGroupsJoin`: run a joined groups query (`POST /datalab/query-groups-join`), taking a `CubeJoinQuery` body and returning a `QueryResponse`.
+
+### Schema (new endpoints)
+
+-   [DATALAB] Query Groups Join (`POST /datalab/query-groups-join`)
+
+### Schema (type refinements)
+
+-   New `CubeJoinQuery` schema (`queries: CubeLoadQuery[]`, optional `align`).
+-   `CubeLoadQuery`: add optional `align` / `alignAxis` fields; `currency` widened to `(string | null)[] | null`.
+-   Align several endpoints' error responses to `ChiftError` in place of `HTTPValidationError`.
+
+## 1.0.38 - 2026-08-01
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (type refinements)
+
+-   [SYNCS] Disable a flow for a specific consumer (`POST /consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable`) now responds with `204 No Content` instead of `200`.
+-   [CONNECTIONS] Disable datalayer sync (`POST .../connections/{connection_id}/disable_datalayer`) now responds with `204 No Content` instead of `200`.
+
+## 1.0.37 - 2026-07-29
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [POS] `getModifiers`: list the modifiers of a point of sale (paginated, optional `location_id`).
+
+### Schema (new endpoints)
+
+-   [POS] Get Modifiers (`GET /consumers/{consumer_id}/pos/modifiers`)
+
+### Schema (type refinements)
+
+-   New `ModifiersItem`, `ModifierOptionItem`, `ModifierLine` and `ChiftPage_ModifiersItem_` schemas.
+-   `POSLineItem`: add the `modifiers` field (list of `ModifierLine`).
+-   `POSProductItem`: add the `modifier_groups_ids` field.
+
+## 1.0.36 - 2026-07-24
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [BANKING] `getOpeningBalance`: get the opening balance for a banking account on a specific date.
+
+### Schema (new endpoints)
+
+-   [BANKING] Get opening balance (`GET /consumers/{consumer_id}/banking/opening-balance`)
+
+### Schema (type refinements)
+
+-   New `BankingOpeningBalanceItem` schema (`account_id`, `date`, `opening_balance`, `currency`).
+-   `BankingTransactionItem`: the `open_balance` field is renamed to `opening_balance`.
+
+## 1.0.35 - 2026-07-16
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Modules
+
+-   [INVOICING] `createInvoice`: update request body type from the renamed schema `InvoiceItem-Input` to `InvoiceItemIn`. Its `invoice_type` now uses the new `InvoicingCreateInvoiceType` enum (`customer_invoice` / `customer_refund` / `supplier_invoice` / `supplier_refund`), which — unlike `InvoicingInvoiceType` — no longer includes `all`.
+-   [ACCOUNTING] `getFolder`: get a single accounting folder by id.
+-   [ACCOUNTING] `getPartnerContacts`: get contacts for a client or supplier partner.
+-   [CONNECTIONS] `enableDatalayer`, `refreshDatalayer`, `disableDatalayer`: manage datalayer sync on a connection.
+-   [PAYMENT] `getLocations`, `getPayouts`: list payment locations and payouts.
+-   [PMS] `getAccountingTransactions`: list PMS accounting transactions.
+-   [POS] `getTaxes`: list POS tax rates.
+-   [SYNCS] `getSyncExecutions`: list executions for a sync.
+-   [CONSUMER] `disableFlow`: disable a flow for a specific consumer.
+-   [DATALAB] `getCubeSchemas`: list available Cube schemas.
+-   [DATALAB] `queryDb`: run a Cube load query against the datalab database.
+-   [LOCAL AGENTS] `getReleases`: list local agent releases for a connector.
+
+### Schema (new endpoints)
+
+-   [ACCOUNTING] Get Folder (`GET /consumers/{consumer_id}/accounting/folders/{folder_id}`)
+-   [ACCOUNTING] Get partner contacts (`GET /consumers/{consumer_id}/accounting/contacts`)
+-   [CONNECTIONS] Datalayer sync: enable / refresh / disable (`.../connections/{connection_id}/{enable,refresh,disable}_datalayer`)
+-   [PAYMENT] Get locations, Get payouts
+-   [PMS] Get accounting transactions
+-   [POS] Get taxes (`GET /consumers/{consumer_id}/pos/tax-rates`)
+-   [SYNCS] Get executions for a sync (`GET /syncs/{syncid}/executions`); Disable a flow for a specific consumer (`POST /consumers/{consumer_id}/syncs/{syncid}/flows/{flowid}/disable`)
+-   [DATALAB] Get cube schemas (`GET /datalab/cube-schemas`)
+-   [DATALAB] Query db (`POST /datalab/query-db`)
+-   [LOCAL AGENTS] Get releases (`GET /local-agents/releases`)
+
+### Schema (type refinements)
+
+-   `SyncSkipReason` gains `connector_feature`.
+-   `PartnerType` is split into `PartnerType-Input` (`client` / `supplier`) and `PartnerType-Output` (`owner` / `account`).
+-   `OutstandingItem` gains a `due_dates` list backed by the new `OutstandingItemDueDatesOut` schema (`due_date`, `payment_method`, `payment_method_id`, `amount`).
+-   `POSOrderItem` gains an optional `invoice_id` (invoice linked to a B2B order).
+-   `POSPaymentItem` gains an optional `order_id`.
+
 ## 1.0.0 - 2023-09-14
 
 -   First release with scopes of the 5 unified APIs (Accounting, POS, eCommerce, Invoicing & Payment) of Chift and the management of consumers, connections & webhooks.
