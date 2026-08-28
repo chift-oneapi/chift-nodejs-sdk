@@ -3496,19 +3496,19 @@ export interface components {
             payable_account?: string | null;
             /**
              * Reversed
-             * @description Indicates whether the VAT code is reversed. A reversed VAT code is used in specific scenarios, such as reverse charge mechanisms, where the responsibility for reporting VAT shifts from the seller to the buyer.
+             * @description Whether the VAT code is a reverse-charge code, where VAT-reporting responsibility shifts from seller to buyer. When true, the invoice line's tax_amount is 0: two VAT lines are booked that cancel each other, one on the deductible account and one on the payable account.
              * @default false
              */
             reversed: boolean | null;
             /**
              * Withholding Tax
-             * @description Indicates whether the VAT code is a withholding tax. This is used to indicate that the VAT code is a withholding tax and should be treated as such.
+             * @description Whether this VAT code can be used for withholding taxes.
              * @default false
              */
             withholding_tax: boolean | null;
             /**
              * Country
-             * @description Country of the VAT code. This is the ISO 3166-1 code of the country.
+             * @description ISO 3166-1 country code the VAT code is restricted to, set only when the code can be used for one specific country.
              */
             country?: string | null;
         };
@@ -3821,7 +3821,7 @@ export interface components {
         AnalyticDistribution: {
             /**
              * Analytic Plan
-             * @description Id of the analytic plan to which the distribution applies.
+             * @description Technical ID of the analytic plan to which the distribution applies.
              */
             analytic_plan: string;
             /**
@@ -3832,7 +3832,10 @@ export interface components {
         };
         /** AnalyticDistributionDetail */
         AnalyticDistributionDetail: {
-            /** Analytic Account */
+            /**
+             * Analytic Account
+             * @description Technical ID of the analytic account.
+             */
             analytic_account: string;
             /**
              * Percentage
@@ -4389,7 +4392,7 @@ export interface components {
             description: string;
             /**
              * Reference
-             * @description Reference of the account
+             * @description External reference identifying the account, e.g. its IBAN.
              * @example FR76300040123456789012345678
              */
             reference: string;
@@ -4505,7 +4508,7 @@ export interface components {
             bank_account_id?: string | null;
             /**
              * Amount
-             * @description Amount of the transaction
+             * @description Signed amount of the transaction in the account currency (inflows positive, outflows negative). Tax-inclusive: it includes any tax, while tax_amount reports the VAT portion separately.
              * @example 1000
              */
             amount: number;
@@ -4574,7 +4577,7 @@ export interface components {
             execution_date: string;
             /**
              * Internal Transaction
-             * @description Indicates if the transaction is internal
+             * @description Whether the transaction is internal, i.e. a transfer between two of the consumer's own bank accounts.
              * @default false
              * @example false
              */
@@ -5502,7 +5505,7 @@ export interface components {
         ClientItemIn: {
             /**
              * External Reference
-             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system. Normally unique per client/supplier type and can serve as the primary key of the accounting system.
              */
             external_reference?: string | null;
             /**
@@ -5522,7 +5525,7 @@ export interface components {
             name: string;
             /**
              * Function
-             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             * @description Only used when the client is an individual (is_company=false). Job function/title of the client.
              */
             function?: string | null;
             /**
@@ -5612,7 +5615,7 @@ export interface components {
         ClientItemOut: {
             /**
              * External Reference
-             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system. Normally unique per client/supplier type and can serve as the primary key of the accounting system.
              */
             external_reference?: string | null;
             /**
@@ -5632,7 +5635,7 @@ export interface components {
             name?: string | null;
             /**
              * Function
-             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             * @description Only used when the client is an individual (is_company=false). Job function/title of the client.
              */
             function?: string | null;
             /**
@@ -5709,7 +5712,7 @@ export interface components {
             active: boolean | null;
             /**
              * Account Number
-             * @description Ledger account number assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
+             * @description General ledger account assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is the account used on journal entry lines to debit/credit this partner.
              */
             account_number?: string | null;
             /**
@@ -5743,7 +5746,7 @@ export interface components {
         ClientItemUpdate: {
             /**
              * External Reference
-             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system. Normally unique per client/supplier type and can serve as the primary key of the accounting system.
              */
             external_reference?: string | null;
             /**
@@ -5763,7 +5766,7 @@ export interface components {
             name?: string | null;
             /**
              * Function
-             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             * @description Only used when the client is an individual (is_company=false). Job function/title of the client.
              */
             function?: string | null;
             /**
@@ -7684,7 +7687,7 @@ export interface components {
             reference?: string | null;
             /**
              * Due Date
-             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             * @description If the journal entry relates to an invoice, this is the last due date for payment or settlement (format: YYYY-MM-DD), carried from a client/supplier entry line.
              */
             due_date?: string | null;
             /**
@@ -8121,7 +8124,7 @@ export interface components {
             invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
-             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details. On the purchase side some tools store the supplier's own invoice number here, so it is not necessarily unique across suppliers.
              */
             invoice_number?: string | null;
             /**
@@ -8164,7 +8167,7 @@ export interface components {
              * @description Technical ID of the payment term associated with the invoice.
              */
             payment_term_id?: string | null;
-            /** @description Withholding tax information for the invoice. */
+            /** @description Withholding-tax information for the invoice. A withholding tax is paid to the government directly by the payer rather than by the recipient: the payer deducts it before paying the recipient, reducing the amount received (e.g. an employer remitting salary tax). In Chift use cases this is mainly seen in Spain. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /**
              * Invoice Date
@@ -8249,7 +8252,7 @@ export interface components {
             invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
-             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details. On the purchase side some tools store the supplier's own invoice number here, so it is not necessarily unique across suppliers.
              */
             invoice_number?: string | null;
             /**
@@ -8292,7 +8295,7 @@ export interface components {
              * @description Technical ID of the payment term associated with the invoice.
              */
             payment_term_id?: string | null;
-            /** @description Withholding tax information for the invoice. */
+            /** @description Withholding-tax information for the invoice. A withholding tax is paid to the government directly by the payer rather than by the recipient: the payer deducts it before paying the recipient, reducing the amount received (e.g. an employer remitting salary tax). In Chift use cases this is mainly seen in Spain. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /**
              * Invoice Date
@@ -8485,7 +8488,7 @@ export interface components {
             invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
-             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details. On the purchase side some tools store the supplier's own invoice number here, so it is not necessarily unique across suppliers.
              */
             invoice_number?: string | null;
             /**
@@ -8528,20 +8531,20 @@ export interface components {
              * @description Technical ID of the payment term associated with the invoice.
              */
             payment_term_id?: string | null;
-            /** @description Withholding tax information for the invoice. */
+            /** @description Withholding-tax information for the invoice. A withholding tax is paid to the government directly by the payer rather than by the recipient: the payer deducts it before paying the recipient, reducing the amount received (e.g. an employer remitting salary tax). In Chift use cases this is mainly seen in Spain. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /** Id */
             id?: string | null;
             /**
              * Invoice Date
              * Format: date
-             * @description Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
+             * @description Document date of the invoice. It can differ from the accounting date/period that determines the book year. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
              */
             invoice_date: string;
             /**
              * Due Date
              * Format: date
-             * @description Last Due date of the invoice. The invoice date is used when this information is not given by the software.
+             * @description Last due date of the invoice, normally on or after the invoice date. The invoice date is used when this information is not given by the software.
              */
             due_date: string;
             /**
@@ -8596,7 +8599,7 @@ export interface components {
             invoice_type: components['schemas']['InvoiceType'];
             /**
              * Invoice Number
-             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details
+             * @description Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details. On the purchase side some tools store the supplier's own invoice number here, so it is not necessarily unique across suppliers.
              */
             invoice_number?: string | null;
             /**
@@ -8639,20 +8642,20 @@ export interface components {
              * @description Technical ID of the payment term associated with the invoice.
              */
             payment_term_id?: string | null;
-            /** @description Withholding tax information for the invoice. */
+            /** @description Withholding-tax information for the invoice. A withholding tax is paid to the government directly by the payer rather than by the recipient: the payer deducts it before paying the recipient, reducing the amount received (e.g. an employer remitting salary tax). In Chift use cases this is mainly seen in Spain. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
             /** Id */
             id?: string | null;
             /**
              * Invoice Date
              * Format: date
-             * @description Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
+             * @description Document date of the invoice. It can differ from the accounting date/period that determines the book year. It is automatically set to '1970-01-01' if the value is empty in the accounting system.
              */
             invoice_date: string;
             /**
              * Due Date
              * Format: date
-             * @description Last Due date of the invoice. The invoice date is used when this information is not given by the software.
+             * @description Last due date of the invoice, normally on or after the invoice date. The invoice date is used when this information is not given by the software.
              */
             due_date: string;
             /**
@@ -9698,11 +9701,11 @@ export interface components {
         };
         /** ItemAttachmentInfoOut */
         ItemAttachmentInfoOut: {
-            /** @description Indicates whether an attachment (e.g. PDF or image) is available for this entry, and how to retrieve it. 'yes': one or more attachments are available directly — each entry in the attachments array contains a filename and a download URL. 'yes_to_request': an attachment exists but cannot be returned inline. Call GET /accounting/attachments with type and document_id to retrieve the file as a base64-encoded string. The attachments array may be empty in this case. 'no': no attachment is linked to this entry. 'unknown': the connector does not support attachment detection for this provider. */
+            /** @description Indicates whether an attachment (e.g. PDF or image) is available for this entry, and how to retrieve it. 'yes': one or more attachments are available directly, each entry in the attachments array contains a filename and a download URL. 'yes_to_request': an attachment exists but cannot be returned inline. Call GET /accounting/attachments with type and document_id to retrieve the file as a base64-encoded string. The attachments array may be empty in this case. 'no': no attachment is linked to this entry. 'unknown': the connector does not support attachment detection for this provider. */
             status: components['schemas']['ItemAttachmentInfoStatus'];
             /**
              * Attachments
-             * @description List of attachments available directly for this entry. Populated only when status is 'yes'. When status is 'yes_to_request', this list is empty — use GET /accounting/attachments to fetch the file content.
+             * @description List of attachments available directly for this entry. Populated only when status is 'yes'. When status is 'yes_to_request', this list is empty, use GET /accounting/attachments to fetch the file content.
              * @default []
              */
             attachments: components['schemas']['ItemAttachmentInfoAttachment'][] | null;
@@ -9720,25 +9723,27 @@ export interface components {
             code?: string | null;
             /** Name */
             name: string;
+            /** @description Category of the journal. In retrieved data the values are customer_invoice, customer_refund, supplier_invoice, supplier_refund, financial_operation, miscellaneous_operation, or unknown. 'bank' and 'cash' exist only in the creation model; a journal representing a bank or cash account is retrieved as financial_operation (typically with an iban), so filter on financial_operation, not 'bank'/'cash', to find treasury journals. */
             journal_type: components['schemas']['JournalType'];
             /**
              * Counterpart Account
-             * @description When journal is of type bank or cash, this is account number of the counterpart account used for the journal.
+             * @description Account number of the counterpart account used for the journal, for a treasury journal representing a bank or cash account (retrieved as journal_type financial_operation; bank/cash in the creation model).
              */
             counterpart_account?: string | null;
             /**
              * Unallocated Account
-             * @description Unallocated ledger account used to book entries when the final ledger account / client / supplier / employee is not yet known (specific to bank and cash journals)
+             * @description Unallocated ledger account used to book entries when the final ledger account / client / supplier / employee is not yet known (specific to treasury journals, retrieved as journal_type financial_operation; bank/cash in the creation model).
              */
             unallocated_account?: string | null;
             /**
              * Next Document Numbers
+             * @description The next document numbers to use when the accounting tool enforces its own numbering sequence on creation (one sequence per journal, per book year, per folder).
              * @default []
              */
             next_document_numbers: components['schemas']['NextDocumentNumber'][] | null;
             /**
              * Iban
-             * @description When the journal is of type bank, IBAN of the bank account linked to the journal
+             * @description IBAN of the bank account linked to the journal, for a treasury journal representing a bank account (retrieved as journal_type financial_operation).
              */
             iban?: string | null;
             /**
@@ -9768,7 +9773,7 @@ export interface components {
             reference?: string | null;
             /**
              * Due Date
-             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             * @description If the journal entry relates to an invoice, this is the last due date for payment or settlement (format: YYYY-MM-DD), carried from a client/supplier entry line.
              */
             due_date?: string | null;
             /**
@@ -9776,7 +9781,10 @@ export interface components {
              * @description Id of the journal instance in the accounting system in which the journal entry is recorded.
              */
             journal_id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Mainly the accounting entry number (numéro de pièce comptable) assigned by the source system.
+             */
             name?: string | null;
             /**
              * Journal Name
@@ -9785,7 +9793,7 @@ export interface components {
             journal_name?: string | null;
             /**
              * Date
-             * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
+             * @description Accounting date of the journal entry, which determines the accounting period and therefore the book year the entry falls into. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
             date: string | null;
@@ -9802,7 +9810,7 @@ export interface components {
             id: string;
             /**
              * Due Dates
-             * @description List of all due dates of a journal entry.
+             * @description List of all due dates of a journal entry. Generally an entry has one client/supplier line per due date, each listed here with its amount.
              * @default []
              */
             due_dates: components['schemas']['JournalItemDueDatesOut'][] | null;
@@ -9824,7 +9832,7 @@ export interface components {
             reference?: string | null;
             /**
              * Due Date
-             * @description If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD).
+             * @description If the journal entry relates to an invoice, this is the last due date for payment or settlement (format: YYYY-MM-DD), carried from a client/supplier entry line.
              */
             due_date?: string | null;
             /**
@@ -9832,7 +9840,10 @@ export interface components {
              * @description Id of the journal instance in the accounting system in which the journal entry is recorded.
              */
             journal_id: string;
-            /** Name */
+            /**
+             * Name
+             * @description Mainly the accounting entry number (numéro de pièce comptable) assigned by the source system.
+             */
             name?: string | null;
             /**
              * Journal Name
@@ -9841,7 +9852,7 @@ export interface components {
             journal_name?: string | null;
             /**
              * Date
-             * @description Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
+             * @description Accounting date of the journal entry, which determines the accounting period and therefore the book year the entry falls into. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.
              * @default 1970-01-01
              */
             date: string | null;
@@ -9858,7 +9869,7 @@ export interface components {
             id: string;
             /**
              * Due Dates
-             * @description List of all due dates of a journal entry.
+             * @description List of all due dates of a journal entry. Generally an entry has one client/supplier line per due date, each listed here with its amount.
              * @default []
              */
             due_dates: components['schemas']['JournalItemDueDatesOut'][] | null;
@@ -9943,7 +9954,7 @@ export interface components {
             account_number: string;
             /**
              * Partner Id
-             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice).
+             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice). The thirdparty line is typically the invoice's total line, i.e. the accounting line tied to a due date / payment term.
              */
             partner_id?: string | null;
             /**
@@ -9968,7 +9979,7 @@ export interface components {
             currency: string;
             /**
              * Currency Exchange Rate
-             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency.
+             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency. Amount in folder currency = amount in foreign currency * currency_exchange_rate.
              * @default 1
              */
             currency_exchange_rate: number | null;
@@ -9989,13 +10000,13 @@ export interface components {
             account_name: string;
             /**
              * Matching Numbers
-             * @description List of matching numbers used to link this journal item to other entries in the accounting system. This is used for reconciliation/lettering purposes.
+             * @description List of matching numbers used to link this journal item to other entries in the accounting system, for reconciliation/lettering. Lines on the same ledger account, in the same book year, carrying the same matching number are lettered (matched) together; when a partner_id is set it is also part of that link. A thirdparty line with debit or credit and no matching number is an open (outstanding) item, and stays outstanding until the matched set balances (sum of debit == sum of credit) within the same book year.
              * @default []
              */
             matching_numbers: string[] | null;
             /**
              * Analytic Account
-             * @description Analytic account in the default analytic plan.
+             * @description Technical ID of the analytic account in the default analytic plan.
              */
             analytic_account?: string | null;
             /**
@@ -10013,7 +10024,7 @@ export interface components {
             account_number: string;
             /**
              * Partner Id
-             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice).
+             * @description Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice). The thirdparty line is typically the invoice's total line, i.e. the accounting line tied to a due date / payment term.
              */
             partner_id?: string | null;
             /**
@@ -10038,7 +10049,7 @@ export interface components {
             currency: string;
             /**
              * Currency Exchange Rate
-             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency.
+             * @description Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency. Amount in folder currency = amount in foreign currency * currency_exchange_rate.
              * @default 1
              */
             currency_exchange_rate: number | null;
@@ -10059,7 +10070,7 @@ export interface components {
             account_name: string;
             /**
              * Matching Numbers
-             * @description List of matching numbers used to link this journal item to other entries in the accounting system. This is used for reconciliation/lettering purposes.
+             * @description List of matching numbers used to link this journal item to other entries in the accounting system, for reconciliation/lettering. Lines on the same ledger account, in the same book year, carrying the same matching number are lettered (matched) together; when a partner_id is set it is also part of that link. A thirdparty line with debit or credit and no matching number is an open (outstanding) item, and stays outstanding until the matched set balances (sum of debit == sum of credit) within the same book year.
              * @default []
              */
             matching_numbers: string[] | null;
@@ -12347,7 +12358,7 @@ export interface components {
         Partner: {
             /**
              * External Reference
-             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system.
+             * @description External identifier used to link the client in the accounting system with the corresponding client reference in your own system. Normally unique per client/supplier type and can serve as the primary key of the accounting system.
              */
             external_reference?: string | null;
             /**
@@ -12367,7 +12378,7 @@ export interface components {
             name?: string | null;
             /**
              * Function
-             * @description Only used when the client is an individual (is_company=false). Indicates the function of the client.
+             * @description Only used when the client is an individual (is_company=false). Job function/title of the client.
              */
             function?: string | null;
             /**
@@ -12444,7 +12455,7 @@ export interface components {
             active: boolean | null;
             /**
              * Account Number
-             * @description Ledger account number assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
+             * @description General ledger account assigned to the customer in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is the account used on journal entry lines to debit/credit this partner.
              */
             account_number?: string | null;
             /**
@@ -12518,7 +12529,7 @@ export interface components {
             amount: number;
             /**
              * Dedicated Amount
-             * @description Amount of the payment dedicated to the invoice.
+             * @description Amount of the payment dedicated to the invoice. It is 0 when the source cannot attribute the payment to individual invoices (e.g. a lump payment covering several), so a 0 here does not mean nothing was paid.
              * @default 0
              */
             dedicated_amount: number;

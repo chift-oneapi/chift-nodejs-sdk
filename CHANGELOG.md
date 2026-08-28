@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.43 - 2026-08-28
+
+Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
+
+### Schema (documentation)
+
+-   Refresh `@description` comments across accounting, banking, ecommerce and invoicing schemas to match the upstream OpenAPI docs (e.g. VAT code reverse-charge/withholding semantics, journal entry accounting/due dates, matching-number lettering rules, analytic account/plan IDs, invoice number and date fields). A few previously undocumented fields (`Analytic Account`, journal entry `Name`) gain descriptions. No endpoints, request/response types, fields, or enums changed — this is a documentation-only sync, so the SDK surface (`src/modules`) is unaffected.
+
 ## 1.0.42 - 2026-08-26
 
 Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema (`https://api.chift.eu/openapi.json`).
