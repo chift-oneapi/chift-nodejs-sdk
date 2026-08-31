@@ -7,6 +7,7 @@ const customFactory = {
             url: `/consumers/{consumer_id}/custom/${name}/${resource}`,
             params: params,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     post(
@@ -22,6 +23,7 @@ const customFactory = {
             body: body,
             params: params,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     patch(
@@ -37,6 +39,7 @@ const customFactory = {
             body: body,
             params: params,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     delete(name: string, resource: string, params?: any): RequestData<any> {

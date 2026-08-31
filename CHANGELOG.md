@@ -295,3 +295,11 @@
 -   Drop the `axios` dependency in favour of the platform `fetch` API (Node.js `>=22`). The axios request interceptor (auth header injection, token refresh within a 30s buffer, `X-Chift-ConnectionId` / `X-Chift-IntegrationId` / `X-Chift-RelatedChainExecutionId` forwarding) is preserved inline in the new `InternalAPI.request()` method.
 -   Export a new `ChiftRequestError` class (mirrors the previous `e.response.{data,status}` shape) thrown for non-2xx responses; replaces `axios.isAxiosError(e)` checks in tests.
 -   Add unit tests for `InternalAPI` covering fetch usage, query-param serialization, custom headers, error mapping and the token-refresh flow (initial fetch, reuse, near-expiry refresh, 401 → credentials error, transient retries, optional `marketplaceId`/`envId` forwarding).
+
+## 1.0.35 - 2026-08-31
+
+### Modules
+
+-   Add a `datalayer` option on factory-method requests (alongside `rawData` / `clientRequestId`): `true` sends the `x-chift-datalayer: true` header (require the datalayer), `'if_available'` sends `x-chift-datalayer: if_available` (use it when available, else fall back to classic); default remains `false` (no header), mirroring the Python SDK
+-   Allow controlling how many items are requested per page during auto-pagination (default remains `100`; the Chift API currently accepts up to `1000`). Per request via the `size` param of any list method (`getClients({ size: 500 })` — `AutoPaginatedParams` no longer strips `size`, only `page`), or client-wide via a new optional `pageSize` setting (`new chift.API({ ..., pageSize: 1000 })`); the per-request value wins. `size` is not a limit: the SDK still returns the complete list
+-   Make the auto-pagination stop condition size-independent: stop once the accumulated item count reaches `total` (or on an empty page) instead of assuming 100 items per page, so pagination stays correct when the server returns fewer items per page than requested

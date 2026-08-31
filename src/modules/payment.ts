@@ -24,6 +24,7 @@ const paymentFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/payment/payments`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getBalances(
@@ -35,6 +36,7 @@ const paymentFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/payment/balances`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getTransactions(
@@ -46,6 +48,7 @@ const paymentFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/payment/transactions`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getPayment(
@@ -57,6 +60,7 @@ const paymentFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/payment/payments/{payment_id}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getRefunds(
@@ -68,6 +72,7 @@ const paymentFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/payment/refunds`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
 };

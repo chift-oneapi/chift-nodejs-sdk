@@ -157,6 +157,182 @@ describe('InternalAPI fetch usage', () => {
     });
 });
 
+describe('InternalAPI pagination', () => {
+    const paginatedResponse = (items: unknown[], total: number) =>
+        jsonResponse(200, { items, total, page: 1, size: items.length });
+
+    test('defaults to page size 100 on auto-paginated GET requests', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        const result = await api.makeRequest({ method: 'get', url: '/clients' });
+
+        expect(result).toEqual([{ id: 1 }]);
+        const url = new URL(fetchMock.mock.calls[1][0] as string);
+        expect(url.searchParams.get('page')).toBe('1');
+        expect(url.searchParams.get('size')).toBe('100');
+    });
+
+    test('uses the configured pageSize and paginates until all items are fetched', async () => {
+        const pageOne = Array.from({ length: 500 }, (_, i) => ({ id: i }));
+        const pageTwo = Array.from({ length: 250 }, (_, i) => ({ id: 500 + i }));
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse(pageOne, 750))
+            .mockResolvedValueOnce(paginatedResponse(pageTwo, 750));
+
+        const api = new InternalAPI({ ...auth, pageSize: 500 });
+        const result = await api.makeRequest({ method: 'get', url: '/clients' });
+
+        expect(result).toHaveLength(750);
+        expect(fetchMock).toHaveBeenCalledTimes(3);
+        const firstPageUrl = new URL(fetchMock.mock.calls[1][0] as string);
+        expect(firstPageUrl.searchParams.get('page')).toBe('1');
+        expect(firstPageUrl.searchParams.get('size')).toBe('500');
+        const secondPageUrl = new URL(fetchMock.mock.calls[2][0] as string);
+        expect(secondPageUrl.searchParams.get('page')).toBe('2');
+        expect(secondPageUrl.searchParams.get('size')).toBe('500');
+    });
+
+    test('a per-request size param overrides the client-level pageSize', async () => {
+        const pageOne = Array.from({ length: 200 }, (_, i) => ({ id: i }));
+        const pageTwo = Array.from({ length: 100 }, (_, i) => ({ id: 200 + i }));
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse(pageOne, 300))
+            .mockResolvedValueOnce(paginatedResponse(pageTwo, 300));
+
+        const api = new InternalAPI({ ...auth, pageSize: 500 });
+        const result = await api.makeRequest({
+            method: 'get',
+            url: '/clients',
+            params: { size: 200 },
+        });
+
+        expect(result).toHaveLength(300);
+        const firstPageUrl = new URL(fetchMock.mock.calls[1][0] as string);
+        expect(firstPageUrl.searchParams.get('size')).toBe('200');
+        const secondPageUrl = new URL(fetchMock.mock.calls[2][0] as string);
+        expect(secondPageUrl.searchParams.get('page')).toBe('2');
+        expect(secondPageUrl.searchParams.get('size')).toBe('200');
+    });
+
+    test('other query params are preserved alongside pagination params', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        await api.makeRequest({
+            method: 'get',
+            url: '/invoices',
+            params: { updated_after: '2026-01-01', size: 500 },
+        });
+
+        const url = new URL(fetchMock.mock.calls[1][0] as string);
+        expect(url.searchParams.get('updated_after')).toBe('2026-01-01');
+        expect(url.searchParams.get('size')).toBe('500');
+        expect(url.searchParams.get('page')).toBe('1');
+    });
+
+    test('does not request an extra page when total is an exact multiple of the page size', async () => {
+        const pageOne = Array.from({ length: 100 }, (_, i) => ({ id: i }));
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse(pageOne, 100));
+
+        const api = new InternalAPI(auth);
+        const result = await api.makeRequest({ method: 'get', url: '/clients' });
+
+        expect(result).toHaveLength(100);
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+
+    test('stops when the server returns fewer items per page than requested', async () => {
+        // e.g. the server clamps the requested size to its own maximum
+        const fullPage = Array.from({ length: 100 }, (_, i) => ({ id: i }));
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse(fullPage, 150))
+            .mockResolvedValueOnce(paginatedResponse(fullPage.slice(0, 50), 150));
+
+        const api = new InternalAPI({ ...auth, pageSize: 1000 });
+        const result = await api.makeRequest({ method: 'get', url: '/clients' });
+
+        expect(result).toHaveLength(150);
+        expect(fetchMock).toHaveBeenCalledTimes(3);
+    });
+
+    test('stops on an empty page even when total was not reached', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 10))
+            .mockResolvedValueOnce(paginatedResponse([], 10));
+
+        const api = new InternalAPI(auth);
+        const result = await api.makeRequest({ method: 'get', url: '/clients' });
+
+        expect(result).toHaveLength(1);
+        expect(fetchMock).toHaveBeenCalledTimes(3);
+    });
+
+    test('sends x-chift-datalayer: true when datalayer is true', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        await api.makeRequest({ method: 'get', url: '/clients', datalayer: true });
+
+        const [, init] = fetchMock.mock.calls[1];
+        const headers = (init as RequestInit).headers as Record<string, string>;
+        expect(headers['x-chift-datalayer']).toBe('true');
+    });
+
+    test('sends x-chift-datalayer: if_available when datalayer is if_available', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        await api.makeRequest({ method: 'get', url: '/clients', datalayer: 'if_available' });
+
+        const [, init] = fetchMock.mock.calls[1];
+        const headers = (init as RequestInit).headers as Record<string, string>;
+        expect(headers['x-chift-datalayer']).toBe('if_available');
+    });
+
+    test('does not send x-chift-datalayer by default or when datalayer is false', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        await api.makeRequest({ method: 'get', url: '/clients' });
+        await api.makeRequest({ method: 'get', url: '/clients', datalayer: false });
+
+        for (const call of [fetchMock.mock.calls[1], fetchMock.mock.calls[2]]) {
+            const headers = (call[1] as RequestInit).headers as Record<string, string>;
+            expect(headers['x-chift-datalayer']).toBeUndefined();
+        }
+    });
+
+    test('rejects an invalid pageSize', () => {
+        expect(() => new InternalAPI({ ...auth, pageSize: 0 })).toThrow(
+            'pageSize must be a positive integer'
+        );
+        expect(() => new InternalAPI({ ...auth, pageSize: -5 })).toThrow(
+            'pageSize must be a positive integer'
+        );
+        expect(() => new InternalAPI({ ...auth, pageSize: 2.5 })).toThrow(
+            'pageSize must be a positive integer'
+        );
+    });
+});
+
 describe('InternalAPI token refresh', () => {
     test('reuses a non-expired token across calls (single /token fetch)', async () => {
         fetchMock
