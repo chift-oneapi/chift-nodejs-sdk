@@ -77,29 +77,6 @@ const rawInvoices = await consumer.accounting.getInvoicesByType(
 const rawOrders = await consumer.ecommerce.getOrders({}, { rawData: true });
 ```
 
-### Custom pagination size
-
-List endpoints are auto-paginated: the SDK fetches every page and returns the full list. By default it requests 100 items per page. You can raise this to reduce the number of API calls (the Chift API currently accepts values up to 1000).
-
-Per request, via the `size` param of any list method:
-
-```typescript
-const invoices = await consumer.accounting.getInvoicesByType('customer_invoice', { size: 1000 });
-```
-
-Or for all requests, when creating the client:
-
-```typescript
-const client = new chift.API({
-    clientId: process.env.CHIFT_TESTING_CLIENTID,
-    clientSecret: process.env.CHIFT_TESTING_CLIENTSECRET,
-    accountId: process.env.CHIFT_TESTING_ACCOUNTID,
-    pageSize: 1000,
-});
-```
-
-Note that `size` is not a limit: the SDK still returns the complete list, it only changes how many items are fetched per underlying API call.
-
 ## Development
 
 ### Regenerate the OpenAPI schema
