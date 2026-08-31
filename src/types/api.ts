@@ -5,6 +5,11 @@ export interface AuthType {
     envId?: string;
     baseUrl?: string;
     marketplaceId?: string;
+    /**
+     * Page size used when auto-paginating list endpoints (default: 100).
+     * The Chift API currently accepts values up to 1000.
+     */
+    pageSize?: number;
 }
 
 export interface TokenType {
@@ -37,7 +42,12 @@ export type ApiFor<TFactory extends RequestFactory> = {
         : never;
 };
 
-export type AutoPaginatedParams<T> = Omit<Exclude<T, undefined>, 'page' | 'size'>;
+/**
+ * Params for auto-paginated list endpoints. The SDK manages `page` itself and
+ * always returns the full list; `size` only tunes how many items are fetched
+ * per request (it is not a limit), overriding the client-level `pageSize`.
+ */
+export type AutoPaginatedParams<T> = Omit<Exclude<T, undefined>, 'page'>;
 
 export type RawDataOption = {
     rawData?: boolean;

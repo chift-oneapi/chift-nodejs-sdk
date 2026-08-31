@@ -62,10 +62,19 @@ class InternalAPI {
     connectionId?: string;
     integrationId?: string;
     baseURL: string;
+    pageSize: number;
 
     constructor(auth: AuthType) {
         this.auth = auth;
         this.baseURL = this.auth.baseUrl || Settings.BASE_URL;
+        if (this.auth.pageSize !== undefined) {
+            if (!Number.isInteger(this.auth.pageSize) || this.auth.pageSize < 1) {
+                throw new Error('pageSize must be a positive integer');
+            }
+            this.pageSize = this.auth.pageSize;
+        } else {
+            this.pageSize = Settings.DEFAULT_PAGE_SIZE;
+        }
     }
 
     private buildAuthHeaders = async (): Promise<Record<string, string>> => {
@@ -217,7 +226,7 @@ class InternalAPI {
     getPaginationParams = (currPage: number) => {
         return {
             page: currPage,
-            size: 100,
+            size: this.pageSize,
         };
     };
 
@@ -241,7 +250,9 @@ class InternalAPI {
                 if (requestData.method === 'get') {
                     params = {
                         ...params,
-                        ...this.getPaginationParams(currentPage),
+                        page: currentPage,
+                        // A caller-supplied size overrides the client-level pageSize.
+                        size: params.size ?? this.pageSize,
                     };
                 }
                 const headers: Record<string, string> = {};
@@ -262,7 +273,10 @@ class InternalAPI {
                 const { data } = res;
                 if (data) {
                     if (requestData.method === 'get' && 'total' in data && 'items' in data) {
-                        if (currentPage * 100 > data.total) {
+                        items = items.concat(data.items);
+                        // Stop on the accumulated count (not requested size * pages): the
+                        // server may return fewer items per page than requested.
+                        if (items.length >= data.total || data.items.length === 0) {
                             continuePagination = false;
                         }
                     } else {
@@ -271,7 +285,6 @@ class InternalAPI {
                         }
                         return data;
                     }
-                    items = items.concat(data.items);
                 } else {
                     return null;
                 }
