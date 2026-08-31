@@ -273,10 +273,12 @@ class InternalAPI {
                 const { data } = res;
                 if (data) {
                     if (requestData.method === 'get' && 'total' in data && 'items' in data) {
-                        items = items.concat(data.items);
                         // Stop on the accumulated count (not requested size * pages): the
                         // server may return fewer items per page than requested.
-                        if (items.length >= data.total || data.items.length === 0) {
+                        if (
+                            items.length + data.items.length >= data.total ||
+                            data.items.length === 0
+                        ) {
                             continuePagination = false;
                         }
                     } else {
@@ -285,6 +287,7 @@ class InternalAPI {
                         }
                         return data;
                     }
+                    items = items.concat(data.items);
                 } else {
                     return null;
                 }
