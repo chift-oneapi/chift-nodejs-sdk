@@ -262,6 +262,10 @@ class InternalAPI {
                 if (requestData.clientRequestId) {
                     headers['x-chift-client-requestid'] = requestData.clientRequestId;
                 }
+                if (requestData.datalayer) {
+                    headers['x-chift-datalayer'] =
+                        requestData.datalayer === true ? 'true' : requestData.datalayer;
+                }
 
                 const res = await this.request({
                     url: requestData.url,

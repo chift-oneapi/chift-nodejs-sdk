@@ -30,6 +30,7 @@ export type RequestData<TResponse> = {
     body?: unknown;
     rawData?: boolean;
     clientRequestId?: string;
+    datalayer?: DatalayerMode;
 };
 
 export type RequestFactory = { [key: string]: (...args: any) => RequestData<any> };
@@ -49,10 +50,20 @@ export type ApiFor<TFactory extends RequestFactory> = {
  */
 export type AutoPaginatedParams<T> = Omit<Exclude<T, undefined>, 'page'>;
 
+/**
+ * Controls the `x-chift-datalayer` header:
+ *   false / undefined -> header not sent (default)
+ *   true              -> "true" (require the datalayer, error if it can't serve)
+ *   'if_available'    -> "if_available" (use the datalayer when available, else fall back to classic)
+ */
+export type DatalayerMode = boolean | 'if_available';
+
 export type RawDataOption = {
     rawData?: boolean;
+    datalayer?: DatalayerMode;
 };
 
 export type ClientRequestOption = {
     clientRequestId?: string;
+    datalayer?: DatalayerMode;
 };

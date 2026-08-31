@@ -278,6 +278,48 @@ describe('InternalAPI pagination', () => {
         expect(fetchMock).toHaveBeenCalledTimes(3);
     });
 
+    test('sends x-chift-datalayer: true when datalayer is true', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        await api.makeRequest({ method: 'get', url: '/clients', datalayer: true });
+
+        const [, init] = fetchMock.mock.calls[1];
+        const headers = (init as RequestInit).headers as Record<string, string>;
+        expect(headers['x-chift-datalayer']).toBe('true');
+    });
+
+    test('sends x-chift-datalayer: if_available when datalayer is if_available', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        await api.makeRequest({ method: 'get', url: '/clients', datalayer: 'if_available' });
+
+        const [, init] = fetchMock.mock.calls[1];
+        const headers = (init as RequestInit).headers as Record<string, string>;
+        expect(headers['x-chift-datalayer']).toBe('if_available');
+    });
+
+    test('does not send x-chift-datalayer by default or when datalayer is false', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        await api.makeRequest({ method: 'get', url: '/clients' });
+        await api.makeRequest({ method: 'get', url: '/clients', datalayer: false });
+
+        for (const call of [fetchMock.mock.calls[1], fetchMock.mock.calls[2]]) {
+            const headers = (call[1] as RequestInit).headers as Record<string, string>;
+            expect(headers['x-chift-datalayer']).toBeUndefined();
+        }
+    });
+
     test('rejects an invalid pageSize', () => {
         expect(() => new InternalAPI({ ...auth, pageSize: 0 })).toThrow(
             'pageSize must be a positive integer'
