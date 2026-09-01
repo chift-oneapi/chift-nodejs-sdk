@@ -35,6 +35,7 @@ const bankingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/banking/financial-institutions',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getAccounts(
@@ -46,6 +47,7 @@ const bankingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/banking/accounts',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getAccountTransactions(
@@ -57,6 +59,7 @@ const bankingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/banking/transactions`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getAccountCounterparts(
@@ -68,6 +71,7 @@ const bankingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/banking/counterparts',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getAttachments(
@@ -79,6 +83,7 @@ const bankingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/banking/attachments',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getOpeningBalance(
@@ -90,6 +95,7 @@ const bankingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/banking/opening-balance',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
 };

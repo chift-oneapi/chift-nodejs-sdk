@@ -53,6 +53,10 @@ type GetBalanceOfAccountsParams = AutoPaginatedParams<
     operations['accounting_get_accounts_balances']['parameters']['query']
 >;
 
+type GetPartnerContactsParams = AutoPaginatedParams<
+    operations['accounting_get_partner_contacts']['parameters']['query']
+>;
+
 type GetClientsParams = AutoPaginatedParams<
     operations['accounting_get_clients']['parameters']['query']
 >;
@@ -85,10 +89,6 @@ type GetSchemesParams = AutoPaginatedParams<
     operations['accounting_get_schemes']['parameters']['query']
 >;
 
-type GetPartnerContactsParams = AutoPaginatedParams<
-    operations['accounting_get_partner_contacts']['parameters']['query']
->;
-
 const accountingFactory = {
     getAnalyticPlans(
         params?: GetAnalyticPlansParams,
@@ -99,6 +99,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-plans',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getClients(
@@ -110,6 +111,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/clients',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createClient(
@@ -123,6 +125,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/clients',
             body: client,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getClient(
@@ -135,6 +138,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/clients/${clientId}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     updateClient(
@@ -149,6 +153,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/clients/${clientId}`,
             body: client,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getSuppliers(
@@ -160,6 +165,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/suppliers',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createSupplier(
@@ -173,6 +179,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/suppliers',
             body: supplier,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getSupplier(
@@ -185,17 +192,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/suppliers/${supplierId}`,
             rawData: options?.rawData,
-        };
-    },
-    getPartnerContacts(
-        params: GetPartnerContactsParams,
-        options?: RawDataOption
-    ): RequestData<components['schemas']['ContactItem'][]> {
-        return {
-            params,
-            method: 'get',
-            url: '/consumers/{consumer_id}/accounting/contacts',
-            rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     updateSupplier(
@@ -210,6 +207,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/suppliers/${supplierId}`,
             body: supplier,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     createInvoice(
@@ -223,6 +221,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/invoices',
             body: invoice,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     createInvoiceWithMultiplePlans(
@@ -236,6 +235,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans',
             body: invoice,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getInvoicesByType(
@@ -248,6 +248,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/type/${invoice_type}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getInvoice(
@@ -260,6 +261,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/${invoiceId}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getInvoiceWithMultiplePlans(
@@ -272,6 +274,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/${invoiceId}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getInvoicesByTypeWithMultiplePlans(
@@ -284,6 +287,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/${invoice_type}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createAnalyticAccount(
@@ -297,6 +301,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/analytic-accounts',
             body: analyticAccount,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getAnalyticAccounts(
@@ -308,6 +313,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-accounts',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createAnalyticAccountWithMultiplePlans(
@@ -322,6 +328,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans/${analytic_plan}`,
             body: analyticAccount,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getAnalyticAccount(
@@ -334,6 +341,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     updateAnalyticAccount(
@@ -348,6 +356,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}`,
             body: analyticAccount,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getAnalyticAccountWithMultiplePlans(
@@ -361,6 +370,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}/multi-analytic-plans/${analytic_plan}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     updateAnalyticAccountWithMultiplePlans(
@@ -385,6 +395,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getJournalEntries(
@@ -396,6 +407,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getJournalEntriesWithMultiplePlans(
@@ -407,6 +419,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries/multi-analytic-plans`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getPaymentsByInvoiceId(
@@ -419,6 +432,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/invoices/id/${invoice_id}/payments`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getJournals(
@@ -430,6 +444,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journals`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createJournal(
@@ -443,6 +458,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/journal',
             body: journal,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getVatCodes(
@@ -454,6 +470,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/vat-codes`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getMiscOperations(
@@ -465,6 +482,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/miscellaneous-operation',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createMiscOperation(
@@ -478,6 +496,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/miscellaneous-operation',
             body: operation,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getMiscOperation(
@@ -490,6 +509,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/miscellaneous-operation/${operation_id}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     attachPDF(
@@ -513,6 +533,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/attachments`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getChartOfAccounts(
@@ -524,6 +545,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/chart-of-accounts',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getBalanceOfAccounts(
@@ -546,6 +568,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/employees',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getOutstandings(
@@ -557,6 +580,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/outstandings',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createFinancialEntry(
@@ -570,6 +594,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/financial-entries',
             body: financial_entry,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     createJournalEntry(
@@ -583,6 +608,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/journal-entries',
             body: journal_entry,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     matchEntries(
@@ -618,6 +644,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/expenses',
             body: expense,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getFolders(options?: RawDataOption): RequestData<components['schemas']['FolderItem'][]> {
@@ -625,6 +652,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/folders',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getFolder(
@@ -635,6 +663,19 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/folders/${folderId}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
+        };
+    },
+    getPartnerContacts(
+        params: GetPartnerContactsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ContactItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/contacts',
+            rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getBookyears(
@@ -646,6 +687,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/bookyears',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createLedgerAccount(
@@ -659,6 +701,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/accounts',
             body: account,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getBankAccounts(
@@ -670,6 +713,7 @@ const accountingFactory = {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/bank-accounts',
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     createBankAccount(
@@ -683,6 +727,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/bank-accounts',
             body: bankAccount,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     createBankTransactions(
@@ -696,6 +741,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/bank-transactions',
             body: bankStatement,
             clientRequestId: options?.clientRequestId,
+            datalayer: options?.datalayer,
         };
     },
     getJournalEntry(
@@ -708,6 +754,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/journal/entries/${journalEntryId}`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
 
@@ -720,6 +767,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/payment-methods`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getPaymentTerms(
@@ -731,6 +779,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/payment-terms`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
     getSchemes(
@@ -742,6 +791,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/schemes`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
 
@@ -765,6 +815,7 @@ const accountingFactory = {
             method: 'get',
             url: `/consumers/{consumer_id}/accounting/export-fec`,
             rawData: options?.rawData,
+            datalayer: options?.datalayer,
         };
     },
 };

@@ -16,9 +16,6 @@ export type chiftOperations = {
     deleteConnectionById: 'connections_delete_connection';
     updateConnection: 'connections_update_connection';
     getTransactionByClientRequestId: 'get_transaction_by_client_request_id_consumers__consumer_id__connections__connection_id__transactions_get';
-    enableDatalayer: 'datalayer_enable';
-    refreshDatalayer: 'datalayer_refresh';
-    disableDatalayer: 'datalayer_disable';
 
     // Integration operations
     getIntegrations: 'integrations_get_integrations';
@@ -40,13 +37,26 @@ export type chiftOperations = {
     sendCustomEvent: 'syncs_send_custom_event';
     getConsumerExecutions: 'syncs_get_consumer_executions';
     getExecution: 'syncs_get_execution';
+    getSyncExecutions: 'syncs_get_sync_executions';
     createSyncToConsumer: 'syncs_create_synctoconsumer';
     getSyncConsumer: 'syncs_get_syncconsumer';
     updateSyncToConsumer: 'syncs_update_synctoconsumer';
     enableSyncConsumer: 'syncs_enable_syncconsumer';
     disableSyncConsumer: 'syncs_disable_syncconsumer';
-    getSyncExecutions: 'syncs_get_sync_executions';
     updateFlowToConsumer: 'syncs_update_flowtoconsumer';
+
+    // Datalayer operations
+    enableDatalayer: 'datalayer_enable';
+    disableDatalayer: 'datalayer_disable';
+    refreshDatalayer: 'datalayer_refresh';
+
+    // Datalab operations
+    getCubeSchemas: 'datalab_get_cube_schemas';
+    queryDb: 'datalab_query_db';
+    queryGroupsJoin: 'datalab_query_groups_join';
+
+    // Local agents operations
+    getLocalAgentReleases: 'get_releases_local_agents_releases_get';
 
     // Datastore operations
     getDatastores: 'datastores_get_datastores';
@@ -59,14 +69,6 @@ export type chiftOperations = {
     getIssues: 'issues_get_issues';
     getIssuesByConsumerId: 'issues_get_issues_by_consumer_id';
     getIssue: 'issues_get_issue';
-
-    // Datalab operations
-    getCubeSchemas: 'datalab_get_cube_schemas';
-    queryDb: 'datalab_query_db';
-    queryGroupsJoin: 'datalab_query_groups_join';
-
-    // Local agents operations
-    getLocalAgentReleases: 'get_releases_local_agents_releases_get';
 
     // Accounting operations
     getFolders: 'accounting_get_folders';
@@ -145,8 +147,8 @@ export type chiftOperations = {
     getAccountingCategories: 'pos_get_accounting_categories';
     getClosure: 'pos_get_closure';
     getObjectives: 'pos_get_objectives';
-    getPOSTaxes: 'pos_get_taxes';
     getModifiers: 'pos_get_modifiers';
+    getPOSTaxes: 'pos_get_taxes';
 
     // eCommerce operations
     getCommerceCustomers: 'ecommerce_get_customers';
@@ -190,7 +192,7 @@ export type chiftOperations = {
     getAccountTransactions: 'banking_get_account_transactions';
     getAccountCounterparts: 'banking_get_account_counterparts';
     getBankingAttachments: 'banking_get_attachments';
-    getOpeningBalance: 'banking_get_opening_balance';
+    getBankingOpeningBalance: 'banking_get_opening_balance';
 
     // Payment operations
     getBalances: 'payment_get_balances';

@@ -1,6 +1,5 @@
-import { components, operations } from '../types/public-api/schema';
+import { operations, components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
-import { chiftOperations } from '../types/public-api/mappings';
 
 const Datalab = (internalApi: InternalAPI) => {
     const _internalApi: InternalAPI = internalApi;
@@ -9,7 +8,7 @@ const Datalab = (internalApi: InternalAPI) => {
         const {
             data,
         }: {
-            data: operations[chiftOperations['getCubeSchemas']]['responses'][200]['content']['application/json'];
+            data: operations['datalab_get_cube_schemas']['responses'][200]['content']['application/json'];
         } = await _internalApi.get('/datalab/cube-schemas');
         return data;
     };
@@ -18,7 +17,7 @@ const Datalab = (internalApi: InternalAPI) => {
         const {
             data,
         }: {
-            data: operations[chiftOperations['queryDb']]['responses'][200]['content']['application/json'];
+            data: operations['datalab_query_db']['responses'][200]['content']['application/json'];
         } = await _internalApi.post('/datalab/query-db', body);
         return data;
     };
@@ -27,7 +26,7 @@ const Datalab = (internalApi: InternalAPI) => {
         const {
             data,
         }: {
-            data: operations[chiftOperations['queryGroupsJoin']]['responses'][200]['content']['application/json'];
+            data: operations['datalab_query_groups_join']['responses'][200]['content']['application/json'];
         } = await _internalApi.post('/datalab/query-groups-join', body);
         return data;
     };

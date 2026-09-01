@@ -1,4 +1,4 @@
-import { components } from '../types/public-api/schema';
+import { components, operations } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { ContextType } from '../types/sync';
 import { Consumer } from './consumer';
@@ -86,6 +86,14 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['ReadSyncIte
         return data;
     };
 
+    const getExecutions = async (
+        params?: operations['syncs_get_sync_executions']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_SyncExecutionItem_'] } =
+            await _internalApi.get(`/syncs/${syncid}/executions`, { params });
+        return data;
+    };
+
     return {
         createFlow,
         getFlows,
@@ -97,6 +105,7 @@ const Sync = (internalApi: InternalAPI, body: components['schemas']['ReadSyncIte
         sendCustomEvent,
         getConsumerExecutions,
         getExecution,
+        getExecutions,
     };
 };
 

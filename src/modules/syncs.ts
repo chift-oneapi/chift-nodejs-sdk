@@ -1,4 +1,4 @@
-import { operations, components } from '../types/public-api/schema';
+import { components, operations } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { Sync } from './sync';
 
