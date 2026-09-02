@@ -5,6 +5,11 @@ export interface AuthType {
     envId?: string;
     baseUrl?: string;
     marketplaceId?: string;
+    /**
+     * Page size used when auto-paginating list endpoints (default: 100).
+     * The Chift API currently accepts values up to 1000.
+     */
+    pageSize?: number;
 }
 
 export interface TokenType {
@@ -25,6 +30,7 @@ export type RequestData<TResponse> = {
     body?: unknown;
     rawData?: boolean;
     clientRequestId?: string;
+    datalayer?: DatalayerMode;
 };
 
 export type RequestFactory = { [key: string]: (...args: any) => RequestData<any> };
@@ -37,12 +43,27 @@ export type ApiFor<TFactory extends RequestFactory> = {
         : never;
 };
 
-export type AutoPaginatedParams<T> = Omit<Exclude<T, undefined>, 'page' | 'size'>;
+/**
+ * Params for auto-paginated list endpoints. The SDK manages `page` itself and
+ * always returns the full list; `size` only tunes how many items are fetched
+ * per request (it is not a limit), overriding the client-level `pageSize`.
+ */
+export type AutoPaginatedParams<T> = Omit<Exclude<T, undefined>, 'page'>;
+
+/**
+ * Controls the `x-chift-datalayer` header:
+ *   false / undefined -> header not sent (default)
+ *   true              -> "true" (require the datalayer, error if it can't serve)
+ *   'if_available'    -> "if_available" (use the datalayer when available, else fall back to classic)
+ */
+export type DatalayerMode = boolean | 'if_available';
 
 export type RawDataOption = {
     rawData?: boolean;
+    datalayer?: DatalayerMode;
 };
 
 export type ClientRequestOption = {
     clientRequestId?: string;
+    datalayer?: DatalayerMode;
 };

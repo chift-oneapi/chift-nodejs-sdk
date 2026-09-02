@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.37 - 2026-09-02
+
+### Modules
+
+-   [CORE] Add configurable auto-pagination page size via `AuthType.pageSize` (default 100, validated as a positive integer) and honour a caller-supplied `size` on paginated list params (`AutoPaginatedParams` now only strips `page`). Pagination now stops on the accumulated item count so partial pages no longer cut lists short.
+-   [CORE] Add a per-request `datalayer` option (`boolean | 'if_available'`) on the raw-data and client-request option types, forwarded as the `x-chift-datalayer` header. Completes the datalayer wiring that the vertical modules already reference.
+
+### Schema
+
+-   Regenerate `schema.d.ts` from the live OpenAPI schema (no changes; already in sync)
+
 ## 1.0.36 - 2026-09-01
 
 ### Modules
