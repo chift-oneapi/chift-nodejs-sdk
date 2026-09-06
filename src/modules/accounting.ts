@@ -53,10 +53,6 @@ type GetBalanceOfAccountsParams = AutoPaginatedParams<
     operations['accounting_get_accounts_balances']['parameters']['query']
 >;
 
-type GetPartnerContactsParams = AutoPaginatedParams<
-    operations['accounting_get_partner_contacts']['parameters']['query']
->;
-
 type GetClientsParams = AutoPaginatedParams<
     operations['accounting_get_clients']['parameters']['query']
 >;
@@ -87,6 +83,10 @@ type GetPaymentTermsParams = AutoPaginatedParams<
 
 type GetSchemesParams = AutoPaginatedParams<
     operations['accounting_get_schemes']['parameters']['query']
+>;
+
+type GetPartnerContactsParams = AutoPaginatedParams<
+    operations['accounting_get_partner_contacts']['parameters']['query']
 >;
 
 const accountingFactory = {

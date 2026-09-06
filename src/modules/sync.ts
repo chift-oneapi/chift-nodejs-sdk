@@ -1,4 +1,4 @@
-import { components, operations } from '../types/public-api/schema';
+import { operations, components } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { ContextType } from '../types/sync';
 import { Consumer } from './consumer';

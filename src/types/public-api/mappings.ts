@@ -37,26 +37,18 @@ export type chiftOperations = {
     sendCustomEvent: 'syncs_send_custom_event';
     getConsumerExecutions: 'syncs_get_consumer_executions';
     getExecution: 'syncs_get_execution';
-    getSyncExecutions: 'syncs_get_sync_executions';
     createSyncToConsumer: 'syncs_create_synctoconsumer';
     getSyncConsumer: 'syncs_get_syncconsumer';
     updateSyncToConsumer: 'syncs_update_synctoconsumer';
     enableSyncConsumer: 'syncs_enable_syncconsumer';
     disableSyncConsumer: 'syncs_disable_syncconsumer';
     updateFlowToConsumer: 'syncs_update_flowtoconsumer';
+    getSyncExecutions: 'syncs_get_sync_executions';
 
     // Datalayer operations
     enableDatalayer: 'datalayer_enable';
-    disableDatalayer: 'datalayer_disable';
     refreshDatalayer: 'datalayer_refresh';
-
-    // Datalab operations
-    getCubeSchemas: 'datalab_get_cube_schemas';
-    queryDb: 'datalab_query_db';
-    queryGroupsJoin: 'datalab_query_groups_join';
-
-    // Local agents operations
-    getLocalAgentReleases: 'get_releases_local_agents_releases_get';
+    disableDatalayer: 'datalayer_disable';
 
     // Datastore operations
     getDatastores: 'datastores_get_datastores';
@@ -72,8 +64,6 @@ export type chiftOperations = {
 
     // Accounting operations
     getFolders: 'accounting_get_folders';
-    getFolder: 'accounting_get_folder';
-    getPartnerContacts: 'accounting_get_partner_contacts';
     getBookyears: 'accounting_get_bookyears';
     getAnalyticPlans: 'accounting_get_analytic_plans';
     getClients: 'accounting_get_clients';
@@ -130,6 +120,8 @@ export type chiftOperations = {
     createFinancialEntries: 'accounting_create_financial_entries';
     getOutstandings: 'accounting_get_outstandings';
     createInvoicePayment: 'accounting_create_invoice_payment';
+    getFolder: 'accounting_get_folder';
+    getPartnerContacts: 'accounting_get_partner_contacts';
 
     // POS operations
     getOrders: 'pos_get_orders';
@@ -192,7 +184,7 @@ export type chiftOperations = {
     getAccountTransactions: 'banking_get_account_transactions';
     getAccountCounterparts: 'banking_get_account_counterparts';
     getBankingAttachments: 'banking_get_attachments';
-    getBankingOpeningBalance: 'banking_get_opening_balance';
+    getOpeningBalance: 'banking_get_opening_balance';
 
     // Payment operations
     getBalances: 'payment_get_balances';

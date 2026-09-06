@@ -1,36 +1,26 @@
 # Changelog
 
-## 1.0.37 - 2026-09-02
+## 1.0.36 - 2026-09-06
 
 ### Modules
 
--   [CORE] Add configurable auto-pagination page size via `AuthType.pageSize` (default 100, validated as a positive integer) and honour a caller-supplied `size` on paginated list params (`AutoPaginatedParams` now only strips `page`). Pagination now stops on the accumulated item count so partial pages no longer cut lists short.
--   [CORE] Add a per-request `datalayer` option (`boolean | 'if_available'`) on the raw-data and client-request option types, forwarded as the `x-chift-datalayer` header. Completes the datalayer wiring that the vertical modules already reference.
+-   [ACCOUNTING] Add `getFolder(folderId)` to retrieve a single accounting folder
+-   [ACCOUNTING] Add `getPartnerContacts(params)` to list partner contacts (requires `partner_type` and `partner_id`)
+-   [BANKING] Add `getOpeningBalance(params)` to retrieve an account opening balance (requires `account_id` and `date`)
+-   [PAYMENT] Add `getLocations()` and `getPayouts()` list methods
+-   [PMS] Add `getAccountingTransactions(params)` to list accounting transactions (requires `date_from` and `date_to`)
+-   [POS] Add `getModifiers()` and `getTaxes()` list methods
+-   [CONSUMER] Add `disableFlow(syncId, flowId)` to disable a flow for a consumer
+-   [CONSUMER] Add datalayer connection management: `enableDatalayer(connectionId, body?)`, `refreshDatalayer(connectionId, body?)`, `disableDatalayer(connectionId)`
+-   [SYNC] Add `sync.getExecutions(params?)` to list sync executions
 
 ### Schema
 
--   Regenerate `schema.d.ts` from the live OpenAPI schema (no changes; already in sync)
-
-## 1.0.36 - 2026-09-01
-
-### Modules
-
--   [ACCOUNTING] Add `getFolder(folderId)` to retrieve a single accounting folder and `getPartnerContacts(params)` to list a partner's contacts (`partner_type` / `partner_id`)
--   [BANKING] Add `getOpeningBalance(params)` to retrieve an account's opening balance at a given date
--   [PAYMENT] Add `getLocations()` and `getPayouts()` listing methods
--   [PMS] Add `getAccountingTransactions(params)` to list accounting transactions over a date range
--   [POS] Add `getModifiers()` and `getTaxes()` (`/pos/tax-rates`) listing methods
--   [CONSUMER] Add connection datalayer controls `enableDatalayer`, `disableDatalayer`, `refreshDatalayer`, and `disableFlow(syncId, flowId)`
--   [SYNC] Add `getSyncExecutions(syncid, params?)` on `Syncs` and `getExecutions(params?)` on a `Sync` (`/syncs/{syncid}/executions`)
--   [DATALAB] Add new top-level `Datalab` module: `getCubeSchemas()`, `queryDb(body)`, `queryGroupsJoin(body)`
--   [LOCAL AGENTS] Add new top-level `LocalAgents` module: `getReleases(params)`
-
-### Schema
-
--   Regenerate `schema.d.ts` from the live OpenAPI schema
--   Add new endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `banking_get_opening_balance`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `pos_get_modifiers`, `pos_get_taxes`, `datalayer_enable`, `datalayer_disable`, `datalayer_refresh`, `syncs_disable_syncconsumer`, `syncs_get_sync_executions`, `datalab_get_cube_schemas`, `datalab_query_db`, `datalab_query_groups_join`, `get_releases_local_agents_releases_get`
--   Rename invoicing request body schema `InvoiceItem-Input` → `InvoiceItemIn` (update `invoicing.createInvoice`)
--   Add operation mappings for all new operations in `mappings.ts`
+-   Regenerate `schema.d.ts` from the latest OpenAPI schema
+-   Rename the create-invoice request body type from `InvoiceItem-Input` to `InvoiceItemIn` (and `InvoiceItem-Output` to `InvoiceItem`); update `invoicing.createInvoice` accordingly
+-   Add new endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `banking_get_opening_balance`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `pos_get_modifiers`, `pos_get_taxes`, `syncs_get_sync_executions`, `syncs_disable_syncconsumer`, `datalayer_enable`, `datalayer_refresh`, `datalayer_disable`
+-   New schema types include `ContactItem`, `ModifiersItem`, `POSTaxRateItem`, `PaymentLocationItem`, `PayoutItemOut`, `PMSAccountingTransactionItem`, `BankingOpeningBalanceItem`, `SyncExecutionItem`, `DatalayerEnableBody`, `DatalayerRefreshBody`
+-   Schema also adds `datalab_*` (query/cube) and `local-agents` release endpoints; these product surfaces are not yet exposed in the SDK
 
 ## 1.0.0 - 2023-09-14
 
