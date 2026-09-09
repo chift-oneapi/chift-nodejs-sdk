@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.36 - 2026-09-09
+
+### Modules
+
+-   **[ACCOUNTING]** Add `getFolder(folderId)` to retrieve a single accounting folder, and `getPartnerContacts(params)` to list contacts for a given partner (`partner_type`, `partner_id`)
+-   **[BANKING]** Add `getOpeningBalance(params)` to retrieve an account opening balance at a given date
+-   **[PAYMENT]** Add `getLocations()` and `getPayouts()` list methods
+-   **[PMS]** Add `getAccountingTransactions(params)` to list accounting transactions over a date range
+-   **[POS]** Add `getModifiers()` and `getTaxes()` list methods
+-   **[CONSUMER]** Add connection datalayer controls `enableDatalayer(connectionId, body?)`, `refreshDatalayer(connectionId, body?)`, `disableDatalayer(connectionId)`, and `disableFlow(syncId, flowId)`
+-   **[SYNCS]** Add `getSyncExecutions(syncid, params?)` to list executions of a sync
+-   **[INSIGHTS]** New top-level module exposed as `client.Insights`: `getCatalog()`, `queryDb(body)`, `queryGroupsJoin(body)`
+-   **[LOCAL AGENTS]** New top-level module exposed as `client.LocalAgents`: `getReleases(params)`
+-   Extend `src/types/public-api/mappings.ts` with the new operations
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   **BREAKING (types)**: `invoicing.createInvoice()` request body type renamed `InvoiceItem-Input` → `InvoiceItemIn`
+-   Add endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `banking_get_opening_balance`, `datalayer_enable`, `datalayer_refresh`, `datalayer_disable`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `pos_get_modifiers`, `pos_get_taxes`, `syncs_disable_syncconsumer`, `syncs_get_sync_executions`, `insights_get_catalog`, `insights_query_db`, `insights_query_groups_join`, `get_releases_local_agents_releases_get`
+
 ## 1.0.0 - 2023-09-14
 
 -   First release with scopes of the 5 unified APIs (Accounting, POS, eCommerce, Invoicing & Payment) of Chift and the management of consumers, connections & webhooks.

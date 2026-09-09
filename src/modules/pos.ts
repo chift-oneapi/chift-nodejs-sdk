@@ -23,6 +23,12 @@ type GetAccountingCategoriesParams = AutoPaginatedParams<
 
 type GetOrdersParams = AutoPaginatedParams<operations['pos_get_orders']['parameters']['query']>;
 
+type GetModifiersParams = AutoPaginatedParams<
+    operations['pos_get_modifiers']['parameters']['query']
+>;
+
+type GetTaxesParams = AutoPaginatedParams<operations['pos_get_taxes']['parameters']['query']>;
+
 const posFactory = {
     getLocations(options?: RawDataOption): RequestData<components['schemas']['POSLocationItem'][]> {
         return {
@@ -196,6 +202,30 @@ const posFactory = {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/pos/objectives`,
+            rawData: options?.rawData,
+            datalayer: options?.datalayer,
+        };
+    },
+    getModifiers(
+        params?: GetModifiersParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ModifiersItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/pos/modifiers`,
+            rawData: options?.rawData,
+            datalayer: options?.datalayer,
+        };
+    },
+    getTaxes(
+        params?: GetTaxesParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['POSTaxRateItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/pos/tax-rates`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
         };
