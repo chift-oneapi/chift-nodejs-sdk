@@ -6149,6 +6149,8 @@ export interface components {
             status: components['schemas']['ConnectionStatus'];
             /** @description For local agent only. Indicates whether the local agent is up and running */
             agent?: components['schemas']['LocalAgentInfo'] | null;
+            /** @description State of the datalayer for this connection. Null when the datalayer does not apply: the connection is inactive, its API has no datalayer, or the datalayer is not set up for that API on your account. Resolved per API, so every connection of the same API on a consumer reports the same value. `ready` when reads can be served from the datalayer (`x-chift-datalayer` header). `syncing` when the datalayer is enabled but its first sync has not finished, so there is nothing to query yet. `not_enabled` when the datalayer is available for this API but not turned on for this consumer. */
+            datalayer?: components['schemas']['DatalayerStatus'] | null;
         };
         /**
          * ConnectionStatus
@@ -6852,6 +6854,11 @@ export interface components {
              */
             force_from_date?: string | null;
         };
+        /**
+         * DatalayerStatus
+         * @enum {string}
+         */
+        DatalayerStatus: 'not_enabled' | 'syncing' | 'ready';
         /** DatastoreColumn */
         DatastoreColumn: {
             /** Name */
