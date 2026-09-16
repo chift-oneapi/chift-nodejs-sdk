@@ -6157,6 +6157,19 @@ export interface components {
          * @enum {string}
          */
         ConnectionStatus: 'active' | 'inactive';
+        /** ConsumerAccountItem */
+        ConsumerAccountItem: {
+            /**
+             * Name
+             * @description Name of the marketplace account linked to the consumer.
+             */
+            name: string;
+            /**
+             * Email
+             * @description Email of the user with the marketplace admin role on that account.
+             */
+            email?: string | null;
+        };
         /** ConsumerItem */
         ConsumerItem: {
             /**
@@ -6176,6 +6189,11 @@ export interface components {
              */
             email?: string | null;
             /**
+             * Created On
+             * @description Date and time when the consumer was created
+             */
+            created_on?: string | null;
+            /**
              * Internal Reference
              * @description Your internal reference for the client (e.g., customer ID or unique identifier in your system).
              */
@@ -6185,6 +6203,8 @@ export interface components {
              * @description URL to redirect the user after completing the activation via our link. Useful for directing customers to a dynamic or personalized url. You can also set up a default static URL in Chift's back office for all consumers.
              */
             redirect_url?: string | null;
+            /** @description Marketplace account of the consumer. Only returned when include_account is true, and only for marketplace consumers. */
+            account?: components['schemas']['ConsumerAccountItem'] | null;
         };
         /**
          * ContactGender
@@ -15015,6 +15035,8 @@ export interface operations {
                 /** @description Partial, case-insensitive match on the name or the email of the consumer. */
                 search?: string | null;
                 internal_reference?: string | null;
+                /** @description Include account information. Only for marketplace consumers */
+                include_account?: components['schemas']['BoolParam'];
             };
             header?: never;
             path?: never;
@@ -15098,7 +15120,10 @@ export interface operations {
     };
     consumers_get_consumer: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Include account information. Only for marketplace consumers */
+                include_account?: components['schemas']['BoolParam'];
+            };
             header?: never;
             path: {
                 consumer_id: string;

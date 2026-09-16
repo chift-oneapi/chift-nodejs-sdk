@@ -21,6 +21,7 @@
 -   **BREAKING (types)**: `invoicing.createInvoice()` request body type renamed `InvoiceItem-Input` → `InvoiceItemIn`
 -   Add endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `banking_get_opening_balance`, `datalayer_enable`, `datalayer_refresh`, `datalayer_disable`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `pos_get_modifiers`, `pos_get_taxes`, `syncs_disable_syncconsumer`, `syncs_get_sync_executions`, `insights_get_catalog`, `insights_query_db`, `insights_query_groups_join`, `get_releases_local_agents_releases_get`
 -   Add `DatalayerStatus` enum (`not_enabled` | `syncing` | `ready`) and an optional `datalayer` field on `ConnectionItem` reporting the connection's datalayer state (additive, response-only)
+-   Add `ConsumerAccountItem` schema and optional `created_on` / `account` fields on `ConsumerItem`, plus an optional `include_account` query param on `consumers_get_consumers` and `consumers_get_consumer` (additive, non-breaking; `getConsumers` already forwards the param generically)
 
 ## 1.0.0 - 2023-09-14
 
