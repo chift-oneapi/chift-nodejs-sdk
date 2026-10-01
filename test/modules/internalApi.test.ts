@@ -320,6 +320,29 @@ describe('InternalAPI pagination', () => {
         }
     });
 
+    test('sends x-chift-datalayer-max-staleness as given, or seconds as an ISO duration', async () => {
+        fetchMock
+            .mockResolvedValueOnce(jsonResponse(200, tokenBody()))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1))
+            .mockResolvedValueOnce(paginatedResponse([{ id: 1 }], 1));
+
+        const api = new InternalAPI(auth);
+        await api.makeRequest({ method: 'get', url: '/clients', maxStaleness: 'PT15M' });
+        await api.makeRequest({ method: 'get', url: '/clients', maxStaleness: 5400 });
+        await api.makeRequest({ method: 'get', url: '/clients' });
+
+        const sent = fetchMock.mock.calls
+            .slice(1)
+            .map(
+                (call) =>
+                    ((call[1] as RequestInit).headers as Record<string, string>)[
+                        'x-chift-datalayer-max-staleness'
+                    ]
+            );
+        expect(sent).toEqual(['PT15M', 'PT5400S', undefined]);
+    });
+
     test('rejects an invalid pageSize', () => {
         expect(() => new InternalAPI({ ...auth, pageSize: 0 })).toThrow(
             'pageSize must be a positive integer'

@@ -310,3 +310,4 @@
 
 -   Consumer methods return a `ChiftPromise`, a `Promise` subclass with a `withResponse()` method that resolves to `{ data, headers }`. `headers` is a `CapturedHeaders` holding one `ResponseHeaders` per request (method, path, status and every header, read case-insensitively), and `headers.datalayer` combines the datalayer freshness headers across pages: the oldest `syncedAt`, the latest `coveredFrom`, and `source: 'mixed'` when an `if_available` read was served partly live
 -   Errors thrown by consumer methods carry a `headers` field with the same object, so the headers of the failing response (e.g. `Retry-After`) are no longer lost
+-   Add a `maxStaleness` option next to `datalayer` on read methods, sent as `x-chift-datalayer-max-staleness`. It takes an ISO 8601 duration (`'PT15M'`) or a number of seconds, and overrides the account's staleness budget for that request

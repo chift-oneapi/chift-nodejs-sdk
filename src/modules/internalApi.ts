@@ -276,6 +276,12 @@ class InternalAPI {
                     headers['x-chift-datalayer'] =
                         requestData.datalayer === true ? 'true' : requestData.datalayer;
                 }
+                if (requestData.maxStaleness !== undefined) {
+                    headers['x-chift-datalayer-max-staleness'] =
+                        typeof requestData.maxStaleness === 'number'
+                            ? `PT${Math.trunc(requestData.maxStaleness)}S`
+                            : requestData.maxStaleness;
+                }
 
                 const res = await this.request({
                     url: requestData.url,
