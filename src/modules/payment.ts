@@ -25,6 +25,7 @@ const paymentFactory = {
             url: `/consumers/{consumer_id}/payment/payments`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getBalances(
@@ -37,6 +38,7 @@ const paymentFactory = {
             url: `/consumers/{consumer_id}/payment/balances`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getTransactions(
@@ -49,6 +51,7 @@ const paymentFactory = {
             url: `/consumers/{consumer_id}/payment/transactions`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getPayment(
@@ -61,6 +64,7 @@ const paymentFactory = {
             url: `/consumers/{consumer_id}/payment/payments/{payment_id}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getRefunds(
@@ -73,6 +77,7 @@ const paymentFactory = {
             url: `/consumers/{consumer_id}/payment/refunds`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
 };

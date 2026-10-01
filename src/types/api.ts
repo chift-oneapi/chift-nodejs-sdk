@@ -1,3 +1,5 @@
+import { ChiftPromise } from '../helpers/chiftPromise';
+
 export interface AuthType {
     clientId: string;
     clientSecret: string;
@@ -31,6 +33,7 @@ export type RequestData<TResponse> = {
     rawData?: boolean;
     clientRequestId?: string;
     datalayer?: DatalayerMode;
+    maxStaleness?: MaxStaleness;
 };
 
 export type RequestFactory = { [key: string]: (...args: any) => RequestData<any> };
@@ -39,7 +42,7 @@ export type ApiFor<TFactory extends RequestFactory> = {
     [key in keyof TFactory]: TFactory[key] extends (
         ...args: infer TArgs
     ) => RequestData<infer TResponse>
-        ? (...args: TArgs) => Promise<TResponse>
+        ? (...args: TArgs) => ChiftPromise<TResponse>
         : never;
 };
 
@@ -58,12 +61,21 @@ export type AutoPaginatedParams<T> = Omit<Exclude<T, undefined>, 'page'>;
  */
 export type DatalayerMode = boolean | 'if_available';
 
+/**
+ * How far behind its last sync the datalayer may be for a read, sent as
+ * `x-chift-datalayer-max-staleness`: an ISO 8601 duration ('PT15M') sent as is, or a number of
+ * seconds.
+ */
+export type MaxStaleness = string | number;
+
 export type RawDataOption = {
     rawData?: boolean;
     datalayer?: DatalayerMode;
+    maxStaleness?: MaxStaleness;
 };
 
 export type ClientRequestOption = {
     clientRequestId?: string;
     datalayer?: DatalayerMode;
+    maxStaleness?: MaxStaleness;
 };

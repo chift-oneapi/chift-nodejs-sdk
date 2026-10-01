@@ -1,4 +1,5 @@
 import { InternalAPI } from '../modules/internalApi';
+import { ChiftPromise } from './chiftPromise';
 import { RequestFactory, ApiFor } from '../types/api';
 
 export function createApiFor<TFactory extends RequestFactory>(
@@ -15,7 +16,7 @@ export function createApiFor<TFactory extends RequestFactory>(
                 requestData.consumerName = consumerName;
                 requestData.consumerId = consumerId;
                 requestData.url = requestData.url.replace('{consumer_id}', consumerId);
-                return internalApi.makeRequest(requestData);
+                return new ChiftPromise(internalApi.makeRequestWithHeaders(requestData));
             };
         },
     }) as unknown as ApiFor<TFactory>;

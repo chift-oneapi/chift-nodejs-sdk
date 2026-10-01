@@ -42,6 +42,7 @@ const ecommerceFactory = {
             url: '/consumers/{consumer_id}/commerce/customers',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getProducts(
@@ -54,6 +55,7 @@ const ecommerceFactory = {
             url: '/consumers/{consumer_id}/commerce/products',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getCustomer(
@@ -65,6 +67,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/customers/${customerId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getProduct(
@@ -76,6 +79,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/products/${productId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getProductVariantById(
@@ -87,6 +91,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/variants/${variantId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     updateAvailableQuantity(
@@ -100,6 +105,7 @@ const ecommerceFactory = {
             body: inventoryDetails,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getLocations(
@@ -112,6 +118,7 @@ const ecommerceFactory = {
             url: '/consumers/{consumer_id}/commerce/locations',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getOrders(
@@ -124,6 +131,7 @@ const ecommerceFactory = {
             params: params,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createOrder(
@@ -136,6 +144,7 @@ const ecommerceFactory = {
             body: order,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getOrder(
@@ -149,6 +158,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/orders/${orderId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getPaymentMethods(
@@ -161,6 +171,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/payment-methods`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getProductCategories(
@@ -173,6 +184,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/product-categories`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getTaxes(
@@ -185,6 +197,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/taxes`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getCountries(
@@ -197,6 +210,7 @@ const ecommerceFactory = {
             url: `/consumers/{consumer_id}/commerce/countries`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
 };

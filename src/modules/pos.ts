@@ -30,6 +30,7 @@ const posFactory = {
             url: '/consumers/{consumer_id}/pos/locations',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getOrders(
@@ -42,6 +43,7 @@ const posFactory = {
             url: '/consumers/{consumer_id}/pos/orders',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getCustomers(
@@ -54,6 +56,7 @@ const posFactory = {
             url: '/consumers/{consumer_id}/pos/customers',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getOrder(
@@ -65,6 +68,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/orders/${orderId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getCustomer(
@@ -76,6 +80,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/customers/${customerId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createCustomer(
@@ -88,6 +93,7 @@ const posFactory = {
             body: customer,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getPaymentMethods(
@@ -100,6 +106,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/payment-methods`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getProductCategories(
@@ -112,6 +119,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/product-categories`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getProducts(
@@ -124,6 +132,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/products`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getSales(
@@ -136,6 +145,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/sales`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getClosure(
@@ -149,6 +159,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/closures/${date}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getPayments(
@@ -161,6 +172,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/payments`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     updateOrder(
@@ -174,6 +186,7 @@ const posFactory = {
             body: order,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getAccountingCategories(
@@ -186,6 +199,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/accounting-categories`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getObjectives(
@@ -198,6 +212,7 @@ const posFactory = {
             url: `/consumers/{consumer_id}/pos/objectives`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
 };

@@ -96,6 +96,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/analytic-plans',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getClients(
@@ -108,6 +109,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/clients',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createClient(
@@ -122,6 +124,7 @@ const accountingFactory = {
             body: client,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getClient(
@@ -135,6 +138,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/clients/${clientId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     updateClient(
@@ -150,6 +154,7 @@ const accountingFactory = {
             body: client,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getSuppliers(
@@ -162,6 +167,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/suppliers',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createSupplier(
@@ -176,6 +182,7 @@ const accountingFactory = {
             body: supplier,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getSupplier(
@@ -189,6 +196,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/suppliers/${supplierId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     updateSupplier(
@@ -204,6 +212,7 @@ const accountingFactory = {
             body: supplier,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createInvoice(
@@ -218,6 +227,7 @@ const accountingFactory = {
             body: invoice,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createInvoiceWithMultiplePlans(
@@ -232,6 +242,7 @@ const accountingFactory = {
             body: invoice,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getInvoicesByType(
@@ -245,6 +256,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/invoices/type/${invoice_type}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getInvoice(
@@ -258,6 +270,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/invoices/${invoiceId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getInvoiceWithMultiplePlans(
@@ -271,6 +284,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/${invoiceId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getInvoicesByTypeWithMultiplePlans(
@@ -284,6 +298,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/invoices/multi-analytic-plans/type/${invoice_type}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createAnalyticAccount(
@@ -298,6 +313,7 @@ const accountingFactory = {
             body: analyticAccount,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getAnalyticAccounts(
@@ -310,6 +326,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/analytic-accounts',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createAnalyticAccountWithMultiplePlans(
@@ -325,6 +342,7 @@ const accountingFactory = {
             body: analyticAccount,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getAnalyticAccount(
@@ -338,6 +356,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     updateAnalyticAccount(
@@ -353,6 +372,7 @@ const accountingFactory = {
             body: analyticAccount,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getAnalyticAccountWithMultiplePlans(
@@ -367,6 +387,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/analytic-accounts/${analytic_account_id}/multi-analytic-plans/${analytic_plan}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     updateAnalyticAccountWithMultiplePlans(
@@ -392,6 +413,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/analytic-accounts/multi-analytic-plans',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getJournalEntries(
@@ -404,6 +426,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/journal/entries`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getJournalEntriesWithMultiplePlans(
@@ -416,6 +439,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/journal/entries/multi-analytic-plans`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getPaymentsByInvoiceId(
@@ -429,6 +453,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/invoices/id/${invoice_id}/payments`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getJournals(
@@ -441,6 +466,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/journals`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createJournal(
@@ -455,6 +481,7 @@ const accountingFactory = {
             body: journal,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getVatCodes(
@@ -467,6 +494,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/vat-codes`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getMiscOperations(
@@ -479,6 +507,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/miscellaneous-operation',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createMiscOperation(
@@ -493,6 +522,7 @@ const accountingFactory = {
             body: operation,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getMiscOperation(
@@ -506,6 +536,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/miscellaneous-operation/${operation_id}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     attachPDF(
@@ -530,6 +561,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/attachments`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getChartOfAccounts(
@@ -542,6 +574,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/chart-of-accounts',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getBalanceOfAccounts(
@@ -565,6 +598,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/employees',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getOutstandings(
@@ -577,6 +611,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/outstandings',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createFinancialEntry(
@@ -591,6 +626,7 @@ const accountingFactory = {
             body: financial_entry,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createJournalEntry(
@@ -605,6 +641,7 @@ const accountingFactory = {
             body: journal_entry,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     matchEntries(
@@ -641,6 +678,7 @@ const accountingFactory = {
             body: expense,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getFolders(options?: RawDataOption): RequestData<components['schemas']['FolderItem'][]> {
@@ -649,6 +687,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/folders',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getBookyears(
@@ -661,6 +700,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/bookyears',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createLedgerAccount(
@@ -675,6 +715,7 @@ const accountingFactory = {
             body: account,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getBankAccounts(
@@ -687,6 +728,7 @@ const accountingFactory = {
             url: '/consumers/{consumer_id}/accounting/bank-accounts',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createBankAccount(
@@ -701,6 +743,7 @@ const accountingFactory = {
             body: bankAccount,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createBankTransactions(
@@ -715,6 +758,7 @@ const accountingFactory = {
             body: bankStatement,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getJournalEntry(
@@ -728,6 +772,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/journal/entries/${journalEntryId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
 
@@ -741,6 +786,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/payment-methods`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getPaymentTerms(
@@ -753,6 +799,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/payment-terms`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getSchemes(
@@ -765,6 +812,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/schemes`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
 
@@ -789,6 +837,7 @@ const accountingFactory = {
             url: `/consumers/{consumer_id}/accounting/export-fec`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
 };

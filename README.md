@@ -77,6 +77,36 @@ const rawInvoices = await consumer.accounting.getInvoicesByType(
 const rawOrders = await consumer.ecommerce.getOrders({}, { rawData: true });
 ```
 
+### Datalayer
+
+Read methods accept `datalayer` to serve the request from the datalayer instead of the live connector, and `maxStaleness` to override the account's staleness budget for that request:
+
+```typescript
+// true: read from the datalayer, error if it cannot serve the request
+// 'if_available': read from the datalayer when it can, otherwise from the live connector
+const orders = await consumer.pos.getOrders(
+    { date_from: '2026-09-01', date_to: '2026-09-28' },
+    { datalayer: 'if_available', maxStaleness: 'PT1H' } // ISO 8601 duration, or seconds (3600)
+);
+```
+
+### Response Headers
+
+Every consumer method returns a promise with a `withResponse()` method. It resolves to the data along with the headers of each request it took, one per page when the SDK paginates:
+
+```typescript
+const { data: orders, headers } = await consumer.pos
+    .getOrders({ date_from: '2026-09-01', date_to: '2026-09-28' }, { datalayer: 'if_available' })
+    .withResponse();
+
+headers.last?.get('retry-after'); // any header of the last response, case-insensitive
+headers.datalayer?.source; // 'datalayer', 'classic', or 'mixed' across pages
+headers.datalayer?.syncedAt; // oldest sync behind the data you read
+headers.datalayer?.coveredFrom;
+```
+
+A failed request throws an error whose `headers` field holds the same object, with the failing response last.
+
 ## Development
 
 ### Regenerate the OpenAPI schema

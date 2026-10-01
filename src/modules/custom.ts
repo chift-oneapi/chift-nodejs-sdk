@@ -8,6 +8,7 @@ const customFactory = {
             params: params,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     post(
@@ -24,6 +25,7 @@ const customFactory = {
             params: params,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     patch(
@@ -40,6 +42,7 @@ const customFactory = {
             params: params,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     delete(name: string, resource: string, params?: any): RequestData<any> {

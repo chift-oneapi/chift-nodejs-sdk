@@ -303,3 +303,11 @@
 -   Add a `datalayer` option on factory-method requests (alongside `rawData` / `clientRequestId`): `true` sends the `x-chift-datalayer: true` header (require the datalayer), `'if_available'` sends `x-chift-datalayer: if_available` (use it when available, else fall back to classic); default remains `false` (no header), mirroring the Python SDK
 -   Allow controlling how many items are requested per page during auto-pagination (default remains `100`; the Chift API currently accepts up to `1000`). Per request via the `size` param of any list method (`getClients({ size: 500 })` — `AutoPaginatedParams` no longer strips `size`, only `page`), or client-wide via a new optional `pageSize` setting (`new chift.API({ ..., pageSize: 1000 })`); the per-request value wins. `size` is not a limit: the SDK still returns the complete list
 -   Make the auto-pagination stop condition size-independent: stop once the accumulated item count reaches `total` (or on an empty page) instead of assuming 100 items per page, so pagination stays correct when the server returns fewer items per page than requested
+
+## 1.0.36 - 2026-10-01
+
+### Modules
+
+-   Consumer methods return a `ChiftPromise`, a `Promise` subclass with a `withResponse()` method that resolves to `{ data, headers }`. `headers` is a `CapturedHeaders` holding one `ResponseHeaders` per request (method, path, status and every header, read case-insensitively), and `headers.datalayer` combines the datalayer freshness headers across pages: the oldest `syncedAt`, the latest `coveredFrom`, and `source: 'mixed'` when an `if_available` read was served partly live
+-   Errors thrown by consumer methods carry a `headers` field with the same object, so the headers of the failing response (e.g. `Retry-After`) are no longer lost
+-   Add a `maxStaleness` option next to `datalayer` on read methods, sent as `x-chift-datalayer-max-staleness`. It takes an ISO 8601 duration (`'PT15M'`) or a number of seconds, and overrides the account's staleness budget for that request

@@ -28,6 +28,7 @@ const invoicingFactory = {
             params: params,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getInvoiceById(
@@ -41,6 +42,7 @@ const invoicingFactory = {
             params: params,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createInvoice(
@@ -53,6 +55,7 @@ const invoicingFactory = {
             body: invoice,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getProducts(options?: RawDataOption): RequestData<components['schemas']['ProductItemOut'][]> {
@@ -61,6 +64,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/products`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getProductById(
@@ -72,6 +76,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/products/${productId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createProduct(
@@ -84,6 +89,7 @@ const invoicingFactory = {
             body: product,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getTaxes(options?: RawDataOption): RequestData<components['schemas']['InvoicingVatCode'][]> {
@@ -92,6 +98,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/taxes`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getTaxById(
@@ -103,6 +110,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/taxes/${taxId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getOpportunities(
@@ -113,6 +121,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/opportunities`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getOpportunitiesById(
@@ -124,6 +133,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/opportunities/${opportunityId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getContacts(
@@ -136,6 +146,7 @@ const invoicingFactory = {
             params: params,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getContactById(
@@ -147,6 +158,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/contacts/${contactId}`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     createContact(
@@ -159,6 +171,7 @@ const invoicingFactory = {
             body: contact,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getPayments(
@@ -169,6 +182,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/payments`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getPaymentMethods(
@@ -179,6 +193,7 @@ const invoicingFactory = {
             url: `/consumers/{consumer_id}/invoicing/payment-methods`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getBankAccounts(
@@ -191,6 +206,7 @@ const invoicingFactory = {
             params: params,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     getBankTransactions(
@@ -203,6 +219,7 @@ const invoicingFactory = {
             params: params,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
     uploadDocument(
@@ -215,6 +232,7 @@ const invoicingFactory = {
             body: document,
             clientRequestId: options?.clientRequestId,
             datalayer: options?.datalayer,
+            maxStaleness: options?.maxStaleness,
         };
     },
 };
