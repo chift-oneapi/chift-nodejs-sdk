@@ -77,6 +77,23 @@ const rawInvoices = await consumer.accounting.getInvoicesByType(
 const rawOrders = await consumer.ecommerce.getOrders({}, { rawData: true });
 ```
 
+### Response Headers
+
+Every consumer method returns a promise with a `withResponse()` method. It resolves to the data along with the headers of each request it took, one per page when the SDK paginates:
+
+```typescript
+const { data: orders, headers } = await consumer.pos
+    .getOrders({ date_from: '2026-09-01', date_to: '2026-09-28' }, { datalayer: 'if_available' })
+    .withResponse();
+
+headers.last?.get('retry-after'); // any header of the last response, case-insensitive
+headers.datalayer?.source; // 'datalayer', 'classic', or 'mixed' across pages
+headers.datalayer?.syncedAt; // oldest sync behind the data you read
+headers.datalayer?.coveredFrom;
+```
+
+A failed request throws an error whose `headers` field holds the same object, with the failing response last.
+
 ## Development
 
 ### Regenerate the OpenAPI schema

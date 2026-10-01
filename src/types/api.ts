@@ -1,3 +1,5 @@
+import { ChiftPromise } from '../helpers/chiftPromise';
+
 export interface AuthType {
     clientId: string;
     clientSecret: string;
@@ -39,7 +41,7 @@ export type ApiFor<TFactory extends RequestFactory> = {
     [key in keyof TFactory]: TFactory[key] extends (
         ...args: infer TArgs
     ) => RequestData<infer TResponse>
-        ? (...args: TArgs) => Promise<TResponse>
+        ? (...args: TArgs) => ChiftPromise<TResponse>
         : never;
 };
 

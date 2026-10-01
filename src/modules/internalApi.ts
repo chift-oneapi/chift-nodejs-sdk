@@ -1,5 +1,7 @@
 import { AuthType, TokenType, RequestData } from '../types/api';
 import Settings from '../helpers/settings';
+import { WithResponse } from '../helpers/chiftPromise';
+import { CapturedHeaders, ResponseHeaders } from '../helpers/responseHeaders';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -235,6 +237,14 @@ class InternalAPI {
     }
 
     public async makeRequest<TResponse>(requestData: RequestData<TResponse>) {
+        return (await this.makeRequestWithHeaders(requestData)).data;
+    }
+
+    public async makeRequestWithHeaders<TResponse>(
+        requestData: RequestData<TResponse>
+    ): Promise<WithResponse<any>> {
+        const captured = new CapturedHeaders();
+        const method = requestData.method.toUpperCase();
         try {
             if (this.debug) {
                 console.log(
@@ -274,6 +284,9 @@ class InternalAPI {
                     data: requestData.body !== undefined ? requestData.body : undefined,
                     headers: headers,
                 });
+                captured.responses.push(
+                    new ResponseHeaders(res.headers, method, requestData.url, res.status)
+                );
                 const { data } = res;
                 if (data) {
                     if (requestData.method === 'get' && 'total' in data && 'items' in data) {
@@ -289,19 +302,27 @@ class InternalAPI {
                         if (this.debug) {
                             console.log(`[DEBUG]: Data received: ${JSON.stringify(data)}`);
                         }
-                        return data;
+                        return { data, headers: captured };
                     }
                     items = items.concat(data.items);
                 } else {
-                    return null;
+                    return { data: null, headers: captured };
                 }
             }
             if (this.debug) {
                 console.log(`[DEBUG]: Data received: ${JSON.stringify(items)}`);
             }
-            return items;
+            return { data: items, headers: captured };
         } catch (e: any) {
             if (e.response) {
+                captured.responses.push(
+                    new ResponseHeaders(
+                        e.response.headers,
+                        method,
+                        requestData.url,
+                        e.response.status
+                    )
+                );
                 if (e.response.data) {
                     const error = { ...e.response.data, status_code: e.response.status };
                     const fullerror = {
@@ -309,6 +330,7 @@ class InternalAPI {
                         consumerId: requestData.consumerId,
                         consumerName: requestData.consumerName,
                         url: requestData.url,
+                        headers: captured,
                     };
                     //return error as TResponse;
                     throw fullerror;
