@@ -27,6 +27,16 @@ export type SyncsAPI = {
         syncid: string,
         params?: operations['syncs_get_sync_executions']['parameters']['query']
     ) => Promise<components['schemas']['ChiftPage_SyncExecutionItem_']>;
+    getFlowSettings: (
+        syncid: string,
+        flowid: string,
+        params?: operations['syncs_get_flow_settings']['parameters']['query']
+    ) => Promise<components['schemas']['FlowSettingsResponse']>;
+    executeFlow: (
+        syncid: string,
+        flowid: string,
+        body: components['schemas']['ExecuteFlowRequest']
+    ) => Promise<components['schemas']['ExecuteFlowResponse']>;
 };
 
 const Syncs = (internalApi: InternalAPI): SyncsAPI => {
@@ -88,6 +98,26 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         return data;
     };
 
+    const getFlowSettings = async (
+        syncid: string,
+        flowid: string,
+        params?: operations['syncs_get_flow_settings']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['FlowSettingsResponse'] } =
+            await _internalApi.get(`/syncs/${syncid}/flows/${flowid}/settings`, { params });
+        return data;
+    };
+
+    const executeFlow = async (
+        syncid: string,
+        flowid: string,
+        body: components['schemas']['ExecuteFlowRequest']
+    ) => {
+        const { data }: { data: components['schemas']['ExecuteFlowResponse'] } =
+            await _internalApi.post(`/syncs/${syncid}/flows/${flowid}/execute`, body);
+        return data;
+    };
+
     return {
         createSync,
         getSyncs,
@@ -96,6 +126,8 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         getConsumerExecutions,
         getExecution,
         getSyncExecutions,
+        getFlowSettings,
+        executeFlow,
     };
 };
 

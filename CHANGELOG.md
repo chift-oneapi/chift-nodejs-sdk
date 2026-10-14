@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.36 - 2026-09-09
+## 1.0.36 - 2026-10-14
 
 ### Modules
 
@@ -10,7 +10,7 @@
 -   **[PMS]** Add `getAccountingTransactions(params)` to list accounting transactions over a date range
 -   **[POS]** Add `getModifiers()` and `getTaxes()` list methods
 -   **[CONSUMER]** Add connection datalayer controls `enableDatalayer(connectionId, body?)`, `refreshDatalayer(connectionId, body?)`, `disableDatalayer(connectionId)`, and `disableFlow(syncId, flowId)`
--   **[SYNCS]** Add `getSyncExecutions(syncid, params?)` to list executions of a sync
+-   **[SYNCS]** Add `getSyncExecutions(syncid, params?)` to list executions of a sync, `getFlowSettings(syncid, flowid, params?)` to read a flow's configurable settings, and `executeFlow(syncid, flowid, body)` to trigger a flow execution
 -   **[INSIGHTS]** New top-level module exposed as `client.Insights`: `getCatalog()`, `queryDb(body)`, `queryGroupsJoin(body)`
 -   **[LOCAL AGENTS]** New top-level module exposed as `client.LocalAgents`: `getReleases(params)`
 -   Extend `src/types/public-api/mappings.ts` with the new operations
@@ -19,7 +19,7 @@
 
 -   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
 -   **BREAKING (types)**: `invoicing.createInvoice()` request body type renamed `InvoiceItem-Input` → `InvoiceItemIn`
--   Add endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `banking_get_opening_balance`, `datalayer_enable`, `datalayer_refresh`, `datalayer_disable`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `pos_get_modifiers`, `pos_get_taxes`, `syncs_disable_syncconsumer`, `syncs_get_sync_executions`, `insights_get_catalog`, `insights_query_db`, `insights_query_groups_join`, `get_releases_local_agents_releases_get`
+-   Add endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `banking_get_opening_balance`, `datalayer_enable`, `datalayer_refresh`, `datalayer_disable`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `pos_get_modifiers`, `pos_get_taxes`, `syncs_disable_syncconsumer`, `syncs_get_sync_executions`, `syncs_get_flow_settings`, `syncs_execute_flow`, `insights_get_catalog`, `insights_query_db`, `insights_query_groups_join`, `get_releases_local_agents_releases_get`
 -   Add `DatalayerStatus` enum (`not_enabled` | `syncing` | `ready`) and an optional `datalayer` field on `ConnectionItem` reporting the connection's datalayer state (additive, response-only)
 -   Add `ConsumerAccountItem` schema and optional `created_on` / `account` fields on `ConsumerItem`, plus an optional `include_account` query param on `consumers_get_consumers` and `consumers_get_consumer` (additive, non-breaking; `getConsumers` already forwards the param generically)
 

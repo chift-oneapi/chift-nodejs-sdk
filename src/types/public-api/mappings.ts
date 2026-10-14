@@ -41,6 +41,8 @@ export type chiftOperations = {
     getConsumerExecutions: 'syncs_get_consumer_executions';
     getExecution: 'syncs_get_execution';
     getSyncExecutions: 'syncs_get_sync_executions';
+    getFlowSettings: 'syncs_get_flow_settings';
+    executeFlow: 'syncs_execute_flow';
     disableSyncConsumer: 'syncs_disable_syncconsumer';
     createSyncToConsumer: 'syncs_create_synctoconsumer';
     getSyncConsumer: 'syncs_get_syncconsumer';
