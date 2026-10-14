@@ -13,6 +13,12 @@ type GetTransactionsParams = AutoPaginatedParams<
 type GetRefundsParams = AutoPaginatedParams<
     operations['payment_get_refunds']['parameters']['query']
 >;
+type GetLocationsParams = AutoPaginatedParams<
+    operations['payment_get_locations']['parameters']['query']
+>;
+type GetPayoutsParams = AutoPaginatedParams<
+    operations['payment_get_payouts']['parameters']['query']
+>;
 
 const paymentFactory = {
     getPayments(
@@ -71,6 +77,30 @@ const paymentFactory = {
             params,
             method: 'get',
             url: `/consumers/{consumer_id}/payment/refunds`,
+            rawData: options?.rawData,
+            datalayer: options?.datalayer,
+        };
+    },
+    getLocations(
+        params?: GetLocationsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['PaymentLocationItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/payment/locations`,
+            rawData: options?.rawData,
+            datalayer: options?.datalayer,
+        };
+    },
+    getPayouts(
+        params?: GetPayoutsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['PayoutItemOut'][]> {
+        return {
+            params,
+            method: 'get',
+            url: `/consumers/{consumer_id}/payment/payouts`,
             rawData: options?.rawData,
             datalayer: options?.datalayer,
         };
