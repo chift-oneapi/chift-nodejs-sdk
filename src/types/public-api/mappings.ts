@@ -12,13 +12,18 @@ export type chiftOperations = {
 
     // Connection operations
     getConnectionsByConsumerId: 'connections_get_connections';
+    getConnection: 'connections_get_connection';
     createConnection: 'connections_create_connection';
     deleteConnectionById: 'connections_delete_connection';
     updateConnection: 'connections_update_connection';
     getTransactionByClientRequestId: 'get_transaction_by_client_request_id_consumers__consumer_id__connections__connection_id__transactions_get';
+    enableDatalayer: 'datalayer_enable';
+    refreshDatalayer: 'datalayer_refresh';
+    disableDatalayer: 'datalayer_disable';
 
     // Integration operations
     getIntegrations: 'integrations_get_integrations';
+    getIntegration: 'integrations_get_integration';
     getIntegrationLogo: 'integrations_get_integration_logo_json';
 
     // Webhook operations
@@ -37,6 +42,10 @@ export type chiftOperations = {
     sendCustomEvent: 'syncs_send_custom_event';
     getConsumerExecutions: 'syncs_get_consumer_executions';
     getExecution: 'syncs_get_execution';
+    getSyncExecutions: 'syncs_get_sync_executions';
+    getFlowSettings: 'syncs_get_flow_settings';
+    executeFlow: 'syncs_execute_flow';
+    disableSyncConsumer: 'syncs_disable_syncconsumer';
     createSyncToConsumer: 'syncs_create_synctoconsumer';
     getSyncConsumer: 'syncs_get_syncconsumer';
     updateSyncToConsumer: 'syncs_update_synctoconsumer';
@@ -57,6 +66,8 @@ export type chiftOperations = {
 
     // Accounting operations
     getFolders: 'accounting_get_folders';
+    getFolder: 'accounting_get_folder';
+    getPartnerContacts: 'accounting_get_partner_contacts';
     getBookyears: 'accounting_get_bookyears';
     getAnalyticPlans: 'accounting_get_analytic_plans';
     getClients: 'accounting_get_clients';
@@ -130,6 +141,8 @@ export type chiftOperations = {
     getAccountingCategories: 'pos_get_accounting_categories';
     getClosure: 'pos_get_closure';
     getObjectives: 'pos_get_objectives';
+    getModifiers: 'pos_get_modifiers';
+    getPOSTaxes: 'pos_get_taxes';
 
     // eCommerce operations
     getCommerceCustomers: 'ecommerce_get_customers';
@@ -173,6 +186,7 @@ export type chiftOperations = {
     getAccountTransactions: 'banking_get_account_transactions';
     getAccountCounterparts: 'banking_get_account_counterparts';
     getBankingAttachments: 'banking_get_attachments';
+    getBankingOpeningBalance: 'banking_get_opening_balance';
 
     // Payment operations
     getBalances: 'payment_get_balances';
@@ -180,6 +194,8 @@ export type chiftOperations = {
     getPaymentPayments: 'payment_get_payments';
     getPayment: 'payment_get_payment';
     getRefunds: 'payment_get_refunds';
+    getPaymentLocations: 'payment_get_locations';
+    getPayouts: 'payment_get_payouts';
 
     // PMS operations
     getPMSOrders: 'pms_get_orders';
@@ -192,4 +208,13 @@ export type chiftOperations = {
     getPMSAccountingCategories: 'pms_get_accounting_categories';
     getPMSClosure: 'pms_get_closure';
     getPMSTaxes: 'pms_get_taxes';
+    getPMSAccountingTransactions: 'pms_get_accounting_transactions';
+
+    // Insights operations
+    getInsightsCatalog: 'insights_get_catalog';
+    queryInsightsDb: 'insights_query_db';
+    queryInsightsGroupsJoin: 'insights_query_groups_join';
+
+    // Local agents operations
+    getLocalAgentReleases: 'get_releases_local_agents_releases_get';
 };

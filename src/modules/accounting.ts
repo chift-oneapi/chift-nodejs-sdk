@@ -53,6 +53,10 @@ type GetBalanceOfAccountsParams = AutoPaginatedParams<
     operations['accounting_get_accounts_balances']['parameters']['query']
 >;
 
+type GetPartnerContactsParams = AutoPaginatedParams<
+    operations['accounting_get_partner_contacts']['parameters']['query']
+>;
+
 type GetClientsParams = AutoPaginatedParams<
     operations['accounting_get_clients']['parameters']['query']
 >;
@@ -647,6 +651,29 @@ const accountingFactory = {
         return {
             method: 'get',
             url: '/consumers/{consumer_id}/accounting/folders',
+            rawData: options?.rawData,
+            datalayer: options?.datalayer,
+        };
+    },
+    getFolder(
+        folderId: string,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['FolderItem']> {
+        return {
+            method: 'get',
+            url: `/consumers/{consumer_id}/accounting/folders/${folderId}`,
+            rawData: options?.rawData,
+            datalayer: options?.datalayer,
+        };
+    },
+    getPartnerContacts(
+        params: GetPartnerContactsParams,
+        options?: RawDataOption
+    ): RequestData<components['schemas']['ContactItem'][]> {
+        return {
+            params,
+            method: 'get',
+            url: '/consumers/{consumer_id}/accounting/contacts',
             rawData: options?.rawData,
             datalayer: options?.datalayer,
         };
