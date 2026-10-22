@@ -16,6 +16,18 @@ const Integrations = (internalApi: InternalAPI) => {
         return data;
     };
 
+    const getIntegration = async (
+        integrationId: number,
+        params: operations[chiftOperations['getIntegration']]['parameters']['query'] = {}
+    ) => {
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getIntegration']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get(`/integrations/${integrationId}`, { params });
+        return data;
+    };
+
     const getIntegrationLogo = async (
         integrationId: number,
         imageType: components['schemas']['ImageType']
@@ -26,6 +38,7 @@ const Integrations = (internalApi: InternalAPI) => {
 
     return {
         getIntegrations,
+        getIntegration,
         getIntegrationLogo,
     };
 };

@@ -12,6 +12,7 @@ export type chiftOperations = {
 
     // Connection operations
     getConnectionsByConsumerId: 'connections_get_connections';
+    getConnection: 'connections_get_connection';
     createConnection: 'connections_create_connection';
     deleteConnectionById: 'connections_delete_connection';
     updateConnection: 'connections_update_connection';
@@ -22,6 +23,7 @@ export type chiftOperations = {
 
     // Integration operations
     getIntegrations: 'integrations_get_integrations';
+    getIntegration: 'integrations_get_integration';
     getIntegrationLogo: 'integrations_get_integration_logo_json';
 
     // Webhook operations

@@ -127,7 +127,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * Get one connection
+         * @description Returns the specified connection (active or inactive) of your consumer
+         */
+        get: operations['connections_get_connection'];
         put?: never;
         post?: never;
         /**
@@ -176,6 +180,26 @@ export interface paths {
          * @description Returns a list of integrations (active and inactive) available for your account
          */
         get: operations['integrations_get_integrations'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/integrations/{integrationid}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get one integration
+         * @description Returns the specified integration (active or inactive) available for your account
+         */
+        get: operations['integrations_get_integration'];
         put?: never;
         post?: never;
         delete?: never;
@@ -5794,7 +5818,7 @@ export interface components {
             vat?: string | null;
             /**
              * Company Number
-             * @description National identification number of the company.
+             * @description National identification number of the company (e.g. SIRET for France).
              * @example 0000000000
              */
             company_number?: string | null;
@@ -5922,7 +5946,7 @@ export interface components {
             vat?: string | null;
             /**
              * Company Number
-             * @description National identification number of the company.
+             * @description National identification number of the company (e.g. SIRET for France).
              * @example 0000000000
              */
             company_number?: string | null;
@@ -6073,7 +6097,7 @@ export interface components {
             vat?: string | null;
             /**
              * Company Number
-             * @description National identification number of the company.
+             * @description National identification number of the company (e.g. SIRET for France).
              * @example 0000000000
              */
             company_number?: string | null;
@@ -13712,7 +13736,7 @@ export interface components {
             vat?: string | null;
             /**
              * Company Number
-             * @description National identification number of the company.
+             * @description National identification number of the company (e.g. SIRET for France).
              * @example 0000000000
              */
             company_number?: string | null;
@@ -16976,6 +17000,53 @@ export interface operations {
             };
         };
     };
+    connections_get_connection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                connectionid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConnectionItem'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The connection does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     connections_delete_connection: {
         parameters: {
             query?: never;
@@ -17170,6 +17241,54 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['IntegrationItem'][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    integrations_get_integration: {
+        parameters: {
+            query?: {
+                include_coverage?: components['schemas']['BoolParam'] | null;
+            };
+            header?: never;
+            path: {
+                integrationid: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['IntegrationItem'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The integration does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */

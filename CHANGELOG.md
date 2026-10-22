@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.37 - 2026-10-22
+
+### Modules
+
+-   **[CONSUMER]** Add `getConnection(connectionId)` to retrieve a single connection (active or inactive) of a consumer
+-   **[INTEGRATIONS]** Add `getIntegration(integrationId, params?)` to retrieve a single integration available for your account (optional `include_coverage` query param)
+-   Extend `src/types/public-api/mappings.ts` with the new operations
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   Add endpoints: `connections_get_connection` (`GET /consumers/{consumer_id}/connections/{connectionid}`) and `integrations_get_integration` (`GET /integrations/{integrationid}`)
+-   Refine descriptions only (e.g. `company_number` now notes SIRET for France) on existing schemas; no breaking changes
+
 ## 1.0.36 - 2026-10-14
 
 ### Modules

@@ -50,6 +50,15 @@ const Consumer = (
         return data;
     };
 
+    const getConnection = async (connectionId: string) => {
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getConnection']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get(`/consumers/${consumerId}/connections/${connectionId}`);
+        return data;
+    };
+
     const createConnection = async (body?: components['schemas']['PostConnectionItem'] | null) => {
         const {
             data,
@@ -259,6 +268,7 @@ const Consumer = (
     return {
         consumerId,
         getConnections,
+        getConnection,
         createConnection,
         updateConnection,
         deleteConnection,
