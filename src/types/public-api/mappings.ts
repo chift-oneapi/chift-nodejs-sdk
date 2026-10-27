@@ -217,4 +217,49 @@ export type chiftOperations = {
 
     // Local agents operations
     getLocalAgentReleases: 'get_releases_local_agents_releases_get';
+
+    // Spend management operations
+    getSpendManagementLegalEntities: 'spend_management_get_legal_entities';
+    getSpendManagementLedgerAccounts: 'spend_management_get_ledger_accounts';
+    createSpendManagementLedgerAccount: 'spend_management_create_ledger_account';
+    updateSpendManagementLedgerAccount: 'spend_management_update_ledger_account';
+    getSpendManagementTaxCodes: 'spend_management_get_tax_codes';
+    createSpendManagementTaxCode: 'spend_management_create_tax_code';
+    updateSpendManagementTaxCode: 'spend_management_update_tax_code';
+    getSpendManagementAnalyticalPlans: 'spend_management_get_analytical_plans';
+    createSpendManagementAnalyticalPlan: 'spend_management_create_analytical_plan';
+    updateSpendManagementAnalyticalPlan: 'spend_management_update_analytical_plan';
+    getSpendManagementAnalyticAccounts: 'spend_management_get_analytic_accounts';
+    getSpendManagementAnalyticAccount: 'spend_management_get_analytic_account';
+    createSpendManagementAnalyticAccount: 'spend_management_create_analytic_account';
+    updateSpendManagementAnalyticAccount: 'spend_management_update_analytic_account';
+    getSpendManagementPayables: 'spend_management_get_payables';
+    getSpendManagementPayable: 'spend_management_get_payable';
+    markSpendManagementPayableAsExported: 'spend_management_mark_payable_as_exported';
+    getSpendManagementFinancialMovements: 'spend_management_get_financial_movements';
+    markSpendManagementFinancialMovementAsExported: 'spend_management_mark_financial_movement_as_exported';
+    getSpendManagementSuppliers: 'spend_management_get_suppliers';
+    getSpendManagementSupplier: 'spend_management_get_supplier';
+    createSpendManagementSupplier: 'spend_management_create_supplier';
+    updateSpendManagementSupplier: 'spend_management_update_supplier';
+    getSpendManagementEmployees: 'spend_management_get_employees';
+
+    // Agentic syncs operations
+    getSyncCapabilities: 'agentic_syncs_get_sync_capabilities';
+    updateSyncCapabilities: 'agentic_syncs_update_sync_capabilities';
+    getSyncIntegrations: 'agentic_syncs_get_sync_integrations';
+    getConsumerCapabilities: 'agentic_syncs_get_consumer_capabilities';
+    updateConsumerCapabilities: 'agentic_syncs_update_consumer_capabilities';
+    getConsumerJourney: 'agentic_syncs_get_consumer_journey';
+    getConsumerQuestions: 'agentic_syncs_get_consumer_questions';
+    updateConsumerQuestions: 'agentic_syncs_update_consumer_questions';
+    getConsumerMappings: 'agentic_syncs_get_consumer_mappings';
+    getConsumerMappingTable: 'agentic_syncs_get_consumer_mapping_table';
+    aiFillSync: 'agentic_syncs_ai_fill';
+    startPreview: 'agentic_syncs_start_preview';
+    getPreviews: 'agentic_syncs_get_previews';
+    getPreview: 'agentic_syncs_get_preview';
+    getPreviewObjects: 'agentic_syncs_get_preview_objects';
+    getObjects: 'agentic_syncs_get_objects';
+    getObject: 'agentic_syncs_get_object';
 };

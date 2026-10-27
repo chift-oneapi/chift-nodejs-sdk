@@ -335,7 +335,7 @@ export interface paths {
         put?: never;
         /**
          * Create sync
-         * @description Creates a new sync with the provided configuration and returns the created sync object.
+         * @description Creates a new sync with the provided configuration and returns the created sync object. Given only a `module`, adds that agentic sync to the account, or returns it when the account has it.
          */
         post: operations['syncs_post_sync'];
         delete?: never;
@@ -589,6 +589,282 @@ export interface paths {
          * @description Updates the flow configuration for a specific consumer by merging the provided settings with the existing configuration.
          */
         patch: operations['syncs_update_flowtoconsumer'];
+        trace?: never;
+    };
+    '/syncs/{syncid}/capabilities': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Capabilities of an agentic sync, and which your consumers are offered
+         * @description Lists what the sync can do and whether your account offers it to its consumers. Whether a capability is available depends on each consumer's connections, so it is not reported here: read it from the consumer's capabilities.
+         */
+        get: operations['agentic_syncs_get_sync_capabilities'];
+        /**
+         * Choose which capabilities your consumers are offered
+         * @description Turns capabilities on or off for all your consumers and sets the mode preselected where a consumer can choose. A capability that is off is absent for your consumers and stops running for them; turned on again, it runs again for the consumers who had selected it. Selections, mapping values and answers are never deleted. `cron` sets when the sync runs for every consumer that enabled it; it can always be started by hand.
+         */
+        put: operations['agentic_syncs_update_sync_capabilities'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/syncs/{syncid}/integrations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Integrations a consumer can connect to an agentic sync
+         * @description For each vertical of the sync, the integrations active on your account.
+         */
+        get: operations['agentic_syncs_get_sync_integrations'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/capabilities': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * A consumer's setup of an agentic sync
+         * @description What the consumer can choose, what runs, which mapping tables and questions that needs, and what still stops the sync from being enabled. Capabilities your account does not offer are absent.
+         */
+        get: operations['agentic_syncs_get_consumer_capabilities'];
+        /**
+         * Choose a consumer's capabilities and modes
+         * @description Replaces the consumer's choice of main capabilities and modes. Whatever they need is turned on automatically. Answers with the resulting setup and what changed. Mapping values of tables no longer needed are kept. Send `preflight: true` to get that answer without saving anything.
+         */
+        put: operations['agentic_syncs_update_consumer_capabilities'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/journey': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Where a consumer stands in setting up an agentic sync
+         * @description A status per step of the setup (connections, capabilities, configuration, preview, live) and the step to send the consumer to. A step after one not complete is locked.
+         */
+        get: operations['agentic_syncs_get_consumer_journey'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/questions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Questions a consumer's capabilities ask, with their answers
+         * @description The questions of the capabilities that run for this consumer, rendered as settings, with the current answers.
+         */
+        get: operations['agentic_syncs_get_consumer_questions'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Answer a consumer's questions
+         * @description Stores the answers given and leaves the others as they are. A question no running capability asks, or an answer of the wrong type, is refused.
+         */
+        patch: operations['agentic_syncs_update_consumer_questions'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/mappings': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * The mapping tables a consumer's sync needs
+         * @description Every mapping table the capabilities and modes running for this consumer need, with whether it is complete and whether it can stay hidden. Reads no connection: open a table to see its rows.
+         */
+        get: operations['agentic_syncs_get_consumer_mappings'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/mappings/{table_key}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * One mapping table of a consumer: its rows, values and candidates
+         * @description The table's rows with their values, and one page of what a row may point at. Rows are what the source lists (or the fixed rows in use), then the keys an execution or a preview met without a value. Candidates are read from the consumer's connection: `refresh` reads them again, not from the connector's cache. The table's autofill rules run first, so a row they can fill has a value. Edit the values with `PATCH /consumers/{consumer_id}/syncs/{syncid}`.
+         */
+        get: operations['agentic_syncs_get_consumer_mapping_table'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/ai-fill': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Fill a consumer's mapping values
+         * @description Fills the empty mapping values of `tables` (every table the consumer's plan needs when null) with AI. A value is written with `origin: ai` and never replaces one a human or a rule set, unless `force_all`: then it replaces every value but the hidden rows'. Read them with `GET …/mappings/{table_key}`.
+         */
+        post: operations['agentic_syncs_ai_fill'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/previews': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * A consumer's recent previews
+         * @description One page of the consumer's previews, the latest first: `size=1` gives the latest.
+         */
+        get: operations['agentic_syncs_get_previews'];
+        put?: never;
+        /**
+         * Preview what a consumer's sync would create
+         * @description Queues an execution that writes nothing and records every object it would create (suppliers, invoices, payments…), linked to what they need, and what would fail. Each capability the consumer chose books at most `limit` objects changed in the last 14 days, unless dates are given. Read it with `GET …/previews/{preview_id}`. Refused with a 409 while another preview of the consumer is pending.
+         */
+        post: operations['agentic_syncs_start_preview'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/previews/{preview_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * One preview: where it stands, what it would create and what would fail
+         * @description What would fail is grouped by cause; a missing mapping, by table, with the rows to fill. `refill_suggested` says mappings are missing: fill them (`POST …/ai-fill`), then preview again.
+         */
+        get: operations['agentic_syncs_get_preview'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/previews/{preview_id}/objects': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * The objects a preview would create
+         * @description One page of them, in the order they would be created, filtered by kind or capability.
+         */
+        get: operations['agentic_syncs_get_preview_objects'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/objects/{kind}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * The objects of one type a consumer's sync handled
+         * @description One page of them, the latest changed first. `kind` is the object's type, e.g. `supplier_invoice`; read one with `GET …/objects/{kind}/{object_id}`.
+         */
+        get: operations['agentic_syncs_get_objects'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/syncs/{syncid}/objects/{kind}/{object_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * What a consumer's sync did to one object
+         * @description Its state, what happened to it (each step with its execution), the objects it needed and those that needed it, and the open issues holding it up. `kind` is the object's type, e.g. `supplier_invoice`.
+         */
+        get: operations['agentic_syncs_get_object'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     '/consumers/{consumer_id}/connections/{connection_id}/enable_datalayer': {
@@ -3258,6 +3534,336 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/consumers/{consumer_id}/spend_management/legal-entities': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve legal entities available to this connection */
+        get: operations['spend_management_get_legal_entities'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/ledger-accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve the chart of accounts */
+        get: operations['spend_management_get_ledger_accounts'];
+        put?: never;
+        /**
+         * Create ledger account
+         * @description Creates a new ledger account. Only expense and payable (accounts-payable) account types are supported.
+         */
+        post: operations['spend_management_create_ledger_account'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/ledger-accounts/{ledger_account_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update ledger account */
+        patch: operations['spend_management_update_ledger_account'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/tax-codes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve all tax codes */
+        get: operations['spend_management_get_tax_codes'];
+        put?: never;
+        /**
+         * Create tax code
+         * @description Creates a new tax code. When reversed=true, it is created as a reverse-charge tax code.
+         */
+        post: operations['spend_management_create_tax_code'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/tax-codes/{tax_code_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update tax code */
+        patch: operations['spend_management_update_tax_code'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/analytical-plans': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve all analytical plans (cost centers, projects, ...) */
+        get: operations['spend_management_get_analytical_plans'];
+        put?: never;
+        /** Create an analytical plan */
+        post: operations['spend_management_create_analytical_plan'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/analytical-plans/{analytical_plan_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update an analytical plan */
+        patch: operations['spend_management_update_analytical_plan'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/analytic-accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve the values of the analytical plans */
+        get: operations['spend_management_get_analytic_accounts'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/analytic-accounts/{analytic_account_id}/analytic-plans/{analytic_plan}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get one analytic account */
+        get: operations['spend_management_get_analytic_account'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update analytic account */
+        patch: operations['spend_management_update_analytic_account'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/analytic-accounts/analytic-plans/{analytic_plan}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create analytic account */
+        post: operations['spend_management_create_analytic_account'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/payables': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve payables (supplier invoices, supplier refunds, or card purchases)
+         * @description payable_type is mandatory and selects exactly one kind of payable per call: supplier_invoice, supplier_refund, or card_purchase.
+         */
+        get: operations['spend_management_get_payables'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/payables/{payable_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get one payable */
+        get: operations['spend_management_get_payable'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/payables/{payable_id}/mark-as-exported': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Mark one payable as exported
+         * @description Marks a payable as exported to the target accounting system, so it stops being returned by get_payables when filtered on export_status=to_export.
+         */
+        patch: operations['spend_management_mark_payable_as_exported'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/financial-movements': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve all financial movements (payments, refunds, reimbursements, ...) */
+        get: operations['spend_management_get_financial_movements'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/financial-movements/{financial_movement_id}/mark-as-exported': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Mark one financial movement as exported
+         * @description Marks a financial movement as exported to the target accounting system, so it stops being returned by get_financial_movements when filtered on export_status=to_export.
+         */
+        patch: operations['spend_management_mark_financial_movement_as_exported'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/suppliers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve all suppliers/vendors */
+        get: operations['spend_management_get_suppliers'];
+        put?: never;
+        /**
+         * Create supplier/vendor
+         * @description Creates a new supplier. If account_id is provided, the supplier is also assigned to that ledger account (accounts payable).
+         */
+        post: operations['spend_management_create_supplier'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/suppliers/{supplier_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get one supplier/vendor */
+        get: operations['spend_management_get_supplier'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update supplier/vendor */
+        patch: operations['spend_management_update_supplier'];
+        trace?: never;
+    };
+    '/consumers/{consumer_id}/spend_management/employees': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieve all employees */
+        get: operations['spend_management_get_employees'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -3827,6 +4433,23 @@ export interface components {
          * @enum {string}
          */
         AddressTypeInvoicing: 'main' | 'delivery' | 'invoice' | 'other';
+        /** AiFillRequest */
+        AiFillRequest: {
+            /**
+             * Tables
+             * @description Keys of the tables to fill. Null fills every table the consumer's plan needs.
+             * @example [
+             *       "spend_to_accounting.PurchaseVatCodes"
+             *     ]
+             */
+            tables?: string[] | null;
+            /**
+             * Force All
+             * @description Replace every value the filler proposes, whoever set it (a human's included). Rows the consumer hid stay hidden.
+             * @default false
+             */
+            force_all: boolean;
+        };
         /** AnalyticAccountItemIn */
         AnalyticAccountItemIn: {
             /**
@@ -4068,6 +4691,14 @@ export interface components {
              */
             parent_id?: string | null;
         };
+        /** AnalyticPlanItemIn */
+        AnalyticPlanItemIn: {
+            /**
+             * Name
+             * @description Name of the analytic plan as it will appear in the accounting system.
+             */
+            name: string;
+        };
         /**
          * Api
          * @enum {string}
@@ -4081,7 +4712,8 @@ export interface components {
             | 'Banking'
             | 'Custom'
             | 'Payment'
-            | 'Property Management System';
+            | 'Property Management System'
+            | 'Spend Management';
         /** ApiTransactionLookupOut */
         ApiTransactionLookupOut: {
             /**
@@ -4866,6 +5498,29 @@ export interface components {
          * @enum {string}
          */
         BoolParam: 'true' | 'false';
+        /** CapabilityChanges */
+        CapabilityChanges: {
+            /**
+             * Enabled
+             * @description Keys of the capabilities that now run.
+             */
+            enabled: string[];
+            /**
+             * Disabled
+             * @description Keys of the capabilities that no longer run.
+             */
+            disabled: string[];
+            /**
+             * Tables Added
+             * @description Keys of the tables that are now needed.
+             */
+            tables_added: string[];
+            /**
+             * Tables No Longer Needed
+             * @description Keys of the tables no longer needed. Their values are kept, not deleted.
+             */
+            tables_no_longer_needed: string[];
+        };
         /** CategoryItem */
         CategoryItem: {
             /**
@@ -5224,6 +5879,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[FinancialMovementItem] */
+        ChiftPage_FinancialMovementItem_: {
+            /** Items */
+            items: components['schemas']['FinancialMovementItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[InvoiceItemOutMonoAnalyticPlan] */
         ChiftPage_InvoiceItemOutMonoAnalyticPlan_: {
             /** Items */
@@ -5345,6 +6011,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[MappingCandidate] */
+        ChiftPage_MappingCandidate_: {
+            /** Items */
+            items: components['schemas']['MappingCandidate'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[MiscellaneousOperationOut] */
         ChiftPage_MiscellaneousOperationOut_: {
             /** Items */
@@ -5360,6 +6037,17 @@ export interface components {
         ChiftPage_ModifiersItem_: {
             /** Items */
             items: components['schemas']['ModifiersItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[ObjectItem] */
+        ChiftPage_ObjectItem_: {
+            /** Items */
+            items: components['schemas']['ObjectItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -5576,6 +6264,17 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[PayableItem] */
+        ChiftPage_PayableItem_: {
+            /** Items */
+            items: components['schemas']['PayableItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[PaymentItemOut] */
         ChiftPage_PaymentItemOut_: {
             /** Items */
@@ -5642,6 +6341,28 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[PreviewObjectItem] */
+        ChiftPage_PreviewObjectItem_: {
+            /** Items */
+            items: components['schemas']['PreviewObjectItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[Preview] */
+        ChiftPage_Preview_: {
+            /** Items */
+            items: components['schemas']['Preview'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[ProductCategoryItem] */
         ChiftPage_ProductCategoryItem_: {
             /** Items */
@@ -5686,6 +6407,39 @@ export interface components {
             /** Size */
             size: number;
         };
+        /** ChiftPage[SpendManagementAccountItem] */
+        ChiftPage_SpendManagementAccountItem_: {
+            /** Items */
+            items: components['schemas']['SpendManagementAccountItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[SpendManagementAnalyticAccountItem] */
+        ChiftPage_SpendManagementAnalyticAccountItem_: {
+            /** Items */
+            items: components['schemas']['SpendManagementAnalyticAccountItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[SpendManagementSupplierItemOut] */
+        ChiftPage_SpendManagementSupplierItemOut_: {
+            /** Items */
+            items: components['schemas']['SpendManagementSupplierItemOut'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
         /** ChiftPage[SupplierItemOut] */
         ChiftPage_SupplierItemOut_: {
             /** Items */
@@ -5701,6 +6455,17 @@ export interface components {
         ChiftPage_SyncExecutionItem_: {
             /** Items */
             items: components['schemas']['SyncExecutionItem'][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+        };
+        /** ChiftPage[TaxCodeItem] */
+        ChiftPage_TaxCodeItem_: {
+            /** Items */
+            items: components['schemas']['TaxCodeItem'][];
             /** Total */
             total: number;
             /** Page */
@@ -6587,6 +7352,229 @@ export interface components {
              */
             email?: string | null;
         };
+        /**
+         * ConsumerCapabilities
+         * @description The consumer's setup of a sync: what is offered, what runs, what it needs, and how far along it is.
+         */
+        ConsumerCapabilities: {
+            /**
+             * Flowid
+             * Format: uuid
+             * @description The sync's one flow: what enable, disable, the answers' PATCH and the executions take as {flowid}.
+             */
+            flowid: string;
+            /**
+             * Enabled
+             * @description Whether the sync is enabled for this consumer.
+             */
+            enabled: boolean;
+            /**
+             * Capabilities
+             * @description The capabilities the account offers.
+             */
+            capabilities: components['schemas']['ConsumerCapabilityItem'][];
+            /**
+             * Tables
+             * @description The mapping tables the running capabilities need.
+             */
+            tables: components['schemas']['ConsumerTable'][];
+            /**
+             * Questions
+             * @description The questions the running capabilities ask.
+             */
+            questions: components['schemas']['ConsumerQuestion'][];
+            /** @description What stops the sync from being enabled. */
+            completeness: components['schemas']['SetupCompleteness'];
+            /**
+             * Connections
+             * @description Each vertical of the sync, source first: whether the consumer's connection to it is in place.
+             */
+            connections: components['schemas']['SyncConnection'][];
+            /**
+             * Latest Preview Id
+             * @description The most recent preview of this consumer sync, if any.
+             */
+            latest_preview_id: string | null;
+        };
+        /** ConsumerCapabilitiesUpdated */
+        ConsumerCapabilitiesUpdated: {
+            /**
+             * Flowid
+             * Format: uuid
+             * @description The sync's one flow: what enable, disable, the answers' PATCH and the executions take as {flowid}.
+             */
+            flowid: string;
+            /**
+             * Enabled
+             * @description Whether the sync is enabled for this consumer.
+             */
+            enabled: boolean;
+            /**
+             * Capabilities
+             * @description The capabilities the account offers.
+             */
+            capabilities: components['schemas']['ConsumerCapabilityItem'][];
+            /**
+             * Tables
+             * @description The mapping tables the running capabilities need.
+             */
+            tables: components['schemas']['ConsumerTable'][];
+            /**
+             * Questions
+             * @description The questions the running capabilities ask.
+             */
+            questions: components['schemas']['ConsumerQuestion'][];
+            /** @description What stops the sync from being enabled. */
+            completeness: components['schemas']['SetupCompleteness'];
+            /**
+             * Connections
+             * @description Each vertical of the sync, source first: whether the consumer's connection to it is in place.
+             */
+            connections: components['schemas']['SyncConnection'][];
+            /**
+             * Latest Preview Id
+             * @description The most recent preview of this consumer sync, if any.
+             */
+            latest_preview_id: string | null;
+            /** @description What the request changed, compared with the setup before it. */
+            changes: components['schemas']['CapabilityChanges'];
+        };
+        /** ConsumerCapabilityItem */
+        ConsumerCapabilityItem: {
+            /**
+             * Key
+             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
+             * @example spend_to_accounting.SupplierInvoices
+             */
+            key: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
+             */
+            id: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Kind
+             * @description 'main': the consumer chooses it. 'supporting': shown as a tooltip, turned on by what needs it.
+             * @enum {string}
+             */
+            kind: 'main' | 'supporting';
+            /**
+             * Selected
+             * @description The consumer chose it. False for one running only because another needs it (`auto_enabled_by`).
+             */
+            selected: boolean;
+            /**
+             * Effective
+             * @description It runs: chosen or needed by something that runs, and available.
+             */
+            effective: boolean;
+            /**
+             * Auto Enabled By
+             * @description Keys of the capabilities running because of it. It cannot be turned off while there are some.
+             */
+            auto_enabled_by: string[];
+            /**
+             * Requires
+             * @description Keys of the capabilities it needs directly, whatever its mode; each mode lists what it adds. Choosing it turns them on.
+             */
+            requires: string[];
+            /**
+             * Available
+             * @description Whether the consumer's connections can do it. An unavailable one cannot be chosen.
+             */
+            available: boolean;
+            /**
+             * Reason Key
+             * @description Why not, as a translation key, so a client can translate it itself. Null when there is no reason.
+             */
+            reason_key: string | null;
+            /**
+             * Reason
+             * @description Why not, in the requested language; its translation key without one. Null when there is no reason.
+             */
+            reason: string | null;
+            /**
+             * Mode
+             * @description Key of the mode in use. Null when it has no modes, is unavailable, or awaits the consumer's choice.
+             */
+            mode: string | null;
+            /**
+             * Chooses Mode
+             * @description Several modes are available, so the consumer must choose one.
+             */
+            chooses_mode: boolean;
+            /**
+             * Awaits Mode
+             * @description Chosen or needed, but no mode is chosen yet: it, and what needs it, run once the consumer chooses.
+             */
+            awaits_mode: boolean;
+            /**
+             * Default Mode
+             * @description The mode your account preselects for the consumer's choice. Null when none is set.
+             * @example spend_to_accounting.SupplierInvoices.AsInvoice
+             */
+            default_mode: string | null;
+            /**
+             * Modes
+             * @description The alternative ways of doing it, each with whether the connections can do it. Empty when there is only one.
+             */
+            modes: components['schemas']['ConsumerCapabilityMode'][];
+        };
+        /** ConsumerCapabilityMode */
+        ConsumerCapabilityMode: {
+            /**
+             * Key
+             * @description Key of the mode.
+             * @example spend_to_accounting.SupplierInvoices.AsInvoice
+             */
+            key: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Available
+             * @description Whether the consumer's connections can do it this way.
+             */
+            available: boolean;
+            /**
+             * Reason Key
+             * @description Why not, as a translation key, so a client can translate it itself. Null when there is no reason.
+             */
+            reason_key: string | null;
+            /**
+             * Reason
+             * @description Why not, in the requested language; its translation key without one. Null when there is no reason.
+             */
+            reason: string | null;
+            /**
+             * Requires
+             * @description Keys of the capabilities this mode needs on top of its capability's `requires`.
+             */
+            requires: string[];
+            /**
+             * Requires Modes
+             * @description The modes other capabilities must run in for this one to be available, so a screen can show or hide it as the consumer picks those modes, before saving. Empty when it has none.
+             */
+            requires_modes: components['schemas']['RequiredMode'][];
+        };
         /** ConsumerItem */
         ConsumerItem: {
             /**
@@ -6622,6 +7610,96 @@ export interface components {
             redirect_url?: string | null;
             /** @description Marketplace account of the consumer. Only returned when include_account is true, and only for marketplace consumers. */
             account?: components['schemas']['ConsumerAccountItem'] | null;
+        };
+        /** ConsumerQuestion */
+        ConsumerQuestion: {
+            /**
+             * Key
+             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
+             * @example spend_to_accounting.ExpensesSince
+             */
+            key: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
+             */
+            id: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Used By
+             * @description Keys of the capabilities or modes that ask it.
+             */
+            used_by: string[];
+            /**
+             * Required
+             * @description It has no default, so it must be answered before the sync is enabled.
+             */
+            required: boolean;
+            /** @description How to render it: the same shape as a setting. */
+            field: components['schemas']['SettingField'];
+        };
+        /** ConsumerQuestions */
+        ConsumerQuestions: {
+            /**
+             * Fields
+             * @description The questions to ask, rendered as settings.
+             */
+            fields: components['schemas']['SettingField'][];
+            /**
+             * Answers
+             * @description Question key -> the answer, or its default while unanswered (null when there is none).
+             * @example {
+             *       "spend_to_accounting.ExpensesSince": "2026-01-01"
+             *     }
+             */
+            answers: {
+                [key: string]: unknown;
+            };
+        };
+        /** ConsumerTable */
+        ConsumerTable: {
+            /**
+             * Key
+             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
+             * @example spend_to_accounting.PurchaseVatCodes
+             */
+            key: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
+             */
+            id: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Used By
+             * @description Keys of the capabilities or modes that need it.
+             */
+            used_by: string[];
+            /**
+             * Rows
+             * @description The rows in use when only some are. Null when the whole table is.
+             */
+            rows: string[] | null;
         };
         /**
          * ContactGender
@@ -6965,6 +8043,15 @@ export interface components {
          * @enum {string}
          */
         CoverageStatus: 'SUPPORTED' | 'NOT_IMPLEMENTED' | 'NOT_SUPPORTED' | 'UNDER_ANALYSIS';
+        /** CreateAgenticSyncItem */
+        CreateAgenticSyncItem: {
+            /**
+             * Module
+             * @description The agentic sync to add to the account.
+             * @example spend_to_accounting
+             */
+            module: string;
+        };
         /** CreateConsumerSyncItem */
         CreateConsumerSyncItem: {
             /**
@@ -7550,6 +8637,8 @@ export interface components {
              * @default false
              */
             preflight: boolean;
+            /** @description An agentic sync only, for exactly one consumer: book these objects only. */
+            only?: components['schemas']['OnlyObjects'] | null;
         };
         /** ExecuteFlowResponse */
         ExecuteFlowResponse: {
@@ -8165,6 +9254,105 @@ export interface components {
              */
             counterpart_account: string;
         };
+        /** FinancialMovementAllocationItem */
+        FinancialMovementAllocationItem: {
+            /**
+             * Amount
+             * @description Amount of this payable's share of the financial movement.
+             */
+            amount: number;
+            /** Currency */
+            currency: string;
+            /**
+             * Payable Id
+             * @description Id of the payable this allocation applies to.
+             */
+            payable_id: string;
+        };
+        /** FinancialMovementFeeItem */
+        FinancialMovementFeeItem: {
+            fee_type: components['schemas']['FinancialMovementFeeType'];
+            /** Amount */
+            amount: number;
+            /** Currency */
+            currency: string;
+            /**
+             * Date
+             * Format: date
+             * @description Date the fee was incurred (or corrected).
+             */
+            date: string;
+        };
+        /**
+         * FinancialMovementFeeType
+         * @enum {string}
+         */
+        FinancialMovementFeeType: 'fx' | 'atm' | 'other';
+        /** FinancialMovementItem */
+        FinancialMovementItem: {
+            /**
+             * Id
+             * @description Id of the financial movement.
+             */
+            id: string;
+            /**
+             * Date
+             * Format: date
+             * @description Date the financial movement was cleared/settled.
+             */
+            date: string;
+            /**
+             * Amount
+             * @description Amount of the financial movement. Negative for a refund (supplier_refund type), matching the direction of money flow.
+             */
+            amount: number;
+            /** Currency */
+            currency: string;
+            /**
+             * Exchange Rate
+             * @description Exchange rate applied between the movement's own currency and the account's currency.
+             */
+            exchange_rate?: number | null;
+            /**
+             * @description Whether this financial movement still needs to be synced to the target accounting system: 'not_ready' (not yet validated), 'to_export' (ready, not yet exported), 'exported', or 'unknown' when the connector cannot determine it.
+             * @default unknown
+             */
+            export_status: components['schemas']['PayableExportStatus'];
+            /**
+             * External
+             * @description Whether the movement was funded from an external bank account rather than the connector's own account.
+             * @default false
+             */
+            external: boolean;
+            /** @description Normalized classification of this financial movement. */
+            type: components['schemas']['FinancialMovementType'];
+            /**
+             * Description
+             * @description Free text description of the movement.
+             */
+            description?: string | null;
+            /**
+             * Allocations
+             * @description The payable(s) this financial movement is settling, each with its own share of the amount.
+             */
+            allocations?: components['schemas']['FinancialMovementAllocationItem'][];
+            /**
+             * Fees
+             * @description Bank fees incurred for this financial movement (fx, atm, or other).
+             */
+            fees?: components['schemas']['FinancialMovementFeeItem'][];
+        };
+        /**
+         * FinancialMovementType
+         * @enum {string}
+         */
+        FinancialMovementType:
+            | 'supplier_payment'
+            | 'employee_reimbursement'
+            | 'supplier_refund'
+            | 'cash_advance'
+            | 'cash_return'
+            | 'chargeback';
         /** FlowConfig */
         'FlowConfig-Input': {
             /** Definitionfields */
@@ -11151,6 +12339,82 @@ export interface components {
             | 'financial_operation'
             | 'miscellaneous_operation'
             | 'unknown';
+        /**
+         * Journey
+         * @description Where the consumer stands in setting up the sync: a status per step, and the step to send them to.
+         */
+        Journey: {
+            /**
+             * Enabled
+             * @description Whether the sync is enabled for this consumer.
+             */
+            enabled: boolean;
+            /** @description Where to send the consumer. */
+            resume: components['schemas']['JourneyResume'];
+            /** @description Each step, in order: a step after one not complete is locked. */
+            steps: components['schemas']['JourneySteps'];
+        };
+        /** JourneyResume */
+        JourneyResume: {
+            /**
+             * Step
+             * @description The first step not complete, or 'live' once every step is.
+             * @enum {string}
+             */
+            step: 'connections' | 'capabilities' | 'configuration' | 'preview' | 'live';
+            /**
+             * Sub Step
+             * @description Key of the step's first sub-step not complete. Null when none.
+             */
+            sub_step: string | null;
+        };
+        /** JourneyStep */
+        JourneyStep: {
+            /**
+             * Status
+             * @description `complete`: done. `needs_attention`: something the consumer had done broke, or failed. `todo`: not done yet. `locked`: an earlier step is not complete.
+             * @enum {string}
+             */
+            status: 'locked' | 'todo' | 'needs_attention' | 'complete';
+            /**
+             * Sub Steps
+             * @description The connection of each vertical, or settings then mappings. Else empty.
+             */
+            sub_steps?: components['schemas']['JourneySubStep'][];
+        };
+        /** JourneySteps */
+        JourneySteps: {
+            /** @description A connection to each vertical of the sync. */
+            connections: components['schemas']['JourneyStep'];
+            /** @description At least one main capability runs, each chosen one with its mode. */
+            capabilities: components['schemas']['JourneyStep'];
+            /** @description Settings: every required question answered. Mappings: every mapping row filled and the latest preview ready. */
+            configuration: components['schemas']['JourneyStep'];
+            /** @description Complete once the sync is enabled. */
+            preview: components['schemas']['JourneyStep'];
+            /** @description Enabled; needs attention when a run failed since it was enabled. */
+            live: components['schemas']['JourneyStep'];
+        };
+        /** JourneySubStep */
+        JourneySubStep: {
+            /**
+             * Key
+             * @description A vertical of the sync, or 'settings' or 'mappings'.
+             * @example accounting
+             */
+            key: string;
+            /**
+             * Title
+             * @description A vertical's: Name to show, in the requested language; its translation key without one. Null for 'settings' and 'mappings'.
+             */
+            title: string | null;
+            /**
+             * Status
+             * @description `complete`: done. `needs_attention`: something the consumer had done broke, or failed. `todo`: not done yet. `locked`: an earlier step is not complete.
+             * @enum {string}
+             */
+            status: 'locked' | 'todo' | 'needs_attention' | 'complete';
+        };
         /** LedgerAccountItemIn */
         LedgerAccountItemIn: {
             /**
@@ -11167,6 +12431,31 @@ export interface components {
             number: string;
             /** @default other */
             type: components['schemas']['AccountItemType'] | null;
+        };
+        /** LedgerAccountItemUpdate */
+        LedgerAccountItemUpdate: {
+            /**
+             * Name
+             * @description Name or label of the ledger account.
+             */
+            name?: string | null;
+        };
+        /**
+         * LegalEntityItem
+         * @description Backs the postConnection legal-entity picker only (see ``accounting.get_folders``'s
+         *     folder-picker for the equivalent pattern) -- not one of the vertical's public endpoints.
+         */
+        LegalEntityItem: {
+            /**
+             * Id
+             * @description Id of the legal entity in the provider's system.
+             */
+            id: string;
+            /**
+             * Name
+             * @description Display name of the legal entity.
+             */
+            name: string;
         };
         /** LinkItem */
         LinkItem: {
@@ -11238,6 +12527,177 @@ export interface components {
              * Format: uuid
              */
             consumerId: string;
+        };
+        /** MappingCandidate */
+        MappingCandidate: {
+            /**
+             * Key
+             * @description The value to store.
+             * @example 601000
+             */
+            key: string;
+            /**
+             * Label
+             * @description What to show.
+             * @example 601000 Office supplies
+             */
+            label: string;
+            /**
+             * Fixed
+             * @description A fixed option of the table (e.g. 'to_be_created'), not an item of the target.
+             */
+            fixed: boolean;
+        };
+        /** MappingRowView */
+        MappingRowView: {
+            /**
+             * Source Key
+             * @description The row's key, the value the sync looks up.
+             * @example 601000
+             */
+            source_key: string;
+            /**
+             * Label
+             * @description What to show for the row.
+             * @example 601000 Office supplies
+             */
+            label: string;
+            /**
+             * Value
+             * @description The candidate key the row points at. Null when it has none.
+             */
+            value: string | null;
+            /**
+             * Value Label
+             * @description The label of the value, when the target still lists it.
+             */
+            value_label: string | null;
+            /**
+             * Origin
+             * @description Who wrote the value: 'human' (the consumer), 'sync_created' (the sync created what the consumer asked for), 'rule' (the sync's own autofill), 'ai' (ai-fill) or 'default'. A write never replaces a value of a higher rank: human = sync_created > rule > ai > default.
+             */
+            origin: string | null;
+            /**
+             * Hidden
+             * @description The consumer hid the row: it has no value, and no fill gives it one.
+             */
+            hidden: boolean;
+            /**
+             * Missing
+             * @description An execution or the latest preview needed this row and it still has no value: it holds those objects up, and the table is incomplete until it is filled. The row may not be one the source lists.
+             */
+            missing: boolean;
+        };
+        /** MappingTableItem */
+        MappingTableItem: {
+            /**
+             * Key
+             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
+             * @example spend_to_accounting.PurchaseVatCodes
+             */
+            key: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
+             */
+            id: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Used By
+             * @description Keys of the capabilities or modes that need it.
+             */
+            used_by: string[];
+            /**
+             * Rows
+             * @description The rows in use when only some are. Null when the whole table is.
+             */
+            rows: string[] | null;
+            /**
+             * Required
+             * @description A row without a value stops the objects that need it (an issue is raised).
+             */
+            required: boolean;
+            /**
+             * Allow Delete
+             * @description The consumer may hide rows.
+             */
+            allow_delete: boolean;
+            /**
+             * Complete
+             * @description No known row lacks a value. Rows the source lists are known once ai-fill or the consumer filled the table, rows met in the data once an execution or a preview met them.
+             */
+            complete: boolean;
+            /**
+             * Hidden
+             * @description Nothing to show by default: the table is complete. It can still be opened and edited.
+             */
+            hidden: boolean;
+        };
+        /**
+         * MappingTableView
+         * @description One mapping table of a consumer: its rows with their values, and what they may point at.
+         */
+        MappingTableView: {
+            /**
+             * Key
+             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
+             * @example spend_to_accounting.PurchaseVatCodes
+             */
+            key: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
+             */
+            id: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Required
+             * @description A row without a value stops the objects that need it (an issue is raised).
+             */
+            required: boolean;
+            /**
+             * Allow Delete
+             * @description The consumer may hide rows.
+             */
+            allow_delete: boolean;
+            /**
+             * Rows
+             * @description The source's rows, then the keys met in the data, then any other row holding a value.
+             */
+            rows: components['schemas']['MappingRowView'][];
+            /** @description One page of what a row may point at, matching `search`: the suggested items sorted by label, then the table's fixed options. With `show_all`, every item of the target. */
+            candidates: components['schemas']['ChiftPage_MappingCandidate_'];
+        };
+        /**
+         * MappingTables
+         * @description The mapping tables a consumer's running capabilities need.
+         */
+        MappingTables: {
+            /**
+             * Tables
+             * @description Every table the consumer's plan needs, in the plan's order.
+             */
+            tables: components['schemas']['MappingTableItem'][];
         };
         /** MatchingIn */
         MatchingIn: {
@@ -11529,6 +12989,261 @@ export interface components {
             /** @description This is the 'Normale rekening' in Dutch. It is a regular bank account used for standard business operations and unrestricted funds. The non-tax portion of the invoice is paid here. */
             n_account: components['schemas']['PaymentTermAccountInfo'];
         };
+        /** ObjectDetail */
+        ObjectDetail: {
+            /**
+             * Id
+             * Format: uuid
+             * @description The object's id: read it with `GET …/objects/{kind}/{id}`.
+             */
+            id: string;
+            /**
+             * Kind
+             * @description The object's type, e.g. 'supplier_invoice'.
+             */
+            kind: string;
+            /**
+             * Capability
+             * @description Key of the capability that handles it.
+             */
+            capability: string;
+            /**
+             * Source Id
+             * @description Its id in the source.
+             */
+            source_id: string;
+            /**
+             * Scope
+             * @description What identifies it beside its source id, for a sync keying its objects on something the consumer runs several of: `{"location_id": "paris"}`. Empty otherwise.
+             */
+            scope: {
+                [key: string]: string;
+            };
+            /**
+             * Status
+             * @description Where it stands, e.g. 'pending', 'success', 'failed', 'skipped', 'never_retry'.
+             */
+            status: string;
+            /**
+             * Target Id
+             * @description What it was booked as in the target. Null until then.
+             */
+            target_id: string | null;
+            /**
+             * Booked As
+             * @description Key of the mode that booked it.
+             */
+            booked_as: string | null;
+            /**
+             * Attempts
+             * @description How many times it failed.
+             */
+            attempts: number;
+            /**
+             * Last Error Code
+             * @description The code of its last failure.
+             */
+            last_error_code: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             * @description When the sync first saw it.
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             * @description When it last changed.
+             */
+            updated_at: string;
+            /**
+             * Succeeded At
+             * @description When it was booked.
+             */
+            succeeded_at: string | null;
+            /**
+             * Target
+             * @description What it was booked as, as the target answered.
+             */
+            target: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * History
+             * @description What happened to it, the oldest first.
+             */
+            history: components['schemas']['ObjectEventItem'][];
+            /**
+             * Links
+             * @description The objects it needed, and those that needed it.
+             */
+            links: components['schemas']['ObjectLink'][];
+            /**
+             * Issues
+             * @description The open issues holding it up.
+             */
+            issues: components['schemas']['SyncIssue'][];
+        };
+        /** ObjectEventItem */
+        ObjectEventItem: {
+            /**
+             * Action
+             * @description What happened: 'seen', a status it moved to, or a step the sync recorded.
+             */
+            action: string;
+            /**
+             * Details
+             * @description What the step recorded.
+             */
+            details: {
+                [key: string]: unknown;
+            };
+            /**
+             * Chainexecution Id
+             * @description The execution it last happened in.
+             */
+            chainexecution_id: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             * @description When it first happened.
+             */
+            created_at: string;
+            /**
+             * Last At
+             * Format: date-time
+             * @description When it last happened: `created_at` when it happened once.
+             */
+            last_at: string;
+            /**
+             * Occurrences
+             * @description How many times in a row it happened: a retry failing the same way every day is one event.
+             */
+            occurrences: number;
+        };
+        /** ObjectItem */
+        ObjectItem: {
+            /**
+             * Id
+             * Format: uuid
+             * @description The object's id: read it with `GET …/objects/{kind}/{id}`.
+             */
+            id: string;
+            /**
+             * Kind
+             * @description The object's type, e.g. 'supplier_invoice'.
+             */
+            kind: string;
+            /**
+             * Capability
+             * @description Key of the capability that handles it.
+             */
+            capability: string;
+            /**
+             * Source Id
+             * @description Its id in the source.
+             */
+            source_id: string;
+            /**
+             * Scope
+             * @description What identifies it beside its source id, for a sync keying its objects on something the consumer runs several of: `{"location_id": "paris"}`. Empty otherwise.
+             */
+            scope: {
+                [key: string]: string;
+            };
+            /**
+             * Status
+             * @description Where it stands, e.g. 'pending', 'success', 'failed', 'skipped', 'never_retry'.
+             */
+            status: string;
+            /**
+             * Target Id
+             * @description What it was booked as in the target. Null until then.
+             */
+            target_id: string | null;
+            /**
+             * Booked As
+             * @description Key of the mode that booked it.
+             */
+            booked_as: string | null;
+            /**
+             * Attempts
+             * @description How many times it failed.
+             */
+            attempts: number;
+            /**
+             * Last Error Code
+             * @description The code of its last failure.
+             */
+            last_error_code: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             * @description When the sync first saw it.
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             * @description When it last changed.
+             */
+            updated_at: string;
+            /**
+             * Succeeded At
+             * @description When it was booked.
+             */
+            succeeded_at: string | null;
+        };
+        /** ObjectKindItem */
+        ObjectKindItem: {
+            /**
+             * Kind
+             * @description The object's type, e.g. 'supplier_invoice'. List its objects with `GET /consumers/{cid}/syncs/{syncid}/objects/{kind}`.
+             */
+            kind: string;
+            /**
+             * Capability
+             * @description Key of the capability that handles them.
+             */
+            capability: string;
+        };
+        /** ObjectLink */
+        ObjectLink: {
+            /**
+             * Relation
+             * @description 'needs': this object needed the other (an invoice its supplier); 'needed_by': the other needed this one.
+             * @enum {string}
+             */
+            relation: 'needs' | 'needed_by';
+            /**
+             * Kind
+             * @description The object's type, e.g. 'supplier_invoice'.
+             */
+            kind: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The other object's id.
+             */
+            id: string;
+            /**
+             * Source Id
+             * @description The other object's id in the source.
+             */
+            source_id: string;
+            /**
+             * Scope
+             * @description What identifies it beside its source id, for a sync keying its objects on something the consumer runs several of: `{"location_id": "paris"}`. Empty otherwise.
+             */
+            scope: {
+                [key: string]: string;
+            };
+            /**
+             * Status
+             * @description Where the other object stands.
+             */
+            status: string;
+        };
         /** ObjectivesItem */
         ObjectivesItem: {
             /**
@@ -11550,6 +13265,30 @@ export interface components {
              * @example 2025-01-01
              */
             date: string;
+        };
+        /**
+         * OnlyObjects
+         * @description Book these source objects of one capability of an agentic sync, whatever its cadence; again when
+         *     ``import_mode`` is ``force_reimport``.
+         */
+        OnlyObjects: {
+            /**
+             * Capability
+             * @description The capability's key, e.g. `spend_to_accounting.SupplierInvoices`.
+             */
+            capability: string;
+            /**
+             * Ids
+             * @description The source objects' ids.
+             */
+            ids: string[];
+            /**
+             * Scope
+             * @description Where the ids are, for a capability whose objects are only unique within something the consumer runs several of, e.g. `{"location_id": "paris"}`. Exactly the keys the capability is scoped on.
+             */
+            scope?: {
+                [key: string]: string;
+            } | null;
         };
         /**
          * OperationType
@@ -13319,6 +15058,12 @@ export interface components {
              * @default []
              */
             modifiers: components['schemas']['ModifierLine'][] | null;
+            /**
+             * Prepayment Method Id
+             * @description Set when the line is a prepayment movement (e.g. a gift card or a package sold or used) and not revenue. It references the payment method that settles the prepayment.
+             * @example giftVoucher
+             */
+            prepayment_method_id?: string | null;
         };
         /**
          * POSLineItemType
@@ -13828,6 +15573,211 @@ export interface components {
              */
             credentials?: components['schemas']['CredentialItem'][] | null;
         };
+        /** PayableAllocationItem */
+        PayableAllocationItem: {
+            /**
+             * Id
+             * @description Id of the financial_movement or payable this allocation points to, per its type.
+             */
+            id?: string | null;
+            /**
+             * Amount
+             * @description Amount of this allocation, in the payable's own currency.
+             */
+            amount: number;
+            /** Currency */
+            currency: string;
+            /** @description What this allocation settles the payable against: a financial_movement (a cash payment) or another payable (e.g. a credit note or card refund applied document-to-document). */
+            type: components['schemas']['PayableAllocationType'];
+        };
+        /**
+         * PayableAllocationType
+         * @enum {string}
+         */
+        PayableAllocationType: 'financial_movement' | 'payable';
+        /** PayableAttachmentItem */
+        PayableAttachmentItem: {
+            /**
+             * Content Type
+             * @description MIME type of the attachment (e.g. application/pdf).
+             * @example application/pdf
+             */
+            content_type?: string | null;
+            /**
+             * Content
+             * @description Base64-encoded content of the attachment (e.g. a PDF, PNG or JPEG).
+             */
+            content?: string | null;
+            /**
+             * Attached At
+             * @description Date the attachment was added to the payable.
+             */
+            attached_at?: string | null;
+        };
+        /**
+         * PayableExportStatus
+         * @description Shared across every payable-like entity of this vertical (payables, financial movements, ...):
+         *     whether it still needs to be synced to the target accounting system.
+         * @enum {string}
+         */
+        PayableExportStatus: 'unknown' | 'not_ready' | 'to_export' | 'exported';
+        /**
+         * PayableItem
+         * @description A single entity covering supplier invoices, supplier refunds (credit notes) and card purchases
+         *     (including card refunds) -- these all come from the same underlying provider concept on Spendesk
+         *     (a payable) and most connectors of this vertical are expected to share that shape, so this unifies
+         *     what used to be two separate entities (SupplierInvoiceItem, CardPurchaseItem).
+         */
+        PayableItem: {
+            /**
+             * Id
+             * @description Id of the payable.
+             */
+            id: string;
+            /** @description Normalized classification of this payable. */
+            payable_type: components['schemas']['PayableType'];
+            /**
+             * Original Payable Type
+             * @description The connector's own provider-specific type/subtype for this payable, passed through as-is (e.g. Spendesk's subType: invoice, creditNote, singlePurchase, multiUseCard, physical, subscription).
+             */
+            original_payable_type?: string | null;
+            /**
+             * Reversed
+             * @description Whether this record is a reversal (a credit note against a previously issued invoice, or a refund against a previous card purchase) rather than the original document/purchase. Its amounts stay positive, as an accounting refund's: this flag carries the direction.
+             * @default false
+             */
+            reversed: boolean;
+            /**
+             * Invoice Number
+             * @description Supplier's own invoice number, when available.
+             */
+            invoice_number?: string | null;
+            /**
+             * Description
+             * @description Free text description (e.g. merchant/vendor name for a card purchase).
+             */
+            description?: string | null;
+            /**
+             * Supplier Id
+             * @description Id of the supplier/merchant, when known. Filled in based on payable_type: always relevant for supplier_invoice/supplier_refund, and also present on a card_purchase when the merchant is a known supplier.
+             */
+            supplier_id?: string | null;
+            /**
+             * Employee Id
+             * @description Id of the employee who submitted/owns the payable (the cardholder for a card_purchase), when known, regardless of payable_type.
+             */
+            employee_id?: string | null;
+            /** Currency */
+            currency: string;
+            /** Untaxed Amount */
+            untaxed_amount: number;
+            /** Tax Amount */
+            tax_amount: number;
+            /** Total */
+            total: number;
+            /**
+             * Payable Date
+             * Format: date
+             * @description Invoice date, purchase date, or equivalent.
+             */
+            payable_date: string;
+            /**
+             * Accounting Date
+             * @description Accounting date
+             * @example 2026-01-15
+             */
+            accounting_date?: string | null;
+            /**
+             * Due Date
+             * @description Payment due date, when relevant (supplier_invoice/supplier_refund).
+             */
+            due_date?: string | null;
+            /**
+             * Start Date
+             * @description Start date of the period covered by the payable. Set when it relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period begins.
+             * @example 2026-01-01
+             */
+            start_date?: string | null;
+            /**
+             * End Date
+             * @description End date of the period covered by the payable. Set when it relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period ends.
+             * @example 2026-01-31
+             */
+            end_date?: string | null;
+            /** Last Updated On */
+            last_updated_on?: string | null;
+            /** Lines */
+            lines?: components['schemas']['PayableLineItem'][];
+            /**
+             * Attachments
+             * @description Attachments (e.g. the invoice PDF, a receipt). Only populated on get_payable when include_attachments=true was requested.
+             */
+            attachments?: components['schemas']['PayableAttachmentItem'][] | null;
+            /**
+             * @description Whether this payable still needs to be synced to the target accounting system: 'not_ready' (not yet validated), 'to_export' (ready, not yet exported), 'exported', or 'unknown' when the connector cannot determine it.
+             * @default unknown
+             */
+            export_status: components['schemas']['PayableExportStatus'];
+            /**
+             * Allocations
+             * @description How this payable's amount has been settled so far.
+             */
+            allocations?: components['schemas']['PayableAllocationItem'][];
+        };
+        /** PayableLineItem */
+        PayableLineItem: {
+            /**
+             * Description
+             * @description Free text description of the line.
+             * @default
+             */
+            description: string | null;
+            /** Quantity */
+            quantity: number;
+            /** Unit Price */
+            unit_price: number;
+            /** Untaxed Amount */
+            untaxed_amount: number;
+            /**
+             * Tax Rate
+             * @description Tax rate applied to the line (e.g., 21.0 for 21%).
+             * @example 21
+             */
+            tax_rate: number;
+            /** Tax Amount */
+            tax_amount: number;
+            /** Total */
+            total: number;
+            /**
+             * Account Number
+             * @description Ledger account number (of type general) used for the line (e.g., 701000), matching the `account_number` field on `InvoiceLineItemOut` in accounting, if the connector exposes coding at line level.
+             */
+            account_number?: string | null;
+            /**
+             * Account Id
+             * @description Id of the ledger account used for the line, when the connector's underlying provider identifies accounts by id rather than (or in addition to) number.
+             */
+            account_id?: string | null;
+            /**
+             * Tax Id
+             * @description Id of the tax code applied to the line, when the connector exposes one.
+             */
+            tax_id?: string | null;
+            /**
+             * Analytic Distribution
+             * @description List of analytic distributions for the line, reusing the accounting vertical's multi-plan shape as-is: each entry specifies an analytic plan and the analytic accounts (with percentages) it's split across. Both Spendesk and Airwallex can code a line against more than one dimension at once (e.g. cost center + project), so this follows the same pattern as `InvoiceLineItemOutMultiAnalyticPlans.analytic_distribution` in accounting rather than a flat single id.
+             * @default []
+             */
+            analytic_distribution: components['schemas']['AnalyticDistribution'][] | null;
+        };
+        /**
+         * PayableType
+         * @description What kind of payable a record is. Distinct from `original_payable_type`, which is whatever
+         *     label the connector's own provider uses (e.g. Spendesk's subType) -- this is the normalized,
+         *     cross-connector classification.
+         * @enum {string}
+         */
+        PayableType: 'supplier_invoice' | 'supplier_refund' | 'card_purchase';
         /** Payment */
         Payment: {
             /**
@@ -14269,6 +16219,226 @@ export interface components {
             import_mode?: components['schemas']['ImportMode'] | null;
         } & {
             [key: string]: unknown;
+        };
+        /** Preview */
+        Preview: {
+            /**
+             * Preview Id
+             * Format: uuid
+             * @description The preview's id.
+             */
+            preview_id: string;
+            /**
+             * Status
+             * @description Pending while it is queued or running, then ready or failed.
+             * @enum {string}
+             */
+            status: 'pending' | 'ready' | 'failed';
+            /**
+             * Started At
+             * Format: date-time
+             * @description When it was asked for.
+             */
+            started_at: string;
+            /**
+             * Finished At
+             * @description When it ended. Null until it does.
+             */
+            finished_at: string | null;
+            /**
+             * Error
+             * @description Why it failed. Null unless it did.
+             */
+            error: string | null;
+            /**
+             * Counts
+             * @description How many objects of each kind it would create.
+             */
+            counts: components['schemas']['PreviewCount'][];
+            /**
+             * Issues
+             * @description What would fail, one entry per cause; a missing mapping, one entry per table.
+             */
+            issues: components['schemas']['PreviewIssue'][];
+            /**
+             * Refill Suggested
+             * @description Mappings are missing: `POST …/ai-fill` may fill them, then preview again.
+             */
+            refill_suggested: boolean;
+        };
+        /** PreviewCount */
+        PreviewCount: {
+            /**
+             * Kind
+             * @description What would be created.
+             * @example invoice
+             */
+            kind: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             * @example Invoice
+             */
+            title: string;
+            /**
+             * Count
+             * @description How many.
+             */
+            count: number;
+        };
+        /** PreviewIssue */
+        PreviewIssue: {
+            /**
+             * Kind
+             * @description What kind of problem it is, and so who acts on it.
+             * @example configuration
+             */
+            kind: string;
+            /**
+             * Code
+             * @description The error code.
+             * @example ERROR_SYNC_MISSING_MAPPING_VALUE
+             */
+            code: string;
+            /**
+             * Message
+             * @description What would fail.
+             */
+            message: string;
+            /**
+             * Cause
+             * @description What the objects it holds up have in common.
+             */
+            cause: {
+                [key: string]: unknown;
+            };
+            /**
+             * Source Ids
+             * @description The source objects it would hold up.
+             */
+            source_ids: string[];
+            /**
+             * Table Key
+             * @description For a missing mapping: the table to fill, `GET …/mappings/{table_key}`.
+             */
+            table_key?: string | null;
+            /**
+             * Table Title
+             * @description For a missing mapping: the table's name.
+             */
+            table_title?: string | null;
+            /**
+             * Source Keys
+             * @description For a missing mapping: the rows without a value.
+             */
+            source_keys?: string[] | null;
+        };
+        /** PreviewLink */
+        PreviewLink: {
+            /**
+             * Relation
+             * @description How the objects relate.
+             * @example needs
+             */
+            relation: string;
+            /**
+             * Synthetic Id
+             * @description The other object's id in the preview.
+             */
+            synthetic_id: string;
+            /**
+             * Title
+             * @description The other object's summary title, else its source id.
+             */
+            title?: string | null;
+        };
+        /** PreviewObjectItem */
+        PreviewObjectItem: {
+            /**
+             * Synthetic Id
+             * @description The object's id in the preview: the same data gets the same id in every preview.
+             * @example preview:invoice:3f2a9c1e0b4d
+             */
+            synthetic_id: string;
+            /**
+             * Kind
+             * @description What would be created.
+             * @example invoice
+             */
+            kind: string;
+            /**
+             * Kind Title
+             * @description Name to show, in the requested language; its translation key without one.
+             * @example Invoice
+             */
+            kind_title: string;
+            /**
+             * Capability
+             * @description Key of the capability creating it.
+             */
+            capability: string;
+            /**
+             * Capability Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            capability_title: string;
+            /**
+             * Source Id
+             * @description The source object it is created for.
+             */
+            source_id: string | null;
+            /** @description What a list shows of it. */
+            summary: components['schemas']['PreviewSummary'];
+            /**
+             * Links
+             * @description The objects it needs, e.g. an invoice's supplier.
+             */
+            links: components['schemas']['PreviewLink'][];
+            /**
+             * Payload
+             * @description What would be sent to the target, as its create route takes it, but each partner it books on by its name (an invoice's partner, an entry line's partner account).
+             */
+            payload: {
+                [key: string]: unknown;
+            };
+        };
+        /** PreviewStarted */
+        PreviewStarted: {
+            /**
+             * Preview Id
+             * Format: uuid
+             * @description Read the preview with it: the legacy routes know it as the preview execution.
+             */
+            preview_id: string;
+            /**
+             * Status
+             * @description Pending while it is queued or running, then ready or failed.
+             * @enum {string}
+             */
+            status: 'pending' | 'ready' | 'failed';
+        };
+        /** PreviewSummary */
+        PreviewSummary: {
+            /**
+             * Title
+             * @description Its name or number.
+             */
+            title?: string | null;
+            /**
+             * Amount
+             * @description Its total or amount.
+             */
+            amount?: number | null;
+            /**
+             * Currency
+             * @description The amount's currency.
+             */
+            currency?: string | null;
+            /**
+             * Date
+             * @description Its date.
+             */
+            date?: string | null;
         };
         /** ProductCategoryItem */
         ProductCategoryItem: {
@@ -14741,6 +16911,16 @@ export interface components {
             consumers: string[];
             /** Flows */
             flows: components['schemas']['ReadFlowItem'][];
+            /**
+             * Module
+             * @description The agentic sync it is, e.g. 'spend_to_accounting': set it up with the agentic routes. Null for a sync defined by its flows.
+             */
+            module?: string | null;
+            /**
+             * Object Kinds
+             * @description The types of object an agentic sync handles, in the order it books them. Null for a sync defined by its flows.
+             */
+            object_kinds?: components['schemas']['ObjectKindItem'][] | null;
         };
         /** ReadSyncMappingItem */
         ReadSyncMappingItem: {
@@ -15031,6 +17211,21 @@ export interface components {
              */
             currency: string;
         };
+        /** RequiredMode */
+        RequiredMode: {
+            /**
+             * Capability
+             * @description Key of the other capability.
+             * @example spend_to_accounting.SupplierInvoices
+             */
+            capability: string;
+            /**
+             * Mode
+             * @description Key of the mode it must run in.
+             * @example spend_to_accounting.SupplierInvoices.AsInvoice
+             */
+            mode: string;
+        };
         /** ReservationItem */
         ReservationItem: {
             /**
@@ -15239,7 +17434,46 @@ export interface components {
          * @description The input control the frontend should render for a setting.
          * @enum {string}
          */
-        SettingType: 'date' | 'bool' | 'int' | 'enum' | 'str_list' | 'dict';
+        SettingType: 'date' | 'str' | 'bool' | 'int' | 'enum' | 'str_list' | 'dict';
+        /**
+         * SetupCompleteness
+         * @description What stops the consumer sync from being enabled. All empty: it can be.
+         */
+        SetupCompleteness: {
+            /**
+             * Missing Connections
+             * @description Verticals the sync needs and the consumer has no connection to, or none chosen.
+             */
+            missing_connections: components['schemas']['SetupMissingItem'][];
+            /**
+             * Missing Questions
+             * @description Questions with no default and no answer.
+             */
+            missing_questions: components['schemas']['SetupMissingItem'][];
+            /**
+             * Missing Tables
+             * @description Mapping tables with a row that has no value.
+             */
+            missing_tables: components['schemas']['SetupMissingItem'][];
+            /**
+             * Missing Modes
+             * @description Capabilities chosen or needed, with several modes and none chosen yet.
+             */
+            missing_modes: components['schemas']['SetupMissingItem'][];
+        };
+        /** SetupMissingItem */
+        SetupMissingItem: {
+            /**
+             * Key
+             * @description Key of what is missing.
+             */
+            key: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+        };
         /** ShippingRefund */
         ShippingRefund: {
             /**
@@ -15290,6 +17524,499 @@ export interface components {
         SpanishSpecificities: {
             /** @description Withholding tax information for the invoice. */
             withholding_tax?: components['schemas']['WithholdingTax'] | null;
+        };
+        /** SpendManagementAccountItem */
+        SpendManagementAccountItem: {
+            /**
+             * Number
+             * @description The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général).
+             * @example <this-account-number>
+             */
+            number: string;
+            /**
+             * Name
+             * @description Name or label of the account as it appears in the accounting system. This is typically used for internal referencing and identification of the account.
+             * @example Consulting services
+             */
+            name: string;
+            /**
+             * Active
+             * @description Flag indicating whether the account is active. If True, the account is active and can be used in transactions. If False, the account is inactive and cannot be used for transactions.
+             * @default true
+             */
+            active: boolean | null;
+            /** @description Represents the functional type of the ledger account, used to support common accounting operations such as payments, invoicing, tax handling, and reporting. The type here is more operational and aligned with how accounts are actually used in day-to-day processes (e.g., tracking receivables, recording VAT, handling bank transactions) */
+            type?: components['schemas']['AccountItemType'] | null;
+            /**
+             * Id
+             * @description The provider's own unique id for this account, when the connector's underlying provider identifies accounts by id rather than (or in addition to) number -- e.g. to pass as account_id when creating/updating a supplier.
+             */
+            id?: string | null;
+        };
+        /** SpendManagementAnalyticAccountItem */
+        SpendManagementAnalyticAccountItem: {
+            /**
+             * Id
+             * @description Unique id of the analytic account in the accounting system.
+             * @example <this-analytic-account-id>
+             */
+            id: string;
+            /**
+             * Active
+             * @description Flag indicating whether the analytic account is active.
+             */
+            active: boolean;
+            /**
+             * Code
+             * @description Short code for the analytic account. Often used for internal referencing. For some integrations, it may be required to be unique.
+             * @example ANLY-01
+             */
+            code?: string | null;
+            /**
+             * Name
+             * @description Name or label of the analytic account as it appears in the accounting system.
+             * @example Marketing
+             */
+            name: string;
+            /**
+             * Analytic Plan
+             * @example <accounting-analytic-plan-id>
+             */
+            analytic_plan: string;
+        };
+        /** SpendManagementSupplierItemIn */
+        SpendManagementSupplierItemIn: {
+            /**
+             * External Reference
+             * @description External identifier used to link the supplier in the accounting system with the corresponding supplier reference in your own system.
+             * @example SUPP-0001
+             */
+            external_reference?: string | null;
+            /**
+             * First Name
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.
+             * @example John
+             */
+            first_name?: string | null;
+            /**
+             * Last Name
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
+             * @example Doe
+             */
+            last_name?: string | null;
+            /**
+             * Name
+             * @description Full name or legal name of the supplier (individual or company). This is the name that will be displayed in the accounting software.
+             * @example Example Company S.A.
+             */
+            name: string;
+            /**
+             * Function
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.
+             * @example Accountant
+             */
+            function?: string | null;
+            /**
+             * Is Company
+             * @description Indicates if the supplier is an individual or a company.
+             * @default true
+             */
+            is_company: boolean | null;
+            /**
+             * Company Id
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
+             * @example <accounting-company-id>
+             */
+            company_id?: string | null;
+            /**
+             * Phone
+             * @description Phone number of the supplier.
+             * @example +32 2 000 00 00
+             */
+            phone?: string | null;
+            /**
+             * Mobile
+             * @description Mobile phone number of the supplier.
+             * @example +32 4 000 00 00
+             */
+            mobile?: string | null;
+            /**
+             * Email
+             * @description Email address of the supplier.
+             * @example john.doe@example.com
+             */
+            email?: string | null;
+            /**
+             * Language
+             * @description Language of the supplier. Format: ISO 639-1 codes.
+             * @example en
+             */
+            language?: string | null;
+            /**
+             * Internal Notes
+             * @description Internal notes about the supplier.
+             * @example Preferred contact: accounts receivable team.
+             */
+            internal_notes?: string | null;
+            /**
+             * Website
+             * @description Website of the supplier.
+             * @example https://www.example.com
+             */
+            website?: string | null;
+            /**
+             * Vat
+             * @description VAT number of the supplier.
+             * @example BE0000000000
+             */
+            vat?: string | null;
+            /**
+             * Company Number
+             * @description National identification number of the company.
+             * @example 0000000000
+             */
+            company_number?: string | null;
+            /**
+             * Iban
+             * @description IBAN account number of the supplier.
+             * @example BE00000000000000
+             */
+            iban?: string | null;
+            /**
+             * Bank Account
+             * @description Bank account number of the supplier.
+             * @example 0000000000
+             */
+            bank_account?: string | null;
+            /**
+             * Currency
+             * @description Indicates the currency of the supplier (e.g., EUR).
+             * @example EUR
+             */
+            currency?: string | null;
+            /**
+             * Active
+             * @description Indicates if the supplier is active.
+             * @default true
+             */
+            active: boolean | null;
+            /**
+             * Addresses
+             * @description List of addresses associated with the supplier.
+             */
+            addresses: components['schemas']['AddressItemIn'][];
+            /**
+             * Account Number
+             * @description Number of ledger account assigned to the supplier in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.). This is typically the ledger account used for posting payables. In some systems, each supplier has a dedicated account; in others, a shared control account is used and supplier balances are tracked in a subledger.
+             * @example <accounting-account-number>
+             */
+            account_number?: string | null;
+            /**
+             * Account Id
+             * @description Id of the ledger account (accounts payable) to link this supplier to. Must be the id of an account returned by get_ledger_accounts.
+             */
+            account_id?: string | null;
+        };
+        /** SpendManagementSupplierItemOut */
+        SpendManagementSupplierItemOut: {
+            /**
+             * External Reference
+             * @description External identifier used to link the supplier in the accounting system with the corresponding supplier reference in your own system.
+             * @example SUPP-0001
+             */
+            external_reference?: string | null;
+            /**
+             * First Name
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.
+             * @example John
+             */
+            first_name?: string | null;
+            /**
+             * Last Name
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
+             * @example Doe
+             */
+            last_name?: string | null;
+            /**
+             * Name
+             * @description Full name or legal name of the supplier (individual or company). This is the name displayed in the accounting software.
+             * @example Example Company S.A.
+             */
+            name?: string | null;
+            /**
+             * Function
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.
+             * @example Accountant
+             */
+            function?: string | null;
+            /**
+             * Is Company
+             * @description Indicates if the supplier is an individual or a company.
+             * @default true
+             */
+            is_company: boolean | null;
+            /**
+             * Company Id
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
+             * @example <accounting-company-id>
+             */
+            company_id?: string | null;
+            /**
+             * Phone
+             * @description Phone number of the supplier.
+             * @example +32 2 000 00 00
+             */
+            phone?: string | null;
+            /**
+             * Mobile
+             * @description Mobile phone number of the supplier.
+             * @example +32 4 000 00 00
+             */
+            mobile?: string | null;
+            /**
+             * Email
+             * @description Email address of the supplier.
+             * @example john.doe@example.com
+             */
+            email?: string | null;
+            /**
+             * Language
+             * @description Language of the supplier. Format: ISO 639-1 codes.
+             * @example en
+             */
+            language?: string | null;
+            /**
+             * Internal Notes
+             * @description Internal notes about the supplier.
+             * @example Preferred contact: accounts receivable team.
+             */
+            internal_notes?: string | null;
+            /**
+             * Website
+             * @description Website of the supplier.
+             * @example https://www.example.com
+             */
+            website?: string | null;
+            /**
+             * Vat
+             * @description VAT number of the supplier.
+             * @example BE0000000000
+             */
+            vat?: string | null;
+            /**
+             * Company Number
+             * @description National identification number of the company.
+             * @example 0000000000
+             */
+            company_number?: string | null;
+            /**
+             * Iban
+             * @description IBAN account number of the supplier. DEPRECATED see bank_accounts
+             */
+            iban?: string | null;
+            /**
+             * Bank Account
+             * @description Bank account number of the supplier. DEPRECATED see bank_accounts
+             */
+            bank_account?: string | null;
+            /**
+             * Currency
+             * @description Indicates the currency of the supplier (e.g., EUR).
+             * @example EUR
+             */
+            currency?: string | null;
+            /**
+             * Active
+             * @description Indicates if the supplier is active.
+             * @default true
+             */
+            active: boolean | null;
+            /**
+             * Account Number
+             * @description Ledger account number assigned to the supplier in the accounting system as it will appear in the official accounting export file (FEC, SIE, iXBRL, etc.).
+             * @example <accounting-account-number>
+             */
+            account_number?: string | null;
+            /**
+             * Id
+             * @description Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system.
+             * @example <this-supplier-id>
+             */
+            id?: string | null;
+            /**
+             * Last Updated On
+             * @description The last time the supplier has been updated.
+             * @example 2026-01-15T10:30:00Z
+             */
+            last_updated_on?: string | null;
+            /**
+             * Addresses
+             * @description List of addresses associated with the supplier.
+             * @default []
+             */
+            addresses: components['schemas']['AddressItemOut'][] | null;
+            /**
+             * Third Party Account
+             * @description Third party account number/code representing the client in the accounting software.
+             */
+            third_party_account?: string | null;
+            /**
+             * Bank Accounts
+             * @description List of bank accounts information associated with the suppliers.
+             */
+            bank_accounts?: components['schemas']['BankAccountsItem'][] | null;
+            /**
+             * Account Id
+             * @description Id of the ledger account (accounts payable) linked to this supplier, when the connector's underlying provider identifies accounts by id rather than (or in addition to) number.
+             */
+            account_id?: string | null;
+        };
+        /** SpendManagementSupplierItemUpdate */
+        SpendManagementSupplierItemUpdate: {
+            /**
+             * External Reference
+             * @description External identifier used to link the supplier in the accounting system with the corresponding supplier reference in your own system.
+             * @example SUPP-0001
+             */
+            external_reference?: string | null;
+            /**
+             * First Name
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.
+             * @example John
+             */
+            first_name?: string | null;
+            /**
+             * Last Name
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.
+             * @example Doe
+             */
+            last_name?: string | null;
+            /**
+             * Name
+             * @description Full name or legal name of the supplier (individual or company). This is the name that will be displayed in the accounting software.
+             * @example Example Company S.A.
+             */
+            name?: string | null;
+            /**
+             * Function
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.
+             * @example Accountant
+             */
+            function?: string | null;
+            /**
+             * Is Company
+             * @description Indicates if the supplier is an individual or a company.
+             * @default true
+             */
+            is_company: boolean | null;
+            /**
+             * Company Id
+             * @description Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.
+             * @example <accounting-company-id>
+             */
+            company_id?: string | null;
+            /**
+             * Phone
+             * @description Phone number of the supplier.
+             * @example +32 2 000 00 00
+             */
+            phone?: string | null;
+            /**
+             * Mobile
+             * @description Mobile phone number of the supplier.
+             * @example +32 4 000 00 00
+             */
+            mobile?: string | null;
+            /**
+             * Email
+             * @description Email address of the supplier.
+             * @example john.doe@example.com
+             */
+            email?: string | null;
+            /**
+             * Language
+             * @description Language of the supplier. Format: ISO 639-1 codes.
+             * @example en
+             */
+            language?: string | null;
+            /**
+             * Internal Notes
+             * @description Internal notes about the supplier.
+             * @example Preferred contact: accounts receivable team.
+             */
+            internal_notes?: string | null;
+            /**
+             * Website
+             * @description Website of the supplier.
+             * @example https://www.example.com
+             */
+            website?: string | null;
+            /**
+             * Vat
+             * @description VAT number of the supplier.
+             * @example BE0000000000
+             */
+            vat?: string | null;
+            /**
+             * Company Number
+             * @description National identification number of the company.
+             * @example 0000000000
+             */
+            company_number?: string | null;
+            /**
+             * Iban
+             * @description IBAN account number of the supplier.
+             * @example BE00000000000000
+             */
+            iban?: string | null;
+            /**
+             * Bank Account
+             * @description Bank account number of the supplier.
+             * @example 0000000000
+             */
+            bank_account?: string | null;
+            /**
+             * Currency
+             * @description Indicates the currency of the supplier (e.g., EUR).
+             * @example EUR
+             */
+            currency?: string | null;
+            /**
+             * Active
+             * @description Indicates if the supplier is active.
+             * @default true
+             */
+            active: boolean | null;
+            /**
+             * Addresses
+             * @description List of addresses associated with the supplier.
+             * @default []
+             */
+            addresses: components['schemas']['AddressItemOut'][] | null;
+            /**
+             * Account Id
+             * @description Id of the ledger account (accounts payable) to link this supplier to. Must be the id of an account returned by get_ledger_accounts.
+             */
+            account_id?: string | null;
+        };
+        /** StartPreview */
+        StartPreview: {
+            /**
+             * Limit
+             * @description Objects each capability the consumer chose books at most. What they need (their suppliers) is previewed whatever its number.
+             * @default 50
+             */
+            limit: number;
+            /**
+             * Force From Date
+             * @description First day the preview covers. Defaults to 14 days ago.
+             */
+            force_from_date?: string | null;
+            /**
+             * Force To Date
+             * @description Last day it covers. Defaults to today.
+             */
+            force_to_date?: string | null;
         };
         /**
          * States
@@ -15701,6 +18428,120 @@ export interface components {
              */
             addresses: components['schemas']['AddressItemOut'][] | null;
         };
+        /**
+         * SyncCapabilities
+         * @description What the account offers its consumers. Whether a capability is available depends on each consumer's connections.
+         */
+        SyncCapabilities: {
+            /**
+             * Capabilities
+             * @description Every capability of the sync, offered or not.
+             */
+            capabilities: components['schemas']['SyncCapabilityItem'][];
+            /**
+             * Cron
+             * @description When the sync runs for each consumer that enabled it, as a cron expression. Null: it runs only when started by hand.
+             * @example 0 * * * *
+             */
+            cron: string | null;
+        };
+        /** SyncCapabilityItem */
+        SyncCapabilityItem: {
+            /**
+             * Key
+             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
+             * @example spend_to_accounting.SupplierInvoices
+             */
+            key: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
+             */
+            id: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             * @example Supplier invoices
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Kind
+             * @description 'main': the consumer chooses it. 'supporting': shown as a tooltip, turned on by what needs it.
+             * @enum {string}
+             */
+            kind: 'main' | 'supporting';
+            /**
+             * Offered
+             * @description Whether your consumers can use it. A capability not offered is absent for them.
+             */
+            offered: boolean;
+            /**
+             * Default Mode
+             * @description The mode preselected on a consumer's screen when it can choose between several; the consumer still chooses it. Null when none is set.
+             * @example spend_to_accounting.SupplierInvoices.AsInvoice
+             */
+            default_mode: string | null;
+            /**
+             * Modes
+             * @description The alternative ways of doing it. Empty when there is only one.
+             */
+            modes: components['schemas']['SyncCapabilityMode'][];
+        };
+        /** SyncCapabilityMode */
+        SyncCapabilityMode: {
+            /**
+             * Key
+             * @description Key of the mode.
+             * @example spend_to_accounting.SupplierInvoices.AsInvoice
+             */
+            key: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+        };
+        /** SyncConnection */
+        SyncConnection: {
+            /**
+             * Vertical
+             * @description One of the sync's verticals.
+             * @example accounting
+             */
+            vertical: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * State
+             * @description `connected`: the sync uses the connection of `integration_id`. `missing`: the consumer has no active connection of this vertical. `to_choose`: it has several (`integration_ids`) and none was chosen for this sync. `unavailable`: the integration chosen for this sync (`integration_id`) has no active connection any more, and another is never used in its place. Until one is chosen, the vertical counts as not connected.
+             * @enum {string}
+             */
+            state: 'connected' | 'missing' | 'to_choose' | 'unavailable';
+            /**
+             * Integration Id
+             * @description The integration of the connection the sync uses, or the one chosen when `unavailable`. Null otherwise.
+             */
+            integration_id: string | null;
+            /**
+             * Integration Ids
+             * @description The integrations to choose from, when `to_choose` or `unavailable`. Send the one to use as `integrationids` when linking the consumer to the sync again, or when enabling it.
+             */
+            integration_ids: string[];
+        };
         /** SyncConsumerItem */
         SyncConsumerItem: {
             /**
@@ -15805,11 +18646,163 @@ export interface components {
             /** Flow Id */
             flow_id: string;
         };
+        /** SyncIntegration */
+        SyncIntegration: {
+            /**
+             * Integration Id
+             * @description What the consumer's connection is created with.
+             * @example 8019
+             */
+            integration_id: string;
+            /**
+             * Name
+             * @description The software's name.
+             * @example DATEV
+             */
+            name: string;
+            /**
+             * Url
+             * @description The software's website.
+             * @example https://www.datev.de/
+             */
+            url: string | null;
+            /**
+             * Description
+             * @description What the software is, in the language asked; in English when it has no translation.
+             */
+            description: string | null;
+            /**
+             * Beta
+             * @description Whether the integration is still in beta.
+             */
+            beta: boolean;
+        };
+        /** SyncIntegrations */
+        SyncIntegrations: {
+            /**
+             * Connections
+             * @description Each vertical of the sync, source first.
+             */
+            connections: components['schemas']['SyncVerticalIntegrations'][];
+        };
+        /** SyncIssue */
+        SyncIssue: {
+            /**
+             * Id
+             * Format: uuid
+             * @description The issue's id.
+             */
+            id: string;
+            /**
+             * Status
+             * @description Open until the objects it holds up are booked or never retried.
+             * @enum {string}
+             */
+            status: 'open' | 'resolved' | 'ignored';
+            /**
+             * Kind
+             * @description What kind of problem it is, and so who acts on it.
+             * @example configuration
+             */
+            kind: string;
+            /**
+             * Owner
+             * @description Who acts on it.
+             * @enum {string}
+             */
+            owner: 'consumer' | 'self_healing' | 'engineering';
+            /**
+             * Code
+             * @description The error code.
+             * @example ERROR_SYNC_MISSING_MAPPING_VALUE
+             */
+            code: string;
+            /**
+             * Title
+             * @description What the problem is, for the consumer: in `language` when we word this error in it, the error code's English title otherwise.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What to do about it, worded as `title` is.
+             */
+            description: string | null;
+            /**
+             * Message
+             * @description What its last occurrence said: the technical detail, in English.
+             */
+            message: string | null;
+            /**
+             * Cause
+             * @description What the objects it holds up have in common.
+             */
+            cause: {
+                [key: string]: unknown;
+            };
+            /**
+             * Scope
+             * @description What it is limited to: the folder, location or bank account of the objects it holds up (`{"location_id": "paris"}`), empty if none. An issue holding up no object names the capability whose step failed: `{"capability": key}` (its fetch), `{"setup": key}` (its setup) or `{"mode": key}` (its chosen mode cannot run).
+             */
+            scope: {
+                [key: string]: unknown;
+            };
+            /**
+             * Occurrences
+             * @description How many times executions raised it.
+             */
+            occurrences: number;
+            /**
+             * First Seen At
+             * Format: date-time
+             * @description When it was first raised.
+             */
+            first_seen_at: string;
+            /**
+             * Last Seen At
+             * Format: date-time
+             * @description When it was last raised.
+             */
+            last_seen_at: string;
+            /**
+             * Resolved At
+             * @description When it was resolved. Null while it is not.
+             */
+            resolved_at: string | null;
+            /**
+             * Objects Count
+             * @description How many objects it holds up.
+             */
+            objects_count: number;
+            /**
+             * Actions
+             * @description What fixes it, e.g. 'fix_mapping', 'retry', 'never_retry'.
+             */
+            actions: string[];
+        };
         /**
          * SyncSkipReason
          * @enum {string}
          */
         SyncSkipReason: 'presync' | 'connector_feature' | 'challenge';
+        /** SyncVerticalIntegrations */
+        SyncVerticalIntegrations: {
+            /**
+             * Vertical
+             * @description One of the sync's verticals.
+             * @example accounting
+             */
+            vertical: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Integrations
+             * @description The integrations of this vertical active on your account.
+             */
+            integrations: components['schemas']['SyncIntegration'][];
+        };
         /** SyncsConnectionItem */
         SyncsConnectionItem: {
             /** One Api */
@@ -15826,6 +18819,95 @@ export interface components {
              * @default false
              */
             display_hidden: boolean;
+        };
+        /** TaxCodeItem */
+        TaxCodeItem: {
+            /**
+             * Id
+             * @description Id of the tax code.
+             */
+            id: string;
+            /**
+             * Name
+             * @description Name or label of the tax code.
+             */
+            name: string;
+            /**
+             * Rate
+             * @description Tax rate applied by this code (e.g., 21.0 for 21%).
+             */
+            rate?: number | null;
+            /**
+             * Reversed
+             * @description Whether this tax code represents a reverse-charge VAT mechanism, as opposed to a regular tax.
+             * @default false
+             */
+            reversed: boolean;
+            /**
+             * Active
+             * @description Flag indicating whether the tax code is active.
+             * @default true
+             */
+            active: boolean;
+            /**
+             * Deductible Account Number
+             * @description Number of the ledger account this tax code's deductible VAT is booked to, when known.
+             */
+            deductible_account_number?: string | null;
+            /**
+             * Payable Account Number
+             * @description Number of the ledger account this tax code's payable VAT is booked to, when known.
+             */
+            payable_account_number?: string | null;
+        };
+        /** TaxCodeItemIn */
+        TaxCodeItemIn: {
+            /**
+             * Code
+             * @description Short code identifying the tax code.
+             * @example VAT21
+             */
+            code: string;
+            /**
+             * Name
+             * @description Name or label of the tax code.
+             * @example VAT 21%
+             */
+            name: string;
+            /**
+             * Rate
+             * @description Tax rate applied by this code (e.g., 21.0 for 21%).
+             */
+            rate?: number | null;
+            /**
+             * Reversed
+             * @description Whether this tax code represents a reverse-charge VAT mechanism, as opposed to a regular tax.
+             * @default false
+             */
+            reversed: boolean;
+            /**
+             * Deductible Account Number
+             * @description Number of the ledger account this tax code's deductible VAT should be booked to. When provided, it takes precedence over `code` for that purpose.
+             */
+            deductible_account_number?: string | null;
+            /**
+             * Payable Account Number
+             * @description Number of the ledger account this tax code's payable VAT should be booked to. Only used when reversed=true.
+             */
+            payable_account_number?: string | null;
+        };
+        /** TaxCodeItemUpdate */
+        TaxCodeItemUpdate: {
+            /**
+             * Name
+             * @description Name or label of the tax code.
+             */
+            name?: string | null;
+            /**
+             * Rate
+             * @description Tax rate applied by this code (e.g., 21.0 for 21%).
+             */
+            rate?: number | null;
         };
         /** TaxInfo */
         TaxInfo: {
@@ -16031,6 +19113,33 @@ export interface components {
          * @enum {string}
          */
         TriggerType: 'timer' | 'event';
+        /** UpdateConsumerCapabilities */
+        UpdateConsumerCapabilities: {
+            /**
+             * Selected
+             * @description Keys of the main capabilities the consumer turns on. Replaces the previous choice.
+             * @example [
+             *       "spend_to_accounting.SupplierInvoices"
+             *     ]
+             */
+            selected: string[];
+            /**
+             * Modes
+             * @description Capability key -> mode key, for the capabilities where the consumer chooses.
+             * @example {
+             *       "spend_to_accounting.SupplierInvoices": "spend_to_accounting.SupplierInvoices.AsJournalEntry"
+             *     }
+             */
+            modes?: {
+                [key: string]: string;
+            };
+            /**
+             * Preflight
+             * @description Check the choice without saving it: the answer, or the refusal, is the one saving it would give, so a draft can be shown as it would run.
+             * @default false
+             */
+            preflight: boolean;
+        };
         /** UpdateConsumerItem */
         UpdateConsumerItem: {
             /**
@@ -16053,6 +19162,19 @@ export interface components {
              * @description URL to redirect the user after completing the activation via our link. Useful for directing customers to a dynamic or personalized url. You can also set up a default static URL in Chift's back office for all consumers.
              */
             redirect_url?: string | null;
+        };
+        /** UpdateConsumerQuestions */
+        UpdateConsumerQuestions: {
+            /**
+             * Answers
+             * @description Question key -> answer. Only the questions given change.
+             * @example {
+             *       "spend_to_accounting.ExpensesSince": "2026-01-01"
+             *     }
+             */
+            answers: {
+                [key: string]: unknown;
+            };
         };
         /** UpdateFlowConsumer */
         UpdateFlowConsumer: {
@@ -16078,6 +19200,32 @@ export interface components {
              * @example <pos-customer-id>
              */
             customer_id?: string | null;
+        };
+        /** UpdateSyncCapabilities */
+        UpdateSyncCapabilities: {
+            /**
+             * Offered
+             * @description Capability key -> offered. A capability left out keeps its value.
+             * @example {
+             *       "spend_to_accounting.Payments": false
+             *     }
+             */
+            offered?: {
+                [key: string]: boolean;
+            };
+            /**
+             * Default Modes
+             * @description Capability key -> mode key. Replaces every default mode when given; leave it out to keep them.
+             */
+            default_modes?: {
+                [key: string]: string;
+            } | null;
+            /**
+             * Cron
+             * @description When the sync runs for each consumer that enabled it, as a cron expression; it can always be started by hand. Null: only by hand.
+             * @example 0 * * * *
+             */
+            cron: string | null;
         };
         /** UploadDocumentItemOut */
         UploadDocumentItemOut: {
@@ -17690,7 +20838,9 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['CreateSyncItem'];
+                'application/json':
+                    | components['schemas']['CreateSyncItem']
+                    | components['schemas']['CreateAgenticSyncItem'];
             };
         };
         responses: {
@@ -17701,6 +20851,21 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ReadSyncItem'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "No agentic sync is called '{module}'",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
                 };
             };
             /** @description Validation Error */
@@ -18489,6 +21654,838 @@ export interface operations {
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_sync_capabilities: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SyncCapabilities'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The sync does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_update_sync_capabilities: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['UpdateSyncCapabilities'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SyncCapabilities'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The sync does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_sync_integrations: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SyncIntegrations'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The sync does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_consumer_capabilities: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConsumerCapabilities'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_update_consumer_capabilities: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['UpdateConsumerCapabilities'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConsumerCapabilitiesUpdated'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_consumer_journey: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Journey'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_consumer_questions: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConsumerQuestions'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_update_consumer_questions: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['UpdateConsumerQuestions'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConsumerQuestions'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_consumer_mappings: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['MappingTables'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_consumer_mapping_table: {
+        parameters: {
+            query?: {
+                /** @description Keeps the candidates whose label or key contains it, ignoring case. */
+                search?: string | null;
+                /** @description Page of candidates. */
+                page?: number;
+                /** @description Candidates per page. */
+                size?: number;
+                /** @description Every item of the target, not only the suggested ones. */
+                show_all?: boolean;
+                /** @description The row (its `source_key`) to suggest candidates for: a table can suggest per row. */
+                row?: string | null;
+                /** @description Read the rows and candidates from the connections again. */
+                refresh?: boolean;
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+                table_key: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['MappingTableView'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_ai_fill: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['AiFillRequest'] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_previews: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_Preview_'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_start_preview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['StartPreview'] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PreviewStarted'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_preview: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+                preview_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Preview'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_preview_objects: {
+        parameters: {
+            query?: {
+                /** @description Only the objects of this kind, e.g. 'invoice'. */
+                kind?: string | null;
+                /** @description Only the objects of this capability (its key). */
+                capability?: string | null;
+                page?: number;
+                size?: number;
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+                preview_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PreviewObjectItem_'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_objects: {
+        parameters: {
+            query?: {
+                /** @description Only the objects in this status, e.g. 'failed'. */
+                status?: string | null;
+                /** @description Only the objects whose source or target id contains it. */
+                search?: string | null;
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+                kind: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_ObjectItem_'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_get_object: {
+        parameters: {
+            query?: {
+                /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */
+                language?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+                kind: string;
+                object_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ObjectDetail'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };
@@ -27452,6 +31449,1364 @@ export interface operations {
                      *     }
                      */
                     'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
+    spend_management_get_legal_entities: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['LegalEntityItem'][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_ledger_accounts: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_SpendManagementAccountItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_create_ledger_account: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['LedgerAccountItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SpendManagementAccountItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_update_ledger_account: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                ledger_account_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['LedgerAccountItemUpdate'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SpendManagementAccountItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_tax_codes: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_TaxCodeItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_create_tax_code: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['TaxCodeItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['TaxCodeItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_update_tax_code: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                tax_code_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['TaxCodeItemUpdate'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['TaxCodeItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_analytical_plans: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_AnalyticPlanItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_create_analytical_plan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AnalyticPlanItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AnalyticPlanItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_update_analytical_plan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                analytical_plan_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AnalyticPlanItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AnalyticPlanItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_analytic_accounts: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_SpendManagementAnalyticAccountItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_analytic_account: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                analytic_account_id: string;
+                analytic_plan: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SpendManagementAnalyticAccountItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_update_analytic_account: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                analytic_account_id: string;
+                analytic_plan: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AnalyticAccountItemUpdate'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SpendManagementAnalyticAccountItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_create_analytic_account: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                analytic_plan: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AnalyticAccountItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SpendManagementAnalyticAccountItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_payables: {
+        parameters: {
+            query: {
+                /**
+                 * @description Pagination cursor for endpoints that support it.
+                 *
+                 *             When using cursor based pagination, the total is returned as -1 in the response, next_cursor contains
+                 *             the cursor to use to get the next page of data.
+                 *
+                 *             When using cursor based pagination, the page attribute is completely ignored.
+                 *
+                 *             To opt into cursor based pagination, start your pagination with an empty string `''`.
+                 *             Cursor based pagination is not compatible with X-Chift-Force-Refresh and all other query parameters MUST match the initial call.
+                 */
+                cursor?: string | null;
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Which kind of payable to retrieve. Exactly one type per call. */
+                payable_type: components['schemas']['PayableType'];
+                /** @description Retrieve payables with a payable date on or after this date. */
+                date_from?: string | null;
+                /** @description Retrieve payables with a payable date on or before this date. */
+                date_to?: string | null;
+                /** @description Retrieve payables created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors. */
+                updated_after?: string | null;
+                /** @description Retrieve only payables with this export status, e.g. to_export to fetch exactly the ones still to be synced to the target accounting system. */
+                export_status?: components['schemas']['PayableExportStatus'] | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_PayableItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_payable: {
+        parameters: {
+            query?: {
+                /** @description Indicate if the payable's attachments (e.g. the invoice PDF, a receipt) should be included in the response, base64-encoded in the `attachments` field. By default they are not included and `attachments` is null. */
+                include_attachments?: components['schemas']['BoolParam'] | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+                payable_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PayableItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_mark_payable_as_exported: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                payable_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PayableItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_financial_movements: {
+        parameters: {
+            query?: {
+                /**
+                 * @description Pagination cursor for endpoints that support it.
+                 *
+                 *             When using cursor based pagination, the total is returned as -1 in the response, next_cursor contains
+                 *             the cursor to use to get the next page of data.
+                 *
+                 *             When using cursor based pagination, the page attribute is completely ignored.
+                 *
+                 *             To opt into cursor based pagination, start your pagination with an empty string `''`.
+                 *             Cursor based pagination is not compatible with X-Chift-Force-Refresh and all other query parameters MUST match the initial call.
+                 */
+                cursor?: string | null;
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                /** @description Retrieve financial movements cleared on or after this date. */
+                date_from?: string | null;
+                /** @description Retrieve financial movements cleared on or before this date. */
+                date_to?: string | null;
+                /** @description Retrieve only financial movements with this export status, e.g. to_export to fetch exactly the ones still to be synced to the target accounting system. */
+                export_status?: components['schemas']['PayableExportStatus'] | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_FinancialMovementItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_mark_financial_movement_as_exported: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                financial_movement_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['FinancialMovementItem'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_suppliers: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+                search?: string | null;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_SpendManagementSupplierItemOut_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_create_supplier: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['SpendManagementSupplierItemIn'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SpendManagementSupplierItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_supplier: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                supplier_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SpendManagementSupplierItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_update_supplier: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                supplier_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['SpendManagementSupplierItemUpdate'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SpendManagementSupplierItemOut'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    spend_management_get_employees: {
+        parameters: {
+            query?: {
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                size?: number;
+            };
+            header?: never;
+            path: {
+                consumer_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftPage_EmployeeItem_'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "Error while trying to perform your request",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
                 };
             };
         };

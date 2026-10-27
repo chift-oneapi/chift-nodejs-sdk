@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.38 - 2026-10-27
+
+### Modules
+
+-   **[SPEND MANAGEMENT]** New vertical exposed as `consumer.spend_management` wrapping the full `spend_management` API surface:
+    -   Lists: `getLegalEntities()`, `getLedgerAccounts(params?)`, `getTaxCodes(params?)`, `getAnalyticalPlans(params?)`, `getAnalyticAccounts(params?)`, `getPayables(params)`, `getFinancialMovements(params?)`, `getSuppliers(params?)`, `getEmployees(params?)`
+    -   Reads: `getAnalyticAccount(analyticAccountId, analyticPlan)`, `getPayable(payableId, params?)`, `getSupplier(supplierId)`
+    -   Writes: `createLedgerAccount`, `updateLedgerAccount`, `createTaxCode`, `updateTaxCode`, `createAnalyticalPlan`, `updateAnalyticalPlan`, `createAnalyticAccount(analyticPlan, body)`, `updateAnalyticAccount(analyticAccountId, analyticPlan, body)`, `createSupplier`, `updateSupplier`
+    -   Exports: `markPayableAsExported(payableId)`, `markFinancialMovementAsExported(financialMovementId)`
+-   **[SYNCS]** Add agentic sync-level methods `getSyncCapabilities(syncid, params?)`, `updateSyncCapabilities(syncid, body, params?)`, and `getSyncIntegrations(syncid, params?)`
+-   **[CONSUMER]** Add agentic consumer-scoped sync methods: `getConsumerCapabilities`, `updateConsumerCapabilities`, `getConsumerJourney`, `getConsumerQuestions`, `updateConsumerQuestions`, `getConsumerMappings`, `getConsumerMappingTable`, `aiFillSync`, `startPreview`, `getPreviews`, `getPreview`, `getPreviewObjects`, `getObjects`, `getObject`
+-   **[INTERNAL]** Add `put` request helper and allow optional query `params` on `put`/`patch` to support the agentic `PUT`/`PATCH` endpoints
+-   Extend `src/types/public-api/mappings.ts` with the new spend management and agentic sync operations
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   Add the `spend_management` vertical endpoints (ledger accounts, tax codes, analytical plans, analytic accounts, payables, financial movements, suppliers, employees, legal entities; including create/update and mark-as-exported routes)
+-   Add the agentic sync endpoints under `/syncs/{syncid}/...` and `/consumers/{consumer_id}/syncs/{syncid}/...` (capabilities, integrations, journey, questions, mappings, ai-fill, previews, and objects)
+-   Additive only: 81 new schema types, no endpoints or types removed; remaining changes are description/wording refinements on existing operations
+
 ## 1.0.37 - 2026-10-22
 
 ### Modules

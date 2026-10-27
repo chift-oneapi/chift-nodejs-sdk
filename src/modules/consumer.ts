@@ -10,6 +10,7 @@ import { invoicingFactory } from './invoicing';
 import { ecommerceFactory } from './ecommerce';
 import { customFactory } from './custom';
 import { bankingFactory } from './banking';
+import { spendManagementFactory } from './spendManagement';
 import { SimpleResponseModel } from '../types/sync';
 import { ConsumerLog } from '../types/consumers';
 
@@ -32,6 +33,12 @@ const Consumer = (
     const ecommerce = createApiFor(ecommerceFactory, _internalApi, data.name, consumerId);
     const custom = createApiFor(customFactory, _internalApi, data.name, consumerId);
     const banking = createApiFor(bankingFactory, _internalApi, data.name, consumerId);
+    const spend_management = createApiFor(
+        spendManagementFactory,
+        _internalApi,
+        data.name,
+        consumerId
+    );
 
     const setConnectionId = async (connectionId: string) => {
         _internalApi.connectionId = connectionId;
@@ -265,6 +272,172 @@ const Consumer = (
         return data;
     };
 
+    const getConsumerCapabilities = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_consumer_capabilities']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerCapabilities'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/capabilities`, {
+                params,
+            });
+        return data;
+    };
+
+    const updateConsumerCapabilities = async (
+        syncId: string,
+        body: components['schemas']['UpdateConsumerCapabilities'],
+        params?: operations['agentic_syncs_update_consumer_capabilities']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerCapabilitiesUpdated'] } =
+            await _internalApi.put(
+                `/consumers/${consumerId}/syncs/${syncId}/capabilities`,
+                body,
+                { params }
+            );
+        return data;
+    };
+
+    const getConsumerJourney = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_consumer_journey']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['Journey'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/journey`,
+            { params }
+        );
+        return data;
+    };
+
+    const getConsumerQuestions = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_consumer_questions']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerQuestions'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/questions`, { params });
+        return data;
+    };
+
+    const updateConsumerQuestions = async (
+        syncId: string,
+        body: components['schemas']['UpdateConsumerQuestions'],
+        params?: operations['agentic_syncs_update_consumer_questions']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerQuestions'] } =
+            await _internalApi.patch(
+                `/consumers/${consumerId}/syncs/${syncId}/questions`,
+                body,
+                { params }
+            );
+        return data;
+    };
+
+    const getConsumerMappings = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_consumer_mappings']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['MappingTables'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/mappings`,
+            { params }
+        );
+        return data;
+    };
+
+    const getConsumerMappingTable = async (
+        syncId: string,
+        tableKey: string,
+        params?: operations['agentic_syncs_get_consumer_mapping_table']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['MappingTableView'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/mappings/${tableKey}`,
+            { params }
+        );
+        return data;
+    };
+
+    const aiFillSync = async (
+        syncId: string,
+        body?: components['schemas']['AiFillRequest'] | null
+    ) => {
+        const {
+            data,
+        }: { data: operations['agentic_syncs_ai_fill']['responses'][204] } =
+            await _internalApi.post(
+                `/consumers/${consumerId}/syncs/${syncId}/ai-fill`,
+                body ?? undefined
+            );
+        return data;
+    };
+
+    const startPreview = async (
+        syncId: string,
+        body?: components['schemas']['StartPreview'] | null
+    ) => {
+        const { data }: { data: components['schemas']['PreviewStarted'] } = await _internalApi.post(
+            `/consumers/${consumerId}/syncs/${syncId}/previews`,
+            body ?? undefined
+        );
+        return data;
+    };
+
+    const getPreviews = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_previews']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_Preview_'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/previews`, { params });
+        return data;
+    };
+
+    const getPreview = async (
+        syncId: string,
+        previewId: string,
+        params?: operations['agentic_syncs_get_preview']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['Preview'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/previews/${previewId}`,
+            { params }
+        );
+        return data;
+    };
+
+    const getPreviewObjects = async (
+        syncId: string,
+        previewId: string,
+        params?: operations['agentic_syncs_get_preview_objects']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_PreviewObjectItem_'] } =
+            await _internalApi.get(
+                `/consumers/${consumerId}/syncs/${syncId}/previews/${previewId}/objects`,
+                { params }
+            );
+        return data;
+    };
+
+    const getObjects = async (
+        syncId: string,
+        kind: string,
+        params?: operations['agentic_syncs_get_objects']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_ObjectItem_'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/objects/${kind}`, {
+                params,
+            });
+        return data;
+    };
+
+    const getObject = async (
+        syncId: string,
+        kind: string,
+        objectId: string,
+        params?: operations['agentic_syncs_get_object']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ObjectDetail'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/objects/${kind}/${objectId}`,
+            { params }
+        );
+        return data;
+    };
+
     return {
         consumerId,
         getConnections,
@@ -287,6 +460,7 @@ const Consumer = (
         ecommerce,
         custom,
         banking,
+        spend_management,
         getDataByDataStoreId,
         addDataByDataStoreId,
         getSyncData,
@@ -303,6 +477,20 @@ const Consumer = (
         enableDatalayer,
         refreshDatalayer,
         disableDatalayer,
+        getConsumerCapabilities,
+        updateConsumerCapabilities,
+        getConsumerJourney,
+        getConsumerQuestions,
+        updateConsumerQuestions,
+        getConsumerMappings,
+        getConsumerMappingTable,
+        aiFillSync,
+        startPreview,
+        getPreviews,
+        getPreview,
+        getPreviewObjects,
+        getObjects,
+        getObject,
     };
 };
 

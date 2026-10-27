@@ -37,6 +37,19 @@ export type SyncsAPI = {
         flowid: string,
         body: components['schemas']['ExecuteFlowRequest']
     ) => Promise<components['schemas']['ExecuteFlowResponse']>;
+    getSyncCapabilities: (
+        syncid: string,
+        params?: operations['agentic_syncs_get_sync_capabilities']['parameters']['query']
+    ) => Promise<components['schemas']['SyncCapabilities']>;
+    updateSyncCapabilities: (
+        syncid: string,
+        body: components['schemas']['UpdateSyncCapabilities'],
+        params?: operations['agentic_syncs_update_sync_capabilities']['parameters']['query']
+    ) => Promise<components['schemas']['SyncCapabilities']>;
+    getSyncIntegrations: (
+        syncid: string,
+        params?: operations['agentic_syncs_get_sync_integrations']['parameters']['query']
+    ) => Promise<components['schemas']['SyncIntegrations']>;
 };
 
 const Syncs = (internalApi: InternalAPI): SyncsAPI => {
@@ -118,6 +131,37 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         return data;
     };
 
+    const getSyncCapabilities = async (
+        syncid: string,
+        params?: operations['agentic_syncs_get_sync_capabilities']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['SyncCapabilities'] } =
+            await _internalApi.get(`/syncs/${syncid}/capabilities`, { params });
+        return data;
+    };
+
+    const updateSyncCapabilities = async (
+        syncid: string,
+        body: components['schemas']['UpdateSyncCapabilities'],
+        params?: operations['agentic_syncs_update_sync_capabilities']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['SyncCapabilities'] } = await _internalApi.put(
+            `/syncs/${syncid}/capabilities`,
+            body,
+            { params }
+        );
+        return data;
+    };
+
+    const getSyncIntegrations = async (
+        syncid: string,
+        params?: operations['agentic_syncs_get_sync_integrations']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['SyncIntegrations'] } =
+            await _internalApi.get(`/syncs/${syncid}/integrations`, { params });
+        return data;
+    };
+
     return {
         createSync,
         getSyncs,
@@ -128,6 +172,9 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         getSyncExecutions,
         getFlowSettings,
         executeFlow,
+        getSyncCapabilities,
+        updateSyncCapabilities,
+        getSyncIntegrations,
     };
 };
 
