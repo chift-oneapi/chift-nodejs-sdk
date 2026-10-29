@@ -254,7 +254,7 @@ export type chiftOperations = {
     getConsumerQuestions: 'agentic_syncs_get_consumer_questions';
     updateConsumerQuestions: 'agentic_syncs_update_consumer_questions';
     getConsumerMappings: 'agentic_syncs_get_consumer_mappings';
-    getConsumerMappingTable: 'agentic_syncs_get_consumer_mapping_table';
+    getConsumerMapping: 'agentic_syncs_get_consumer_mapping';
     aiFillSync: 'agentic_syncs_ai_fill';
     startPreview: 'agentic_syncs_start_preview';
     getPreviews: 'agentic_syncs_get_previews';

@@ -335,20 +335,20 @@ const Consumer = (
         syncId: string,
         params?: operations['agentic_syncs_get_consumer_mappings']['parameters']['query']
     ) => {
-        const { data }: { data: components['schemas']['MappingTables'] } = await _internalApi.get(
+        const { data }: { data: components['schemas']['ConsumerMappings'] } = await _internalApi.get(
             `/consumers/${consumerId}/syncs/${syncId}/mappings`,
             { params }
         );
         return data;
     };
 
-    const getConsumerMappingTable = async (
+    const getConsumerMapping = async (
         syncId: string,
-        tableKey: string,
-        params?: operations['agentic_syncs_get_consumer_mapping_table']['parameters']['query']
+        mappingKey: string,
+        params?: operations['agentic_syncs_get_consumer_mapping']['parameters']['query']
     ) => {
-        const { data }: { data: components['schemas']['MappingTableView'] } = await _internalApi.get(
-            `/consumers/${consumerId}/syncs/${syncId}/mappings/${tableKey}`,
+        const { data }: { data: components['schemas']['MappingView'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/mappings/${mappingKey}`,
             { params }
         );
         return data;
@@ -483,7 +483,7 @@ const Consumer = (
         getConsumerQuestions,
         updateConsumerQuestions,
         getConsumerMappings,
-        getConsumerMappingTable,
+        getConsumerMapping,
         aiFillSync,
         startPreview,
         getPreviews,

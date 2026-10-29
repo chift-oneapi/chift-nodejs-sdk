@@ -644,12 +644,12 @@ export interface paths {
         };
         /**
          * A consumer's setup of an agentic sync
-         * @description What the consumer can choose, what runs, which mapping tables and questions that needs, and what still stops the sync from being enabled. Capabilities your account does not offer are absent.
+         * @description What the consumer can choose, what runs, which mappings and questions that needs, and what still stops the sync from being enabled. Capabilities your account does not offer are absent.
          */
         get: operations['agentic_syncs_get_consumer_capabilities'];
         /**
          * Choose a consumer's capabilities and modes
-         * @description Replaces the consumer's choice of main capabilities and modes. Whatever they need is turned on automatically. Answers with the resulting setup and what changed. Mapping values of tables no longer needed are kept. Send `preflight: true` to get that answer without saving anything.
+         * @description Replaces the consumer's choice of main capabilities and modes. Whatever they need is turned on automatically. Answers with the resulting setup and what changed. The values of mappings no longer needed are kept. Send `preflight: true` to get that answer without saving anything.
          */
         put: operations['agentic_syncs_update_consumer_capabilities'];
         post?: never;
@@ -711,8 +711,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * The mapping tables a consumer's sync needs
-         * @description Every mapping table the capabilities and modes running for this consumer need, with whether it is complete and whether it can stay hidden. Reads no connection: open a table to see its rows.
+         * The mappings a consumer's sync needs
+         * @description Every mapping the capabilities and modes running for this consumer need, with whether it is complete and whether it can stay hidden. Reads no connection: open a mapping to see its rows.
          */
         get: operations['agentic_syncs_get_consumer_mappings'];
         put?: never;
@@ -723,7 +723,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/consumers/{consumer_id}/syncs/{syncid}/mappings/{table_key}': {
+    '/consumers/{consumer_id}/syncs/{syncid}/mappings/{mapping_key}': {
         parameters: {
             query?: never;
             header?: never;
@@ -731,10 +731,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * One mapping table of a consumer: its rows, values and candidates
-         * @description The table's rows with their values, and one page of what a row may point at. Rows are what the source lists (or the fixed rows in use), then the keys an execution or a preview met without a value. Candidates are read from the consumer's connection: `refresh` reads them again, not from the connector's cache. The table's autofill rules run first, so a row they can fill has a value. Edit the values with `PATCH /consumers/{consumer_id}/syncs/{syncid}`.
+         * One mapping of a consumer: its rows, values and candidates
+         * @description The mapping's rows with their values, and one page of what a row may point at. Rows are what the source lists (or the fixed rows in use), then the keys an execution or a preview met without a value. Candidates are read from the consumer's connection: `refresh` reads them again, not from the connector's cache. The mapping's autofill rules run first, so a row they can fill has a value. Edit the values with `PATCH /consumers/{consumer_id}/syncs/{syncid}`.
          */
-        get: operations['agentic_syncs_get_consumer_mapping_table'];
+        get: operations['agentic_syncs_get_consumer_mapping'];
         put?: never;
         post?: never;
         delete?: never;
@@ -754,7 +754,7 @@ export interface paths {
         put?: never;
         /**
          * Fill a consumer's mapping values
-         * @description Fills the empty mapping values of `tables` (every table the consumer's plan needs when null) with AI. A value is written with `origin: ai` and never replaces one a human or a rule set, unless `force_all`: then it replaces every value but the hidden rows'. Read them with `GET …/mappings/{table_key}`.
+         * @description Fills the empty values of `mappings` (every mapping the consumer's plan needs when null) with AI. A value is written with `origin: ai` and never replaces one a human or a rule set, unless `force_all`: then it replaces every value but the hidden rows'. Read them with `GET …/mappings/{mapping_key}`.
          */
         post: operations['agentic_syncs_ai_fill'];
         delete?: never;
@@ -796,7 +796,7 @@ export interface paths {
         };
         /**
          * One preview: where it stands, what it would create and what would fail
-         * @description What would fail is grouped by cause; a missing mapping, by table, with the rows to fill. `refill_suggested` says mappings are missing: fill them (`POST …/ai-fill`), then preview again.
+         * @description What would fail is grouped by cause; a missing mapping, by mapping, with the rows to fill. `refill_suggested` says mappings are missing: fill them (`POST …/ai-fill`), then preview again.
          */
         get: operations['agentic_syncs_get_preview'];
         put?: never;
@@ -4436,13 +4436,13 @@ export interface components {
         /** AiFillRequest */
         AiFillRequest: {
             /**
-             * Tables
-             * @description Keys of the tables to fill. Null fills every table the consumer's plan needs.
+             * Mappings
+             * @description Keys of the mappings to fill. Null fills every mapping the consumer's plan needs.
              * @example [
              *       "spend_to_accounting.PurchaseVatCodes"
              *     ]
              */
-            tables?: string[] | null;
+            mappings?: string[] | null;
             /**
              * Force All
              * @description Replace every value the filler proposes, whoever set it (a human's included). Rows the consumer hid stay hidden.
@@ -5511,15 +5511,15 @@ export interface components {
              */
             disabled: string[];
             /**
-             * Tables Added
-             * @description Keys of the tables that are now needed.
+             * Mappings Added
+             * @description Keys of the mappings that are now needed.
              */
-            tables_added: string[];
+            mappings_added: string[];
             /**
-             * Tables No Longer Needed
-             * @description Keys of the tables no longer needed. Their values are kept, not deleted.
+             * Mappings No Longer Needed
+             * @description Keys of the mappings no longer needed. Their values are kept, not deleted.
              */
-            tables_no_longer_needed: string[];
+            mappings_no_longer_needed: string[];
         };
         /** CategoryItem */
         CategoryItem: {
@@ -7374,10 +7374,10 @@ export interface components {
              */
             capabilities: components['schemas']['ConsumerCapabilityItem'][];
             /**
-             * Tables
-             * @description The mapping tables the running capabilities need.
+             * Mappings
+             * @description The mappings the running capabilities need.
              */
-            tables: components['schemas']['ConsumerTable'][];
+            mappings: components['schemas']['ConsumerMapping'][];
             /**
              * Questions
              * @description The questions the running capabilities ask.
@@ -7415,10 +7415,10 @@ export interface components {
              */
             capabilities: components['schemas']['ConsumerCapabilityItem'][];
             /**
-             * Tables
-             * @description The mapping tables the running capabilities need.
+             * Mappings
+             * @description The mappings the running capabilities need.
              */
-            tables: components['schemas']['ConsumerTable'][];
+            mappings: components['schemas']['ConsumerMapping'][];
             /**
              * Questions
              * @description The questions the running capabilities ask.
@@ -7469,6 +7469,18 @@ export interface components {
              * @enum {string}
              */
             kind: 'main' | 'supporting';
+            /**
+             * Source
+             * @description The vertical it reads, as `connections` names them: the sync's source, or its target for a write-back.
+             * @example spend_management
+             */
+            source: string;
+            /**
+             * Target
+             * @description The vertical it writes: the sync's target, or its source for a write-back.
+             * @example accounting
+             */
+            target: string;
             /**
              * Selected
              * @description The consumer chose it. False for one running only because another needs it (`auto_enabled_by`).
@@ -7611,6 +7623,52 @@ export interface components {
             /** @description Marketplace account of the consumer. Only returned when include_account is true, and only for marketplace consumers. */
             account?: components['schemas']['ConsumerAccountItem'] | null;
         };
+        /** ConsumerMapping */
+        ConsumerMapping: {
+            /**
+             * Key
+             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
+             * @example spend_to_accounting.PurchaseVatCodes
+             */
+            key: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
+             */
+            id: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Used By
+             * @description Keys of the capabilities or modes that need it.
+             */
+            used_by: string[];
+            /**
+             * Rows
+             * @description The rows in use when only some are. Null when the whole mapping is.
+             */
+            rows: string[] | null;
+        };
+        /**
+         * ConsumerMappings
+         * @description The mappings a consumer's running capabilities need.
+         */
+        ConsumerMappings: {
+            /**
+             * Mappings
+             * @description Every mapping the consumer's plan needs, in the plan's order.
+             */
+            mappings: components['schemas']['MappingItem'][];
+        };
         /** ConsumerQuestion */
         ConsumerQuestion: {
             /**
@@ -7665,41 +7723,6 @@ export interface components {
             answers: {
                 [key: string]: unknown;
             };
-        };
-        /** ConsumerTable */
-        ConsumerTable: {
-            /**
-             * Key
-             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
-             * @example spend_to_accounting.PurchaseVatCodes
-             */
-            key: string;
-            /**
-             * Id
-             * Format: uuid
-             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
-             */
-            id: string;
-            /**
-             * Title
-             * @description Name to show, in the requested language; its translation key without one.
-             */
-            title: string;
-            /**
-             * Description
-             * @description What it does, the tooltip: in the requested language, its translation key without one.
-             */
-            description: string;
-            /**
-             * Used By
-             * @description Keys of the capabilities or modes that need it.
-             */
-            used_by: string[];
-            /**
-             * Rows
-             * @description The rows in use when only some are. Null when the whole table is.
-             */
-            rows: string[] | null;
         };
         /**
          * ContactGender
@@ -8392,7 +8415,7 @@ export interface components {
         DatalayerEnableBody: {
             /**
              * From Date
-             * @description Date from which the data is synced. Defaults to one year ago when omitted.
+             * @description Date from which the data is synced. When no start option is given, the datalayer config's start-date policy applies, which may let the consumer pick.
              */
             from_date?: string | null;
             /**
@@ -12544,9 +12567,64 @@ export interface components {
             label: string;
             /**
              * Fixed
-             * @description A fixed option of the table (e.g. 'to_be_created'), not an item of the target.
+             * @description A fixed option of the mapping (e.g. 'to_be_created'), not an item of the target.
              */
             fixed: boolean;
+        };
+        /** MappingItem */
+        MappingItem: {
+            /**
+             * Key
+             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
+             * @example spend_to_accounting.PurchaseVatCodes
+             */
+            key: string;
+            /**
+             * Id
+             * Format: uuid
+             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
+             */
+            id: string;
+            /**
+             * Title
+             * @description Name to show, in the requested language; its translation key without one.
+             */
+            title: string;
+            /**
+             * Description
+             * @description What it does, the tooltip: in the requested language, its translation key without one.
+             */
+            description: string;
+            /**
+             * Used By
+             * @description Keys of the capabilities or modes that need it.
+             */
+            used_by: string[];
+            /**
+             * Rows
+             * @description The rows in use when only some are. Null when the whole mapping is.
+             */
+            rows: string[] | null;
+            /**
+             * Required
+             * @description A row without a value stops the objects that need it (an issue is raised).
+             */
+            required: boolean;
+            /**
+             * Allow Delete
+             * @description The consumer may hide rows.
+             */
+            allow_delete: boolean;
+            /**
+             * Complete
+             * @description No known row lacks a value. Rows the source lists are known once ai-fill or the consumer filled the mapping, rows met in the data once an execution or a preview met them.
+             */
+            complete: boolean;
+            /**
+             * Hidden
+             * @description Nothing to show by default: the mapping is complete. It can still be opened and edited.
+             */
+            hidden: boolean;
         };
         /** MappingRowView */
         MappingRowView: {
@@ -12584,70 +12662,15 @@ export interface components {
             hidden: boolean;
             /**
              * Missing
-             * @description An execution or the latest preview needed this row and it still has no value: it holds those objects up, and the table is incomplete until it is filled. The row may not be one the source lists.
+             * @description An execution or the latest preview needed this row and it still has no value: it holds those objects up, and the mapping is incomplete until it is filled. The row may not be one the source lists.
              */
             missing: boolean;
         };
-        /** MappingTableItem */
-        MappingTableItem: {
-            /**
-             * Key
-             * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
-             * @example spend_to_accounting.PurchaseVatCodes
-             */
-            key: string;
-            /**
-             * Id
-             * Format: uuid
-             * @description The stable uuid derived from the key, as the legacy sync routes identify the same item.
-             */
-            id: string;
-            /**
-             * Title
-             * @description Name to show, in the requested language; its translation key without one.
-             */
-            title: string;
-            /**
-             * Description
-             * @description What it does, the tooltip: in the requested language, its translation key without one.
-             */
-            description: string;
-            /**
-             * Used By
-             * @description Keys of the capabilities or modes that need it.
-             */
-            used_by: string[];
-            /**
-             * Rows
-             * @description The rows in use when only some are. Null when the whole table is.
-             */
-            rows: string[] | null;
-            /**
-             * Required
-             * @description A row without a value stops the objects that need it (an issue is raised).
-             */
-            required: boolean;
-            /**
-             * Allow Delete
-             * @description The consumer may hide rows.
-             */
-            allow_delete: boolean;
-            /**
-             * Complete
-             * @description No known row lacks a value. Rows the source lists are known once ai-fill or the consumer filled the table, rows met in the data once an execution or a preview met them.
-             */
-            complete: boolean;
-            /**
-             * Hidden
-             * @description Nothing to show by default: the table is complete. It can still be opened and edited.
-             */
-            hidden: boolean;
-        };
         /**
-         * MappingTableView
-         * @description One mapping table of a consumer: its rows with their values, and what they may point at.
+         * MappingView
+         * @description One mapping of a consumer: its rows with their values, and what they may point at.
          */
-        MappingTableView: {
+        MappingView: {
             /**
              * Key
              * @description Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.
@@ -12685,19 +12708,8 @@ export interface components {
              * @description The source's rows, then the keys met in the data, then any other row holding a value.
              */
             rows: components['schemas']['MappingRowView'][];
-            /** @description One page of what a row may point at, matching `search`: the suggested items sorted by label, then the table's fixed options. With `show_all`, every item of the target. */
+            /** @description One page of what a row may point at, matching `search`: the suggested items sorted by label, then the mapping's fixed options. With `show_all`, every item of the target. */
             candidates: components['schemas']['ChiftPage_MappingCandidate_'];
-        };
-        /**
-         * MappingTables
-         * @description The mapping tables a consumer's running capabilities need.
-         */
-        MappingTables: {
-            /**
-             * Tables
-             * @description Every table the consumer's plan needs, in the plan's order.
-             */
-            tables: components['schemas']['MappingTableItem'][];
         };
         /** MatchingIn */
         MatchingIn: {
@@ -16257,7 +16269,7 @@ export interface components {
             counts: components['schemas']['PreviewCount'][];
             /**
              * Issues
-             * @description What would fail, one entry per cause; a missing mapping, one entry per table.
+             * @description What would fail, one entry per cause; a missing mapping, one entry per mapping.
              */
             issues: components['schemas']['PreviewIssue'][];
             /**
@@ -16318,15 +16330,15 @@ export interface components {
              */
             source_ids: string[];
             /**
-             * Table Key
-             * @description For a missing mapping: the table to fill, `GET …/mappings/{table_key}`.
+             * Mapping Key
+             * @description For a missing mapping: the mapping to fill, `GET …/mappings/{mapping_key}`.
              */
-            table_key?: string | null;
+            mapping_key?: string | null;
             /**
-             * Table Title
-             * @description For a missing mapping: the table's name.
+             * Mapping Title
+             * @description For a missing mapping: the mapping's name.
              */
-            table_title?: string | null;
+            mapping_title?: string | null;
             /**
              * Source Keys
              * @description For a missing mapping: the rows without a value.
@@ -17451,10 +17463,10 @@ export interface components {
              */
             missing_questions: components['schemas']['SetupMissingItem'][];
             /**
-             * Missing Tables
-             * @description Mapping tables with a row that has no value.
+             * Missing Mappings
+             * @description Mappings with a row that has no value.
              */
-            missing_tables: components['schemas']['SetupMissingItem'][];
+            missing_mappings: components['schemas']['SetupMissingItem'][];
             /**
              * Missing Modes
              * @description Capabilities chosen or needed, with several modes and none chosen yet.
@@ -18477,6 +18489,18 @@ export interface components {
              */
             kind: 'main' | 'supporting';
             /**
+             * Source
+             * @description The vertical it reads, as `connections` names them: the sync's source, or its target for a write-back.
+             * @example spend_management
+             */
+            source: string;
+            /**
+             * Target
+             * @description The vertical it writes: the sync's target, or its source for a write-back.
+             * @example accounting
+             */
+            target: string;
+            /**
              * Offered
              * @description Whether your consumers can use it. A capability not offered is absent for them.
              */
@@ -18536,6 +18560,12 @@ export interface components {
              * @description The integration of the connection the sync uses, or the one chosen when `unavailable`. Null otherwise.
              */
             integration_id: string | null;
+            /**
+             * Integration Name
+             * @description The name of the integration the sync uses, when `connected` (e.g. 'NetSuite'). Null otherwise.
+             * @example NetSuite
+             */
+            integration_name?: string | null;
             /**
              * Integration Ids
              * @description The integrations to choose from, when `to_choose` or `unavailable`. Send the one to use as `integrationids` when linking the consumer to the sync again, or when enabling it.
@@ -22058,7 +22088,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['MappingTables'];
+                    'application/json': components['schemas']['ConsumerMappings'];
                 };
             };
             /** @description Not Found */
@@ -22081,7 +22111,7 @@ export interface operations {
             };
         };
     };
-    agentic_syncs_get_consumer_mapping_table: {
+    agentic_syncs_get_consumer_mapping: {
         parameters: {
             query?: {
                 /** @description Keeps the candidates whose label or key contains it, ignoring case. */
@@ -22092,7 +22122,7 @@ export interface operations {
                 size?: number;
                 /** @description Every item of the target, not only the suggested ones. */
                 show_all?: boolean;
-                /** @description The row (its `source_key`) to suggest candidates for: a table can suggest per row. */
+                /** @description The row (its `source_key`) to suggest candidates for: a mapping can suggest per row. */
                 row?: string | null;
                 /** @description Read the rows and candidates from the connections again. */
                 refresh?: boolean;
@@ -22103,7 +22133,7 @@ export interface operations {
             path: {
                 consumer_id: string;
                 syncid: string;
-                table_key: string;
+                mapping_key: string;
             };
             cookie?: never;
         };
@@ -22115,7 +22145,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['MappingTableView'];
+                    'application/json': components['schemas']['MappingView'];
                 };
             };
             /** @description Bad Request */

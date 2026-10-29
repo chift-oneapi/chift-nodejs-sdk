@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.39 - 2026-10-29
+
+### Modules
+
+-   **[CONSUMER]** The agentic consumer-scoped mapping detail method `getConsumerMappingTable(syncId, tableKey)` is renamed to `getConsumerMapping(syncId, mappingKey)` to match the renamed API endpoint; it now returns `MappingView`. `getConsumerMappings(syncId, params?)` now returns `ConsumerMappings`.
+-   Update `src/types/public-api/mappings.ts` for the renamed `agentic_syncs_get_consumer_mapping` operation
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   Rename endpoint `agentic_syncs_get_consumer_mapping_table` → `agentic_syncs_get_consumer_mapping` (`GET /consumers/{consumer_id}/syncs/{syncid}/mappings/{mapping_key}`); the mappings response types `MappingTables` / `MappingTableView` are replaced by `ConsumerMappings` / `MappingView`
+-   Remaining changes are description/wording refinements on existing operations; no other endpoints added or removed
+
 ## 1.0.38 - 2026-10-27
 
 ### Modules
