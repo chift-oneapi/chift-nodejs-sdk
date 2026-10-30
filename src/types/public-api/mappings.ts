@@ -248,6 +248,8 @@ export type chiftOperations = {
     getSyncCapabilities: 'agentic_syncs_get_sync_capabilities';
     updateSyncCapabilities: 'agentic_syncs_update_sync_capabilities';
     getSyncIntegrations: 'agentic_syncs_get_sync_integrations';
+    getSyncTriggers: 'agentic_syncs_get_sync_triggers';
+    updateSyncTriggers: 'agentic_syncs_update_sync_triggers';
     getConsumerCapabilities: 'agentic_syncs_get_consumer_capabilities';
     updateConsumerCapabilities: 'agentic_syncs_update_consumer_capabilities';
     getConsumerJourney: 'agentic_syncs_get_consumer_journey';
@@ -255,7 +257,8 @@ export type chiftOperations = {
     updateConsumerQuestions: 'agentic_syncs_update_consumer_questions';
     getConsumerMappings: 'agentic_syncs_get_consumer_mappings';
     getConsumerMapping: 'agentic_syncs_get_consumer_mapping';
-    aiFillSync: 'agentic_syncs_ai_fill';
+    getConsumerTriggers: 'agentic_syncs_get_consumer_triggers';
+    updateConsumerTriggers: 'agentic_syncs_update_consumer_triggers';
     startPreview: 'agentic_syncs_start_preview';
     getPreviews: 'agentic_syncs_get_previews';
     getPreview: 'agentic_syncs_get_preview';

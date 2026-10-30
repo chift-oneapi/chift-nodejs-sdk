@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.40 - 2026-10-30
+
+### Modules
+
+-   **[SYNCS]** Add agentic sync-level trigger methods `getSyncTriggers(syncid)` and `updateSyncTriggers(syncid, body)` (the crons consumers can choose from for an agentic sync)
+-   **[CONSUMER]** Add agentic consumer-scoped trigger methods `getConsumerTriggers(syncId)` and `updateConsumerTriggers(syncId, body)` (the cron a consumer's sync runs on)
+-   **[CONSUMER]** **BREAKING**: Remove `aiFillSync(syncId, body?)` — the `agentic_syncs_ai_fill` operation (`POST /consumers/{consumer_id}/syncs/{syncid}/ai-fill`) was removed from the API
+-   Update `src/types/public-api/mappings.ts` for the new trigger operations and the removed `aiFillSync` mapping
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   Add endpoints `agentic_syncs_get_sync_triggers` / `agentic_syncs_update_sync_triggers` (`GET`/`PUT /syncs/{syncid}/triggers`) and `agentic_syncs_get_consumer_triggers` / `agentic_syncs_update_consumer_triggers` (`GET`/`PUT /consumers/{consumer_id}/syncs/{syncid}/triggers`); add schema types `SyncTriggers`, `ConsumerTriggers`, `UpdateConsumerTriggers`, `RunType`, `PreviewMissingAccount`
+-   Remove endpoint `agentic_syncs_ai_fill` and schema type `AiFillRequest`
+-   Remaining changes are description/wording refinements on existing operations
+
 ## 1.0.39 - 2026-10-29
 
 ### Modules

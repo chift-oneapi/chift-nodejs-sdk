@@ -605,7 +605,7 @@ export interface paths {
         get: operations['agentic_syncs_get_sync_capabilities'];
         /**
          * Choose which capabilities your consumers are offered
-         * @description Turns capabilities on or off for all your consumers and sets the mode preselected where a consumer can choose. A capability that is off is absent for your consumers and stops running for them; turned on again, it runs again for the consumers who had selected it. Selections, mapping values and answers are never deleted. `cron` sets when the sync runs for every consumer that enabled it; it can always be started by hand.
+         * @description Turns capabilities on or off for all your consumers and sets the mode preselected where a consumer can choose. A capability that is off is absent for your consumers and stops running for them; turned on again, it runs again for the consumers who had selected it. Selections, mapping values and answers are never deleted.
          */
         put: operations['agentic_syncs_update_sync_capabilities'];
         post?: never;
@@ -628,6 +628,30 @@ export interface paths {
          */
         get: operations['agentic_syncs_get_sync_integrations'];
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/syncs/{syncid}/triggers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * When your consumers can run an agentic sync
+         * @description The crons your consumers choose from, the default first. A sync can always be started by hand.
+         */
+        get: operations['agentic_syncs_get_sync_triggers'];
+        /**
+         * Choose when your consumers can run an agentic sync
+         * @description Replaces the crons your consumers choose from; the first is the default. A consumer whose cron is no longer offered runs on the default one, or by hand only when none is left.
+         */
+        put: operations['agentic_syncs_update_sync_triggers'];
         post?: never;
         delete?: never;
         options?: never;
@@ -703,6 +727,30 @@ export interface paths {
         patch: operations['agentic_syncs_update_consumer_questions'];
         trace?: never;
     };
+    '/consumers/{consumer_id}/syncs/{syncid}/triggers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * When a consumer's sync runs
+         * @description The crons the account offers, and the one the sync runs on for this consumer.
+         */
+        get: operations['agentic_syncs_get_consumer_triggers'];
+        /**
+         * Choose when a consumer's sync runs
+         * @description Sets the cron the sync runs on for this consumer, one of those the account offers.
+         */
+        put: operations['agentic_syncs_update_consumer_triggers'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/consumers/{consumer_id}/syncs/{syncid}/mappings': {
         parameters: {
             query?: never;
@@ -732,31 +780,11 @@ export interface paths {
         };
         /**
          * One mapping of a consumer: its rows, values and candidates
-         * @description The mapping's rows with their values, and one page of what a row may point at. Rows are what the source lists (or the fixed rows in use), then the keys an execution or a preview met without a value. Candidates are read from the consumer's connection: `refresh` reads them again, not from the connector's cache. The mapping's autofill rules run first, so a row they can fill has a value. Edit the values with `PATCH /consumers/{consumer_id}/syncs/{syncid}`.
+         * @description The mapping's rows with their values, and one page of what a row may point at. Rows are what the source lists (or the fixed rows in use), then the keys an execution or a preview met without a value. Candidates are read from the consumer's connection: `refresh` reads them again, not from the connector's cache. The mapping's autofill rules run first, so a row they can fill has a value. Edit the values with `PATCH /consumers/{consumer_id}/syncs/{syncid}/mappings`.
          */
         get: operations['agentic_syncs_get_consumer_mapping'];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/consumers/{consumer_id}/syncs/{syncid}/ai-fill': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Fill a consumer's mapping values
-         * @description Fills the empty values of `mappings` (every mapping the consumer's plan needs when null) with AI. A value is written with `origin: ai` and never replaces one a human or a rule set, unless `force_all`: then it replaces every value but the hidden rows'. Read them with `GET …/mappings/{mapping_key}`.
-         */
-        post: operations['agentic_syncs_ai_fill'];
         delete?: never;
         options?: never;
         head?: never;
@@ -816,7 +844,7 @@ export interface paths {
         };
         /**
          * The objects a preview would create
-         * @description One page of them, in the order they would be created, filtered by kind or capability.
+         * @description One page of them, in the order they would be created, filtered by kind, capability or source object.
          */
         get: operations['agentic_syncs_get_preview_objects'];
         put?: never;
@@ -4433,23 +4461,6 @@ export interface components {
          * @enum {string}
          */
         AddressTypeInvoicing: 'main' | 'delivery' | 'invoice' | 'other';
-        /** AiFillRequest */
-        AiFillRequest: {
-            /**
-             * Mappings
-             * @description Keys of the mappings to fill. Null fills every mapping the consumer's plan needs.
-             * @example [
-             *       "spend_to_accounting.PurchaseVatCodes"
-             *     ]
-             */
-            mappings?: string[] | null;
-            /**
-             * Force All
-             * @description Replace every value the filler proposes, whoever set it (a human's included). Rows the consumer hid stay hidden.
-             * @default false
-             */
-            force_all: boolean;
-        };
         /** AnalyticAccountItemIn */
         AnalyticAccountItemIn: {
             /**
@@ -5564,6 +5575,8 @@ export interface components {
             end: string | null;
             /** Status */
             status: string;
+            /** @description 'preview' for a preview, which writes nothing; 'live' otherwise. */
+            run_type: components['schemas']['RunType'];
         };
         /** ChiftError */
         ChiftError: {
@@ -7723,6 +7736,25 @@ export interface components {
             answers: {
                 [key: string]: unknown;
             };
+        };
+        /** ConsumerTriggers */
+        ConsumerTriggers: {
+            /**
+             * Crons
+             * @description The cron expressions the account offers, the default first. Empty: the sync runs only when started by hand.
+             * @example [
+             *       "0 3 * * *",
+             *       "0 3 * * 1",
+             *       "0 3 1 * *"
+             *     ]
+             */
+            crons: string[];
+            /**
+             * Cron
+             * @description The one of `crons` the sync runs on for this consumer. Null: only when started by hand.
+             * @example 0 3 * * *
+             */
+            cron: string | null;
         };
         /**
          * ContactGender
@@ -12368,6 +12400,12 @@ export interface components {
          */
         Journey: {
             /**
+             * Title
+             * @description The sync's name, from what it reads to what it writes: Name to show, in the requested language; its translation key without one. A vertical is named after the account's only active integration of it, if it has just one.
+             * @example Spendesk to Accounting
+             */
+            title: string;
+            /**
              * Enabled
              * @description Whether the sync is enabled for this consumer.
              */
@@ -12665,6 +12703,37 @@ export interface components {
              * @description An execution or the latest preview needed this row and it still has no value: it holds those objects up, and the mapping is incomplete until it is filled. The row may not be one the source lists.
              */
             missing: boolean;
+            /**
+             * Decision
+             * @description What ai-fill decided for the row: 'apply' (it wrote the value), 'confirm' (a likely value awaits the consumer's confirmation) or 'ask' (the consumer must choose). Null when the row was not written by ai-fill.
+             */
+            decision: ('apply' | 'confirm' | 'ask') | null;
+            /**
+             * Status
+             * @description 'open' (no value yet), 'to_confirm' (ai-fill's value awaits the consumer), 'settled' (a value, or left empty by the consumer on a table that does without one) or 'hidden'.
+             * @enum {string}
+             */
+            status: 'open' | 'to_confirm' | 'settled' | 'hidden';
+            /**
+             * Reason
+             * @description Why ai-fill decided so, to show next to the row.
+             */
+            reason: string | null;
+            /**
+             * Question
+             * @description What the consumer is asked when the decision is 'confirm' or 'ask'.
+             */
+            question: string | null;
+            /**
+             * Purpose
+             * @description For a fixed row, what its value is in accounting terms, as ai-fill is told it: a value that fits it follows the convention.
+             */
+            purpose?: string | null;
+            /**
+             * Suggestions
+             * @description The candidates ai-fill suggests for the row, the most likely first.
+             */
+            suggestions: components['schemas']['MappingCandidate'][];
         };
         /**
          * MappingView
@@ -12703,6 +12772,18 @@ export interface components {
              * @description The consumer may hide rows.
              */
             allow_delete: boolean;
+            /**
+             * Target
+             * @description What the rows point at; null for a table of fixed options. A value missing from an 'account' table can be created with `POST …/mappings/{mapping_key}/accounts`.
+             */
+            target:
+                | ('account' | 'vat_code' | 'journal' | 'payment_account' | 'analytic_plan')
+                | null;
+            /**
+             * Notice
+             * @description Why ai-fill left many rows to confirm, typically a source and a target that do not go together (country, chart of accounts, VAT regime). Null when nothing stands out.
+             */
+            notice: string | null;
             /**
              * Rows
              * @description The source's rows, then the keys met in the data, then any other row holding a value.
@@ -16277,6 +16358,17 @@ export interface components {
              * @description Mappings are missing: `POST …/ai-fill` may fill them, then preview again.
              */
             refill_suggested: boolean;
+            /**
+             * Missing Accounts
+             * @description The source accounts the accounting does not have, and what each is booked on instead.
+             */
+            missing_accounts?: components['schemas']['PreviewMissingAccount'][];
+            /**
+             * Mappings Changed
+             * @description A mapping value of the consumer changed after the preview started: preview again to see it.
+             * @default false
+             */
+            mappings_changed: boolean;
         };
         /** PreviewCount */
         PreviewCount: {
@@ -16330,6 +16422,13 @@ export interface components {
              */
             source_ids: string[];
             /**
+             * Sources
+             * @description What a list shows of each source object it would hold up, by its id, for those the sync read.
+             */
+            sources?: {
+                [key: string]: components['schemas']['PreviewSummary'];
+            };
+            /**
              * Mapping Key
              * @description For a missing mapping: the mapping to fill, `GET …/mappings/{mapping_key}`.
              */
@@ -16363,6 +16462,30 @@ export interface components {
              * @description The other object's summary title, else its source id.
              */
             title?: string | null;
+        };
+        /** PreviewMissingAccount */
+        PreviewMissingAccount: {
+            /**
+             * Number
+             * @description The source's account, which the accounting does not have. Null when it gives none.
+             */
+            number: string | null;
+            /**
+             * Account
+             * @description The accounting's account it is booked on instead.
+             */
+            account: string;
+            /**
+             * Outcome
+             * @description `created`: the sync creates it; `default`: it goes to the table's default account.
+             * @enum {string}
+             */
+            outcome: 'created' | 'default';
+            /**
+             * Source Ids
+             * @description The source objects booked so.
+             */
+            source_ids: string[];
         };
         /** PreviewObjectItem */
         PreviewObjectItem: {
@@ -17355,6 +17478,11 @@ export interface components {
              */
             value?: string | null;
         };
+        /**
+         * RunType
+         * @enum {string}
+         */
+        RunType: 'live' | 'preview';
         /** SalesItem */
         SalesItem: {
             /**
@@ -18450,12 +18578,6 @@ export interface components {
              * @description Every capability of the sync, offered or not.
              */
             capabilities: components['schemas']['SyncCapabilityItem'][];
-            /**
-             * Cron
-             * @description When the sync runs for each consumer that enabled it, as a cron expression. Null: it runs only when started by hand.
-             * @example 0 * * * *
-             */
-            cron: string | null;
         };
         /** SyncCapabilityItem */
         SyncCapabilityItem: {
@@ -18671,6 +18793,8 @@ export interface components {
             end: string | null;
             /** Status */
             status: string;
+            /** @description 'preview' for a preview, which writes nothing; 'live' otherwise. */
+            run_type: components['schemas']['RunType'];
             /** Consumer Id */
             consumer_id: string;
             /** Flow Id */
@@ -18814,6 +18938,19 @@ export interface components {
          * @enum {string}
          */
         SyncSkipReason: 'presync' | 'connector_feature' | 'challenge';
+        /** SyncTriggers */
+        SyncTriggers: {
+            /**
+             * Crons
+             * @description When the sync can run, as cron expressions each consumer chooses one of; the first is the default. Empty: it runs only when started by hand.
+             * @example [
+             *       "0 3 * * *",
+             *       "0 3 * * 1",
+             *       "0 3 1 * *"
+             *     ]
+             */
+            crons: string[];
+        };
         /** SyncVerticalIntegrations */
         SyncVerticalIntegrations: {
             /**
@@ -19206,6 +19343,15 @@ export interface components {
                 [key: string]: unknown;
             };
         };
+        /** UpdateConsumerTriggers */
+        UpdateConsumerTriggers: {
+            /**
+             * Cron
+             * @description The one of the account's `crons` the sync runs on for this consumer.
+             * @example 0 3 1 * *
+             */
+            cron: string;
+        };
         /** UpdateFlowConsumer */
         UpdateFlowConsumer: {
             /**
@@ -19250,12 +19396,6 @@ export interface components {
             default_modes?: {
                 [key: string]: string;
             } | null;
-            /**
-             * Cron
-             * @description When the sync runs for each consumer that enabled it, as a cron expression; it can always be started by hand. Null: only by hand.
-             * @example 0 * * * *
-             */
-            cron: string | null;
         };
         /** UploadDocumentItemOut */
         UploadDocumentItemOut: {
@@ -21208,6 +21348,8 @@ export interface operations {
             query?: {
                 date_to?: string | null;
                 date_from?: string | null;
+                /** @description Whether to list the previews too. */
+                include_previews?: boolean;
             };
             header?: never;
             path: {
@@ -21262,6 +21404,8 @@ export interface operations {
                 size?: number;
                 date_to?: string | null;
                 date_from?: string | null;
+                /** @description Whether to list the previews too. */
+                include_previews?: boolean;
             };
             header?: never;
             path: {
@@ -21839,6 +21983,102 @@ export interface operations {
             };
         };
     };
+    agentic_syncs_get_sync_triggers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SyncTriggers'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The sync does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_update_sync_triggers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['SyncTriggers'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SyncTriggers'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The sync does not exist",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
     agentic_syncs_get_consumer_capabilities: {
         parameters: {
             query?: {
@@ -22067,6 +22307,98 @@ export interface operations {
             };
         };
     };
+    agentic_syncs_get_consumer_triggers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConsumerTriggers'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HTTPValidationError'];
+                };
+            };
+        };
+    };
+    agentic_syncs_update_consumer_triggers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                consumer_id: string;
+                syncid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['UpdateConsumerTriggers'];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConsumerTriggers'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "message": "The account does not offer the cron '0 3 * * 1' for this sync",
+                     *       "status": "error"
+                     *     }
+                     */
+                    'application/json': components['schemas']['ChiftError'];
+                };
+            };
+        };
+    };
     agentic_syncs_get_consumer_mappings: {
         parameters: {
             query?: {
@@ -22147,58 +22479,6 @@ export interface operations {
                 content: {
                     'application/json': components['schemas']['MappingView'];
                 };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ChiftError'];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HTTPValidationError'];
-                };
-            };
-        };
-    };
-    agentic_syncs_ai_fill: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                consumer_id: string;
-                syncid: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json': components['schemas']['AiFillRequest'] | null;
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
             /** @description Bad Request */
             400: {
@@ -22381,6 +22661,8 @@ export interface operations {
                 kind?: string | null;
                 /** @description Only the objects of this capability (its key). */
                 capability?: string | null;
+                /** @description Only the objects of these source objects. */
+                source_id?: string[] | null;
                 page?: number;
                 size?: number;
                 /** @description ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys. */

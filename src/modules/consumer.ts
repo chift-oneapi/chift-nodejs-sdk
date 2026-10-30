@@ -354,17 +354,18 @@ const Consumer = (
         return data;
     };
 
-    const aiFillSync = async (
+    const getConsumerTriggers = async (syncId: string) => {
+        const { data }: { data: components['schemas']['ConsumerTriggers'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/triggers`);
+        return data;
+    };
+
+    const updateConsumerTriggers = async (
         syncId: string,
-        body?: components['schemas']['AiFillRequest'] | null
+        body: components['schemas']['UpdateConsumerTriggers']
     ) => {
-        const {
-            data,
-        }: { data: operations['agentic_syncs_ai_fill']['responses'][204] } =
-            await _internalApi.post(
-                `/consumers/${consumerId}/syncs/${syncId}/ai-fill`,
-                body ?? undefined
-            );
+        const { data }: { data: components['schemas']['ConsumerTriggers'] } =
+            await _internalApi.put(`/consumers/${consumerId}/syncs/${syncId}/triggers`, body);
         return data;
     };
 
@@ -484,7 +485,8 @@ const Consumer = (
         updateConsumerQuestions,
         getConsumerMappings,
         getConsumerMapping,
-        aiFillSync,
+        getConsumerTriggers,
+        updateConsumerTriggers,
         startPreview,
         getPreviews,
         getPreview,

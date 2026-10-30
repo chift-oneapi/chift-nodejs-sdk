@@ -50,6 +50,11 @@ export type SyncsAPI = {
         syncid: string,
         params?: operations['agentic_syncs_get_sync_integrations']['parameters']['query']
     ) => Promise<components['schemas']['SyncIntegrations']>;
+    getSyncTriggers: (syncid: string) => Promise<components['schemas']['SyncTriggers']>;
+    updateSyncTriggers: (
+        syncid: string,
+        body: components['schemas']['SyncTriggers']
+    ) => Promise<components['schemas']['SyncTriggers']>;
 };
 
 const Syncs = (internalApi: InternalAPI): SyncsAPI => {
@@ -162,6 +167,24 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         return data;
     };
 
+    const getSyncTriggers = async (syncid: string) => {
+        const { data }: { data: components['schemas']['SyncTriggers'] } = await _internalApi.get(
+            `/syncs/${syncid}/triggers`
+        );
+        return data;
+    };
+
+    const updateSyncTriggers = async (
+        syncid: string,
+        body: components['schemas']['SyncTriggers']
+    ) => {
+        const { data }: { data: components['schemas']['SyncTriggers'] } = await _internalApi.put(
+            `/syncs/${syncid}/triggers`,
+            body
+        );
+        return data;
+    };
+
     return {
         createSync,
         getSyncs,
@@ -175,6 +198,8 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         getSyncCapabilities,
         updateSyncCapabilities,
         getSyncIntegrations,
+        getSyncTriggers,
+        updateSyncTriggers,
     };
 };
 
