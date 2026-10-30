@@ -1,5 +1,92 @@
 # Changelog
 
+## 1.0.40 - 2026-10-30
+
+### Modules
+
+-   **[SYNCS]** Add agentic sync-level trigger methods `getSyncTriggers(syncid)` and `updateSyncTriggers(syncid, body)` (the crons consumers can choose from for an agentic sync)
+-   **[CONSUMER]** Add agentic consumer-scoped trigger methods `getConsumerTriggers(syncId)` and `updateConsumerTriggers(syncId, body)` (the cron a consumer's sync runs on)
+-   **[CONSUMER]** **BREAKING**: Remove `aiFillSync(syncId, body?)` — the `agentic_syncs_ai_fill` operation (`POST /consumers/{consumer_id}/syncs/{syncid}/ai-fill`) was removed from the API
+-   Update `src/types/public-api/mappings.ts` for the new trigger operations and the removed `aiFillSync` mapping
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   Add endpoints `agentic_syncs_get_sync_triggers` / `agentic_syncs_update_sync_triggers` (`GET`/`PUT /syncs/{syncid}/triggers`) and `agentic_syncs_get_consumer_triggers` / `agentic_syncs_update_consumer_triggers` (`GET`/`PUT /consumers/{consumer_id}/syncs/{syncid}/triggers`); add schema types `SyncTriggers`, `ConsumerTriggers`, `UpdateConsumerTriggers`, `RunType`, `PreviewMissingAccount`
+-   Remove endpoint `agentic_syncs_ai_fill` and schema type `AiFillRequest`
+-   Remaining changes are description/wording refinements on existing operations
+
+## 1.0.39 - 2026-10-29
+
+### Modules
+
+-   **[CONSUMER]** The agentic consumer-scoped mapping detail method `getConsumerMappingTable(syncId, tableKey)` is renamed to `getConsumerMapping(syncId, mappingKey)` to match the renamed API endpoint; it now returns `MappingView`. `getConsumerMappings(syncId, params?)` now returns `ConsumerMappings`.
+-   Update `src/types/public-api/mappings.ts` for the renamed `agentic_syncs_get_consumer_mapping` operation
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   Rename endpoint `agentic_syncs_get_consumer_mapping_table` → `agentic_syncs_get_consumer_mapping` (`GET /consumers/{consumer_id}/syncs/{syncid}/mappings/{mapping_key}`); the mappings response types `MappingTables` / `MappingTableView` are replaced by `ConsumerMappings` / `MappingView`
+-   Remaining changes are description/wording refinements on existing operations; no other endpoints added or removed
+
+## 1.0.38 - 2026-10-27
+
+### Modules
+
+-   **[SPEND MANAGEMENT]** New vertical exposed as `consumer.spend_management` wrapping the full `spend_management` API surface:
+    -   Lists: `getLegalEntities()`, `getLedgerAccounts(params?)`, `getTaxCodes(params?)`, `getAnalyticalPlans(params?)`, `getAnalyticAccounts(params?)`, `getPayables(params)`, `getFinancialMovements(params?)`, `getSuppliers(params?)`, `getEmployees(params?)`
+    -   Reads: `getAnalyticAccount(analyticAccountId, analyticPlan)`, `getPayable(payableId, params?)`, `getSupplier(supplierId)`
+    -   Writes: `createLedgerAccount`, `updateLedgerAccount`, `createTaxCode`, `updateTaxCode`, `createAnalyticalPlan`, `updateAnalyticalPlan`, `createAnalyticAccount(analyticPlan, body)`, `updateAnalyticAccount(analyticAccountId, analyticPlan, body)`, `createSupplier`, `updateSupplier`
+    -   Exports: `markPayableAsExported(payableId)`, `markFinancialMovementAsExported(financialMovementId)`
+-   **[SYNCS]** Add agentic sync-level methods `getSyncCapabilities(syncid, params?)`, `updateSyncCapabilities(syncid, body, params?)`, and `getSyncIntegrations(syncid, params?)`
+-   **[CONSUMER]** Add agentic consumer-scoped sync methods: `getConsumerCapabilities`, `updateConsumerCapabilities`, `getConsumerJourney`, `getConsumerQuestions`, `updateConsumerQuestions`, `getConsumerMappings`, `getConsumerMappingTable`, `aiFillSync`, `startPreview`, `getPreviews`, `getPreview`, `getPreviewObjects`, `getObjects`, `getObject`
+-   **[INTERNAL]** Add `put` request helper and allow optional query `params` on `put`/`patch` to support the agentic `PUT`/`PATCH` endpoints
+-   Extend `src/types/public-api/mappings.ts` with the new spend management and agentic sync operations
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   Add the `spend_management` vertical endpoints (ledger accounts, tax codes, analytical plans, analytic accounts, payables, financial movements, suppliers, employees, legal entities; including create/update and mark-as-exported routes)
+-   Add the agentic sync endpoints under `/syncs/{syncid}/...` and `/consumers/{consumer_id}/syncs/{syncid}/...` (capabilities, integrations, journey, questions, mappings, ai-fill, previews, and objects)
+-   Additive only: 81 new schema types, no endpoints or types removed; remaining changes are description/wording refinements on existing operations
+
+## 1.0.37 - 2026-10-22
+
+### Modules
+
+-   **[CONSUMER]** Add `getConnection(connectionId)` to retrieve a single connection (active or inactive) of a consumer
+-   **[INTEGRATIONS]** Add `getIntegration(integrationId, params?)` to retrieve a single integration available for your account (optional `include_coverage` query param)
+-   Extend `src/types/public-api/mappings.ts` with the new operations
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   Add endpoints: `connections_get_connection` (`GET /consumers/{consumer_id}/connections/{connectionid}`) and `integrations_get_integration` (`GET /integrations/{integrationid}`)
+-   Refine descriptions only (e.g. `company_number` now notes SIRET for France) on existing schemas; no breaking changes
+
+## 1.0.36 - 2026-10-14
+
+### Modules
+
+-   **[ACCOUNTING]** Add `getFolder(folderId)` to retrieve a single accounting folder, and `getPartnerContacts(params)` to list contacts for a given partner (`partner_type`, `partner_id`)
+-   **[BANKING]** Add `getOpeningBalance(params)` to retrieve an account opening balance at a given date
+-   **[PAYMENT]** Add `getLocations()` and `getPayouts()` list methods
+-   **[PMS]** Add `getAccountingTransactions(params)` to list accounting transactions over a date range
+-   **[POS]** Add `getModifiers()` and `getTaxes()` list methods
+-   **[CONSUMER]** Add connection datalayer controls `enableDatalayer(connectionId, body?)`, `refreshDatalayer(connectionId, body?)`, `disableDatalayer(connectionId)`, and `disableFlow(syncId, flowId)`
+-   **[SYNCS]** Add `getSyncExecutions(syncid, params?)` to list executions of a sync, `getFlowSettings(syncid, flowid, params?)` to read a flow's configurable settings, and `executeFlow(syncid, flowid, body)` to trigger a flow execution
+-   **[INSIGHTS]** New top-level module exposed as `client.Insights`: `getCatalog()`, `queryDb(body)`, `queryGroupsJoin(body)`
+-   **[LOCAL AGENTS]** New top-level module exposed as `client.LocalAgents`: `getReleases(params)`
+-   Extend `src/types/public-api/mappings.ts` with the new operations
+
+### Schema
+
+-   Regenerate `src/types/public-api/schema.d.ts` from the live OpenAPI schema
+-   **BREAKING (types)**: `invoicing.createInvoice()` request body type renamed `InvoiceItem-Input` → `InvoiceItemIn`
+-   Add endpoints: `accounting_get_folder`, `accounting_get_partner_contacts`, `banking_get_opening_balance`, `datalayer_enable`, `datalayer_refresh`, `datalayer_disable`, `payment_get_locations`, `payment_get_payouts`, `pms_get_accounting_transactions`, `pos_get_modifiers`, `pos_get_taxes`, `syncs_disable_syncconsumer`, `syncs_get_sync_executions`, `syncs_get_flow_settings`, `syncs_execute_flow`, `insights_get_catalog`, `insights_query_db`, `insights_query_groups_join`, `get_releases_local_agents_releases_get`
+-   Add `DatalayerStatus` enum (`not_enabled` | `syncing` | `ready`) and an optional `datalayer` field on `ConnectionItem` reporting the connection's datalayer state (additive, response-only)
+-   Add `ConsumerAccountItem` schema and optional `created_on` / `account` fields on `ConsumerItem`, plus an optional `include_account` query param on `consumers_get_consumers` and `consumers_get_consumer` (additive, non-breaking; `getConsumers` already forwards the param generically)
+
 ## 1.0.0 - 2023-09-14
 
 -   First release with scopes of the 5 unified APIs (Accounting, POS, eCommerce, Invoicing & Payment) of Chift and the management of consumers, connections & webhooks.

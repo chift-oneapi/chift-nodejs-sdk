@@ -1,4 +1,4 @@
-import { components } from '../types/public-api/schema';
+import { components, operations } from '../types/public-api/schema';
 import { InternalAPI } from './internalApi';
 import { Sync } from './sync';
 
@@ -23,6 +23,38 @@ export type SyncsAPI = {
         flowid: string,
         executionid: string
     ) => Promise<components['schemas']['ChainExecutionItem']>;
+    getSyncExecutions: (
+        syncid: string,
+        params?: operations['syncs_get_sync_executions']['parameters']['query']
+    ) => Promise<components['schemas']['ChiftPage_SyncExecutionItem_']>;
+    getFlowSettings: (
+        syncid: string,
+        flowid: string,
+        params?: operations['syncs_get_flow_settings']['parameters']['query']
+    ) => Promise<components['schemas']['FlowSettingsResponse']>;
+    executeFlow: (
+        syncid: string,
+        flowid: string,
+        body: components['schemas']['ExecuteFlowRequest']
+    ) => Promise<components['schemas']['ExecuteFlowResponse']>;
+    getSyncCapabilities: (
+        syncid: string,
+        params?: operations['agentic_syncs_get_sync_capabilities']['parameters']['query']
+    ) => Promise<components['schemas']['SyncCapabilities']>;
+    updateSyncCapabilities: (
+        syncid: string,
+        body: components['schemas']['UpdateSyncCapabilities'],
+        params?: operations['agentic_syncs_update_sync_capabilities']['parameters']['query']
+    ) => Promise<components['schemas']['SyncCapabilities']>;
+    getSyncIntegrations: (
+        syncid: string,
+        params?: operations['agentic_syncs_get_sync_integrations']['parameters']['query']
+    ) => Promise<components['schemas']['SyncIntegrations']>;
+    getSyncTriggers: (syncid: string) => Promise<components['schemas']['SyncTriggers']>;
+    updateSyncTriggers: (
+        syncid: string,
+        body: components['schemas']['SyncTriggers']
+    ) => Promise<components['schemas']['SyncTriggers']>;
 };
 
 const Syncs = (internalApi: InternalAPI): SyncsAPI => {
@@ -75,6 +107,84 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         return data;
     };
 
+    const getSyncExecutions = async (
+        syncid: string,
+        params?: operations['syncs_get_sync_executions']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_SyncExecutionItem_'] } =
+            await _internalApi.get(`/syncs/${syncid}/executions`, { params });
+        return data;
+    };
+
+    const getFlowSettings = async (
+        syncid: string,
+        flowid: string,
+        params?: operations['syncs_get_flow_settings']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['FlowSettingsResponse'] } =
+            await _internalApi.get(`/syncs/${syncid}/flows/${flowid}/settings`, { params });
+        return data;
+    };
+
+    const executeFlow = async (
+        syncid: string,
+        flowid: string,
+        body: components['schemas']['ExecuteFlowRequest']
+    ) => {
+        const { data }: { data: components['schemas']['ExecuteFlowResponse'] } =
+            await _internalApi.post(`/syncs/${syncid}/flows/${flowid}/execute`, body);
+        return data;
+    };
+
+    const getSyncCapabilities = async (
+        syncid: string,
+        params?: operations['agentic_syncs_get_sync_capabilities']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['SyncCapabilities'] } =
+            await _internalApi.get(`/syncs/${syncid}/capabilities`, { params });
+        return data;
+    };
+
+    const updateSyncCapabilities = async (
+        syncid: string,
+        body: components['schemas']['UpdateSyncCapabilities'],
+        params?: operations['agentic_syncs_update_sync_capabilities']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['SyncCapabilities'] } = await _internalApi.put(
+            `/syncs/${syncid}/capabilities`,
+            body,
+            { params }
+        );
+        return data;
+    };
+
+    const getSyncIntegrations = async (
+        syncid: string,
+        params?: operations['agentic_syncs_get_sync_integrations']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['SyncIntegrations'] } =
+            await _internalApi.get(`/syncs/${syncid}/integrations`, { params });
+        return data;
+    };
+
+    const getSyncTriggers = async (syncid: string) => {
+        const { data }: { data: components['schemas']['SyncTriggers'] } = await _internalApi.get(
+            `/syncs/${syncid}/triggers`
+        );
+        return data;
+    };
+
+    const updateSyncTriggers = async (
+        syncid: string,
+        body: components['schemas']['SyncTriggers']
+    ) => {
+        const { data }: { data: components['schemas']['SyncTriggers'] } = await _internalApi.put(
+            `/syncs/${syncid}/triggers`,
+            body
+        );
+        return data;
+    };
+
     return {
         createSync,
         getSyncs,
@@ -82,6 +192,14 @@ const Syncs = (internalApi: InternalAPI): SyncsAPI => {
         sendCustomEvent,
         getConsumerExecutions,
         getExecution,
+        getSyncExecutions,
+        getFlowSettings,
+        executeFlow,
+        getSyncCapabilities,
+        updateSyncCapabilities,
+        getSyncIntegrations,
+        getSyncTriggers,
+        updateSyncTriggers,
     };
 };
 

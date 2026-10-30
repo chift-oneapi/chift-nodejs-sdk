@@ -10,6 +10,7 @@ import { invoicingFactory } from './invoicing';
 import { ecommerceFactory } from './ecommerce';
 import { customFactory } from './custom';
 import { bankingFactory } from './banking';
+import { spendManagementFactory } from './spendManagement';
 import { SimpleResponseModel } from '../types/sync';
 import { ConsumerLog } from '../types/consumers';
 
@@ -32,6 +33,12 @@ const Consumer = (
     const ecommerce = createApiFor(ecommerceFactory, _internalApi, data.name, consumerId);
     const custom = createApiFor(customFactory, _internalApi, data.name, consumerId);
     const banking = createApiFor(bankingFactory, _internalApi, data.name, consumerId);
+    const spend_management = createApiFor(
+        spendManagementFactory,
+        _internalApi,
+        data.name,
+        consumerId
+    );
 
     const setConnectionId = async (connectionId: string) => {
         _internalApi.connectionId = connectionId;
@@ -47,6 +54,15 @@ const Consumer = (
         }: {
             data: operations[chiftOperations['getConnectionsByConsumerId']]['responses'][200]['content']['application/json'];
         } = await _internalApi.get(`/consumers/${consumerId}/connections`);
+        return data;
+    };
+
+    const getConnection = async (connectionId: string) => {
+        const {
+            data,
+        }: {
+            data: operations[chiftOperations['getConnection']]['responses'][200]['content']['application/json'];
+        } = await _internalApi.get(`/consumers/${consumerId}/connections/${connectionId}`);
         return data;
     };
 
@@ -219,9 +235,214 @@ const Consumer = (
         return data;
     };
 
+    const disableFlow = async (syncId: string, flowId: string) => {
+        const { data }: { data: SimpleResponseModel } = await _internalApi.post(
+            `/consumers/${consumerId}/syncs/${syncId}/flows/${flowId}/disable`
+        );
+        return data;
+    };
+
+    const enableDatalayer = async (
+        connectionId: string,
+        body?: components['schemas']['DatalayerEnableBody'] | null
+    ) => {
+        const { data } = await _internalApi.post(
+            `/consumers/${consumerId}/connections/${connectionId}/enable_datalayer`,
+            body ?? {}
+        );
+        return data;
+    };
+
+    const refreshDatalayer = async (
+        connectionId: string,
+        body?: components['schemas']['DatalayerRefreshBody'] | null
+    ) => {
+        const { data }: { data: components['schemas']['TriggerResponse'] } =
+            await _internalApi.post(
+                `/consumers/${consumerId}/connections/${connectionId}/refresh_datalayer`,
+                body ?? {}
+            );
+        return data;
+    };
+
+    const disableDatalayer = async (connectionId: string) => {
+        const { data }: { data: SimpleResponseModel } = await _internalApi.post(
+            `/consumers/${consumerId}/connections/${connectionId}/disable_datalayer`
+        );
+        return data;
+    };
+
+    const getConsumerCapabilities = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_consumer_capabilities']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerCapabilities'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/capabilities`, {
+                params,
+            });
+        return data;
+    };
+
+    const updateConsumerCapabilities = async (
+        syncId: string,
+        body: components['schemas']['UpdateConsumerCapabilities'],
+        params?: operations['agentic_syncs_update_consumer_capabilities']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerCapabilitiesUpdated'] } =
+            await _internalApi.put(
+                `/consumers/${consumerId}/syncs/${syncId}/capabilities`,
+                body,
+                { params }
+            );
+        return data;
+    };
+
+    const getConsumerJourney = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_consumer_journey']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['Journey'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/journey`,
+            { params }
+        );
+        return data;
+    };
+
+    const getConsumerQuestions = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_consumer_questions']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerQuestions'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/questions`, { params });
+        return data;
+    };
+
+    const updateConsumerQuestions = async (
+        syncId: string,
+        body: components['schemas']['UpdateConsumerQuestions'],
+        params?: operations['agentic_syncs_update_consumer_questions']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerQuestions'] } =
+            await _internalApi.patch(
+                `/consumers/${consumerId}/syncs/${syncId}/questions`,
+                body,
+                { params }
+            );
+        return data;
+    };
+
+    const getConsumerMappings = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_consumer_mappings']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerMappings'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/mappings`,
+            { params }
+        );
+        return data;
+    };
+
+    const getConsumerMapping = async (
+        syncId: string,
+        mappingKey: string,
+        params?: operations['agentic_syncs_get_consumer_mapping']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['MappingView'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/mappings/${mappingKey}`,
+            { params }
+        );
+        return data;
+    };
+
+    const getConsumerTriggers = async (syncId: string) => {
+        const { data }: { data: components['schemas']['ConsumerTriggers'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/triggers`);
+        return data;
+    };
+
+    const updateConsumerTriggers = async (
+        syncId: string,
+        body: components['schemas']['UpdateConsumerTriggers']
+    ) => {
+        const { data }: { data: components['schemas']['ConsumerTriggers'] } =
+            await _internalApi.put(`/consumers/${consumerId}/syncs/${syncId}/triggers`, body);
+        return data;
+    };
+
+    const startPreview = async (
+        syncId: string,
+        body?: components['schemas']['StartPreview'] | null
+    ) => {
+        const { data }: { data: components['schemas']['PreviewStarted'] } = await _internalApi.post(
+            `/consumers/${consumerId}/syncs/${syncId}/previews`,
+            body ?? undefined
+        );
+        return data;
+    };
+
+    const getPreviews = async (
+        syncId: string,
+        params?: operations['agentic_syncs_get_previews']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_Preview_'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/previews`, { params });
+        return data;
+    };
+
+    const getPreview = async (
+        syncId: string,
+        previewId: string,
+        params?: operations['agentic_syncs_get_preview']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['Preview'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/previews/${previewId}`,
+            { params }
+        );
+        return data;
+    };
+
+    const getPreviewObjects = async (
+        syncId: string,
+        previewId: string,
+        params?: operations['agentic_syncs_get_preview_objects']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_PreviewObjectItem_'] } =
+            await _internalApi.get(
+                `/consumers/${consumerId}/syncs/${syncId}/previews/${previewId}/objects`,
+                { params }
+            );
+        return data;
+    };
+
+    const getObjects = async (
+        syncId: string,
+        kind: string,
+        params?: operations['agentic_syncs_get_objects']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ChiftPage_ObjectItem_'] } =
+            await _internalApi.get(`/consumers/${consumerId}/syncs/${syncId}/objects/${kind}`, {
+                params,
+            });
+        return data;
+    };
+
+    const getObject = async (
+        syncId: string,
+        kind: string,
+        objectId: string,
+        params?: operations['agentic_syncs_get_object']['parameters']['query']
+    ) => {
+        const { data }: { data: components['schemas']['ObjectDetail'] } = await _internalApi.get(
+            `/consumers/${consumerId}/syncs/${syncId}/objects/${kind}/${objectId}`,
+            { params }
+        );
+        return data;
+    };
+
     return {
         consumerId,
         getConnections,
+        getConnection,
         createConnection,
         updateConnection,
         deleteConnection,
@@ -240,6 +461,7 @@ const Consumer = (
         ecommerce,
         custom,
         banking,
+        spend_management,
         getDataByDataStoreId,
         addDataByDataStoreId,
         getSyncData,
@@ -252,6 +474,25 @@ const Consumer = (
         setIntegrationId,
         updateConsumer,
         updateFlowConfig,
+        disableFlow,
+        enableDatalayer,
+        refreshDatalayer,
+        disableDatalayer,
+        getConsumerCapabilities,
+        updateConsumerCapabilities,
+        getConsumerJourney,
+        getConsumerQuestions,
+        updateConsumerQuestions,
+        getConsumerMappings,
+        getConsumerMapping,
+        getConsumerTriggers,
+        updateConsumerTriggers,
+        startPreview,
+        getPreviews,
+        getPreview,
+        getPreviewObjects,
+        getObjects,
+        getObject,
     };
 };
 

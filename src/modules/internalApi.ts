@@ -166,8 +166,17 @@ class InternalAPI {
     post = <T = any>(url: string, body?: unknown) =>
         this.request<T>({ url, method: 'post', data: body });
 
-    patch = <T = any>(url: string, body?: unknown) =>
-        this.request<T>({ url, method: 'patch', data: body });
+    patch = <T = any>(
+        url: string,
+        body?: unknown,
+        config?: { params?: Record<string, any> | null }
+    ) => this.request<T>({ url, method: 'patch', data: body, params: config?.params });
+
+    put = <T = any>(
+        url: string,
+        body?: unknown,
+        config?: { params?: Record<string, any> | null }
+    ) => this.request<T>({ url, method: 'put', data: body, params: config?.params });
 
     delete = <T = any>(url: string) => this.request<T>({ url, method: 'delete' });
 
